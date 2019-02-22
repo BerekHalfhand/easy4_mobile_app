@@ -1,0 +1,189 @@
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-LightItalic.woff2') format('woff2'),
+        url('SFCompactText-LightItalic.woff') format('woff'),
+        url('SFCompactText-LightItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Medium.woff2') format('woff2'),
+        url('SFCompactDisplay-Medium.woff') format('woff'),
+        url('SFCompactDisplay-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Heavy.woff2') format('woff2'),
+        url('SFCompactDisplay-Heavy.woff') format('woff'),
+        url('SFCompactDisplay-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Ultralight.woff2') format('woff2'),
+        url('SFCompactDisplay-Ultralight.woff') format('woff'),
+        url('SFCompactDisplay-Ultralight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-MediumItalic.woff2') format('woff2'),
+        url('SFCompactText-MediumItalic.woff') format('woff'),
+        url('SFCompactText-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-Light.woff2') format('woff2'),
+        url('SFCompactText-Light.woff') format('woff'),
+        url('SFCompactText-Light.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Black.woff2') format('woff2'),
+        url('SFCompactDisplay-Black.woff') format('woff'),
+        url('SFCompactDisplay-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-Heavy.woff2') format('woff2'),
+        url('SFCompactText-Heavy.woff') format('woff'),
+        url('SFCompactText-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-RegularItalic.woff2') format('woff2'),
+        url('SFCompactText-RegularItalic.woff') format('woff'),
+        url('SFCompactText-RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-Bold.woff2') format('woff2'),
+        url('SFCompactText-Bold.woff') format('woff'),
+        url('SFCompactText-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-Medium.woff2') format('woff2'),
+        url('SFCompactText-Medium.woff') format('woff'),
+        url('SFCompactText-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-Regular.woff2') format('woff2'),
+        url('SFCompactText-Regular.woff') format('woff'),
+        url('SFCompactText-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Light.woff2') format('woff2'),
+        url('SFCompactDisplay-Light.woff') format('woff'),
+        url('SFCompactDisplay-Light.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-SemiboldItalic.woff2') format('woff2'),
+        url('SFCompactText-SemiboldItalic.woff') format('woff'),
+        url('SFCompactText-SemiboldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-Semibold.woff2') format('woff2'),
+        url('SFCompactText-Semibold.woff') format('woff'),
+        url('SFCompactText-Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-HeavyItalic.woff2') format('woff2'),
+        url('SFCompactText-HeavyItalic.woff') format('woff'),
+        url('SFCompactText-HeavyItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Bold.woff2') format('woff2'),
+        url('SFCompactDisplay-Bold.woff') format('woff'),
+        url('SFCompactDisplay-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Regular.woff2') format('woff2'),
+        url('SFCompactDisplay-Regular.woff') format('woff'),
+        url('SFCompactDisplay-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Semibold.woff2') format('woff2'),
+        url('SFCompactDisplay-Semibold.woff') format('woff'),
+        url('SFCompactDisplay-Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFCompact Text';
+    src: url('SFCompactText-BoldItalic.woff2') format('woff2'),
+        url('SFCompactText-BoldItalic.woff') format('woff'),
+        url('SFCompactText-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SF Compact Display';
+    src: url('SFCompactDisplay-Thin.woff2') format('woff2'),
+        url('SFCompactDisplay-Thin.woff') format('woff'),
+        url('SFCompactDisplay-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
