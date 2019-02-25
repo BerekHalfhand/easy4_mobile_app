@@ -20,6 +20,10 @@ export default class Home extends Screen {
         };
     }
 
+    static navigationOptions = {
+        title: 'Вход',
+      };
+
     onPressLogin(){
         // let validData = Home.fetchAuthData();
         // if (validData){
@@ -86,7 +90,7 @@ export default class Home extends Screen {
                     <Button full rounded
                             style={styles.buttonPrimary}
                             // onPress={() => ( this.onPressLogin() ? this.props.navigation.navigate('Main') : null )}
-                            onPress={() => this.props.navigation.navigate('Main', {title: this.state.fake.masterPhone})}
+                            onPress={() => this.props.navigation.navigate('Main')}
                     >
                         <Text style={styles.buttonPrimaryText}>
                             Войти

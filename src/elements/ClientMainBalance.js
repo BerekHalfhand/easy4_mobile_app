@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Footer, FooterTab, Button } from 'native-base';
-import {TextInput, Image, StatusBar, Navigator, Text} from 'react-native';
+import {TextInput, Image, StatusBar, Navigator, Text, Dimensions} from 'react-native';
 import { dP } from '../../utils/style/styles'
 
 
@@ -16,6 +16,10 @@ export default class ClientMainBalance extends React.Component{
         }
     }
     render(){
+        const { width, height } = Dimensions.get('window');
+        const guidelineBaseWidth = 420;
+        const scale =  width / guidelineBaseWidth;
+        console.log('white:', width);
 
         return(
             <View>
@@ -31,7 +35,7 @@ export default class ClientMainBalance extends React.Component{
                 </View>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: "flex-start", alignItems:'flex-end'}}>
                     <View style={{}}>
-                        <Text style={{fontSize:46, marginRight:10, marginTop:10, color:'#FFFFFF', letterSpacing:-1.5}}>
+                        <Text style={{fontSize:(46*scale), marginRight:10, marginTop:10, color:'#FFFFFF', letterSpacing:-1.5}}>
                             {this.state.fake.balance}
                         </Text>
                     </View>

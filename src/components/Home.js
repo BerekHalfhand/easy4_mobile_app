@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text, Image,
-    // StatusBar,
-    View
-} from 'react-native';
+// import {Text, Image,
+//     // StatusBar,
+//     View
+// } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import {Font, AppLoading} from 'expo';
 
@@ -10,27 +10,27 @@ import {
     Content,
     ListItem,
     CheckBox,
+    Text,
     Body,
     Footer,
     FooterTab,
     Container,
     Icon,
+    Header,
+    Title,
+    // Image,
 //     Card,
 //     CardItem,
 //     Text,
 //     Thumbnail,
-//     Left,
-//     Right,
-//     Body,
+    Left,
+    Right,
 //     Spinner,
     Button
 } from 'native-base';
-// import CheckBox from 'react-native-check-box';
-// import Mdi from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Image } from 'react-native'
 import Screen from './Screen';
-// import {productList} from "../api";
 import {styles, dP} from '../../utils/style/styles';
-// import Container from "../native-base-theme/components/Container";
 
 import StandartFooter from '../elements/Footer'
 
@@ -41,6 +41,10 @@ export default class Home extends Screen {
             fontLoaded: false,
         };
     }
+
+    static navigationOptions = {
+        title: '',
+      };
 
     onPressEnter() {
         console.log('login');
@@ -58,15 +62,44 @@ export default class Home extends Screen {
     }
 
     componentDidMount() {
+        
         Font.loadAsync({
             'SFCompact Text': require('../../assets/fonts/SFCompactText-LightItalic.ttf'),
         });
         this.setState({fontLoaded: true});
     }
 
-    renderBody(data) {
-        return (
+    render() {
+        // return(
+        //     <Container>
+        //         <Header>
+        //             <Left>
+        //                 <Button transparent>
+        //                     <Icon name='menu' />
+        //                 </Button>
+        //             </Left>
+        //             <Body>
+        //             <Title>Header</Title>
+        //             </Body>
+        //             <Right />
+        //         </Header>
+        //         <Content>
+        //             <Text>
+        //                 This is Content Section
+        //             </Text>
+        //         </Content>
+        //         <Footer>
+        //             <FooterTab>
+        //                 <Button full>
+        //                     <Text>Footer</Text>
+        //                 </Button>
+        //             </FooterTab>
+        //         </Footer>
+        //     </Container>
+        // )
 
+        return (
+        
             <Container>
                 <Content padder style={{backgroundColor: dP.color.primary}}>
                     <Body style={{ justifyContent: "center", marginTop: 92}}>
@@ -97,10 +130,10 @@ export default class Home extends Screen {
                             <Text style={styles.buttonPrimaryInverseText} align='center'>
                                 Создать аккаунт
                             </Text>
-
+        
                         </Button>
                     </Body>
-
+        
                     <Body style={{flexDirection: "row", justifyContent: "center", marginTop: 60}}>
                         <CheckBox checked={true}
                                   onPress={this.chkbox_check}
@@ -111,7 +144,7 @@ export default class Home extends Screen {
                 </Content>
                 <StandartFooter />
             </Container>
-
+        
         );
     }
 }

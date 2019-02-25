@@ -1,14 +1,25 @@
 import React from 'react';
-import {TextInput, Image, StatusBar, View, Navigator, Text} from 'react-native';
+import {TextInput, Image, StatusBar, View, Navigator, Text, Dimensions, Platform, PixelRatio, Modal, Alert, TouchableHighlight} from 'react-native';
 import Screen from "./Screen";
 import {Button, Container, Footer, FooterTab,
     Icon,
-    Content, Body, Header, Title, ListItem, List, Left, Right, Switch} from 'native-base';
+    Content, Body, Header, Title, ListItem, List, Left, Right, Switch, Form, Picker} from 'native-base';
 // import { Icon } from 'react-native-vector-icons';
 import {styles, dP} from "../../utils/style/styles";
 import StandartFooter from '../elements/Footer';
 import ClientMainBalance from '../elements/ClientMainBalance';
 import ClientMainInfo from '../elements/ClientMainInfo';
+
+class LogoTitle extends React.Component {
+    render() {
+      return (
+        <View style={{ backgroundColor:'#004d99' }}>
+            <Text style={{color:'#FFFFFF', textAlign:'center', fontSize:20}}>+7(123)333 4455</Text>
+            <Text style={{color:'#FFFFFF', textAlign:'center', fontSize:13}}>Константинов Константин</Text>
+        </View>
+      );
+    }
+  }
 
 export default class Main extends Screen{
     constructor(props){
@@ -16,6 +27,8 @@ export default class Main extends Screen{
         this.state = {
             clientBalanceChecked: true,
             clientBalance: 110,
+            selected: "key1",
+            modalVisible: false,
             fake: {
                 name: 'Константин Константинович',
                 count: 6
@@ -23,15 +36,91 @@ export default class Main extends Screen{
         }
 
     }
-    renderBody() {
-        const clientBalance = this.state.clientBalanceChecked ? this.state.clientBalance : '';
+
+    static navigationOptions = {
+        title: 'Главная',
+        headerTitle: <LogoTitle />,
+        // {
+        //     backgroundColor: '#004d99',
+        //   },
+            headerStyle: {
+                backgroundColor:'#004d99',
+            },
+          headerTintColor: '#fff',
+        //   headerTitleStyle: {
+        //     fontWeight: 'bold',
+        //   },
+      };
+      setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+      }
+
+      renderModalAcquiring(){
+          return(
+            <Form>
+                <Picker
+                note
+                mode="dropdown"
+                style={{ width: 120 }}
+                selectedValue={this.state.selected}
+                onValueChange={this.onValueChange.bind(this)}
+                >
+                <Picker.Item label="Wallet" value="key0" />
+                <Picker.Item label="ATM Card" value="key1" />
+                <Picker.Item label="Debit Card" value="key2" />
+                <Picker.Item label="Credit Card" value="key3" />
+                <Picker.Item label="Net Banking" value="key4" />
+                </Picker>
+            </Form>
+          )
+      }
+      
+
+    render() {
+        // const clientBalance = this.state.clientBalanceChecked ? this.state.clientBalance : '';
         return(
                 <Container style={{backgroundColor:'#004d99'}}>
-                    
-                    <View style={{alignContent:'center', backgroundColor:'#004d99'}}>
+                    <Modal
+                        animationType="slide"
+                        presentationStyle="overFullScreen"
+                        
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert('Modal has been closed.');
+                        }}>
+                        <View style={{backgroundColor:'rgba(0,0,0,.5)'}}>
+                            <View style={{margin:10}}>
+                                <View style={{marginBottom:10}}>
+                                    <TouchableHighlight
+                                        onPress={() => {
+                                        return true
+                                        }}>
+                                        <Button block light><Text>Банковская карта</Text></Button>
+                                    </TouchableHighlight>
+                                    <TouchableHighlight
+                                        onPress={() => {
+                                        return true
+                                        }}>
+                                        <Button block light><Text>Онлайн банк</Text></Button>
+                                    </TouchableHighlight>
+                                </View>
+                                
+
+
+                                <TouchableHighlight
+                                    onPress={() => {
+                                    this.setModalVisible(!this.state.modalVisible);
+                                    }}>
+                                    <Button block light><Text>Отмена</Text></Button>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </Modal>
+                    {/* <View style={{alignContent:'center', backgroundColor:'#004d99'}}>
                         <Text style={{margin:0, padding:0, textAlign:'center', color:'white'}}>{this.state.fake.name}</Text>
 
-                    </View>
+                    </View> */}
                     <Image
                         style={{width: '100%', zIndex:-3, position:'absolute'}}
                         source={require('../../assets/image/bitmap.png')}
@@ -46,7 +135,7 @@ export default class Main extends Screen{
                                 <View style={{flex: 1, justifyContent: "flex-end", alignContent:'center'}}>
                                         <Button  rounded
                                                     style={styles.buttonPrimaryCash}
-                                                    onPress={() => this.props.navigation.navigate('Login')}
+                                                    onPress={() => this.setModalVisible(true)}
                                         >
                                         <Text style={styles.buttonPrimaryText}>
                                             Пополнить
