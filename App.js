@@ -5,6 +5,8 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Home from './src/components/Home';
 import Login from './src/components/Login';
 import Main from './src/components/Main';
+import Tariff from "./src/components/Tariff";
+import IncreaseBalance from "./src/components/IncreaseBalance";
 
 
 
@@ -19,6 +21,12 @@ const Routes = createStackNavigator({
   },
   Main: {
     screen: Main
+  },
+  Tariff: {
+    screen: Tariff
+  },
+  IncreaseBalance: {
+    screen: IncreaseBalance
   },
 
 });

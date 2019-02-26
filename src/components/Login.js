@@ -73,7 +73,7 @@ export default class Home extends Screen {
                 {/* <StatusBar
                     barSryle={'light-content'}
                 /> */}
-                
+
                 <Content style={{backgroundColor: dP.color.primary, paddingTop: '50%', padding:24}}>
                 <FingerPrint/>
                         <Form>
@@ -90,7 +90,11 @@ export default class Home extends Screen {
                     <Button full rounded
                             style={styles.buttonPrimary}
                             // onPress={() => ( this.onPressLogin() ? this.props.navigation.navigate('Main') : null )}
-                            onPress={() => this.props.navigation.navigate('Main')}
+                            onPress={() => this.props.navigation.navigate('Main', {
+                                name: 'Константин Константинович',
+                                phone: '+7(123)456 78 98',
+                            }
+                            )}
                     >
                         <Text style={styles.buttonPrimaryText}>
                             Войти
