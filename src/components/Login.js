@@ -1,9 +1,9 @@
 import React from 'react';
 import {TextInput, Image, StatusBar, View, Navigator, Text} from 'react-native';
 import Screen from "./Screen";
-import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, Input, IconNB } from 'native-base';
-import FingerPrint from './touchid';
-// import { Expo, Fingerprint } from 'expo';
+import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, Input, IconNB, TouchableOpacity } from 'native-base';
+// import FingerPrint from './touchid';
+import Expo, { Constants } from 'expo';
 import {styles, dP} from "../../utils/style/styles";
 
 export default class Home extends Screen {
@@ -16,45 +16,94 @@ export default class Home extends Screen {
             fake: {
                 masterPhone: '+7 (999) 111 22 33',
                 name: 'Константин Константинович'
-            }
+            },
+            compatible: false,
         };
     }
 
     static navigationOptions = {
         title: 'Вход',
       };
-
-    onPressLogin(){
-        // let validData = Home.fetchAuthData();
-        // if (validData){
-        console.log('press login button');
-        const fetchAuth = Home.fetchAuthData();
-        this.setState(previousState => ({
-            auth: fetchAuth
-
-        }))
-        // } else {
-        //     this.setState({
-        //         error: 'Не удачная авторизация'
-        //     })
-        // }
-
-    }
-
-    // onHandlerUser(e){
-    //     console.log('e', e);
-    //     let prevStateUser = this.state.user;
-    //     this.setState({
-    //         user: e.nativeEvent.text+prevStateUser
-    //     })
-    // }
     componentDidMount() {
-        // let hasHardwareAsync = Expo.FaceDetector()
+        this.checkDeviceForHardware();
     }
+
+    checkDeviceForHardware = async () => {
+        let compatible = await Expo.Fingerprint.hasHardwareAsync();
+        this.setState({ compatible });
+        if (!compatible) {
+            this.showIncompatibleAlert();
+        } else {
+            console.log('norm')
+        }
+    };
+    showIncompatibleAlert = () => {
+        this.dropdown.alertWithType(
+            'error',
+            'Incompatible Device',
+            'Current device does not have the necessary hardware to use this API.'
+        );
+    };
 
     static fetchAuthData(){
         return true
     }
+    checkDeviceForHardware = async () => {
+        let compatible = await Expo.Fingerprint.hasHardwareAsync();
+        this.setState({ compatible });
+        if (!compatible) {
+            this.showIncompatibleAlert();
+        }
+    };
+
+    showIncompatibleAlert = () => {
+        this.dropdown.alertWithType(
+            'error',
+            'Incompatible Device',
+            'Current device does not have the necessary hardware to use this API.'
+        );
+    };
+    checkForBiometrics = async () => {
+        let biometricRecords = await Expo.Fingerprint.isEnrolledAsync();
+        if (!biometricRecords) {
+            this.dropdown.alertWithType(
+                'warn',
+                'No Biometrics Found',
+                'Please ensure you have set up biometrics in your OS settings.'
+            );
+        } else {
+            this.handleLoginPress();
+        }
+    };
+    handleLoginPress = () => {
+        if (Platform.OS === 'android') {
+            this.showAndroidAlert();
+        } else {
+            this.scanBiometrics();
+        }
+    };
+
+    showAndroidAlert = () => {
+        Alert.alert('Fingerprint Scan', 'Place your finger over the touch sensor.');
+        this.scanBiometrics();
+    };
+
+    scanBiometrics = async () => {
+        let result = await Expo.Fingerprint.authenticateAsync('Biometric Scan.');
+        if (result.success) {
+            this.dropdown.alertWithType(
+                'success',
+                'You are you!',
+                'Bio-Authentication succeeded.'
+            );
+        } else {
+            this.dropdown.alertWithType(
+                'error',
+                'Uh oh!',
+                'Bio-Authentication failed or canceled.'
+            );
+        }
+    };
     render(data) {
         // if (){
         //     return(
@@ -75,7 +124,7 @@ export default class Home extends Screen {
                 /> */}
 
                 <Content style={{backgroundColor: dP.color.primary, paddingTop: '50%', padding:24}}>
-                <FingerPrint/>
+                {/*<FingerPrint/>*/}
                         <Form>
                                 <Input placeholder="Введите имя" style={{'color':'#FFFFFF', borderBottomColor:'#ABABAB', borderBottomWidth:1}} placeholderTextColor={'#ABABAB'}
                                        onChangeText={(user) => this.setState({user})}
@@ -86,6 +135,18 @@ export default class Home extends Screen {
                                        value={this.state.passwd}
                                 />
                         </Form>
+                    <TouchableOpacity
+                        onPress={
+                            this.state.compatible
+                                ? this.checkForBiometrics
+                                : this.showIncompatibleAlert
+                        }
+                        >
+                        <Text >
+                            Bio Login
+                        </Text>
+                    </TouchableOpacity>
+
                     <Body style={{marginTop: 48}}>
                     <Button full rounded
                             style={styles.buttonPrimary}
