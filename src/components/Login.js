@@ -6,19 +6,21 @@ import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, I
 import Expo, { Constants } from 'expo';
 import {styles, dP} from "../../utils/style/styles";
 import LogoTitle from '../elements/LogoTitle';
+import StandartFooter from "../elements/Footer";
 
-export default class Home extends Screen {
+export default class Login extends Screen {
     constructor(props) {
         super(props);
         this.state = {
             error: false,
-            user: '',
-            passwd: '',
+            login: '',
+            password: '',
             fake: {
                 masterPhone: '+7 (999) 111 22 33',
                 name: 'Константин Константинович'
             },
             compatible: false,
+            fontLoaded: false,
         };
     }
 
@@ -45,78 +47,77 @@ export default class Home extends Screen {
         return true
     }
 
+    formSubmit(){
+        console.log('form submit');
+        fetch('http://192.168.3.101:8080/auth/login', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                login: this.state.login,
+                password: this.state.password
+            }),
+        })
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
+
+           //TODO  to finish registration and login, sae data in storage
+    }
 
     render(data) {
-        // if (){
-        //     return(
-        //         <Container>
-        //             <Content>
-        //                 <Text>
-        //                     {this.state.error }
-        //                 </Text>
-        //             </Content>
-        //         </Container>
-        //     )
-        // }
-        console.log('state: ', this.state);
-        return (
-            <Container>
-                <Content style={{backgroundColor: dP.color.primary, paddingTop: '50%', padding:24}}>
-                        <Form>
-                                <Input placeholder="Введите имя" style={{'color':'#FFFFFF', borderBottomColor:'#ABABAB', borderBottomWidth:1}} placeholderTextColor={'#ABABAB'}
-                                       onChangeText={(user) => this.setState({user})}
-                                       value={this.state.user}
-                                />
-                                <Input placeholder="Введите пароль" style={{'color':'#FFFFFF', borderBottomColor:'#ABABAB', borderBottomWidth:1}} placeholderTextColor={'#ABABAB'}
-                                       onChangeText={(passwd) => this.setState({passwd})}
-                                       value={this.state.passwd}
-                                />
-                        </Form>
-                    <Body style={{marginTop: 48}}>
-                    <Button full rounded
-                            style={styles.buttonPrimary}
-                            // onPress={() => ( this.onPressLogin() ? this.props.navigation.navigate('Main') : null )}
-                            onPress={() => this.props.navigation.navigate('Main', {
-                                name: 'Константин Константинович',
-                                phone: '+7(123)456 78 98',
-                            }
-                            )}
-                    >
-                        <Text style={styles.buttonPrimaryText}>
-                            Войти
-                        </Text>
-                    </Button>
-                    </Body>
-                    <Body style={{marginTop: 12}}>
-                    <Button full transparent rounded
-                            style={styles.buttonPrimaryInverse}
-                            onPress={this.onPressRegister}
-                    >
-                        <Text style={styles.buttonPrimaryInverseText} align='center'>
-                            Забыли пароль?
-                        </Text>
 
-                    </Button>
-                    </Body>
-                </Content>
-                <Footer style={{backgroundColor: '#FED657'}}>
-                    <FooterTab>
-                        <Button>
-                            {/*<FontAwesome>{Icons.chevronLeft}</FontAwesome>*/}
-                            <Icon name="ios-grid"/>
+        console.log('state: ', this.state);
+        // if (this.state.fontLoaded) {
+            return (
+                <Container>
+                    <Content style={{backgroundColor: dP.color.primary, paddingTop: '50%', padding: 24}}>
+                        <Form>
+                            <Input placeholder="Телефон или электронная почта"
+                                   style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, color: '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
+                                   placeholderTextColor={'#ABABAB'}
+                                   onChangeText={(login) => this.setState({login})}
+                                   value={this.state.login}
+                            />
+                            <Input placeholder="Пароль"
+                                   style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, 'color': '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
+                                   placeholderTextColor={'#ABABAB'}
+                                   onChangeText={(password) => this.setState({password})}
+                                   value={this.state.password}
+                            />
+                        </Form>
+                        <Body style={{marginTop: 48}}>
+                        <Button full rounded
+                                style={styles.buttonPrimary}
+                            // onPress={() => ( this.onPressLogin() ? this.props.navigation.navigate('Main') : null )}
+                                onPress={() => this.formSubmit()}
+                        >
+                            <Text style={{fontFamily:"SFCT_Semibold", letterSpacing:0.25, fontSize:16, color:"#005eba"}}>
+                                Войти
+                            </Text>
                         </Button>
-                        <Button>
-                            <Icon name="ios-grid"/>
+                        </Body>
+                        <Body style={{marginTop: 12}}>
+                        <Button full transparent rounded
+                                style={styles.buttonPrimaryInverse}
+                                onPress={this.onPressRegister}
+                        >
+                            <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:16}} align='center'>
+                                Забыли пароль?
+                            </Text>
+
                         </Button>
-                        <Button>
-                            <Icon name="ios-grid"/>
-                        </Button>
-                        <Button>
-                            <Icon name="ios-grid"/>
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            </Container>
-        )
+                        </Body>
+                    </Content>
+                    <StandartFooter/>
+                </Container>
+            )
+        // }
+        // return(
+        //     <Container>
+        //         <Content padder style={{backgroundColor: dP.color.primary}}></Content>
+        //     </Container>
+        // )
     }
 }

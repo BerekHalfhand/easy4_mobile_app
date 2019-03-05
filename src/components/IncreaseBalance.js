@@ -123,7 +123,7 @@ export default class IncreaseBalance extends React.Component{
                 <Root>
                     <Container  style={{backgroundColor:'#004d99'}}>
                         <WebView
-                            source={{uri: 'https://easy4.pro/balance'}}
+                            source={{uri: 'https://easy4.pro/balance/index_app.php?'+this.props.phone}}
                         />
                     </Container>
                 </Root>

@@ -11,6 +11,7 @@ import StandartFooter from '../elements/Footer';
 import ClientMainBalance from '../elements/ClientMainBalance';
 import ClientMainInfo from '../elements/ClientMainInfo';
 import LogoTitle from '../elements/LogoTitle';
+import {Font} from "expo";
 
 // class LogoTitle extends React.Component {
 //     render() {
@@ -30,6 +31,7 @@ export default class Main extends Screen{
             clientBalanceChecked: true,
             clientBalance: 110,
             clicked:'',
+            phone: this.props.phone ? this.props.phone : null,
             fake: {
                 name: 'Константин Константинович',
                 phone: '+7(123)456 78 98',
@@ -56,11 +58,11 @@ export default class Main extends Screen{
 
     };
 
-        handleClickIncrease(idx){
+        handleClickIncrease(idx, phone){
             console.log('траница:', idx);
             switch (idx) {
                 case 0:
-                    this.props.navigation.navigate('IncreaseBalance');
+                    this.props.navigation.navigate('IncreaseBalance', {phone: phone});
                     break;
 
 
@@ -103,11 +105,11 @@ export default class Main extends Screen{
                                                      },
                                                      buttonIndex => {
                                                          this.setState({ clicked: BUTTONS[buttonIndex] });
-                                                         this.handleClickIncrease(buttonIndex);
+                                                         this.handleClickIncrease(buttonIndex, this.state.phone);
                                                      }
                                                  )}
                                     >
-                                        <Text style={styles.buttonPrimaryText}>
+                                        <Text style={{fontFamily:'SFCT_Semibold', fontSize:16, letterSpacing: 0.25, color:'rgb(0, 94, 186)'}}>
                                             Пополнить
                                         </Text>
                                     </Button>
@@ -119,12 +121,12 @@ export default class Main extends Screen{
                         <View style={{marginBottom:50}}>
                             <View style={{flex: 1, flexDirection: 'row', marginTop:40, height:24}}>
                                 <View >
-                                    <Text style={{fontSize:13, color:'#FFFFFF', lineHeight:24}}>
+                                    <Text style={{fontFamily:'SFCT_Regular', fontSize:13, color:'#FFFFFF', lineHeight:24}}>
                                         {this.state.fake.count}
                                     </Text>
                                 </View>
                                 <View>
-                                    <Text style={{marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
+                                    <Text style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
                                         номеров на аккауне
                                     </Text>
                                 </View>
@@ -152,7 +154,7 @@ export default class Main extends Screen{
                                     </Button>
                                 </Left>
                                 <Body style={{height:56}}>
-                                <Text style={{color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Тариф</Text>
+                                <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Тариф</Text>
                                 </Body>
                                 <Right style={{height:56}}>
                                     <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24}} />
@@ -166,7 +168,7 @@ export default class Main extends Screen{
                                     </Button>
                                 </Left>
                                 <Body style={{height:56}}>
-                                <Text style={{color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Квоты</Text>
+                                <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Квоты</Text>
                                 </Body>
                                 <Right style={{height:56}}>
                                     <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24}}/>
@@ -183,7 +185,7 @@ export default class Main extends Screen{
                                     </Button>
                                 </Left>
                                 <Body style={{height:56}}>
-                                <Text style={{color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Расходы</Text>
+                                <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Расходы</Text>
                                 </Body>
                                 <Right style={{height:56}}>
                                     <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, }} />

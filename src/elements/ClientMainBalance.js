@@ -25,17 +25,17 @@ export default class ClientMainBalance extends React.Component{
             <View>
                 <View style={{flex: 1, flexDirection: 'row', fontSize:16}}>
                     <View >
-                        <Text style={{fontSize:16, color:'#FFFFFF'}}>
+                        <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>
                             Баланс на
                         </Text>
                     </View>
                     <View>
-                        <Text style={{marginLeft:5, fontSize:16, color:'#FFFFFF'}}>{ this.state.fake.date }</Text>
+                        <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, marginLeft:5, fontSize:16, color:'#FFFFFF'}}>{ this.state.fake.date }</Text>
                     </View>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: "flex-start", alignItems:'flex-end'}}>
                     <View style={{}}>
-                        <Text style={{fontSize:(46*scale), marginRight:10, marginTop:10, color:'#FFFFFF', letterSpacing:-1.5}}>
+                        <Text style={{fontFamily:'SFCT_Light', fontSize:(46*scale), marginRight:10, marginTop:10, color:'#FFFFFF', letterSpacing:-2.5}}>
                             {this.state.fake.balance}
                         </Text>
                     </View>

@@ -29,7 +29,7 @@ import {
 //     Spinner,
     Button
 } from 'native-base';
-import { Image } from 'react-native'
+import { View, Image } from 'react-native'
 import Screen from './Screen';
 import {styles, dP} from '../../utils/style/styles';
 
@@ -69,94 +69,68 @@ export default class Home extends Screen {
     chkbox_check() {
         console.log('oferta checked')
     }
-    componentWillMount() {
-        // StatusBar.setHidden(true);
-    }
-
-    componentDidMount() {
-
-        Font.loadAsync({
-            'SFCompact Text': require('../../assets/fonts/SFCompactText-LightItalic.ttf'),
-        });
-        this.setState({fontLoaded: true});
-    }
 
     render() {
-        // return(
-        //     <Container>
-        //         <Header>
-        //             <Left>
-        //                 <Button transparent>
-        //                     <Icon name='menu' />
-        //                 </Button>
-        //             </Left>
-        //             <Body>
-        //             <Title>Header</Title>
-        //             </Body>
-        //             <Right />
-        //         </Header>
-        //         <Content>
-        //             <Text>
-        //                 This is Content Section
-        //             </Text>
-        //         </Content>
-        //         <Footer>
-        //             <FooterTab>
-        //                 <Button full>
-        //                     <Text>Footer</Text>
-        //                 </Button>
-        //             </FooterTab>
-        //         </Footer>
-        //     </Container>
-        // )
 
-        return (
+        console.log('state:', this.state);
+        if (this.state.fontLoaded){
+            return (
 
-            <Container>
-                <Content padder style={{backgroundColor: dP.color.primary}}>
-                    <Body style={{ justifyContent: "center", marginTop: 92}}>
+                <Container>
+                    <Content padder style={{backgroundColor: dP.color.primary}}>
+                        <Body style={{ justifyContent: "center", marginTop: 92}}>
                         <Image source={require('../../assets/image/logo-w100.png')}/>
-                    </Body>
-                    <Body style={{marginTop: 24}}>
-                        <Text style={styles.whiteTextColorH}>Добро пожаловать в Easy4</Text>
-                    </Body>
-                    <Body style={{marginTop: 24}}>
-                        <Text style={styles.whiteTextColor}>Самое удобное приложение в мире</Text>
-                        <Text style={styles.whiteTextColor}>среди приложений для приложений</Text>
-                    </Body>
-                    <Body style={{marginTop: 48}}>
+                        </Body>
+                        <Body style={{marginTop: 24}}>
+                        <Text style={{fontFamily:"SFCT_Medium", letterSpacing:-0.5, fontSize:24, color:"#FFFFFF"}}>Добро пожаловать в Easy4</Text>
+                        </Body>
+                        <Body style={{marginTop: 24}}>
+                        <Text style={{fontFamily:"SFCT_Regular", letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>Самое удобное приложение в мире</Text>
+                        <Text style={{fontFamily:"SFCT_Regular", letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>среди приложений для приложений</Text>
+                        </Body>
+                        <Body style={{marginTop: 48}}>
                         <Button full rounded
                                 style={styles.buttonPrimary}
                                 onPress={() => this.props.navigation.navigate('Login')}
                         >
-                            <Text style={styles.buttonPrimaryText}>
+                            <Text style={{fontFamily:"SFCT_Semibold", letterSpacing:0.25, fontSize:16, color:"#005eba"}}>
                                 Войти
                             </Text>
                         </Button>
-                    </Body>
-                    <Body style={{marginTop: 12}}>
+                        </Body>
+                        <Body style={{marginTop: 12}}>
                         <Button full transparent rounded
                                 style={styles.buttonPrimaryInverse}
-                                onPress={this.onPressRegister}
+                                onPress={() => this.props.navigation.navigate('newAccaunt')}
                         >
-                            <Text style={styles.buttonPrimaryInverseText} align='center'>
+                            <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657'}} align='center'>
                                 Создать аккаунт
                             </Text>
 
                         </Button>
-                    </Body>
+                        </Body>
 
-                    <Body style={{flexDirection: "row", justifyContent: "center", marginTop: 60}}>
+                        <Body style={{flexDirection: "row", justifyContent: "center", marginTop: 60}}>
                         <CheckBox checked={true}
                                   onPress={this.chkbox_check}
                                   style={styles.checkbox}
                         />
-                        <Text style={{color: '#ffffff', marginLeft: 12}}>Договор оферты</Text>
-                    </Body>
-                </Content>
-                <StandartFooter />
-            </Container>
+                        <View style={{marginLeft: 12}}>
+                            <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}>Договор оферты</Text>
+                        </View>
+                        </Body>
+                    </Content>
+                    <StandartFooter />
+                </Container>
 
-        );
+            );
+        }
+        return(
+            <Container>
+                <Content padder style={{backgroundColor: dP.color.primary}}></Content>
+            </Container>
+        )
+
+
     }
 }

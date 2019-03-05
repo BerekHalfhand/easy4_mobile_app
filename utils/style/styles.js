@@ -108,7 +108,8 @@ export const styles = StyleSheet.create({
     checkbox: {
         backgroundColor: dP.color.accent,
         borderColor: dP.color.accent,
-        borderRadius: 4
+        borderRadius: 4,
+        marginRight: 12
         // color: '#005EBA'
     },
     whiteTextColor: {
