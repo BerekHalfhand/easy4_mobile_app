@@ -5,6 +5,7 @@ import React from 'react';
 // } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import {Font, AppLoading} from 'expo';
+import LogoTitle from '../elements/LogoTitle';
 
 import {
     Content,
@@ -34,6 +35,7 @@ import {styles, dP} from '../../utils/style/styles';
 
 import StandartFooter from '../elements/Footer'
 
+
 export default class Home extends Screen {
     constructor(props) {
         super(props);
@@ -43,8 +45,18 @@ export default class Home extends Screen {
     }
 
     static navigationOptions = {
-        title: '',
-      };
+        title: 'Назад',
+        headerTitle: navigation  =>  <LogoTitle
+            titleSize={20}
+            subTitleSize={13}
+        />,
+
+        headerStyle: {
+            backgroundColor:'#004d99',
+        },
+        headerTintColor: '#fff',
+
+    };
 
     onPressEnter() {
         console.log('login');
@@ -62,7 +74,7 @@ export default class Home extends Screen {
     }
 
     componentDidMount() {
-        
+
         Font.loadAsync({
             'SFCompact Text': require('../../assets/fonts/SFCompactText-LightItalic.ttf'),
         });
@@ -99,7 +111,7 @@ export default class Home extends Screen {
         // )
 
         return (
-        
+
             <Container>
                 <Content padder style={{backgroundColor: dP.color.primary}}>
                     <Body style={{ justifyContent: "center", marginTop: 92}}>
@@ -130,10 +142,10 @@ export default class Home extends Screen {
                             <Text style={styles.buttonPrimaryInverseText} align='center'>
                                 Создать аккаунт
                             </Text>
-        
+
                         </Button>
                     </Body>
-        
+
                     <Body style={{flexDirection: "row", justifyContent: "center", marginTop: 60}}>
                         <CheckBox checked={true}
                                   onPress={this.chkbox_check}
@@ -144,7 +156,7 @@ export default class Home extends Screen {
                 </Content>
                 <StandartFooter />
             </Container>
-        
+
         );
     }
 }

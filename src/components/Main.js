@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, Image, StatusBar, View, Navigator, Text, Dimensions, Platform, PixelRatio, Modal, Alert, TouchableHighlight} from 'react-native';
+import {TextInput, Image, View, Text} from 'react-native';
 import Screen from "./Screen";
 import {Button, Container, Footer, FooterTab,
     Root,
@@ -43,18 +43,30 @@ export default class Main extends Screen{
     static navigationOptions = {
         title: 'Главная',
         headerTitle: navigation  =>  <LogoTitle
-                titleSize={20}
-                subTitleSize={13}
-                title='+7(123)456 78 98'
-                subTitle='Константин Константинович'
-            />,
+            titleSize={20}
+            subTitleSize={13}
+            title='+7(123)456 78 98'
+            subTitle='Константин Константинович'
+        />,
 
-            headerStyle: {
-                backgroundColor:'#004d99',
-            },
-          headerTintColor: '#fff',
+        headerStyle: {
+            backgroundColor:'#004d99',
+        },
+        headerTintColor: '#fff',
 
-      };
+    };
+
+        handleClickIncrease(idx){
+            console.log('траница:', idx);
+            switch (idx) {
+                case 0:
+                    this.props.navigation.navigate('IncreaseBalance');
+                    break;
+
+
+            }
+
+        }
 
 
     render() {
@@ -91,6 +103,7 @@ export default class Main extends Screen{
                                                      },
                                                      buttonIndex => {
                                                          this.setState({ clicked: BUTTONS[buttonIndex] });
+                                                         this.handleClickIncrease(buttonIndex);
                                                      }
                                                  )}
                                     >
@@ -162,7 +175,7 @@ export default class Main extends Screen{
                             </ListItem>
 
                             <ListItem icon style={{height:56}}
-                                      onPress={() => this.props.navigation.navigate('IncreaseBalance')}
+                                      onPress={() => this.props.navigation.navigate('Costs')}
                             >
                                 <Left style={{height:56}}>
                                     <Button style={{ backgroundColor: "#FF9501" }}>
