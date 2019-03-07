@@ -120,17 +120,14 @@ export default class IncreaseBalance extends React.Component{
         const CARD_CANCEL_INDEX = 3;
         if (this.state.webpay){
             return(
-                <Root>
                     <Container  style={{backgroundColor:'#004d99'}}>
                         <WebView
-                            source={{uri: 'https://easy4.pro/balance/index_app.php?'+this.props.phone}}
+                            source={{uri: 'https://easy4.pro/balance/index_app.php?msisdn='+this.state.phone+'&amount=100'}}
                         />
                     </Container>
-                </Root>
             )
         }
         return(
-            <Root>
                 <Container style={{backgroundColor:'#004d99'}}>
                     <Content padder>
 
@@ -232,8 +229,6 @@ export default class IncreaseBalance extends React.Component{
                     </Content>
                     <StandartFooter />
                 </Container>
-            </Root>
-
         )
     }
 }

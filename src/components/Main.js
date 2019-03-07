@@ -100,7 +100,7 @@ export default class Main extends Screen{
                                                      {
                                                          options: BUTTONS,
                                                          cancelButtonIndex: CANCEL_INDEX,
-                                                         destructiveButtonIndex: DESTRUCTIVE_INDEX,
+                                                         // destructiveButtonIndex: DESTRUCTIVE_INDEX,
                                                          // title: "Testing ActionSheet"
                                                      },
                                                      buttonIndex => {
@@ -200,6 +200,7 @@ export default class Main extends Screen{
                     <StandartFooter />
                 </Container>
             </Root>
+
 
         )
     }

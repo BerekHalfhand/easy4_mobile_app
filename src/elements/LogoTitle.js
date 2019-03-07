@@ -11,14 +11,15 @@ export default class LogoTitle extends React.Component {
             titleSize: 20,
             subTitleSize: 13,
             title: '',
-            subTitle: ''
+            subTitle: '',
+            borderBottomColor: "#B22222",
         };
     }
 
     render() {
-        const {background, titleColor, subTitleColor, titleSize, subTitleSize, title, subTitle} = Object.assign(this.state, this.props);
+        const {background, titleColor, subTitleColor, titleSize, subTitleSize, title, subTitle, borderBottomColor} = Object.assign(this.state, this.props);
         return (
-            <View style={{ backgroundColor:background }}>
+            <View style={{ backgroundColor:background, borderBottomColor: borderBottomColor }}>
                 <Text style={{color: titleColor, textAlign:'center', fontSize: titleSize}}>{ title }</Text>
                 <Text style={{color: subTitleColor, textAlign:'center', fontSize: subTitleSize}}>{ subTitle }</Text>
             </View>

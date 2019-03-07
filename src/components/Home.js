@@ -29,7 +29,7 @@ import {
 //     Spinner,
     Button
 } from 'native-base';
-import { View, Image } from 'react-native'
+import {View, Image, KeyboardAvoidingView, ScrollView, AsyncStorage} from 'react-native'
 import Screen from './Screen';
 import {styles, dP} from '../../utils/style/styles';
 
@@ -70,6 +70,39 @@ export default class Home extends Screen {
         console.log('oferta checked')
     }
 
+    // componentDidMount() {
+       // async () => {
+       //      try {
+       //          const accT = await AsyncStorage.getItem('accessToken');
+       //          if (accT){
+       //              fetch('http://192.168.3.101:8080/auth/token/check/'+accT, {
+       //                  method: 'GET',
+       //              })
+       //                  .then(response => {
+       //                      response.json();
+       //                      console.log('response:',response);
+       //                  })
+       //                  .then(data => {
+       //                          AsyncStorage.setItem(
+       //                              'login',data.login
+       //                          );
+       //                          AsyncStorage.setItem(
+       //                              '_id',data._id
+       //                          );
+       //
+       //                      }
+       //
+       //                  );
+       //          } else {
+       //
+       //          }
+       //
+       //      } catch (e) {
+       //          console.log('error', e);
+       //      }
+       //  };
+    // }
+
     render() {
 
         console.log('state:', this.state);
@@ -103,7 +136,7 @@ export default class Home extends Screen {
                                 style={styles.buttonPrimaryInverse}
                                 onPress={() => this.props.navigation.navigate('newAccaunt')}
                         >
-                            <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657'}} align='center'>
+                            <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:13}} align='center'>
                                 Создать аккаунт
                             </Text>
 

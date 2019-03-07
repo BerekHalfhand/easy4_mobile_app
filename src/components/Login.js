@@ -1,12 +1,12 @@
 import React from 'react';
-import {TextInput, Image, StatusBar, View, Navigator, Text} from 'react-native';
+import { Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
 import Screen from "./Screen";
-import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, Input, IconNB, TouchableOpacity } from 'native-base';
-// import FingerPrint from './touchid';
-import Expo, { Constants } from 'expo';
+import {Button, Container, Content, Body, Form, Input, IconNB, TouchableOpacity } from 'native-base';
 import {styles, dP} from "../../utils/style/styles";
 import LogoTitle from '../elements/LogoTitle';
 import StandartFooter from "../elements/Footer";
+import PasswordInputText from "react-native-hide-show-password-input";
+import { TextField } from 'react-native-materialui-textfield';
 
 export default class Login extends Screen {
     constructor(props) {
@@ -60,8 +60,26 @@ export default class Login extends Screen {
                 password: this.state.password
             }),
         })
-            .then(response => response.json())
-            .then(data => this.setState({ data }));
+            .then(response => {
+                response.json();
+                console.log('response:',response);
+            })
+            // .then(data =>
+            //     this.setState({
+            //     accessToken:data.accessToken,
+            //     refreshToken:data.refreshToken
+            // })
+                    .then(data => {
+                        AsyncStorage.setItem(
+                            'accessToken',data.accessToken
+                        );
+                        AsyncStorage.setItem(
+                            'refreshToken',data.refreshToken
+                        );
+
+                    }
+
+            );
 
            //TODO  to finish registration and login, sae data in storage
     }
@@ -71,27 +89,45 @@ export default class Login extends Screen {
         console.log('state: ', this.state);
         // if (this.state.fontLoaded) {
             return (
-                <Container>
-                    <Content style={{backgroundColor: dP.color.primary, paddingTop: '50%', padding: 24}}>
+                <KeyboardAvoidingView
+                    keyboardVerticalOffset = {64} // adjust the value here if you need more padding
+                    style = {{ flex: 1 }}
+                    behavior = "padding" >
+
+                    <ScrollView contentContainerStyle={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'stretch',
+                        padding: 15
+                    }}
+                                keyboardShouldPersistTaps='always' >
+
                         <Form>
-                            <Input placeholder="Телефон или электронная почта"
-                                   style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, color: '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
-                                   placeholderTextColor={'#ABABAB'}
-                                   onChangeText={(login) => this.setState({login})}
-                                   value={this.state.login}
+
+                            <TextField
+                                       label="Телефон или электронная почта"
+                                       textColor={'#FFFFFF'}
+                                       baseColor={'#ABABAB'}
+                                       tintColor={'#FED657'}
+                                       textContentType="username"
+                                       onChangeText={(login) => this.setState({login})}
+                                       value={this.state.login}
                             />
-                            <Input placeholder="Пароль"
-                                   style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, 'color': '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
-                                   placeholderTextColor={'#ABABAB'}
-                                   onChangeText={(password) => this.setState({password})}
-                                   value={this.state.password}
+                            <PasswordInputText
+                                textColor={'#FFFFFF'}
+                                baseColor={'#ABABAB'}
+                                tintColor={'#FED657'}
+                                iconColor={'#FED657'}
+                                value={this.state.password}
+                                onChangeText={ (password) => this.setState({ password }) }
                             />
+
                         </Form>
                         <Body style={{marginTop: 48}}>
                         <Button full rounded
                                 style={styles.buttonPrimary}
-                            // onPress={() => ( this.onPressLogin() ? this.props.navigation.navigate('Main') : null )}
-                                onPress={() => this.formSubmit()}
+                                // onPress={() => this.formSubmit()}
+                                onPress={() => this.props.navigation.navigate('Main')}
                         >
                             <Text style={{fontFamily:"SFCT_Semibold", letterSpacing:0.25, fontSize:16, color:"#005eba"}}>
                                 Войти
@@ -102,6 +138,7 @@ export default class Login extends Screen {
                         <Button full transparent rounded
                                 style={styles.buttonPrimaryInverse}
                                 onPress={this.onPressRegister}
+
                         >
                             <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:16}} align='center'>
                                 Забыли пароль?
@@ -109,9 +146,9 @@ export default class Login extends Screen {
 
                         </Button>
                         </Body>
-                    </Content>
-                    <StandartFooter/>
-                </Container>
+
+                    </ScrollView>
+                </KeyboardAvoidingView>
             )
         // }
         // return(
