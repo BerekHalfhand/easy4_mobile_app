@@ -1,32 +1,32 @@
-import React from 'react'
+import React from 'react';
 import { View, Footer, FooterTab, Button, Icon } from 'native-base';
 
 
 export default class StandardFooter extends React.Component{
 
-    render(){
+  render(){
 
-        return(
-            <View>
-                <Footer style={{backgroundColor: '#FED657'}}>
-                    <FooterTab>
-                        <Button>
-                            {/*<FontAwesome>{Icons.chevronLeft}</FontAwesome>*/}
-                            <Icon name="ios-grid"/>
-                        </Button>
-                        <Button>
-                            <Icon name="ios-grid"/>
-                        </Button>
-                        <Button>
-                            <Icon name="ios-grid"/>
-                        </Button>
-                        <Button>
-                            <Icon name="ios-grid"/>
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            </View>
+    return(
+      <View>
+        <Footer style={{backgroundColor: '#FED657'}}>
+          <FooterTab>
+            <Button>
+              {/*<FontAwesome>{Icons.chevronLeft}</FontAwesome>*/}
+              <Icon name="ios-grid"/>
+            </Button>
+            <Button>
+              <Icon name="ios-grid"/>
+            </Button>
+            <Button>
+              <Icon name="ios-grid"/>
+            </Button>
+            <Button>
+              <Icon name="ios-grid"/>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </View>
 
-        )
-    }
+    );
+  }
 }

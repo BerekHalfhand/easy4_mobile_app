@@ -21,8 +21,8 @@
     ],
     "rules": {
         "indent": [
-            "error",
-            "tab"
+            "warn",
+            2
         ],
         "linebreak-style": [
             "error",
@@ -35,6 +35,12 @@
         "semi": [
             "error",
             "always"
+        ],
+        "no-unused-vars": [
+          "warn"
+        ],
+        "no-console": [
+          "warn"
         ]
     }
 }
