@@ -15,7 +15,7 @@ import {
     ActionSheet
 } from "native-base";
 import LogoTitle from '../elements/LogoTitle'
-import StandartFooter from "../elements/Footer";
+import StandardFooter from "../elements/Footer";
 
 
 // class LogoTitle extends React.Component {
@@ -227,7 +227,7 @@ export default class IncreaseBalance extends React.Component{
                             </Button>
                         </View>
                     </Content>
-                    <StandartFooter />
+                    <StandardFooter />
                 </Container>
         )
     }

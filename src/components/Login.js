@@ -4,7 +4,7 @@ import Screen from "./Screen";
 import {Button, Container, Content, Body, Form, Input, IconNB, TouchableOpacity } from 'native-base';
 import {styles, dP} from "../../utils/style/styles";
 import LogoTitle from '../elements/LogoTitle';
-import StandartFooter from "../elements/Footer";
+import StandardFooter from "../elements/Footer";
 import PasswordInputText from "react-native-hide-show-password-input";
 import { TextField } from 'react-native-materialui-textfield';
 

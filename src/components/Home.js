@@ -33,7 +33,7 @@ import {View, Image, KeyboardAvoidingView, ScrollView, AsyncStorage} from 'react
 import Screen from './Screen';
 import {styles, dP} from '../../utils/style/styles';
 
-import StandartFooter from '../elements/Footer'
+import StandardFooter from '../elements/Footer'
 
 
 export default class Home extends Screen {
@@ -134,7 +134,7 @@ export default class Home extends Screen {
                         <Body style={{marginTop: 12}}>
                         <Button full transparent rounded
                                 style={styles.buttonPrimaryInverse}
-                                onPress={() => this.props.navigation.navigate('newAccaunt')}
+                                onPress={() => this.props.navigation.navigate('NewAccount')}
                         >
                             <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:13}} align='center'>
                                 Создать аккаунт
@@ -153,7 +153,7 @@ export default class Home extends Screen {
                         </View>
                         </Body>
                     </Content>
-                    <StandartFooter />
+                    <StandardFooter />
                 </Container>
 
             );

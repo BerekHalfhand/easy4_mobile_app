@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Footer, FooterTab, Button, Icon } from 'native-base';
 
 
-export default class StandartFooter extends React.Component{
+export default class StandardFooter extends React.Component{
 
     render(){
 

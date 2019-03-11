@@ -6,7 +6,7 @@ import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, I
 import Expo, { Constants } from 'expo';
 import {styles, dP} from "../../utils/style/styles";
 import LogoTitle from '../elements/LogoTitle';
-import StandartFooter from "../elements/Footer";
+import StandardFooter from "../elements/Footer";
 
 export default class Login extends Screen {
     constructor(props) {
@@ -124,7 +124,7 @@ export default class Login extends Screen {
                     </Button>
                     </Body>
                 </Content>
-               <StandartFooter/>
+               <StandardFooter/>
             </Container>
         )
         // }

@@ -11,7 +11,7 @@ import Login from './src/components/Login';
 import Main from './src/components/Main';
 import Tariff from "./src/components/Tariff";
 import IncreaseBalance from "./src/components/IncreaseBalance";
-import newAccaunt from "./src/components/newAccaunt";
+import NewAccount from "./src/components/NewAccount";
 
 
 
@@ -34,8 +34,8 @@ const Routes = createStackNavigator({
   IncreaseBalance: {
     screen: IncreaseBalance
   },
-  newAccaunt: {
-    screen: newAccaunt
+  NewAccount: {
+    screen: NewAccount
   },
 
 });
