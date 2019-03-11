@@ -36,7 +36,7 @@ export default class ClientMainInfo extends React.Component{
           shadowRadius:5,
           shadowOffset:{width:10,height:16}
         }}>
-          <View style={{width:'33,333%'}}>
+          <View style={{width:'33%'}}>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
                             Звонки
             </Text>
@@ -47,7 +47,7 @@ export default class ClientMainInfo extends React.Component{
                             из {this.state.fake.minutePack} мин
             </Text>
           </View>
-          <View style={{width:'33,333%',borderLeftWidth:1, borderRightWidth:1, borderLeftColor:'#F2F2F2', borderRightColor:'#F2F2F2'}}>
+          <View style={{width:'33%',borderLeftWidth:1, borderRightWidth:1, borderLeftColor:'#F2F2F2', borderRightColor:'#F2F2F2'}}>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
                             Интернет
             </Text>
@@ -58,7 +58,7 @@ export default class ClientMainInfo extends React.Component{
                             из {this.state.fake.gigabytePack}  гб
             </Text>
           </View>
-          <View style={{width:'33,333%'}}>
+          <View style={{width:'33%'}}>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
                             СМС
             </Text>
