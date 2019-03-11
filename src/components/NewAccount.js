@@ -1,12 +1,14 @@
 import React from 'react';
-import {TextInput, Image, StatusBar, View, Navigator, Text} from 'react-native';
+import {Text, KeyboardAvoidingView, ScrollView} from 'react-native';
 import Screen from './Screen';
 import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, Input, IconNB, TouchableOpacity } from 'native-base';
 // import FingerPrint from './touchid';
 import Expo, { Constants } from 'expo';
 import {styles, dP} from '../../utils/style/styles';
 import LogoTitle from '../elements/LogoTitle';
-import StandardFooter from '../elements/Footer';
+// import StandardFooter from '../elements/Footer';
+import PasswordInputText from 'react-native-hide-show-password-input';
+import { TextField } from 'react-native-materialui-textfield';
 
 export default class Login extends Screen {
   constructor(props) {
@@ -72,47 +74,67 @@ export default class Login extends Screen {
       console.log('state: ', this.state);
       // if (this.state.fontLoaded) {
       return (
-        <Container>
-          <Content style={{backgroundColor: dP.color.primary, paddingTop: 40, padding: 24}}>
+        <ScrollView style={{backgroundColor: dP.color.primary}}
+          keyboardShouldPersistTaps='always' >
+          <KeyboardAvoidingView
+            keyboardVerticalOffset = {100} // adjust the value here if you need more padding
+            style = {{ flex: 1, padding: 24, height: '100%' }}
+            behavior = "padding" >
+
+
             <Form>
-              <Input placeholder="Имя"
-                style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, 'color': '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
-                placeholderTextColor={'#ABABAB'}
+              <TextField
+                label="Имя"
+                textColor={'#FFFFFF'}
+                baseColor={'#ABABAB'}
+                tintColor={'#FED657'}
                 onChangeText={(firstName) => this.setState({firstName})}
                 value={this.state.firstName}
               />
-              <Input placeholder="Отчество"
-                style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, 'color': '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
-                placeholderTextColor={'#ABABAB'}
+              <TextField
+                label="Отчество"
+                textColor={'#FFFFFF'}
+                baseColor={'#ABABAB'}
+                tintColor={'#FED657'}
                 onChangeText={(secondName) => this.setState({secondName})}
                 value={this.state.secondName}
               />
-              <Input placeholder="Фамилия"
-                style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, color: '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
-                placeholderTextColor={'#ABABAB'}
+              <TextField
+                label="Фамилия"
+                textColor={'#FFFFFF'}
+                baseColor={'#ABABAB'}
+                tintColor={'#FED657'}
                 onChangeText={(lastName) => this.setState({lastName})}
                 value={this.state.lastName}
               />
-              <Input placeholder="Электронная почта"
-                style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, color: '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
-                placeholderTextColor={'#ABABAB'}
+              <TextField
+                label="Электронная почта"
+                textColor={'#FFFFFF'}
+                baseColor={'#ABABAB'}
+                tintColor={'#FED657'}
+                textContentType="emailAddress"
+                keyboardType="email-address"
                 onChangeText={(email) => this.setState({email})}
                 value={this.state.email}
               />
-              <Input placeholder="Номер телефона"
-                style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, color: '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
-                placeholderTextColor={'#ABABAB'}
+              <TextField
+                label="Номер телефона"
+                textColor={'#FFFFFF'}
+                baseColor={'#ABABAB'}
+                tintColor={'#FED657'}
                 onChangeText={(phone) => this.setState({phone})}
                 value={this.state.phone}
               />
-              <Input placeholder="Пароль"
-                style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, 'color': '#FFFFFF', borderBottomColor: '#ABABAB', borderBottomWidth: 1}}
-                placeholderTextColor={'#ABABAB'}
-                onChangeText={(password) => this.setState({password})}
+              <PasswordInputText
+                textColor={'#FFFFFF'}
+                baseColor={'#ABABAB'}
+                tintColor={'#FED657'}
+                iconColor={'#FED657'}
                 value={this.state.password}
+                onChangeText={ (password) => this.setState({ password }) }
               />
             </Form>
-            <Body style={{marginTop: 48}}>
+            <Body style={{margin: 24}}>
               <Button full rounded
                 style={styles.buttonPrimary}
                 // onPress={() => ( this.onPressLogin() ? this.props.navigation.navigate('Main') : null )}
@@ -123,9 +145,8 @@ export default class Login extends Screen {
                 </Text>
               </Button>
             </Body>
-          </Content>
-          <StandardFooter/>
-        </Container>
+          </KeyboardAvoidingView>
+        </ScrollView>
       );
       // }
       // return(
