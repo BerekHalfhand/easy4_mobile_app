@@ -29,50 +29,59 @@ import {
   //     Spinner,
   Button
 } from 'native-base';
-import {View, Image, KeyboardAvoidingView, ScrollView, AsyncStorage} from 'react-native';
+import {View, Image, Linking, Alert, AsyncStorage} from 'react-native';
 import Screen from './Screen';
 import {styles, dP} from '../../utils/style/styles';
-
+import autoBind from 'react-autobind';
 import StandardFooter from '../elements/Footer';
 
 
 export default class Home extends Screen {
   constructor(props) {
     super(props);
+    autoBind(this);
     this.state = {
       fontLoaded: false,
+      offerAccepted: null,
     };
+    this.getOfferState();
   }
 
     static navigationOptions = {
-      title: 'Назад',
-      headerTitle: navigation  =>  <LogoTitle
-        titleSize={20}
-        subTitleSize={13}
-      />,
-
-      headerStyle: {
-        backgroundColor:'#004d99',
-      },
-      headerTintColor: '#fff',
-
+      header: null,
     };
 
-    onPressEnter() {
-      console.log('login');
+    onPressLogin() {
+      if (this.state.offerAccepted === true)
+        this.props.navigation.navigate('Login');
+      else
+        Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
     }
 
-    onPressRegister() {
-      console.log('register');
+    onPressSignUp() {
+      if (this.state.offerAccepted === true)
+        this.props.navigation.navigate('NewAccount');
+      else
+        Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
     }
 
-    chkbox_check() {
-      console.log('oferta checked');
+    onPressOffer = async () => {
+      let offerAccepted = !this.state.offerAccepted;
+
+      this.setState({offerAccepted: offerAccepted});
+      await AsyncStorage.setItem('offerAccepted', offerAccepted.toString());
     }
+
+    getOfferState = async () => {
+      const offerAccepted = await AsyncStorage.getItem('offerAccepted');
+
+      if (offerAccepted == 'true')  this.setState({offerAccepted: true});
+      else                          this.setState({offerAccepted: false});
+    };
 
     // componentDidMount() {
-    // async () => {
-    //      try {
+    //   async () => {
+    //     try {
     //          const accT = await AsyncStorage.getItem('accessToken');
     //          if (accT){
     //              fetch('http://192.168.3.101:8080/auth/token/check/'+accT, {
@@ -97,11 +106,28 @@ export default class Home extends Screen {
     //
     //          }
     //
-    //      } catch (e) {
-    //          console.log('error', e);
-    //      }
-    //  };
+    //     } catch (e) {
+    //       console.log('error', e);
+    //     }
+    //   };
     // }
+
+    renderOfferCheckbox() {
+      if (this.state.offerAccepted !== null) {
+        return (
+          <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 60}}>
+            <CheckBox checked={this.state.offerAccepted}
+              onPress={this.onPressOffer}
+              style={styles.checkbox}
+            />
+            <View style={{marginLeft: 12}}>
+              <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}
+                onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf')}>Договор оферты</Text>
+            </View>
+          </Body>
+        );
+      }
+    }
 
     render() {
 
@@ -124,7 +150,7 @@ export default class Home extends Screen {
               <Body style={{marginTop: 48}}>
                 <Button full rounded
                   style={styles.buttonPrimary}
-                  onPress={() => this.props.navigation.navigate('Login')}
+                  onPress={this.onPressLogin}
                 >
                   <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
                                 Войти
@@ -134,7 +160,7 @@ export default class Home extends Screen {
               <Body style={{marginTop: 12}}>
                 <Button full transparent rounded
                   style={styles.buttonPrimaryInverse}
-                  onPress={() => this.props.navigation.navigate('NewAccount')}
+                  onPress={this.onPressSignUp}
                 >
                   <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:13}} align='center'>
                                 Создать аккаунт
@@ -143,15 +169,7 @@ export default class Home extends Screen {
                 </Button>
               </Body>
 
-              <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 60}}>
-                <CheckBox checked={true}
-                  onPress={this.chkbox_check}
-                  style={styles.checkbox}
-                />
-                <View style={{marginLeft: 12}}>
-                  <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}>Договор оферты</Text>
-                </View>
-              </Body>
+              {this.renderOfferCheckbox()}
             </Content>
             <StandardFooter />
           </Container>
