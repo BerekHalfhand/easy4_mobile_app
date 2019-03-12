@@ -8,161 +8,179 @@ import {Font, AppLoading} from 'expo';
 import LogoTitle from '../elements/LogoTitle';
 
 import {
-    Content,
-    ListItem,
-    CheckBox,
-    Text,
-    Body,
-    Footer,
-    FooterTab,
-    Container,
-    Icon,
-    Header,
-    Title,
-    // Image,
-//     Card,
-//     CardItem,
-//     Text,
-//     Thumbnail,
-    Left,
-    Right,
-//     Spinner,
-    Button
+  Content,
+  ListItem,
+  CheckBox,
+  Text,
+  Body,
+  Footer,
+  FooterTab,
+  Container,
+  Icon,
+  Header,
+  Title,
+  // Image,
+  //     Card,
+  //     CardItem,
+  //     Text,
+  //     Thumbnail,
+  Left,
+  Right,
+  //     Spinner,
+  Button
 } from 'native-base';
-import {View, Image, KeyboardAvoidingView, ScrollView, AsyncStorage} from 'react-native'
+import {View, Image, Linking, Alert, AsyncStorage} from 'react-native';
 import Screen from './Screen';
 import {styles, dP} from '../../utils/style/styles';
-
-import StandartFooter from '../elements/Footer'
+import autoBind from 'react-autobind';
+import StandardFooter from '../elements/Footer';
 
 
 export default class Home extends Screen {
-    constructor(props) {
-        super(props);
-        this.state = {
-            fontLoaded: false,
-        };
-    }
+  constructor(props) {
+    super(props);
+    autoBind(this);
+    this.state = {
+      fontLoaded: false,
+      offerAccepted: null,
+    };
+    this.getOfferState();
+  }
 
     static navigationOptions = {
-        title: 'Назад',
-        headerTitle: navigation  =>  <LogoTitle
-            titleSize={20}
-            subTitleSize={13}
-        />,
-
-        headerStyle: {
-            backgroundColor:'#004d99',
-        },
-        headerTintColor: '#fff',
-
+      header: null,
     };
 
-    onPressEnter() {
-        console.log('login');
+    onPressLogin() {
+      if (this.state.offerAccepted === true)
+        this.props.navigation.navigate('Login');
+      else
+        Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
     }
 
-    onPressRegister() {
-        console.log('register');
+    onPressSignUp() {
+      if (this.state.offerAccepted === true)
+        this.props.navigation.navigate('NewAccount');
+      else
+        Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
     }
 
-    chkbox_check() {
-        console.log('oferta checked')
+    onPressOffer = async () => {
+      let offerAccepted = !this.state.offerAccepted;
+
+      this.setState({offerAccepted: offerAccepted});
+      await AsyncStorage.setItem('offerAccepted', offerAccepted.toString());
     }
+
+    getOfferState = async () => {
+      const offerAccepted = await AsyncStorage.getItem('offerAccepted');
+
+      if (offerAccepted == 'true')  this.setState({offerAccepted: true});
+      else                          this.setState({offerAccepted: false});
+    };
 
     // componentDidMount() {
-       // async () => {
-       //      try {
-       //          const accT = await AsyncStorage.getItem('accessToken');
-       //          if (accT){
-       //              fetch('http://192.168.3.101:8080/auth/token/check/'+accT, {
-       //                  method: 'GET',
-       //              })
-       //                  .then(response => {
-       //                      response.json();
-       //                      console.log('response:',response);
-       //                  })
-       //                  .then(data => {
-       //                          AsyncStorage.setItem(
-       //                              'login',data.login
-       //                          );
-       //                          AsyncStorage.setItem(
-       //                              '_id',data._id
-       //                          );
-       //
-       //                      }
-       //
-       //                  );
-       //          } else {
-       //
-       //          }
-       //
-       //      } catch (e) {
-       //          console.log('error', e);
-       //      }
-       //  };
+    //   async () => {
+    //     try {
+    //          const accT = await AsyncStorage.getItem('accessToken');
+    //          if (accT){
+    //              fetch('http://192.168.3.101:8080/auth/token/check/'+accT, {
+    //                  method: 'GET',
+    //              })
+    //                  .then(response => {
+    //                      response.json();
+    //                      console.log('response:',response);
+    //                  })
+    //                  .then(data => {
+    //                          AsyncStorage.setItem(
+    //                              'login',data.login
+    //                          );
+    //                          AsyncStorage.setItem(
+    //                              '_id',data._id
+    //                          );
+    //
+    //                      }
+    //
+    //                  );
+    //          } else {
+    //
+    //          }
+    //
+    //     } catch (e) {
+    //       console.log('error', e);
+    //     }
+    //   };
     // }
+
+    renderOfferCheckbox() {
+      if (this.state.offerAccepted !== null) {
+        return (
+          <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 60}}>
+            <CheckBox checked={this.state.offerAccepted}
+              onPress={this.onPressOffer}
+              style={styles.checkbox}
+            />
+            <View style={{marginLeft: 12}}>
+              <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}
+                onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf')}>Договор оферты</Text>
+            </View>
+          </Body>
+        );
+      }
+    }
 
     render() {
 
-        console.log('state:', this.state);
-        if (this.state.fontLoaded){
-            return (
+      console.log('state:', this.state);
+      if (this.state.fontLoaded){
+        return (
 
-                <Container>
-                    <Content padder style={{backgroundColor: dP.color.primary}}>
-                        <Body style={{ justifyContent: "center", marginTop: 92}}>
-                        <Image source={require('../../assets/image/logo-w100.png')}/>
-                        </Body>
-                        <Body style={{marginTop: 24}}>
-                        <Text style={{fontFamily:"SFCT_Medium", letterSpacing:-0.5, fontSize:24, color:"#FFFFFF"}}>Добро пожаловать в Easy4</Text>
-                        </Body>
-                        <Body style={{marginTop: 24}}>
-                        <Text style={{fontFamily:"SFCT_Regular", letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>Самое удобное приложение в мире</Text>
-                        <Text style={{fontFamily:"SFCT_Regular", letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>среди приложений для приложений</Text>
-                        </Body>
-                        <Body style={{marginTop: 48}}>
-                        <Button full rounded
-                                style={styles.buttonPrimary}
-                                onPress={() => this.props.navigation.navigate('Login')}
-                        >
-                            <Text style={{fontFamily:"SFCT_Semibold", letterSpacing:0.25, fontSize:16, color:"#005eba"}}>
+          <Container>
+            <Content padder style={{backgroundColor: dP.color.primary}}>
+              <Body style={{ justifyContent: 'center', marginTop: 92}}>
+                <Image source={require('../../assets/image/logo-w100.png')}/>
+              </Body>
+              <Body style={{marginTop: 24}}>
+                <Text style={{fontFamily:'SFCT_Medium', letterSpacing:-0.5, fontSize:24, color:'#FFFFFF'}}>Добро пожаловать в Easy4</Text>
+              </Body>
+              <Body style={{marginTop: 24}}>
+                <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>Самое удобное приложение в мире</Text>
+                <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>среди приложений для приложений</Text>
+              </Body>
+              <Body style={{marginTop: 48}}>
+                <Button full rounded
+                  style={styles.buttonPrimary}
+                  onPress={this.onPressLogin}
+                >
+                  <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
                                 Войти
-                            </Text>
-                        </Button>
-                        </Body>
-                        <Body style={{marginTop: 12}}>
-                        <Button full transparent rounded
-                                style={styles.buttonPrimaryInverse}
-                                onPress={() => this.props.navigation.navigate('newAccaunt')}
-                        >
-                            <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:13}} align='center'>
+                  </Text>
+                </Button>
+              </Body>
+              <Body style={{marginTop: 12}}>
+                <Button full transparent rounded
+                  style={styles.buttonPrimaryInverse}
+                  onPress={this.onPressSignUp}
+                >
+                  <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:13}} align='center'>
                                 Создать аккаунт
-                            </Text>
+                  </Text>
 
-                        </Button>
-                        </Body>
+                </Button>
+              </Body>
 
-                        <Body style={{flexDirection: "row", justifyContent: "center", marginTop: 60}}>
-                        <CheckBox checked={true}
-                                  onPress={this.chkbox_check}
-                                  style={styles.checkbox}
-                        />
-                        <View style={{marginLeft: 12}}>
-                            <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}>Договор оферты</Text>
-                        </View>
-                        </Body>
-                    </Content>
-                    <StandartFooter />
-                </Container>
+              {this.renderOfferCheckbox()}
+            </Content>
+            <StandardFooter />
+          </Container>
 
-            );
-        }
-        return(
-            <Container>
-                <Content padder style={{backgroundColor: dP.color.primary}}></Content>
-            </Container>
-        )
+        );
+      }
+      return(
+        <Container>
+          <Content padder style={{backgroundColor: dP.color.primary}}></Content>
+        </Container>
+      );
 
 
     }
