@@ -38,6 +38,8 @@ const Routes = createStackNavigator({
     screen: NewAccount
   },
 
+}, {
+  headerLayoutPreset: 'center',
 });
 
 
@@ -47,4 +49,3 @@ export default App;
 // AppRegistry.registerComponent('App', () => App);
 //
 // export default App;
-
