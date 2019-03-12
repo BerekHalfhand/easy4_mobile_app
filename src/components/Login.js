@@ -29,10 +29,12 @@ export default class Login extends Screen {
       headerTitle: navigation  =>  <LogoTitle
         titleSize={20}
         subTitleSize={13}
+        title='Вход'
       />,
 
       headerStyle: {
         backgroundColor:'#004d99',
+        elevation: 0,
       },
       headerTintColor: '#fff',
 
@@ -89,18 +91,12 @@ export default class Login extends Screen {
       console.log('state: ', this.state);
       // if (this.state.fontLoaded) {
       return (
-        <KeyboardAvoidingView
-          keyboardVerticalOffset = {64} // adjust the value here if you need more padding
-          style = {{ flex: 1 }}
-          behavior = "padding" >
-
-          <ScrollView contentContainerStyle={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'stretch',
-            padding: 15
-          }}
+        <ScrollView style={{backgroundColor: dP.color.primary}}
           keyboardShouldPersistTaps='always' >
+          <KeyboardAvoidingView
+            keyboardVerticalOffset = {280} // adjust the value here if you need more padding
+            style = {{ flex: 1, padding: 24 }}
+            behavior = "padding" >
 
             <Form>
 
@@ -123,7 +119,7 @@ export default class Login extends Screen {
               />
 
             </Form>
-            <Body style={{marginTop: 48}}>
+            <Body style={{margin: 24}}>
               <Button full rounded
                 style={styles.buttonPrimary}
                 // onPress={() => this.formSubmit()}
@@ -134,21 +130,21 @@ export default class Login extends Screen {
                 </Text>
               </Button>
             </Body>
-            <Body style={{marginTop: 12}}>
+            <Body style={{margin: 24}}>
               <Button full transparent rounded
                 style={styles.buttonPrimaryInverse}
                 onPress={this.onPressRegister}
 
               >
-                <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:16}} align='center'>
+                <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:16}}>
                                 Забыли пароль?
                 </Text>
 
               </Button>
             </Body>
+          </KeyboardAvoidingView>
 
-          </ScrollView>
-        </KeyboardAvoidingView>
+        </ScrollView>
       );
       // }
       // return(

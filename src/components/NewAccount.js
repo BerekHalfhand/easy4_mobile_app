@@ -31,6 +31,7 @@ export default class Login extends Screen {
 
       headerStyle: {
         backgroundColor:'#004d99',
+        elevation: 0,
       },
       headerTintColor: '#fff',
 
