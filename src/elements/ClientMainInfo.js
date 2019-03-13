@@ -43,9 +43,9 @@ export default class ClientMainInfo extends React.Component{
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
               {this.state.fake.minute}
             </Text>
-            <Text style={{fontFamily:'SFCT_Regular', fontSize:13, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
+            { /* <Text style={{fontFamily:'SFCT_Regular', fontSize:13, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
                             из {this.state.fake.minutePack} мин
-            </Text>
+            </Text>*/}
           </View>
           <View style={{width:'33%',borderLeftWidth:1, borderRightWidth:1, borderLeftColor:'#F2F2F2', borderRightColor:'#F2F2F2'}}>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
@@ -54,9 +54,9 @@ export default class ClientMainInfo extends React.Component{
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
               {this.state.fake.gigabyte}
             </Text>
-            <Text style={{fontFamily:'SFCT_Regular', fontSize:14, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
+            {/*<Text style={{fontFamily:'SFCT_Regular', fontSize:14, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
                             из {this.state.fake.gigabytePack}  гб
-            </Text>
+            </Text>*/}
           </View>
           <View style={{width:'33%'}}>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
@@ -65,9 +65,9 @@ export default class ClientMainInfo extends React.Component{
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
               {this.state.fake.sms}
             </Text>
-            <Text style={{fontFamily:'SFCT_Regular', fontSize:14, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
+            {/*<Text style={{fontFamily:'SFCT_Regular', fontSize:14, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
                             из {this.state.fake.smsPack} СМС
-            </Text>
+            </Text>*/}
           </View>
         </View>
       </View>
