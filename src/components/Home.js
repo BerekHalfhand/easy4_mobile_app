@@ -48,6 +48,7 @@ export default class Home extends Screen {
   }
 
     static navigationOptions = {
+      headerStyle: styles.baseHeader,
       header: null,
       headerBackTitle: null,
     };

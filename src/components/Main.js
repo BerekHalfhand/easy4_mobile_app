@@ -11,7 +11,7 @@ import StandardFooter from '../elements/Footer';
 import ClientMainBalance from '../elements/ClientMainBalance';
 import ClientMainInfo from '../elements/ClientMainInfo';
 import LogoTitle from '../elements/LogoTitle';
-import {Font} from 'expo';
+import autoBind from 'react-autobind';
 
 // class LogoTitle extends React.Component {
 //     render() {
@@ -27,27 +27,35 @@ import {Font} from 'expo';
 export default class Main extends Screen{
   constructor(props){
     super(props);
+    autoBind(this);
     this.state = {
-      clientBalanceChecked: true,
-      clientBalance: 110,
       clicked:'',
-      phone: this.props.phone ? this.props.phone : null,
+      phone: props.phone || null,
+      balance: props.balance || 0,
       fake: {
         name: 'Константин Константинович',
         phone: '+7(123)456 78 98',
-        count: 6,
+        numbers: {
+          '+7(123)456 78 98': 10200.03,
+          '+7(234)456 78 99': 366,
+          '+7(345)456 78 00': 123,
+        },
         props: props
       }
     };
+    this.props.navigation.setParams({ title: this.state.fake.phone, name: this.state.fake.name });
 
   }
 
-    static navigationOptions = {
-      headerBackTitle: null,
-      headerTitle: navigation  =>  <LogoTitle title='+7(123)456 78 98' subTitle='Константин Константинович' />,
-      headerStyle: styles.baseHeader,
-      headerTintColor: '#fff',
-    };
+    static navigationOptions = ({ navigation }) => {
+      const { state: { params = {} } } = navigation;
+      return {
+        headerBackTitle: null,
+        headerTitle: navigation  =>  <LogoTitle title={params.title || ''} subTitle={params.name || ''} />,
+        headerStyle: styles.baseHeader,
+        headerTintColor: '#fff',
+      };
+    }
 
     handleClickIncrease(idx, phone){
       console.log('траница:', idx);
@@ -59,6 +67,24 @@ export default class Main extends Screen{
 
       }
 
+    }
+
+    onPressNumbers() {
+      ActionSheet.show(
+        {
+          options: Object.keys(this.state.fake.numbers).concat(['Отмена']),
+          cancelButtonIndex: this.state.fake.numbers.length,
+          title: 'Основной номер'
+        },
+        buttonIndex => {
+          let phone = Object.keys(this.state.fake.numbers)[buttonIndex];
+          this.setState({
+            phone: phone,
+            balance: this.state.fake.numbers[phone],
+          });
+          this.props.navigation.setParams({ title: phone });
+        }
+      );
     }
 
 
@@ -80,7 +106,7 @@ export default class Main extends Screen{
 
               <View style={{flex: 1, flexDirection: 'row'}}>
                 <View style={{width:'60%'}}>
-                  <ClientMainBalance />
+                  <ClientMainBalance balance={this.state.balance} />
                 </View>
                 <View style={{width:'40%', alignItems:'flex-end'}}>
                   <View style={{flex: 1, justifyContent: 'flex-end', alignContent:'center'}}>
@@ -111,19 +137,25 @@ export default class Main extends Screen{
               {/* Count Client MSISDN */}
               <View style={{marginBottom:50}}>
                 <View style={{flex: 1, flexDirection: 'row', marginTop:40, height:24}}>
-                  <View >
-                    <Text style={{fontFamily:'SFCT_Regular', fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-                      {this.state.fake.count}
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-                номеров на аккауне
-                    </Text>
-                  </View>
-                  <View>
-                    <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, marginLeft:8}}/>
-                  </View>
+                  <Button full transparent rounded
+                    style={styles.buttonPrimaryInverse}
+                    onPress={this.onPressNumbers}
+                  >
+                    <View >
+                      <Text style={{fontFamily:'SFCT_Regular', fontSize:13, color:'#FFFFFF', lineHeight:24}}>
+                        {Object.keys(this.state.fake.numbers).length}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text onPress={this.onPressNumbers} style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
+                  номеров на аккауне
+                      </Text>
+                    </View>
+                    <View>
+                      <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, marginLeft:8}}/>
+                    </View>
+
+                  </Button>
                 </View>
               </View>
               {/* *** */}

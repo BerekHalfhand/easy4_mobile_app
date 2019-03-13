@@ -101,7 +101,7 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
     paddingRight: 20,
     paddingBottom: 10,
-    backgroundColor: dP.color.primary,
+    // backgroundColor: dP.color.primary,
     // borderRadius: 24
   },
   buttonPrimaryInverseText: {

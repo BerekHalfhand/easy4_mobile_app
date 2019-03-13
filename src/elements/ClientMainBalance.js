@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Footer, FooterTab, Button } from 'native-base';
 import {TextInput, Image, StatusBar, Navigator, Text, Dimensions} from 'react-native';
 import { dP } from '../../utils/style/styles';
+import PropTypes from 'prop-types';
 
 
 
@@ -36,7 +37,7 @@ export default class ClientMainBalance extends React.Component{
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems:'flex-end'}}>
           <View style={{}}>
             <Text style={{fontFamily:'SFCT_Light', fontSize:(46*scale), marginRight:10, marginTop:10, color:'#FFFFFF', letterSpacing:-2.5}}>
-              {this.state.fake.balance}
+              {this.props.balance || this.state.fake.balance}
             </Text>
           </View>
           <View>
@@ -48,3 +49,7 @@ export default class ClientMainBalance extends React.Component{
     );
   }
 }
+
+ClientMainBalance.propTypes = {
+  balance: PropTypes.number,
+};
