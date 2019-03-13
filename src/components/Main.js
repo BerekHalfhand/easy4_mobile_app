@@ -11,6 +11,7 @@ import StandardFooter from '../elements/Footer';
 import ClientMainBalance from '../elements/ClientMainBalance';
 import ClientMainInfo from '../elements/ClientMainInfo';
 import LogoTitle from '../elements/LogoTitle';
+import NavBack from '../elements/NavBack';
 import autoBind from 'react-autobind';
 
 export default class Main extends Screen{
@@ -42,6 +43,7 @@ export default class Main extends Screen{
     static navigationOptions = ({ navigation }) => {
       const { state: { params = {} } } = navigation;
       return {
+        headerBackImage: <NavBack />,
         headerBackTitle: null,
         headerTitle: navigation  =>  <LogoTitle title={params.phone || ''} subTitle={params.name || ''} />,
         headerStyle: styles.baseHeader,

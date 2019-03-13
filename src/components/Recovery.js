@@ -5,6 +5,7 @@ import {Button, Body, Form } from 'native-base';
 import {styles, dP} from '../../utils/style/styles';
 import LogoTitle from '../elements/LogoTitle';
 import { TextField } from 'react-native-materialui-textfield';
+import NavBack from '../elements/NavBack';
 
 export default class Recovery extends Screen {
   constructor(props) {
@@ -14,6 +15,7 @@ export default class Recovery extends Screen {
   }
 
   static navigationOptions = {
+    headerBackImage: <NavBack />,
     headerBackTitle: null,
     headerTitle: navigation  =>  <LogoTitle title='Сброс пароля' />,
     headerStyle: styles.baseHeader,

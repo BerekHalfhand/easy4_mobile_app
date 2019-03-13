@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Container } from 'native-base';
 import {styles, dP} from '../../utils/style/styles';
+import NavBack from '../elements/NavBack';
 
 class LogoTitle extends React.Component {
   render() {
@@ -19,9 +20,9 @@ export default class Quotas extends React.Component{
     this.state = {};
   }
     static navigationOptions = {
-      title: 'Квоты',
+      headerBackImage: <NavBack />,
       headerBackTitle: null,
-      headerTitle: <LogoTitle />,
+      headerTitle: <LogoTitle title='Квоты' />,
 
       headerStyle: styles.baseHeader,
       headerTintColor: '#fff',

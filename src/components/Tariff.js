@@ -3,6 +3,7 @@ import { View, Text, Switch } from 'react-native';
 import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
 import {styles} from '../../utils/style/styles';
 import StandardFooter from '../elements/Footer';
+import NavBack from '../elements/NavBack';
 
 class LogoTitle extends React.Component {
   render() {
@@ -56,6 +57,7 @@ export default class Tariff extends React.Component{
   }
 
   static navigationOptions = {
+    headerBackImage: <NavBack />,
     headerBackTitle: null,
     headerTitle: navigation  =>  <LogoTitle title='Тариф' />,
     headerStyle: styles.baseHeader,

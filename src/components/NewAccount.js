@@ -9,6 +9,7 @@ import LogoTitle from '../elements/LogoTitle';
 // import StandardFooter from '../elements/Footer';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { TextField } from 'react-native-materialui-textfield';
+import NavBack from '../elements/NavBack';
 
 export default class Login extends Screen {
   constructor(props) {
@@ -22,6 +23,7 @@ export default class Login extends Screen {
   }
 
     static navigationOptions = {
+      headerBackImage: <NavBack />,
       headerBackTitle: null,
       headerTitle: navigation  =>  <LogoTitle title='Регистрация' />,
       headerStyle: styles.baseHeader,
