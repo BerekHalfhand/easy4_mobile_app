@@ -30,7 +30,7 @@ export default class Main extends Screen{
     autoBind(this);
     this.state = {
       clicked:'',
-      phone: props.phone || null,
+      phone: props.phone || '+7(123)456 78 98',
       balance: props.balance || 0,
       fake: {
         name: 'Константин Константинович',
@@ -57,8 +57,9 @@ export default class Main extends Screen{
       };
     }
 
-    handleClickIncrease(idx, phone){
-      console.log('траница:', idx);
+    onPressIncrease(idx, phone){
+      // console.log('Страница:', idx);
+      // console.log('phone:', phone);
       switch (idx) {
       case 0:
         this.props.navigation.navigate('IncreaseBalance', {phone: phone});
@@ -122,7 +123,7 @@ export default class Main extends Screen{
                           },
                           buttonIndex => {
                             this.setState({ clicked: BUTTONS[buttonIndex] });
-                            this.handleClickIncrease(buttonIndex, this.state.phone);
+                            this.onPressIncrease(buttonIndex, this.state.phone);
                           }
                         )}
                     >
