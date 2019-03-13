@@ -13,28 +13,16 @@ import ClientMainInfo from '../elements/ClientMainInfo';
 import LogoTitle from '../elements/LogoTitle';
 import autoBind from 'react-autobind';
 
-// class LogoTitle extends React.Component {
-//     render() {
-//       return (
-//         <View style={{ backgroundColor:'#004d99' }}>
-//             <Text style={{color:'#FFFFFF', textAlign:'center', fontSize:20}}>+7(123)333 4455</Text>
-//             <Text style={{color:'#FFFFFF', textAlign:'center', fontSize:13}}>Константинов Константин</Text>
-//         </View>
-//       );
-//     }
-//   }
-
 export default class Main extends Screen{
   constructor(props){
     super(props);
     autoBind(this);
     this.state = {
       clicked:'',
-      phone: props.phone || '+7(123)456 78 98',
+      phone: props.navigation.state.params.phone || null,
+      name: props.navigation.state.params.name || null,
       balance: props.balance || 0,
       fake: {
-        name: 'Константин Константинович',
-        phone: '+7(123)456 78 98',
         numbers: {
           '+7(123)456 78 98': 10200.03,
           '+7(234)456 78 99': 366,
@@ -43,7 +31,11 @@ export default class Main extends Screen{
         props: props
       }
     };
-    this.props.navigation.setParams({ title: this.state.fake.phone, name: this.state.fake.name });
+
+    this.props.navigation.setParams({
+      title: this.state.phone || this.state.fake.phone,
+      name: this.state.name || this.state.fake.name
+    });
 
   }
 
@@ -51,15 +43,13 @@ export default class Main extends Screen{
       const { state: { params = {} } } = navigation;
       return {
         headerBackTitle: null,
-        headerTitle: navigation  =>  <LogoTitle title={params.title || ''} subTitle={params.name || ''} />,
+        headerTitle: navigation  =>  <LogoTitle title={params.phone || ''} subTitle={params.name || ''} />,
         headerStyle: styles.baseHeader,
         headerTintColor: '#fff',
       };
     }
 
     onPressIncrease(idx, phone){
-      // console.log('Страница:', idx);
-      // console.log('phone:', phone);
       switch (idx) {
       case 0:
         this.props.navigation.navigate('IncreaseBalance', {phone: phone});
@@ -83,7 +73,7 @@ export default class Main extends Screen{
             phone: phone,
             balance: this.state.fake.numbers[phone],
           });
-          this.props.navigation.setParams({ title: phone });
+          this.props.navigation.setParams({ phone: phone });
         }
       );
     }
@@ -103,7 +93,7 @@ export default class Main extends Screen{
               style={{width: '100%', zIndex:-3, position:'absolute'}}
               source={require('../../assets/image/bitmap.png')}
             />
-            <Content style={{ width: '100%', padding:24, marginTop:30}}>
+            <Content style={{ width: '100%', padding:24}}>
 
               <View style={{flex: 1, flexDirection: 'row'}}>
                 <View style={{width:'60%'}}>
@@ -127,8 +117,8 @@ export default class Main extends Screen{
                           }
                         )}
                     >
-                      <Text style={{fontFamily:'SFCT_Semibold', fontSize:16, letterSpacing: 0.25, color:'rgb(0, 94, 186)'}}>
-                Пополнить
+                      <Text style={{fontFamily:'SFCT_Semibold', fontSize:12, letterSpacing: 0.25, color:'rgb(0, 94, 186)'}}>
+                        Пополнить
                       </Text>
                     </Button>
                   </View>
@@ -149,7 +139,7 @@ export default class Main extends Screen{
                     </View>
                     <View>
                       <Text onPress={this.onPressNumbers} style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-                  номеров на аккауне
+                        номеров на аккауне
                       </Text>
                     </View>
                     <View>
@@ -168,7 +158,7 @@ export default class Main extends Screen{
               {/* *** */}
 
               {/* List Options */}
-              <View style={{marginLeft:-14}}>
+              <View style={{marginLeft:-14, marginBottom: 30}}>
                 <ListItem icon style={{height:56}}
                   onPress={() => this.props.navigation.navigate('Tariff')}
                 >

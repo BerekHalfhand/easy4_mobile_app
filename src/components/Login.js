@@ -17,10 +17,6 @@ export default class Login extends Screen {
       error: false,
       login: '',
       password: '',
-      fake: {
-        masterPhone: '+7 (999) 111 22 33',
-        name: 'Константин Константинович'
-      },
       compatible: false,
       fontLoaded: false,
     };
@@ -48,37 +44,38 @@ export default class Login extends Screen {
 
   formSubmit(){
     console.log('form submit');
-    fetch('http://192.168.3.101:8080/auth/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login: this.state.login,
-        password: this.state.password
-      }),
-    })
-      .then(response => {
-        response.json();
-        console.log('response:',response);
-      })
-      // .then(data =>
-      //     this.setState({
-      //     accessToken:data.accessToken,
-      //     refreshToken:data.refreshToken
-      // })
-      .then(data => {
-        AsyncStorage.setItem(
-          'accessToken',data.accessToken
-        );
-        AsyncStorage.setItem(
-          'refreshToken',data.refreshToken
-        );
+    this.props.navigation.navigate('Main', {name: 'Константин Константинович', phone: '+7(123)456 78 98'});
+    // fetch('http://192.168.3.101:8080/auth/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     login: this.state.login,
+    //     password: this.state.password
+    //   }),
+    // })
+    //   .then(response => {
+    //     response.json();
+    //     console.log('response:',response);
+    //   })
+    //   // .then(data =>
+    //   //     this.setState({
+    //   //     accessToken:data.accessToken,
+    //   //     refreshToken:data.refreshToken
+    //   // })
+    //   .then(data => {
+    //     AsyncStorage.setItem(
+    //       'accessToken',data.accessToken
+    //     );
+    //     AsyncStorage.setItem(
+    //       'refreshToken',data.refreshToken
+    //     );
+    //
+    //   }
 
-      }
-
-      );
+    // );
 
     //TODO  to finish registration and login, sae data in storage
   }
@@ -119,8 +116,8 @@ export default class Login extends Screen {
           <Body style={{margin: 24}}>
             <Button full rounded
               style={styles.buttonPrimary}
-              // onPress={() => this.formSubmit()}
-              onPress={() => this.props.navigation.navigate('Main')}
+              onPress={() => this.formSubmit()}
+              // onPress={() => this.props.navigation.navigate('Main')}
             >
               <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
                 Войти
