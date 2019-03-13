@@ -30,6 +30,9 @@ export const styles = StyleSheet.create({
   },
   baseHeader:{
     backgroundColor: dP.color.primary,
+    elevation: 0,
+    shadowOpacity: 0,
+    borderBottomWidth: 0,
   },
   pageTitle: {
     // marginBottom: 10,

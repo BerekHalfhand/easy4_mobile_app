@@ -25,19 +25,10 @@ export default class Login extends Screen {
   }
 
     static navigationOptions = {
-      title: 'Назад',
-      headerTitle: navigation  =>  <LogoTitle
-        titleSize={20}
-        subTitleSize={13}
-        title='Вход'
-      />,
-
-      headerStyle: {
-        backgroundColor:'#004d99',
-        elevation: 0,
-      },
+      headerBackTitle: null,
+      headerTitle: navigation  =>  <LogoTitle title='Вход' />,
+      headerStyle: styles.baseHeader,
       headerTintColor: '#fff',
-
     };
 
     componentDidMount() {
