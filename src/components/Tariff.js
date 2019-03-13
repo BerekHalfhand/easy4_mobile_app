@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Switch } from 'react-native';
 import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
 import {styles} from '../../utils/style/styles';
+import StandardFooter from '../elements/Footer';
 
 class LogoTitle extends React.Component {
   render() {
@@ -53,81 +54,83 @@ export default class Tariff extends React.Component{
       }
     };
   }
-    static navigationOptions = {
-      headerTitle: <LogoTitle title='Тариф' />,
-      headerStyle: styles.baseHeader,
-    };
 
-    listItems(list){
-      return(
-        list.map(item => {
-          `
-                <ListItem >
-                    <Left>
-                      <Button style={{ backgroundColor: "#FF9501" }}>
-                        <Icon active name="airplane" />
-                      </Button>
-                    </Left>
-                    <Body>
-                      <Text>{ item.name }</Text>
-                    </Body>
-                    <Right>
-                      <Switch value={false} />
-                    </Right>
-                  </ListItem>
-                `;
-        })
-      );
-    }
-    handleSwitch(idx){
-      tariffServicesList = this.state.fake.tariffServicesList;
-      tariffServicesList[idx].onOff = !tariffServicesList[idx].onOff;
-      this.setState({
-        tariffServicesList
-      });
-    }
+  static navigationOptions = {
+    headerBackTitle: null,
+    headerTitle: navigation  =>  <LogoTitle title='Тариф' />,
+    headerStyle: styles.baseHeader,
+    headerTintColor: '#fff',
+  };
 
-    render(){
-      console.log('tariffServicesList:', this.state.fake.tariffServicesList);
-      const listItem = this.state.fake.tariffServicesList;
-      return(
-        <Container style={{backgroundColor:'#004d99'}}>
-          <Content padder>
-            <View style={{marginTop:32}}>
-              <Text style={{color:'#FFFFFF', fontSize: 24}}>{ this.state.fake.tariffName }</Text>
-            </View>
-            <View style={{marginTop:8}}>
-              <Text style={{color:'#FFFFFF', fontSize: 14}}>{ this.state.fake.tariffDescription }</Text>
-            </View>
-            <View style={{marginTop:32}}>
-              <Text style={{color:'#FFFFFF', fontSize: 20}}>{ this.state.fake.tariffServicesTitle }</Text>
-            </View>
-            <View>
-              {
-                listItem.map(
-                  (item, idx) => {
-                    return (
-                      <ListItem key={idx}>
+  listItems(list){
+    return(
+      list.map(item => {
+        `
+          <ListItem >
+            <Left>
+              <Button style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="airplane" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>{ item.name }</Text>
+            </Body>
+            <Right>
+              <Switch value={false} />
+            </Right>
+          </ListItem>
+        `;
+      })
+    );
+  }
+  handleSwitch(idx){
+    let tariffServicesList = this.state.fake.tariffServicesList;
+    tariffServicesList[idx].onOff = !tariffServicesList[idx].onOff;
+    this.setState({
+      tariffServicesList
+    });
+  }
 
-                        <Body>
-                          <Text style={{color:'#FFFFFF', fontSize: 16}}>{ item.name }</Text>
-                          <Text style={{color:'#B8CDE2', fontSize: 13}}>{ item.description }</Text>
-                        </Body>
-                        <Right>
-                          <Switch value={item.onOff}
-                            onTintColor='#FED657'
-                            onValueChange={()=> this.handleSwitch(idx)  }
-                          />
-                        </Right>
-                      </ListItem>
-                    );
-                  }
-                )
-              }
-            </View>
-          </Content>
+  render(){
+    console.log('tariffServicesList:', this.state.fake.tariffServicesList);
+    const listItem = this.state.fake.tariffServicesList;
+    return(
+      <Container style={{backgroundColor:'#004d99'}}>
+        <Content padder>
+          <View style={{marginTop:32}}>
+            <Text style={{color:'#FFFFFF', fontSize: 24}}>{ this.state.fake.tariffName }</Text>
+          </View>
+          <View style={{marginTop:8}}>
+            <Text style={{color:'#FFFFFF', fontSize: 14}}>{ this.state.fake.tariffDescription }</Text>
+          </View>
+          <View style={{marginTop:32}}>
+            <Text style={{color:'#FFFFFF', fontSize: 20}}>{ this.state.fake.tariffServicesTitle }</Text>
+          </View>
+          <View>
+            {
+              listItem.map(
+                (item, idx) => {
+                  return (
+                    <ListItem key={idx}>
 
-        </Container>
-      );
-    }
+                      <Body>
+                        <Text style={{color:'#FFFFFF', fontSize: 16}}>{ item.name }</Text>
+                        <Text style={{color:'#B8CDE2', fontSize: 13}}>{ item.description }</Text>
+                      </Body>
+                      <Right>
+                        <Switch value={item.onOff}
+                          onValueChange={()=> this.handleSwitch(idx)  }
+                        />
+                      </Right>
+                    </ListItem>
+                  );
+                }
+              )
+            }
+          </View>
+        </Content>
+        <StandardFooter />
+      </Container>
+    );
+  }
 }
