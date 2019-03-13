@@ -16,6 +16,7 @@ import {
 } from 'native-base';
 import LogoTitle from '../elements/LogoTitle';
 import StandardFooter from '../elements/Footer';
+import {styles} from '../../utils/style/styles';
 
 
 // class LogoTitle extends React.Component {
@@ -43,17 +44,13 @@ export default class IncreaseBalance extends React.Component{
   }
 
     static navigationOptions = {
-      title: 'Главная',
+      headerBackTitle: null,
       headerTitle: navigation  =>  <LogoTitle
         titleSize={24}
         title='Пополнение баланса'
       />,
-
-      headerStyle: {
-        backgroundColor:'#004d99',
-      },
+      headerStyle: styles.baseHeader,
       headerTintColor: '#fff',
-
     };
 
     handleClickPhoneSelect(idx){

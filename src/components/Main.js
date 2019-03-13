@@ -43,19 +43,10 @@ export default class Main extends Screen{
   }
 
     static navigationOptions = {
-      title: 'Главная',
-      headerTitle: navigation  =>  <LogoTitle
-        titleSize={20}
-        subTitleSize={13}
-        title='+7(123)456 78 98'
-        subTitle='Константин Константинович'
-      />,
-
-      headerStyle: {
-        backgroundColor:'#004d99',
-      },
+      headerBackTitle: null,
+      headerTitle: navigation  =>  <LogoTitle title='+7(123)456 78 98' subTitle='Константин Константинович' />,
+      headerStyle: styles.baseHeader,
       headerTintColor: '#fff',
-
     };
 
     handleClickIncrease(idx, phone){

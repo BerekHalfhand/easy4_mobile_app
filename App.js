@@ -40,6 +40,7 @@ const Routes = createStackNavigator({
 
 }, {
   headerLayoutPreset: 'center',
+  headerBackTitle: null,
 });
 
 

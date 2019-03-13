@@ -49,6 +49,7 @@ export default class Home extends Screen {
 
     static navigationOptions = {
       header: null,
+      headerBackTitle: null,
     };
 
     onPressLogin() {

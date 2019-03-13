@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Switch } from 'react-native';
 import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
+import {styles} from '../../utils/style/styles';
 
 class LogoTitle extends React.Component {
   render() {
@@ -53,14 +54,8 @@ export default class Tariff extends React.Component{
     };
   }
     static navigationOptions = {
-      title: 'Тариф',
-      headerTitle: <LogoTitle />,
-
-      headerStyle: {
-        backgroundColor:'#004d99',
-      },
-      headerTintColor: '#fff',
-
+      headerTitle: <LogoTitle title='Тариф' />,
+      headerStyle: styles.baseHeader,
     };
 
     listItems(list){
