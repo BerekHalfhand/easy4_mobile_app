@@ -35,8 +35,9 @@ import {styles} from '../../utils/style/styles';
 export default class IncreaseBalance extends React.Component{
   constructor(props){
     super(props);
+    const phone = props.navigation.state.params.phone;
     this.state = {
-      phone: '+7(699)321 4578',
+      phone: phone || '',
       amount: '500.02',
       card: '9999999999999999',
       webpay: true
@@ -45,10 +46,7 @@ export default class IncreaseBalance extends React.Component{
 
     static navigationOptions = {
       headerBackTitle: null,
-      headerTitle: navigation  =>  <LogoTitle
-        titleSize={24}
-        title='Пополнение баланса'
-      />,
+      headerTitle: navigation  =>  <LogoTitle title='Пополнение баланса' />,
       headerStyle: styles.baseHeader,
       headerTintColor: '#fff',
     };
