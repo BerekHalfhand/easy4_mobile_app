@@ -19,16 +19,12 @@ export default class Main extends Screen{
     super(props);
     autoBind(this);
     this.state = {
+      phone: '',
+      phones: new Set(),
+      firstName: '',
+      lastName: '',
       clicked:'',
-      balance: props.balance || 0,
-      fake: {
-        numbers: {
-          '+7(123)456 78 98': 10200.03,
-          '+7(234)456 78 99': 366,
-          '+7(345)456 78 00': 123,
-        },
-        props: props
-      }
+      balance: 0,
     };
 
   }
@@ -53,7 +49,7 @@ export default class Main extends Screen{
     this.setState({token: token});
     console.log('token', token);
 
-    fetch('https://mp.api.easy4.pro/user/info', {
+    let userData = fetch('https://mp.api.easy4.pro/user/info', {
       headers: {
         Accept: 'application/json',
         Authorization: 'Bearer ' + token,
@@ -61,7 +57,7 @@ export default class Main extends Screen{
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        console.log('userData:', data);
 
         if (!data._id)
           throw data.msg;
@@ -70,8 +66,57 @@ export default class Main extends Screen{
           phone: data.phone,
           name: data.firstName + ' ' + data.lastName,
         });
+
+        this.setState({
+          phone: data.phone,
+          firstName: data.firstName,
+          lastName: data.lastName,
+        });
       })
-      .catch(e => Alert.alert('Data Fetching Error', e));
+      .catch(e => Alert.alert('Data Fetching Error', e.toString()));
+
+    let userPhones = fetch('https://mp.api.easy4.pro/external/msisdns', {
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('userPhones:', data);
+
+        if (!data.items)
+          throw data.msg;
+
+        this.setState({
+          phones: new Set(data.items.map(a => a.msisdn))
+        });
+      })
+      .catch(e => Alert.alert('MSISDNS Fetching Error', e.toString()));
+  };
+
+  getBalance = async (phone) => {
+    console.log('getBalance:', phone);
+    fetch('https://mp.api.easy4.pro/test/balance/' + phone, {
+      headers: {
+        Accept: 'application/json',
+        // Authorization: 'Bearer ' + this.state.token,
+      },
+    })
+      // .then(response => console.log(response))
+      .then(response => response.json())
+      .then(data => {
+        console.log('getBalance:', data);
+
+        if (typeof data.balance !== 'number')
+          throw data.msg;
+
+        this.setState({
+          balance: data.balance,
+        });
+        console.log('setting balance to:', this.state.balance);
+      })
+      .catch(e => Alert.alert('Balance Fetching Error', e.toString()));
   }
 
   onPressIncrease(idx, phone){
@@ -86,23 +131,54 @@ export default class Main extends Screen{
   }
 
   onPressNumbers() {
+    let phones = Array.from(this.state.phones);
     ActionSheet.show(
       {
-        options: Object.keys(this.state.fake.numbers).concat(['Отмена']),
-        cancelButtonIndex: this.state.fake.numbers.length,
+        options: phones.concat(['Отмена']),
+        cancelButtonIndex: phones.length,
         title: 'Основной номер'
       },
       buttonIndex => {
-        let phone = Object.keys(this.state.fake.numbers)[buttonIndex];
+        if (buttonIndex == phones.length) //Отмена
+          return false;
+
+        let phone = phones[buttonIndex];
+        this.getBalance(phone);
+
         this.setState({
           phone: phone,
-          balance: this.state.fake.numbers[phone],
+          // balance: phones[phone],
         });
         this.props.navigation.setParams({ phone: phone });
       }
     );
   }
 
+  renderMSISDNS() {
+    if (this.state.phones.size > 0) {
+      return (
+        <Button full transparent rounded
+          style={styles.buttonPrimaryInverse}
+          onPress={this.onPressNumbers}
+        >
+          <View >
+            <Text style={{fontFamily:'SFCT_Regular', fontSize:13, color:'#FFFFFF', lineHeight:24}}>
+              {this.state.phones.size}
+            </Text>
+          </View>
+          <View>
+            <Text onPress={this.onPressNumbers} style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
+              номеров на аккауне
+            </Text>
+          </View>
+          <View>
+            <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, marginLeft:8}}/>
+          </View>
+
+        </Button>
+      );
+    }
+  }
 
   render() {
     const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
@@ -143,7 +219,7 @@ export default class Main extends Screen{
                       )}
                   >
                     <Text style={{fontFamily:'SFCT_Semibold', fontSize:12, letterSpacing: 0.25, color:'rgb(0, 94, 186)'}}>
-                        Пополнить
+                      Пополнить
                     </Text>
                   </Button>
                 </View>
@@ -153,28 +229,10 @@ export default class Main extends Screen{
             {/* Count Client MSISDN */}
             <View style={{marginBottom:50}}>
               <View style={{flex: 1, flexDirection: 'row', marginTop:40, height:24}}>
-                <Button full transparent rounded
-                  style={styles.buttonPrimaryInverse}
-                  onPress={this.onPressNumbers}
-                >
-                  <View >
-                    <Text style={{fontFamily:'SFCT_Regular', fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-                      {Object.keys(this.state.fake.numbers).length}
-                    </Text>
-                  </View>
-                  <View>
-                    <Text onPress={this.onPressNumbers} style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-                        номеров на аккауне
-                    </Text>
-                  </View>
-                  <View>
-                    <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, marginLeft:8}}/>
-                  </View>
-
-                </Button>
+                {this.renderMSISDNS()}
               </View>
             </View>
-            {/* *** */}
+
 
             {/* Info Block */}
 

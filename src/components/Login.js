@@ -77,7 +77,7 @@ export default class Login extends Screen {
         console.log('saved response, redirect');
         this.props.navigation.navigate('Main');
       })
-      .catch(e => Alert.alert('Authentication error', e));
+      .catch(e => Alert.alert('Authentication error', e.toString()));
 
     //TODO  to finish registration and login, sae data in storage
   }

@@ -11,7 +11,6 @@ export default class ClientMainBalance extends React.Component{
     super(props);
     this.state = {
       fake: {
-        balance: '10200.03',
         date: '28 сентября'
       }
     };
@@ -20,14 +19,13 @@ export default class ClientMainBalance extends React.Component{
     const { width, height } = Dimensions.get('window');
     const guidelineBaseWidth = 420;
     const scale =  width / guidelineBaseWidth;
-    // console.log('white:', width);
 
     return(
       <View>
         <View style={{flex: 1, flexDirection: 'row', fontSize:16}}>
           <View >
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>
-                            Баланс на
+              Баланс на
             </Text>
           </View>
           <View>
@@ -37,7 +35,7 @@ export default class ClientMainBalance extends React.Component{
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems:'flex-end'}}>
           <View style={{}}>
             <Text style={{fontFamily:'SFCT_Light', fontSize:(46*scale), marginRight:10, marginTop:10, color:'#FFFFFF', letterSpacing:-2.5}}>
-              {this.props.balance || this.state.fake.balance}
+              {this.props.balance}
             </Text>
           </View>
           <View>
