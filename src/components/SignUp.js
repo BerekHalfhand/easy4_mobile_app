@@ -11,14 +11,20 @@ import PasswordInputText from 'react-native-hide-show-password-input';
 import { TextField } from 'react-native-materialui-textfield';
 import NavBack from '../elements/NavBack';
 
-export default class Login extends Screen {
+export default class SignUp extends Screen {
   constructor(props) {
     super(props);
     this.state = {
       error: false,
       compatible: false,
       fontLoaded: false,
-      registration: false
+      registration: false,
+      firstName: 'Jon',
+      secondName: 'Nedson',
+      lastName: 'Snow',
+      email: 'test@test.com',
+      phone: '+666',
+      password: 'qwerty'
     };
   }
 
@@ -41,7 +47,7 @@ export default class Login extends Screen {
 
     formSubmit(){
       console.log('form submit');
-      fetch('http://192.168.3.101:8081/users', {
+      fetch('https://mp.api.easy4.pro/users', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -56,9 +62,11 @@ export default class Login extends Screen {
           password: this.state.password
         }),
       })
-        .then(res => {
-          this.setState({registration: true});
-          console.log('res:', res);
+        .then(response => console.log(response))
+        .then(response => response.json())
+        .then(data => {
+          // this.setState({registration: true});
+          console.log('data:', data);
           console.log('registraton:', this.state);
         });
     }

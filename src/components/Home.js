@@ -56,7 +56,7 @@ export default class Home extends Screen {
 
     onPressSignUp() {
       if (this.state.offerAccepted === true)
-        this.props.navigation.navigate('NewAccount');
+        this.props.navigation.navigate('SignUp');
       else
         Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
     }
