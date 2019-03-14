@@ -11,7 +11,7 @@ import Login from './src/components/Login';
 import Main from './src/components/Main';
 import Tariff from './src/components/Tariff';
 import IncreaseBalance from './src/components/IncreaseBalance';
-import NewAccount from './src/components/NewAccount';
+import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
 
 // const store = createStore(reducer);
@@ -32,8 +32,8 @@ const Routes = createStackNavigator({
   IncreaseBalance: {
     screen: IncreaseBalance
   },
-  NewAccount: {
-    screen: NewAccount
+  SignUp: {
+    screen: SignUp
   },
   Recovery: {
     screen: Recovery
