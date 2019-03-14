@@ -4,9 +4,7 @@ import Screen from './Screen';
 import {Button, Container, Content, Body, Form, Input, IconNB, TouchableOpacity } from 'native-base';
 import {styles, dP} from '../../utils/style/styles';
 import LogoTitle from '../elements/LogoTitle';
-import StandardFooter from '../elements/Footer';
-import PasswordInputText from 'react-native-hide-show-password-input';
-import { TextField } from 'react-native-materialui-textfield';
+import InputWithIcon from '../elements/InputWithIcon';
 import NavBack from '../elements/NavBack';
 import autoBind from 'react-autobind';
 
@@ -33,12 +31,28 @@ export default class Login extends Screen {
   };
 
   componentDidMount() {
-    // this.checkDeviceForHardware();
+    this.fetchAuthData();
   }
 
 
-  static fetchAuthData(){
-    return true;
+  fetchAuthData = async () => {
+    // try {
+    //   const accT = await AsyncStorage.getItem('accessToken');
+    //   if (accT) {
+    //     fetch('https://mp.api.easy4.pro/auth/tokens/check/'+accT, {
+    //       method: 'GET',
+    //     })
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         console.log('data:',data);
+    //
+    //         if (data.login)
+    //           this.props.navigation.navigate('Main');
+    //       });
+    //   }
+    // } catch (e) {
+    //   console.log('error', e);
+    // }
   }
 
   onPressRecovery() {
@@ -96,20 +110,18 @@ export default class Login extends Screen {
 
           <Form>
 
-            <TextField
-              label="Телефон или электронная почта"
-              textColor={'#FFFFFF'}
-              baseColor={'#ABABAB'}
-              tintColor={'#FED657'}
-              textContentType="username"
+            <InputWithIcon
+              label='Телефон или электронная почта'
+              icon='person-outline'
+              textContentType='username'
               onChangeText={(login) => this.setState({login})}
               value={this.state.login}
             />
-            <PasswordInputText
-              textColor={'#FFFFFF'}
-              baseColor={'#ABABAB'}
-              tintColor={'#FED657'}
-              iconColor={'#FED657'}
+            <InputWithIcon
+              label='Пароль'
+              icon='visibility-off'
+              altIcon='visibility'
+              isPassword={true}
               value={this.state.password}
               onChangeText={ (password) => this.setState({ password }) }
             />

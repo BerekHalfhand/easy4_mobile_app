@@ -4,7 +4,7 @@ import { Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-nati
 import {Button, Body, Form } from 'native-base';
 import {styles, dP} from '../../utils/style/styles';
 import LogoTitle from '../elements/LogoTitle';
-import { TextField } from 'react-native-materialui-textfield';
+import InputWithIcon from '../elements/InputWithIcon';
 import NavBack from '../elements/NavBack';
 
 export default class Recovery extends Screen {
@@ -51,7 +51,7 @@ export default class Recovery extends Screen {
   }
 
   render() {
-    console.log('state: ', this.state);
+    // console.log('state: ', this.state);
     return (
       <ScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
@@ -61,12 +61,9 @@ export default class Recovery extends Screen {
           behavior = "padding" >
 
           <Form>
-            <TextField
+            <InputWithIcon
               label="Телефон или электронная почта"
-              textColor={'#FFFFFF'}
-              baseColor={'#ABABAB'}
-              tintColor={'#FED657'}
-              textContentType="username"
+              textContentType='username'
               onChangeText={(login) => this.setState({login})}
               value={this.state.login}
             />

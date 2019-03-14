@@ -75,39 +75,6 @@ export default class Home extends Screen {
       else                          this.setState({offerAccepted: false});
     };
 
-    // componentDidMount() {
-    //   async () => {
-    //     try {
-    //          const accT = await AsyncStorage.getItem('accessToken');
-    //          if (accT){
-    //              fetch('http://192.168.3.101:8080/auth/token/check/'+accT, {
-    //                  method: 'GET',
-    //              })
-    //                  .then(response => {
-    //                      response.json();
-    //                      console.log('response:',response);
-    //                  })
-    //                  .then(data => {
-    //                          AsyncStorage.setItem(
-    //                              'login',data.login
-    //                          );
-    //                          AsyncStorage.setItem(
-    //                              '_id',data._id
-    //                          );
-    //
-    //                      }
-    //
-    //                  );
-    //          } else {
-    //
-    //          }
-    //
-    //     } catch (e) {
-    //       console.log('error', e);
-    //     }
-    //   };
-    // }
-
     renderOfferCheckbox() {
       if (this.state.offerAccepted !== null) {
         return (

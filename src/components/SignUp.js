@@ -1,14 +1,11 @@
 import React from 'react';
 import {Alert, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
 import Screen from './Screen';
-import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, Input, IconNB, TouchableOpacity } from 'native-base';
+import {Button, Body, Form } from 'native-base';
 // import FingerPrint from './touchid';
-import Expo, { Constants } from 'expo';
 import {styles, dP} from '../../utils/style/styles';
 import LogoTitle from '../elements/LogoTitle';
-// import StandardFooter from '../elements/Footer';
-import PasswordInputText from 'react-native-hide-show-password-input';
-import { TextField } from 'react-native-materialui-textfield';
+import InputWithIcon from '../elements/InputWithIcon';
 import NavBack from '../elements/NavBack';
 
 export default class SignUp extends Screen {
@@ -90,53 +87,41 @@ export default class SignUp extends Screen {
             behavior = "padding" >
 
             <Form>
-              <TextField
-                label="Имя"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
+
+              <InputWithIcon
+                label='Имя'
                 onChangeText={(firstName) => this.setState({firstName})}
                 value={this.state.firstName}
               />
-              <TextField
-                label="Отчество"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
+              <InputWithIcon
+                label='Отчество'
                 onChangeText={(secondName) => this.setState({secondName})}
                 value={this.state.secondName}
               />
-              <TextField
-                label="Фамилия"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
+              <InputWithIcon
+                label='Фамилия'
                 onChangeText={(lastName) => this.setState({lastName})}
                 value={this.state.lastName}
               />
-              <TextField
-                label="Электронная почта"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
-                textContentType="emailAddress"
-                keyboardType="email-address"
+              <InputWithIcon
+                label='Электронная почта'
+                textContentType='emailAddress'
+                keyboardType='email-address'
                 onChangeText={(email) => this.setState({email})}
                 value={this.state.email}
               />
-              <TextField
-                label="Номер телефона"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
+              <InputWithIcon
+                label='Номер телефона'
+                keyboardType='phone-pad'
                 onChangeText={(phone) => this.setState({phone})}
                 value={this.state.phone}
               />
-              <PasswordInputText
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
-                iconColor={'#FED657'}
+
+              <InputWithIcon
+                label='Пароль'
+                icon='visibility-off'
+                altIcon='visibility'
+                isPassword={true}
                 value={this.state.password}
                 onChangeText={ (password) => this.setState({ password }) }
               />
