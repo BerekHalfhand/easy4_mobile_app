@@ -7,6 +7,7 @@ import LogoTitle from '../elements/LogoTitle';
 import StandardFooter from '../elements/Footer';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { TextField } from 'react-native-materialui-textfield';
+import NavBack from '../elements/NavBack';
 import autoBind from 'react-autobind';
 
 export default class Login extends Screen {
@@ -23,6 +24,8 @@ export default class Login extends Screen {
   }
 
   static navigationOptions = {
+    // TODO: make a proper inheritance from Screen
+    headerBackImage: <NavBack />,
     headerBackTitle: null,
     headerTitle: navigation  =>  <LogoTitle title='Вход' />,
     headerStyle: styles.baseHeader,
@@ -116,7 +119,7 @@ export default class Login extends Screen {
           <Body style={{margin: 24}}>
             <Button full rounded
               style={styles.buttonPrimary}
-              onPress={() => this.formSubmit()}
+              onPress={this.formSubmit}
               // onPress={() => this.props.navigation.navigate('Main')}
             >
               <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
@@ -124,6 +127,7 @@ export default class Login extends Screen {
               </Text>
             </Button>
           </Body>
+
           <Body style={{margin: 24}}>
             <Button full transparent rounded
               style={styles.buttonPrimaryInverse}

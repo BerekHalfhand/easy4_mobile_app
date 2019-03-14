@@ -15,6 +15,7 @@ import {
   ActionSheet
 } from 'native-base';
 import LogoTitle from '../elements/LogoTitle';
+import NavBack from '../elements/NavBack';
 import StandardFooter from '../elements/Footer';
 import {styles} from '../../utils/style/styles';
 
@@ -45,6 +46,7 @@ export default class IncreaseBalance extends React.Component{
   }
 
     static navigationOptions = {
+      headerBackImage: <NavBack />,
       headerBackTitle: null,
       headerTitle: navigation  =>  <LogoTitle title='Пополнение баланса' />,
       headerStyle: styles.baseHeader,

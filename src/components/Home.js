@@ -1,11 +1,5 @@
 import React from 'react';
-// import {Text, Image,
-//     // StatusBar,
-//     View
-// } from 'react-native';
-import {Icons} from 'react-native-fontawesome';
 import {Font, AppLoading} from 'expo';
-import LogoTitle from '../elements/LogoTitle';
 
 import {
   Content,
@@ -155,17 +149,18 @@ export default class Home extends Screen {
                   onPress={this.onPressLogin}
                 >
                   <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
-                                Войти
+                    Войти
                   </Text>
                 </Button>
               </Body>
+
               <Body style={{marginTop: 12}}>
                 <Button full transparent rounded
                   style={styles.buttonPrimaryInverse}
                   onPress={this.onPressSignUp}
                 >
                   <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:13}} align='center'>
-                                Создать аккаунт
+                    Создать аккаунт
                   </Text>
 
                 </Button>

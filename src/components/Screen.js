@@ -3,32 +3,9 @@ import {StyleSheet, Platform, View, StatusBar} from 'react-native';
 import {Font} from 'expo';
 import {Root, Text, Body, Container} from 'native-base';
 // import AppFooter from "./Footer";
-import DataContext from './DataContext';
+// import DataContext from './DataContext';
 import {styles, dP} from '../../utils/style/styles';
-
-// const styles = StyleSheet.create({
-//     logo: {
-//         flexDirection: 'row',
-//         alignItems: 'center',
-//         justifyContent: 'center'
-//     },
-//     logoText: {
-//         color: '#fff',
-//         // fontFamily: 'Roboto medium',
-//         fontSize: 16,
-//         marginLeft: 10
-//     },
-//     baseHeader: {
-//         backgroundColor: dP.color.primary,
-//         // marginTop: Platform.OS === 'ios' ? 0 : -30
-//         //height: Constants.statusBarHeight
-//         //paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
-//         //height: 24,
-//     },
-//     pageTitle: {
-//         marginBottom: 10
-//     }
-// });
+import NavBack from '../elements/NavBack';
 
 export default class Screen extends Component {
   constructor(props){
@@ -40,7 +17,7 @@ export default class Screen extends Component {
     static navigationOptions = ({ navigation }) => {
       const resultOptions = {
         headerStyle: styles.baseHeader,
-        headerBackTitleStyle: {color: '#fff'},
+        headerBackImage: <NavBack />,
         headerBackTitle: null,
         headerTintColor: '#fff'
       };
@@ -57,10 +34,14 @@ export default class Screen extends Component {
         'SFCT_Light': require('../../assets/fonts/SFCompactText-Light.ttf'),
 
         'Roboto': require('native-base/Fonts/Roboto.ttf'),
-        'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf')
+        'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+
+        'fa_brands_400': require('../../assets/fonts/fa-brands-400.ttf'),
+        'fa_regular_400': require('../../assets/fonts/fa-regular-400.ttf'),
+        'fa_solid_900': require('../../assets/fonts/fa-solid-900.ttf'),
       })
-        .then( () =>
-          this.setState({ fontLoaded: true })
+        .then(
+          () => this.setState({ fontLoaded: true })
         );
     }
 
