@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Alert, Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
 import Screen from './Screen';
 import {Button, Container, Content, Body, Form, Input, IconNB, TouchableOpacity } from 'native-base';
 import {styles, dP} from '../../utils/style/styles';
@@ -47,38 +47,36 @@ export default class Login extends Screen {
 
   formSubmit(){
     console.log('form submit');
-    this.props.navigation.navigate('Main', {name: 'Константин Константинович', phone: '+7(123)456 78 98'});
-    // fetch('http://192.168.3.101:8080/auth/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     login: this.state.login,
-    //     password: this.state.password
-    //   }),
-    // })
-    //   .then(response => {
-    //     response.json();
-    //     console.log('response:',response);
-    //   })
-    //   // .then(data =>
-    //   //     this.setState({
-    //   //     accessToken:data.accessToken,
-    //   //     refreshToken:data.refreshToken
-    //   // })
-    //   .then(data => {
-    //     AsyncStorage.setItem(
-    //       'accessToken',data.accessToken
-    //     );
-    //     AsyncStorage.setItem(
-    //       'refreshToken',data.refreshToken
-    //     );
-    //
-    //   }
+    fetch('https://mp.api.easy4.pro/auth/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: this.state.login,
+        password: this.state.password
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('data:', data);
 
-    // );
+        if (!data.accessToken)
+          throw data.msg;
+
+        AsyncStorage.setItem(
+          'accessToken', data.accessToken
+        );
+        AsyncStorage.setItem(
+          'refreshToken', data.refreshToken
+        );
+      })
+      .then(data => {
+        console.log('saved response, redirect');
+        this.props.navigation.navigate('Main', {name: 'Константин Константинович', phone: '+7(123)456 78 98'});
+      })
+      .catch(e => Alert.alert('Authentication error', e));
 
     //TODO  to finish registration and login, sae data in storage
   }
