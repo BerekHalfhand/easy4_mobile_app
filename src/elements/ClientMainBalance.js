@@ -20,7 +20,7 @@ export default class ClientMainBalance extends React.Component{
     const { width, height } = Dimensions.get('window');
     const guidelineBaseWidth = 420;
     const scale =  width / guidelineBaseWidth;
-    console.log('white:', width);
+    // console.log('white:', width);
 
     return(
       <View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, Image, View, Text} from 'react-native';
+import {Alert, AsyncStorage, TextInput, Image, View, Text} from 'react-native';
 import Screen from './Screen';
 import {Button, Container, Footer, FooterTab,
   Root,
@@ -20,8 +20,6 @@ export default class Main extends Screen{
     autoBind(this);
     this.state = {
       clicked:'',
-      phone: props.navigation.state.params.phone || null,
-      name: props.navigation.state.params.name || null,
       balance: props.balance || 0,
       fake: {
         numbers: {
@@ -32,11 +30,6 @@ export default class Main extends Screen{
         props: props
       }
     };
-
-    this.props.navigation.setParams({
-      title: this.state.phone || this.state.fake.phone,
-      name: this.state.name || this.state.fake.name
-    });
 
   }
 
@@ -56,14 +49,29 @@ export default class Main extends Screen{
   }
 
   loadData = async () => {
-    console.log('loadData');
-    fetch('https://mp.api.easy4.pro/user/info', { 
+    const token = await AsyncStorage.getItem('accessToken');
+    this.setState({token: token});
+    console.log('token', token);
+
+    fetch('https://mp.api.easy4.pro/user/info', {
       headers: {
         Accept: 'application/json',
+        Authorization: 'Bearer ' + token,
       },
     })
-      // .then(response => response.json())
-      .then(response => console.log(response))
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+
+        if (!data._id)
+          throw data.msg;
+
+        this.props.navigation.setParams({
+          phone: data.phone,
+          name: data.firstName + ' ' + data.lastName,
+        });
+      })
+      .catch(e => Alert.alert('Data Fetching Error', e));
   }
 
   onPressIncrease(idx, phone){
@@ -100,8 +108,8 @@ export default class Main extends Screen{
     const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
     const DESTRUCTIVE_INDEX = 3;
     const CANCEL_INDEX = 2;
-    console.log('state:', this.state);
-    console.log('navigation:', this.props);
+    // console.log('state:', this.state);
+    // console.log('navigation:', this.props);
     return(
       <Root>
         <Container style={{backgroundColor:'#004d99'}}>
