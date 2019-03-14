@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, KeyboardAvoidingView, ScrollView} from 'react-native';
+import {Alert, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
 import Screen from './Screen';
 import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, Input, IconNB, TouchableOpacity } from 'native-base';
 // import FingerPrint from './touchid';
@@ -18,13 +18,13 @@ export default class SignUp extends Screen {
       error: false,
       compatible: false,
       fontLoaded: false,
-      registration: false,
-      firstName: 'Jon',
-      secondName: 'Nedson',
-      lastName: 'Snow',
-      email: 'test@test.com',
-      phone: '+666',
-      password: 'qwerty'
+      // registration: false,
+      firstName: '',//'Jon',
+      secondName: '',//'Nedson',
+      lastName: '',//'Snow',
+      email: '',//'testing@test.com',
+      phone: '',//'+79998774513',
+      password: '',//'qwerty'
     };
   }
 
@@ -62,27 +62,32 @@ export default class SignUp extends Screen {
           password: this.state.password
         }),
       })
-        .then(response => console.log(response))
         .then(response => response.json())
         .then(data => {
           // this.setState({registration: true});
           console.log('data:', data);
-          console.log('registraton:', this.state);
-        });
+
+          if (!data._id)
+            throw data.msg;
+
+        })
+        .then(data => {
+          console.log('redirect to login');
+          this.props.navigation.navigate('Login');
+        })
+        .catch(e => Alert.alert('SignUp error', e));
     }
 
     render(data) {
 
       console.log('state: ', this.state);
-      // if (this.state.fontLoaded) {
       return (
         <ScrollView style={{backgroundColor: dP.color.primary}}
           keyboardShouldPersistTaps='always' >
           <KeyboardAvoidingView
-            keyboardVerticalOffset = {100} // adjust the value here if you need more padding
+            keyboardVerticalOffset = {100}
             style = {{ flex: 1, padding: 24, height: '100%' }}
             behavior = "padding" >
-
 
             <Form>
               <TextField
@@ -136,25 +141,20 @@ export default class SignUp extends Screen {
                 onChangeText={ (password) => this.setState({ password }) }
               />
             </Form>
+
             <Body style={{margin: 24}}>
               <Button full rounded
                 style={styles.buttonPrimary}
-                // onPress={() => ( this.onPressLogin() ? this.props.navigation.navigate('Main') : null )}
                 onPress={() => this.formSubmit()}
               >
                 <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
-                            Создать аккаунт
+                  Создать аккаунт
                 </Text>
               </Button>
             </Body>
+
           </KeyboardAvoidingView>
         </ScrollView>
       );
-      // }
-      // return(
-      //     <Container>
-      //         <Content padder style={{backgroundColor: dP.color.primary}}></Content>
-      //     </Container>
-      // )
     }
 }
