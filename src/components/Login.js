@@ -71,12 +71,13 @@ export default class Login extends Screen {
         AsyncStorage.setItem(
           'refreshToken', data.refreshToken
         );
+
       })
       .then(data => {
         console.log('saved response, redirect');
-        this.props.navigation.navigate('Main', {name: 'Константин Константинович', phone: '+7(123)456 78 98'});
+        this.props.navigation.navigate('Main');
       })
-      .catch(e => Alert.alert('Authentication error', e));
+      .catch(e => Alert.alert('Authentication error', e.toString()));
 
     //TODO  to finish registration and login, sae data in storage
   }
