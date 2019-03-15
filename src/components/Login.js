@@ -63,7 +63,6 @@ export default class Login extends Screen {
   formSubmit(){
     console.log('form submit');
     Api.login(this.state.login, this.state.password)
-      .then(response => response.json())
       .then(data => {
         console.log('data:', data);
 

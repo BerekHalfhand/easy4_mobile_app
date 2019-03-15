@@ -51,7 +51,6 @@ export default class Main extends Screen{
     console.log('token', token);
 
     let userData = Api.userInfo(token)
-      .then(response => response.json())
       .then(data => {
         console.log('userData:', data);
 
@@ -72,7 +71,6 @@ export default class Main extends Screen{
       .catch(e => Alert.alert('Data Fetching Error', e.toString()));
 
     let userPhones = Api.msisdns(token)
-      .then(response => response.json())
       .then(data => {
         console.log('userPhones:', data);
 

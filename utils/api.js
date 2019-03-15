@@ -16,7 +16,7 @@ export default class Api {
         login: login,
         password: password
       }),
-    });
+    }).then(response => response.json());
   }
 
   static signup = (
@@ -43,7 +43,7 @@ export default class Api {
         phone: phone,
         password: password
       }),
-    });
+    }).then(response => response.json());
   }
 
   static userInfo = (token) => {
@@ -54,7 +54,7 @@ export default class Api {
         Accept: 'application/json',
         Authorization: 'Bearer ' + token,
       },
-    });
+    }).then(response => response.json());
   }
 
   static msisdns = (token) => {
@@ -65,7 +65,7 @@ export default class Api {
         Accept: 'application/json',
         Authorization: 'Bearer ' + token,
       },
-    });
+    }).then(response => response.json());
   }
 
   static balance = (phone) => {
@@ -76,6 +76,16 @@ export default class Api {
         Accept: 'application/json',
         // Authorization: 'Bearer ' + this.state.token,
       },
-    });
+    }).then(response => response.json());
+  }
+
+  static restorePassword = (email) => {
+    console.log('api/restorePassword');
+
+    return fetch(`https://mp.api.easy4.pro/emails/${email}/restore/password`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    }).then(response => response.json());
   }
 }

@@ -1,16 +1,18 @@
 import React from 'react';
 import Screen from './Screen';
-import { Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Alert, Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
 import {Button, Body, Form } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import NavBack from 'app/src/elements/NavBack';
+import Api from 'app/utils/api';
 
 export default class Recovery extends Screen {
   constructor(props) {
     super(props);
     this.state = {
+      email: ''
     };
   }
 
@@ -24,30 +26,19 @@ export default class Recovery extends Screen {
 
   formSubmit(){
     console.log('form submit');
-    // fetch('http://192.168.3.101:8080/auth/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     login: this.state.login,
-    //     password: this.state.password
-    //   }),
-    // })
-    //   .then(response => {
-    //     response.json();
-    //     console.log('response:',response);
-    //   })
-    //   .then(data => {
-    //     AsyncStorage.setItem(
-    //       'accessToken',data.accessToken
-    //     );
-    //     AsyncStorage.setItem(
-    //       'refreshToken',data.refreshToken
-    //     );
-    //
-    //   });
+    Api.restorePassword(this.state.email)
+      .then(data => {
+        console.log('data:', data);
+
+        if (data.msg != 'OK')
+          throw data.msg;
+
+        Alert.alert('Recovery success', 'На вашу почту отправлено письмо с описанием следующего шага');
+      })
+      .then(data => {
+        setTimeout(() => this.props.navigation.navigate('Login'), 1000);
+      })
+      .catch(e => Alert.alert('Recovery error', e.toString()));
   }
 
   render() {
@@ -62,10 +53,11 @@ export default class Recovery extends Screen {
 
           <Form>
             <InputWithIcon
-              label="Телефон или электронная почта"
-              textContentType='username'
-              onChangeText={(login) => this.setState({login})}
-              value={this.state.login}
+              label='Электронная почта'
+              textContentType='emailAddress'
+              keyboardType='email-address'
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
             />
           </Form>
 

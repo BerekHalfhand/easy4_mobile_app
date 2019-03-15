@@ -54,7 +54,6 @@ export default class SignUp extends Screen {
         this.state.phone,
         this.state.password
       )
-        .then(response => response.json())
         .then(data => {
           // this.setState({registration: true});
           console.log('data:', data);
