@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, ActivityIndicator, Text, KeyboardAvoidingView, View, ScrollView} from 'react-native';
+import {Alert, ActivityIndicator, Dimensions, Platform, Text, KeyboardAvoidingView, Keyboard, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import Screen from './Screen';
 import {Button, Body, Form } from 'native-base';
@@ -7,10 +7,14 @@ import {Button, Body, Form } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
+import InputScrollable from 'app/src/elements/InputScrollable';
 import NavBack from 'app/src/elements/NavBack';
 import Api from 'app/utils/api';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { wrapScrollView } from 'react-native-scroll-into-view';
+
+const CustomScrollView = wrapScrollView(ScrollView);
 
 const phoneRegEx = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
 
@@ -47,23 +51,7 @@ const validationSchema = yup.object().shape({
     .label('Пароль'),
 });
 
-const FieldWrapper = ({ formikKey, formikProps, ...props }) => (
-  <View>
-    <InputWithIcon
-      onChangeText={formikProps.handleChange(formikKey)}
-      onBlur={formikProps.handleBlur(formikKey)}
-      {...props}
-    />
-    <Text style={{ color: 'red' }}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
 
-FieldWrapper.propTypes = {
-  formikKey: PropTypes.string,
-  formikProps: PropTypes.object,
-};
 
 export default class SignUp extends Screen {
   constructor(props) {
@@ -77,11 +65,6 @@ export default class SignUp extends Screen {
     headerStyle: styles.baseHeader,
     headerTintColor: '#fff',
   };
-
-  componentDidMount() {
-    // this.checkDeviceForHardware();
-  }
-
 
   static fetchAuthData(){
     return true;
@@ -117,13 +100,21 @@ export default class SignUp extends Screen {
   }
 
   render(data) {
+    // TODO: fix that pesky scroll bug on IOS
+
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 64
+    // const { height } = Dimensions.get('window');
+    // let viewStyle = { flex: 1, padding: 24 };
+    //
+    // if (Platform.OS === 'ios')
+    //   viewStyle.maxHeight = height;
 
     return (
-      <ScrollView style={{backgroundColor: dP.color.primary}}
+      <CustomScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
-        <KeyboardAvoidingView
-          keyboardVerticalOffset = {100}
-          style = {{ flex: 1, padding: 24, height: '100%' }}
+        <KeyboardAvoidingView enabled
+          keyboardVerticalOffset = {keyboardVerticalOffset}
+          style = {{ flex: 1, padding: 24 }}
           behavior = "padding" >
 
           <Formik
@@ -134,12 +125,12 @@ export default class SignUp extends Screen {
             {formikProps => (
               <React.Fragment>
 
-                <FieldWrapper label='Имя' formikKey='firstName' formikProps={formikProps} />
-                <FieldWrapper label='Отчество' formikKey='secondName' formikProps={formikProps} />
-                <FieldWrapper label='Фамилия' formikKey='lastName' formikProps={formikProps} />
-                <FieldWrapper label='Электронная почта' formikKey='email' keyboardType='email-address' formikProps={formikProps} />
-                <FieldWrapper label='Номер телефона' formikKey='phone' keyboardType='phone-pad' formikProps={formikProps} />
-                <FieldWrapper label='Пароль' formikKey='password' isPassword={true} icon='visibility-off' altIcon='visibility' formikProps={formikProps} />
+                <InputScrollable label='Имя' formikKey='firstName' formikProps={formikProps} />
+                <InputScrollable label='Отчество' formikKey='secondName' formikProps={formikProps} />
+                <InputScrollable label='Фамилия' formikKey='lastName' formikProps={formikProps} />
+                <InputScrollable label='Электронная почта' formikKey='email' keyboardType='email-address' formikProps={formikProps} />
+                <InputScrollable label='Номер телефона' formikKey='phone' keyboardType='phone-pad' formikProps={formikProps} />
+                <InputScrollable label='Пароль' formikKey='password' isPassword={true} icon='visibility-off' altIcon='visibility' formikProps={formikProps} />
 
                 {formikProps.isSubmitting ? (
                   <ActivityIndicator />
@@ -160,7 +151,7 @@ export default class SignUp extends Screen {
           </Formik>
 
         </KeyboardAvoidingView>
-      </ScrollView>
+      </CustomScrollView>
     );
   }
 }
