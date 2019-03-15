@@ -19,6 +19,9 @@
     "plugins": [
         "react"
     ],
+    "globals": {
+      "require": "readable"
+    },
     "rules": {
         "indent": [
             "warn",
