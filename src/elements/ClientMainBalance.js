@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Footer, FooterTab, Button } from 'native-base';
+import { View } from 'native-base';
 import { Text, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 

@@ -64,27 +64,6 @@ export default class Tariff extends React.Component{
     headerTintColor: '#fff',
   };
 
-  listItems(list){
-    return(
-      list.map(item => {
-        `
-          <ListItem >
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="airplane" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>{ item.name }</Text>
-            </Body>
-            <Right>
-              <Switch value={false} />
-            </Right>
-          </ListItem>
-        `;
-      })
-    );
-  }
   handleSwitch(idx){
     let tariffServicesList = this.state.fake.tariffServicesList;
     tariffServicesList[idx].onOff = !tariffServicesList[idx].onOff;
@@ -94,7 +73,7 @@ export default class Tariff extends React.Component{
   }
 
   render(){
-    console.log('tariffServicesList:', this.state.fake.tariffServicesList);
+    // console.log('tariffServicesList:', this.state.fake.tariffServicesList);
     const listItem = this.state.fake.tariffServicesList;
     return(
       <Container style={{backgroundColor:'#004d99'}}>

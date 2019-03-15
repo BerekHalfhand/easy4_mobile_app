@@ -8,7 +8,7 @@ import {
   TextField
 } from 'react-native-material-textfield';
 import PropTypes from 'prop-types';
-import {dP} from '../../utils/style/styles';
+import {dP} from 'app/utils/style/styles';
 
 export default class InputWithIcon extends React.Component {
 
