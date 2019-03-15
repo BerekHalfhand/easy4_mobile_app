@@ -1,7 +1,7 @@
 import React from 'react';
 import { Footer, FooterTab, Button } from 'native-base';
 import { View } from 'react-native';
-import {dP} from '../../utils/style/styles';
+import {dP} from 'app/utils/style/styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class StandardFooter extends React.Component{

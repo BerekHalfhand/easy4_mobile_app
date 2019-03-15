@@ -6,13 +6,14 @@ import {Button, Container, Footer, FooterTab,
   Icon,
   ActionSheet,
   Content, Body, Header, Title, ListItem, List, Left, Right, Switch, Form, Picker} from 'native-base';
-import {styles, dP} from '../../utils/style/styles';
-import StandardFooter from '../elements/Footer';
-import ClientMainBalance from '../elements/ClientMainBalance';
-import ClientMainInfo from '../elements/ClientMainInfo';
-import LogoTitle from '../elements/LogoTitle';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import StandardFooter from 'app/src/elements/Footer';
+import ClientMainBalance from 'app/src/elements/ClientMainBalance';
+import ClientMainInfo from 'app/src/elements/ClientMainInfo';
+import LogoTitle from 'app/src/elements/LogoTitle';
+import NavBack from 'app/src/elements/NavBack';
 import autoBind from 'react-autobind';
+import Api from 'app/utils/api';
 
 export default class Main extends Screen{
   constructor(props){
@@ -49,12 +50,7 @@ export default class Main extends Screen{
     this.setState({token: token});
     console.log('token', token);
 
-    let userData = fetch('https://mp.api.easy4.pro/user/info', {
-      headers: {
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
+    let userData = Api.userInfo(token)
       .then(response => response.json())
       .then(data => {
         console.log('userData:', data);
@@ -75,12 +71,7 @@ export default class Main extends Screen{
       })
       .catch(e => Alert.alert('Data Fetching Error', e.toString()));
 
-    let userPhones = fetch('https://mp.api.easy4.pro/external/msisdns', {
-      headers: {
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
+    let userPhones = Api.msisdns(token)
       .then(response => response.json())
       .then(data => {
         console.log('userPhones:', data);
@@ -97,12 +88,7 @@ export default class Main extends Screen{
 
   getBalance = async (phone) => {
     console.log('getBalance:', phone);
-    fetch('https://mp.api.easy4.pro/test/balance/' + phone, {
-      headers: {
-        Accept: 'application/json',
-        // Authorization: 'Bearer ' + this.state.token,
-      },
-    })
+    Api.balance(phone)
       // .then(response => console.log(response))
       .then(response => response.json())
       .then(data => {

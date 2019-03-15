@@ -13,21 +13,15 @@ import {
   Icon,
   Header,
   Title,
-  // Image,
-  //     Card,
-  //     CardItem,
-  //     Text,
-  //     Thumbnail,
   Left,
   Right,
-  //     Spinner,
   Button
 } from 'native-base';
 import {View, Image, Linking, Alert, AsyncStorage} from 'react-native';
 import Screen from './Screen';
-import {styles, dP} from '../../utils/style/styles';
+import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
-import StandardFooter from '../elements/Footer';
+import StandardFooter from 'app/src/elements/Footer';
 
 
 export default class Home extends Screen {

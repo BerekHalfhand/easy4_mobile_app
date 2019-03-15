@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Switch } from 'react-native';
 import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
-import {styles} from '../../utils/style/styles';
-import StandardFooter from '../elements/Footer';
-import NavBack from '../elements/NavBack';
+import {styles} from 'app/utils/style/styles';
+import StandardFooter from 'app/src/elements/Footer';
+import NavBack from 'app/src/elements/NavBack';
 
 class LogoTitle extends React.Component {
   render() {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Footer, FooterTab, Button, Icon } from 'native-base';
-import {TextInput, Image, StatusBar, Navigator, Text} from 'react-native';
-import { dP } from '../../utils/style/styles';
+import { View } from 'native-base';
+import { Text } from 'react-native';
+import { dP } from 'app/utils/style/styles';
 
 
 export default class ClientMainInfo extends React.Component{

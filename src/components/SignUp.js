@@ -3,10 +3,11 @@ import {Alert, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
 import Screen from './Screen';
 import {Button, Body, Form } from 'native-base';
 // import FingerPrint from './touchid';
-import {styles, dP} from '../../utils/style/styles';
-import LogoTitle from '../elements/LogoTitle';
-import InputWithIcon from '../elements/InputWithIcon';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import LogoTitle from 'app/src/elements/LogoTitle';
+import InputWithIcon from 'app/src/elements/InputWithIcon';
+import NavBack from 'app/src/elements/NavBack';
+import Api from 'app/utils/api';
 
 export default class SignUp extends Screen {
   constructor(props) {
@@ -44,21 +45,15 @@ export default class SignUp extends Screen {
 
     formSubmit(){
       console.log('form submit');
-      fetch('https://mp.api.easy4.pro/users', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: this.state.firstName,
-          secondName: this.state.secondName,
-          lastName: this.state.lastName,
-          email: this.state.email,
-          phone: this.state.phone,
-          password: this.state.password
-        }),
-      })
+
+      Api.signup(
+        this.state.firstName,
+        this.state.secondName,
+        this.state.lastName,
+        this.state.email,
+        this.state.phone,
+        this.state.password
+      )
         .then(response => response.json())
         .then(data => {
           // this.setState({registration: true});

@@ -4,8 +4,8 @@ import {Font} from 'expo';
 import {Root, Text, Body, Container} from 'native-base';
 // import AppFooter from "./Footer";
 // import DataContext from './DataContext';
-import {styles, dP} from '../../utils/style/styles';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import NavBack from 'app/src/elements/NavBack';
 
 export default class Screen extends Component {
   constructor(props){

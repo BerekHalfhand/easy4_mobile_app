@@ -1,7 +1,7 @@
 import React, {Component, cloneElement} from 'react';
 // import { Font, AppLoading } from 'expo';
 import {StyleSheet, StatusBar, View, ScrollView, AsyncStorage, Text, Image} from 'react-native';
-import {styles, dP} from '../../utils/style/styles';
+import {styles, dP} from 'app/utils/style/styles';
 // import * as api from '../api';
 import DataContext from './DataContext';
 

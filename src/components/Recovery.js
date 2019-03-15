@@ -2,10 +2,10 @@ import React from 'react';
 import Screen from './Screen';
 import { Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
 import {Button, Body, Form } from 'native-base';
-import {styles, dP} from '../../utils/style/styles';
-import LogoTitle from '../elements/LogoTitle';
-import InputWithIcon from '../elements/InputWithIcon';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import LogoTitle from 'app/src/elements/LogoTitle';
+import InputWithIcon from 'app/src/elements/InputWithIcon';
+import NavBack from 'app/src/elements/NavBack';
 
 export default class Recovery extends Screen {
   constructor(props) {

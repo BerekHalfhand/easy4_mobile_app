@@ -2,11 +2,12 @@ import React from 'react';
 import { Alert, Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
 import Screen from './Screen';
 import {Button, Container, Content, Body, Form, Input, IconNB, TouchableOpacity } from 'native-base';
-import {styles, dP} from '../../utils/style/styles';
-import LogoTitle from '../elements/LogoTitle';
-import InputWithIcon from '../elements/InputWithIcon';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import LogoTitle from 'app/src/elements/LogoTitle';
+import InputWithIcon from 'app/src/elements/InputWithIcon';
+import NavBack from 'app/src/elements/NavBack';
 import autoBind from 'react-autobind';
+import Api from 'app/utils/api';
 
 export default class Login extends Screen {
   constructor(props) {
@@ -61,17 +62,7 @@ export default class Login extends Screen {
 
   formSubmit(){
     console.log('form submit');
-    fetch('https://mp.api.easy4.pro/auth/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login: this.state.login,
-        password: this.state.password
-      }),
-    })
+    Api.login(this.state.login, this.state.password)
       .then(response => response.json())
       .then(data => {
         console.log('data:', data);
@@ -114,6 +105,7 @@ export default class Login extends Screen {
               label='Телефон или электронная почта'
               icon='person-outline'
               textContentType='username'
+              keyboardType='email-address'
               onChangeText={(login) => this.setState({login})}
               value={this.state.login}
             />
