@@ -1,22 +1,30 @@
 
 export default class Api {
+  static basicHeaders = new Headers({
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  })
+
   static login = (
     login,
     password
   ) => {
     console.log('api/login');
 
-    return fetch('https://mp.api.easy4.pro/auth/login', {
+    const url = 'https://mp.api.easy4.pro/auth/login';
+
+    let data = JSON.stringify({
+      login,
+      password
+    });
+
+    var request = new Request(url, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login: login,
-        password: password
-      }),
-    }).then(response => response.json());
+      body: data,
+      headers: Api.basicHeaders
+    });
+
+    return fetch(request).then(response => response.json());
   }
 
   static signup = (
@@ -29,21 +37,24 @@ export default class Api {
   ) => {
     console.log('api/signup');
 
-    return fetch('https://mp.api.easy4.pro/users', {
+    const url = 'https://mp.api.easy4.pro/users';
+
+    let data = JSON.stringify({
+      firstName,
+      secondName,
+      lastName,
+      email,
+      phone,
+      password
+    });
+
+    var request = new Request(url, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName: firstName,
-        secondName: secondName,
-        lastName: lastName,
-        email: email,
-        phone: phone,
-        password: password
-      }),
-    }).then(response => response.json());
+      body: data,
+      headers: Api.basicHeaders
+    });
+
+    return fetch(request).then(response => response.json());
   }
 
   static userInfo = (token) => {
@@ -68,13 +79,13 @@ export default class Api {
     }).then(response => response.json());
   }
 
-  static balance = (phone) => {
+  static balance = (phone, token) => {
     console.log('api/balance');
 
-    return fetch('https://mp.api.easy4.pro/test/balance/' + phone, {
+    return fetch('https://mp.api.easy4.pro/balance/' + phone, {
       headers: {
         Accept: 'application/json',
-        // Authorization: 'Bearer ' + this.state.token,
+        Authorization: 'Bearer ' + token,
       },
     }).then(response => response.json());
   }
