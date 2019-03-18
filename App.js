@@ -44,10 +44,13 @@ const Routes = createStackNavigator({
   headerBackTitle: null,
 });
 
+// turning off in-app warnings
+console.disableYellowBox = true;
+
+// fewer red screens of death
+console.reportErrorsAsExceptions = false;
 
 const App = createAppContainer(Routes);
 
 export default App;
 // AppRegistry.registerComponent('App', () => App);
-//
-// export default App;
