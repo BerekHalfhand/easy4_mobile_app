@@ -82,10 +82,10 @@ export default class Api {
   static balance = (phone, token) => {
     console.log('api/balance');
 
-    return fetch('https://mp.api.easy4.pro/balance/' + phone, {
+    return fetch('https://mp.api.easy4.pro/test/balance/' + phone, {
       headers: {
         Accept: 'application/json',
-        Authorization: 'Bearer ' + token,
+        // Authorization: 'Bearer ' + token,
       },
     }).then(response => response.json());
   }
