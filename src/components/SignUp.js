@@ -6,14 +6,13 @@ import {Button, Body, Form } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputScrollable from 'app/src/elements/InputScrollable';
+import {InputWithMask} from 'app/src/elements/InputWithMask';
 import Api from 'app/utils/api';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { wrapScrollView } from 'react-native-scroll-into-view';
 
 const CustomScrollView = wrapScrollView(ScrollView);
-
-const phoneRegEx = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
 
 const validationSchema = yup.object().shape({
   firstName: yup
@@ -31,7 +30,7 @@ const validationSchema = yup.object().shape({
     .label('Фамилия'),
 
   phone: yup
-    .string().matches(phoneRegEx, 'Неправильный формат')
+    .string()
     // .required('Необходимо указать номер телефона')
     .label('Номер телефона'),
 
@@ -69,7 +68,7 @@ export default class SignUp extends Screen {
   }
 
   formSubmit(values, actions) {
-    console.log('form submit');
+    console.log('form submit', values);
 
     Api.signup(
       values.firstName,
@@ -107,7 +106,6 @@ export default class SignUp extends Screen {
     //
     // if (Platform.OS === 'ios')
     //   viewStyle.maxHeight = height;
-
     return (
       <CustomScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
@@ -135,9 +133,8 @@ export default class SignUp extends Screen {
                 <InputScrollable label='Фамилия' formikKey='lastName' formikProps={formikProps} />
                 <InputScrollable label='Отчество' formikKey='secondName' formikProps={formikProps} />
                 <InputScrollable label='Электронная почта' formikKey='email' keyboardType='email-address' formikProps={formikProps} />
-                <InputScrollable label='Номер телефона' formikKey='phone' keyboardType='phone-pad' formikProps={formikProps} />
+                <InputScrollable label='Номер телефона' formikKey='phone' keyboardType='phone-pad' mask='+0(000)000-00-00' formikProps={formikProps} />
                 <InputScrollable label='Пароль' formikKey='password' isPassword={true} icon='visibility-off' altIcon='visibility' formikProps={formikProps} />
-
                 <Text style={{ color: dP.color.error }}>{formikProps.errors.general}</Text>
                 {formikProps.isSubmitting ? (
                   <ActivityIndicator />
