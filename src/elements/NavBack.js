@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles, dP} from '../../utils/style/styles';
 
 export default class NavBack extends React.Component {
@@ -21,7 +22,12 @@ export default class NavBack extends React.Component {
     return (
       <View style={{padding: 10}}>
         <Text style={{color: tintColor, fontSize: fontSize}}>
-          <FontAwesome>{Icons.chevronLeft}</FontAwesome>
+          {/*<FontAwesome>{Icons.chevronLeft}</FontAwesome>*/}
+          <Icon
+              name="chevron-left"
+              size={fontSize}
+              color={tintColor}
+          />
         </Text>
       </View>
     );
