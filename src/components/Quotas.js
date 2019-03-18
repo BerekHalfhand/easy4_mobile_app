@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Container } from 'native-base';
-import {styles, dP} from '../../utils/style/styles';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import NavBack from 'app/src/elements/NavBack';
 
 class LogoTitle extends React.Component {
   render() {

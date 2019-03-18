@@ -13,21 +13,15 @@ import {
   Icon,
   Header,
   Title,
-  // Image,
-  //     Card,
-  //     CardItem,
-  //     Text,
-  //     Thumbnail,
   Left,
   Right,
-  //     Spinner,
   Button
 } from 'native-base';
 import {View, Image, Linking, Alert, AsyncStorage} from 'react-native';
 import Screen from './Screen';
-import {styles, dP} from '../../utils/style/styles';
+import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
-import StandardFooter from '../elements/Footer';
+import StandardFooter from 'app/src/elements/Footer';
 
 
 export default class Home extends Screen {
@@ -74,39 +68,6 @@ export default class Home extends Screen {
       if (offerAccepted == 'true')  this.setState({offerAccepted: true});
       else                          this.setState({offerAccepted: false});
     };
-
-    // componentDidMount() {
-    //   async () => {
-    //     try {
-    //          const accT = await AsyncStorage.getItem('accessToken');
-    //          if (accT){
-    //              fetch('http://192.168.3.101:8080/auth/token/check/'+accT, {
-    //                  method: 'GET',
-    //              })
-    //                  .then(response => {
-    //                      response.json();
-    //                      console.log('response:',response);
-    //                  })
-    //                  .then(data => {
-    //                          AsyncStorage.setItem(
-    //                              'login',data.login
-    //                          );
-    //                          AsyncStorage.setItem(
-    //                              '_id',data._id
-    //                          );
-    //
-    //                      }
-    //
-    //                  );
-    //          } else {
-    //
-    //          }
-    //
-    //     } catch (e) {
-    //       console.log('error', e);
-    //     }
-    //   };
-    // }
 
     renderOfferCheckbox() {
       if (this.state.offerAccepted !== null) {

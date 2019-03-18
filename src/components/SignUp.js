@@ -1,160 +1,157 @@
 import React from 'react';
-import {Alert, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
+import {Alert, ActivityIndicator, Dimensions, Platform, Text, KeyboardAvoidingView, Keyboard, ScrollView} from 'react-native';
+import PropTypes from 'prop-types';
 import Screen from './Screen';
-import {Button, Container, Footer, FooterTab, Icon, Content, Body, Form, Item, Input, IconNB, TouchableOpacity } from 'native-base';
+import {Button, Body, Form } from 'native-base';
 // import FingerPrint from './touchid';
-import Expo, { Constants } from 'expo';
-import {styles, dP} from '../../utils/style/styles';
-import LogoTitle from '../elements/LogoTitle';
-// import StandardFooter from '../elements/Footer';
-import PasswordInputText from 'react-native-hide-show-password-input';
-import { TextField } from 'react-native-materialui-textfield';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import LogoTitle from 'app/src/elements/LogoTitle';
+import InputWithIcon from 'app/src/elements/InputWithIcon';
+import InputScrollable from 'app/src/elements/InputScrollable';
+import NavBack from 'app/src/elements/NavBack';
+import Api from 'app/utils/api';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { wrapScrollView } from 'react-native-scroll-into-view';
+
+const CustomScrollView = wrapScrollView(ScrollView);
+
+const phoneRegEx = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+
+const validationSchema = yup.object().shape({
+  firstName: yup
+    .string()
+    .required('Необходимо указать имя')
+    .label('Имя'),
+
+  secondName: yup
+    .string()
+    .label('Отчество'),
+
+  lastName: yup
+    .string()
+    .required('Необходимо указать фамилию')
+    .label('Фамилия'),
+
+  phone: yup
+    .string().matches(phoneRegEx, 'Неправильный формат')
+    .required('Необходимо указать номер телефона')
+    .label('Номер телефона'),
+
+  email: yup
+    .string()
+    .email()
+    .required('Необходимо указать электронную почту')
+    .label('Электронная почта'),
+
+  password: yup
+    .string()
+    .required('Необходимо указать пароль')
+    .min(6, 'Пароль должен быть длиннее пяти символов')
+    .label('Пароль'),
+});
+
+
 
 export default class SignUp extends Screen {
   constructor(props) {
     super(props);
-    this.state = {
-      error: false,
-      compatible: false,
-      fontLoaded: false,
-      // registration: false,
-      firstName: '',//'Jon',
-      secondName: '',//'Nedson',
-      lastName: '',//'Snow',
-      email: '',//'testing@test.com',
-      phone: '',//'+79998774513',
-      password: '',//'qwerty'
-    };
   }
 
-    static navigationOptions = {
-      headerBackImage: <NavBack />,
-      headerBackTitle: null,
-      headerTitle: navigation  =>  <LogoTitle title='Регистрация' />,
-      headerStyle: styles.baseHeader,
-      headerTintColor: '#fff',
-    };
+  static navigationOptions = {
+    headerBackImage: <NavBack />,
+    headerBackTitle: null,
+    headerTitle: navigation  =>  <LogoTitle title='Регистрация' />,
+    headerStyle: styles.baseHeader,
+    headerTintColor: '#fff',
+  };
 
-    componentDidMount() {
-      // this.checkDeviceForHardware();
-    }
+  static fetchAuthData(){
+    return true;
+  }
 
+  formSubmit(values, actions) {
+    console.log('form submit');
 
-    static fetchAuthData(){
-      return true;
-    }
+    Api.signup(
+      values.firstName,
+      values.secondName,
+      values.lastName,
+      values.email,
+      values.phone,
+      values.password
+    )
+      .then(data => {
+        console.log('data:', data);
+        actions.setSubmitting(false);
 
-    formSubmit(){
-      console.log('form submit');
-      fetch('https://mp.api.easy4.pro/users', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: this.state.firstName,
-          secondName: this.state.secondName,
-          lastName: this.state.lastName,
-          email: this.state.email,
-          phone: this.state.phone,
-          password: this.state.password
-        }),
+        if (!data._id)
+          if (data.errors)
+            throw {title: data.msg, message: data.errors[0].message};
+          else
+            throw {title: 'Sign Up error', message: data.msg};
+
       })
-        .then(response => response.json())
-        .then(data => {
-          // this.setState({registration: true});
-          console.log('data:', data);
+      .then(data => {
+        console.log('redirect to login');
+        this.props.navigation.navigate('Login');
+      })
+      .catch(e => Alert.alert(e.title, e.message));
+  }
 
-          if (!data._id)
-            throw data.msg;
+  render(data) {
+    // TODO: fix that pesky scroll bug on IOS
 
-        })
-        .then(data => {
-          console.log('redirect to login');
-          this.props.navigation.navigate('Login');
-        })
-        .catch(e => Alert.alert('SignUp error', e));
-    }
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 64
+    // const { height } = Dimensions.get('window');
+    // let viewStyle = { flex: 1, padding: 24 };
+    //
+    // if (Platform.OS === 'ios')
+    //   viewStyle.maxHeight = height;
 
-    render(data) {
+    return (
+      <CustomScrollView style={{backgroundColor: dP.color.primary}}
+        keyboardShouldPersistTaps='always' >
+        <KeyboardAvoidingView enabled
+          keyboardVerticalOffset = {keyboardVerticalOffset}
+          style = {{ flex: 1, padding: 24 }}
+          behavior = "padding" >
 
-      console.log('state: ', this.state);
-      return (
-        <ScrollView style={{backgroundColor: dP.color.primary}}
-          keyboardShouldPersistTaps='always' >
-          <KeyboardAvoidingView
-            keyboardVerticalOffset = {100}
-            style = {{ flex: 1, padding: 24, height: '100%' }}
-            behavior = "padding" >
+          <Formik
+            initialValues={{ firstName: '' }}
+            onSubmit={(values, actions) => this.formSubmit(values, actions)}
+            validationSchema={validationSchema}
+          >
+            {formikProps => (
+              <React.Fragment>
 
-            <Form>
-              <TextField
-                label="Имя"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
-                onChangeText={(firstName) => this.setState({firstName})}
-                value={this.state.firstName}
-              />
-              <TextField
-                label="Отчество"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
-                onChangeText={(secondName) => this.setState({secondName})}
-                value={this.state.secondName}
-              />
-              <TextField
-                label="Фамилия"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
-                onChangeText={(lastName) => this.setState({lastName})}
-                value={this.state.lastName}
-              />
-              <TextField
-                label="Электронная почта"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
-                textContentType="emailAddress"
-                keyboardType="email-address"
-                onChangeText={(email) => this.setState({email})}
-                value={this.state.email}
-              />
-              <TextField
-                label="Номер телефона"
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
-                onChangeText={(phone) => this.setState({phone})}
-                value={this.state.phone}
-              />
-              <PasswordInputText
-                textColor={'#FFFFFF'}
-                baseColor={'#ABABAB'}
-                tintColor={'#FED657'}
-                iconColor={'#FED657'}
-                value={this.state.password}
-                onChangeText={ (password) => this.setState({ password }) }
-              />
-            </Form>
+                <InputScrollable label='Имя' formikKey='firstName' formikProps={formikProps} />
+                <InputScrollable label='Отчество' formikKey='secondName' formikProps={formikProps} />
+                <InputScrollable label='Фамилия' formikKey='lastName' formikProps={formikProps} />
+                <InputScrollable label='Электронная почта' formikKey='email' keyboardType='email-address' formikProps={formikProps} />
+                <InputScrollable label='Номер телефона' formikKey='phone' keyboardType='phone-pad' formikProps={formikProps} />
+                <InputScrollable label='Пароль' formikKey='password' isPassword={true} icon='visibility-off' altIcon='visibility' formikProps={formikProps} />
 
-            <Body style={{margin: 24}}>
-              <Button full rounded
-                style={styles.buttonPrimary}
-                onPress={() => this.formSubmit()}
-              >
-                <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
-                  Создать аккаунт
-                </Text>
-              </Button>
-            </Body>
+                {formikProps.isSubmitting ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Body style={{margin: 24}}>
+                    <Button full rounded
+                      style={styles.buttonPrimary}
+                      onPress={formikProps.handleSubmit}
+                    >
+                      <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
+                          Создать аккаунт
+                      </Text>
+                    </Button>
+                  </Body>
+                )}
+              </React.Fragment>
+            )}
+          </Formik>
 
-          </KeyboardAvoidingView>
-        </ScrollView>
-      );
-    }
+        </KeyboardAvoidingView>
+      </CustomScrollView>
+    );
+  }
 }

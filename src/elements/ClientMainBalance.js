@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, Footer, FooterTab, Button } from 'native-base';
-import {TextInput, Image, StatusBar, Navigator, Text, Dimensions} from 'react-native';
-import { dP } from '../../utils/style/styles';
+import { View } from 'native-base';
+import { Text, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-
 
 
 export default class ClientMainBalance extends React.Component{

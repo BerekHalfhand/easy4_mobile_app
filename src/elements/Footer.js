@@ -1,47 +1,53 @@
 import React from 'react';
-import { Footer, FooterTab, Button, Icon } from 'native-base';
-import { Text, View } from 'react-native';
-import {dP} from '../../utils/style/styles';
-// import FontAwesome, { Icons } from 'react-native-fontawesome';
+import { Footer, FooterTab, Button } from 'native-base';
+import { View } from 'react-native';
+import {dP} from 'app/utils/style/styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class StandardFooter extends React.Component{
 
   render(){
+    const size = 16;
+    const padding = 10;
 
     return(
       <View>
         <Footer>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
             <Button>
-              <View style={{padding: 10}}>
-                <Text style={{color: dP.color.primary, fontSize: 16}}>
-                  {/*<FontAwesome>{Icons.signInAlt}</FontAwesome>*/}
-                  #
-                </Text>
+              <View style={{padding: padding}}>
+                <Icon
+                  name='sign-in'
+                  size={size}
+                  color={dP.color.primary}
+                />
               </View>
             </Button>
             <Button>
-              <View style={{padding: 10}}>
-                <Text style={{color: dP.color.primary, fontSize: 16}}>
-                  {/*<FontAwesome>{Icons.mapMarkerAlt}</FontAwesome>*/}
-                  #
-                </Text>
+              <View style={{padding: padding}}>
+                <Icon
+                  name='map-marker'
+                  size={size}
+                  color={dP.color.primary}
+                />
               </View>
             </Button>
             <Button>
-              <View style={{padding: 10}}>
-                <Text style={{color: dP.color.primary, fontSize: 16}}>
-                  {/*<FontAwesome>{Icons.commentAlt}</FontAwesome>*/}
-                  #
-                </Text>
+              <View style={{padding: padding}}>
+                <Icon
+                  name='comment'
+                  size={size}
+                  color={dP.color.primary}
+                />
               </View>
             </Button>
             <Button>
-              <View style={{padding: 10}}>
-                <Text style={{color: dP.color.primary, fontSize: 16}}>
-                  {/*<FontAwesome>{Icons.questionCircle}</FontAwesome>*/}
-                  #
-                </Text>
+              <View style={{padding: padding}}>
+                <Icon
+                  name='question-circle-o'
+                  size={size}
+                  color={dP.color.primary}
+                />
               </View>
             </Button>
           </FooterTab>

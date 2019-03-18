@@ -14,10 +14,10 @@ import {
   Right,
   ActionSheet
 } from 'native-base';
-import LogoTitle from '../elements/LogoTitle';
-import NavBack from '../elements/NavBack';
-import StandardFooter from '../elements/Footer';
-import {styles} from '../../utils/style/styles';
+import LogoTitle from 'app/src/elements/LogoTitle';
+import NavBack from 'app/src/elements/NavBack';
+import StandardFooter from 'app/src/elements/Footer';
+import {styles} from 'app/utils/style/styles';
 
 
 // class LogoTitle extends React.Component {

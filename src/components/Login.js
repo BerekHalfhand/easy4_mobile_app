@@ -2,13 +2,12 @@ import React from 'react';
 import { Alert, Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
 import Screen from './Screen';
 import {Button, Container, Content, Body, Form, Input, IconNB, TouchableOpacity } from 'native-base';
-import {styles, dP} from '../../utils/style/styles';
-import LogoTitle from '../elements/LogoTitle';
-import StandardFooter from '../elements/Footer';
-import PasswordInputText from 'react-native-hide-show-password-input';
-import { TextField } from 'react-native-materialui-textfield';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import LogoTitle from 'app/src/elements/LogoTitle';
+import InputWithIcon from 'app/src/elements/InputWithIcon';
+import NavBack from 'app/src/elements/NavBack';
 import autoBind from 'react-autobind';
+import Api from 'app/utils/api';
 
 export default class Login extends Screen {
   constructor(props) {
@@ -33,12 +32,28 @@ export default class Login extends Screen {
   };
 
   componentDidMount() {
-    // this.checkDeviceForHardware();
+    this.fetchAuthData();
   }
 
 
-  static fetchAuthData(){
-    return true;
+  fetchAuthData = async () => {
+    // try {
+    //   const accT = await AsyncStorage.getItem('accessToken');
+    //   if (accT) {
+    //     fetch('https://mp.api.easy4.pro/auth/tokens/check/'+accT, {
+    //       method: 'GET',
+    //     })
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         console.log('data:',data);
+    //
+    //         if (data.login)
+    //           this.props.navigation.navigate('Main');
+    //       });
+    //   }
+    // } catch (e) {
+    //   console.log('error', e);
+    // }
   }
 
   onPressRecovery() {
@@ -47,18 +62,7 @@ export default class Login extends Screen {
 
   formSubmit(){
     console.log('form submit');
-    fetch('https://mp.api.easy4.pro/auth/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login: this.state.login,
-        password: this.state.password
-      }),
-    })
-      .then(response => response.json())
+    Api.login(this.state.login, this.state.password)
       .then(data => {
         console.log('data:', data);
 
@@ -96,20 +100,19 @@ export default class Login extends Screen {
 
           <Form>
 
-            <TextField
-              label="Телефон или электронная почта"
-              textColor={'#FFFFFF'}
-              baseColor={'#ABABAB'}
-              tintColor={'#FED657'}
-              textContentType="username"
+            <InputWithIcon
+              label='Телефон или электронная почта'
+              icon='person-outline'
+              textContentType='username'
+              keyboardType='email-address'
               onChangeText={(login) => this.setState({login})}
               value={this.state.login}
             />
-            <PasswordInputText
-              textColor={'#FFFFFF'}
-              baseColor={'#ABABAB'}
-              tintColor={'#FED657'}
-              iconColor={'#FED657'}
+            <InputWithIcon
+              label='Пароль'
+              icon='visibility-off'
+              altIcon='visibility'
+              isPassword={true}
               value={this.state.password}
               onChangeText={ (password) => this.setState({ password }) }
             />

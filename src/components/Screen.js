@@ -4,8 +4,8 @@ import {Font} from 'expo';
 import {Root, Text, Body, Container} from 'native-base';
 // import AppFooter from "./Footer";
 // import DataContext from './DataContext';
-import {styles, dP} from '../../utils/style/styles';
-import NavBack from '../elements/NavBack';
+import {styles, dP} from 'app/utils/style/styles';
+import NavBack from 'app/src/elements/NavBack';
 
 export default class Screen extends Component {
   constructor(props){
@@ -35,10 +35,6 @@ export default class Screen extends Component {
 
         'Roboto': require('native-base/Fonts/Roboto.ttf'),
         'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-
-        // 'fa_brands_400': require('../../assets/fonts/fa-brands-400.ttf'),
-        // 'fa_regular_400': require('../../assets/fonts/fa-regular-400.ttf'),
-        // 'fa_solid_900': require('../../assets/fonts/fa-solid-900.ttf'),
       })
         .then(
           () => this.setState({ fontLoaded: true })
