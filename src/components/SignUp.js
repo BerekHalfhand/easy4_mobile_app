@@ -45,7 +45,11 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Необходимо указать пароль')
     .min(6, 'Пароль должен быть длиннее пяти символов')
-    .label('Пароль'),
+    .label('Пароль')
+    .test('password-valid', 'Допускаются только цифры и латинские буквы', (value) => {
+      let regex = new RegExp(/^[a-z0-9]+$/i);
+      return regex.test(value);
+    }),
 });
 
 
