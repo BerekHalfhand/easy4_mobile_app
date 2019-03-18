@@ -86,9 +86,8 @@ export default class Main extends Screen{
 
   getBalance = async (phone) => {
     console.log('getBalance:', phone);
-    Api.balance(phone)
+    Api.balance(phone, this.state.token)
       // .then(response => console.log(response))
-      .then(response => response.json())
       .then(data => {
         console.log('getBalance:', data);
 
