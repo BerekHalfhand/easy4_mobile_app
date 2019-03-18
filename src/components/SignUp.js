@@ -1,14 +1,11 @@
 import React from 'react';
 import {Alert, ActivityIndicator, Dimensions, Platform, Text, KeyboardAvoidingView, Keyboard, ScrollView} from 'react-native';
-import PropTypes from 'prop-types';
 import Screen from './Screen';
 import {Button, Body, Form } from 'native-base';
 // import FingerPrint from './touchid';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
-import InputWithIcon from 'app/src/elements/InputWithIcon';
 import InputScrollable from 'app/src/elements/InputScrollable';
-import NavBack from 'app/src/elements/NavBack';
 import Api from 'app/utils/api';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -59,11 +56,8 @@ export default class SignUp extends Screen {
   }
 
   static navigationOptions = {
-    headerBackImage: <NavBack />,
-    headerBackTitle: null,
-    headerTitle: navigation  =>  <LogoTitle title='Регистрация' />,
-    headerStyle: styles.baseHeader,
-    headerTintColor: '#fff',
+    ...Screen.navigationOptions,
+    headerTitle: <LogoTitle title='Регистрация' />,
   };
 
   static fetchAuthData(){

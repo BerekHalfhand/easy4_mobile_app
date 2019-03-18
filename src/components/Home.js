@@ -3,18 +3,10 @@ import {Font, AppLoading} from 'expo';
 
 import {
   Content,
-  ListItem,
   CheckBox,
   Text,
   Body,
-  Footer,
-  FooterTab,
   Container,
-  Icon,
-  Header,
-  Title,
-  Left,
-  Right,
   Button
 } from 'native-base';
 import {View, Image, Linking, Alert, AsyncStorage} from 'react-native';

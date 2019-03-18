@@ -3,22 +3,13 @@ import { View, Text, Switch } from 'react-native';
 import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
 import {styles} from 'app/utils/style/styles';
 import StandardFooter from 'app/src/elements/Footer';
-import NavBack from 'app/src/elements/NavBack';
-
-class LogoTitle extends React.Component {
-  render() {
-    return (
-      <View style={{ backgroundColor:'#004d99' }}>
-        <Text style={{color:'#FFFFFF', textAlign:'center', fontSize:20}}>Тариф</Text>
-      </View>
-    );
-  }
-}
+import LogoTitle from 'app/src/elements/LogoTitle';
+import Screen from './Screen';
 
 /**
  * Описание действующего тарифа
  */
-export default class Tariff extends React.Component{
+export default class Tariff extends Screen {
   constructor(props){
     super(props);
     this.state = {
@@ -57,11 +48,8 @@ export default class Tariff extends React.Component{
   }
 
   static navigationOptions = {
-    headerBackImage: <NavBack />,
-    headerBackTitle: null,
-    headerTitle: navigation  =>  <LogoTitle title='Тариф' />,
-    headerStyle: styles.baseHeader,
-    headerTintColor: '#fff',
+    ...Screen.navigationOptions,
+    headerTitle: <LogoTitle title='Тариф' />,
   };
 
   handleSwitch(idx){
