@@ -60,8 +60,9 @@ export default class InputWithIcon extends React.Component {
         <TextField
           secureTextEntry={this.state.isPassword}
           textColor={dP.color.white}
-          baseColor={'#ABABAB'}
-          tintColor={dP.color.accent}
+          baseColor={this.props.hasErrors ? dP.color.error : '#ABABAB'}
+          tintColor={this.props.hasErrors ? dP.color.error : dP.color.accent}
+          errorColor={dP.color.error}
           {...this.props}
         />
         {this.renderIcon()}
@@ -87,6 +88,7 @@ InputWithIcon.propTypes = {
   iconColor: PropTypes.string,
   label: PropTypes.string,
   isPassword: PropTypes.bool,
+  hasErrors: PropTypes.bool,
 };
 
 InputWithIcon.defaultProps = {
@@ -96,4 +98,5 @@ InputWithIcon.defaultProps = {
   iconColor: dP.color.white,
   label: 'Input',
   isPassword: false,
+  hasErrors: false,
 };

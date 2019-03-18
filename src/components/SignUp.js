@@ -18,7 +18,7 @@ const phoneRegEx = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-|
 const validationSchema = yup.object().shape({
   firstName: yup
     .string()
-    .required('Необходимо указать имя')
+    // .required('Необходимо указать имя')
     .label('Имя'),
 
   secondName: yup
@@ -27,17 +27,17 @@ const validationSchema = yup.object().shape({
 
   lastName: yup
     .string()
-    .required('Необходимо указать фамилию')
+    // .required('Необходимо указать фамилию')
     .label('Фамилия'),
 
   phone: yup
     .string().matches(phoneRegEx, 'Неправильный формат')
-    .required('Необходимо указать номер телефона')
+    // .required('Необходимо указать номер телефона')
     .label('Номер телефона'),
 
   email: yup
     .string()
-    .email()
+    .email('Некорректный email адрес')
     .required('Необходимо указать электронную почту')
     .label('Электронная почта'),
 
@@ -77,7 +77,6 @@ export default class SignUp extends Screen {
     )
       .then(data => {
         console.log('data:', data);
-        actions.setSubmitting(false);
 
         if (!data._id)
           if (data.errors)
@@ -90,7 +89,9 @@ export default class SignUp extends Screen {
         console.log('redirect to login');
         this.props.navigation.navigate('Login');
       })
-      .catch(e => Alert.alert(e.title, e.message));
+      // .catch(e => Alert.alert(e.title, e.message));
+      .catch(e => actions.setFieldError('general', e.message))
+      .finally(() => actions.setSubmitting(false));
   }
 
   render(data) {
@@ -112,7 +113,14 @@ export default class SignUp extends Screen {
           behavior = "padding" >
 
           <Formik
-            initialValues={{ firstName: '' }}
+            initialValues={{
+              firstName: '',
+              lastName: '',
+              secondName: '',
+              email: '',
+              phone: '',
+              password: '',
+            }}
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
           >
@@ -120,12 +128,13 @@ export default class SignUp extends Screen {
               <React.Fragment>
 
                 <InputScrollable label='Имя' formikKey='firstName' formikProps={formikProps} />
-                <InputScrollable label='Отчество' formikKey='secondName' formikProps={formikProps} />
                 <InputScrollable label='Фамилия' formikKey='lastName' formikProps={formikProps} />
+                <InputScrollable label='Отчество' formikKey='secondName' formikProps={formikProps} />
                 <InputScrollable label='Электронная почта' formikKey='email' keyboardType='email-address' formikProps={formikProps} />
                 <InputScrollable label='Номер телефона' formikKey='phone' keyboardType='phone-pad' formikProps={formikProps} />
                 <InputScrollable label='Пароль' formikKey='password' isPassword={true} icon='visibility-off' altIcon='visibility' formikProps={formikProps} />
 
+                <Text style={{ color: dP.color.error }}>{formikProps.errors.general}</Text>
                 {formikProps.isSubmitting ? (
                   <ActivityIndicator />
                 ) : (
@@ -135,7 +144,7 @@ export default class SignUp extends Screen {
                       onPress={formikProps.handleSubmit}
                     >
                       <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
-                          Создать аккаунт
+                        Создать аккаунт
                       </Text>
                     </Button>
                   </Body>

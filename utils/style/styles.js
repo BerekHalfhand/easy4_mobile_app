@@ -6,6 +6,7 @@ export const dP ={
     primary: '#004d99',
     accent: '#FED657',
     white: '#FFFFFF',
+    error: 'red',
   },
   size: {
     h: 24,

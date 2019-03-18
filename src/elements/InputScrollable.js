@@ -3,6 +3,7 @@ import {Text} from 'react-native';
 import PropTypes from 'prop-types';
 import {ScrollIntoView} from 'react-native-scroll-into-view';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
+import {dP} from 'app/utils/style/styles';
 
 export default class InputScrollable extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ export default class InputScrollable extends React.Component {
       formikKey,
       formikProps,
     } = this.props;
+    const hasErrors = formikProps.touched.hasOwnProperty(formikKey) && formikProps.errors.hasOwnProperty(formikKey);
 
     return (
       <ScrollIntoView ref={this.ref}>
@@ -26,11 +28,10 @@ export default class InputScrollable extends React.Component {
           onChangeText={formikProps.handleChange(formikKey)}
           onBlur={formikProps.handleBlur(formikKey)}
           onFocus={this.scrollFieldIntoView}
+          hasErrors={hasErrors}
+          error={hasErrors ? formikProps.errors[formikKey] : ''}
           {...this.props}
         />
-        <Text style={{ color: 'red' }}>
-          {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-        </Text>
       </ScrollIntoView>
     );
   }
