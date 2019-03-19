@@ -14,25 +14,9 @@ export default class StandardFooter extends React.Component{
       <View>
         <Footer>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
-            <Button>
-              <View style={{padding: padding}}>
-                <Icon
-                  name='sign-in'
-                  size={size}
-                  color={dP.color.primary}
-                />
-              </View>
-            </Button>
-            <Button>
-              <View style={{padding: padding}}>
-                <Icon
-                  name='map-marker'
-                  size={size}
-                  color={dP.color.primary}
-                />
-              </View>
-            </Button>
-            <Button>
+            <Button
+              onPress={() => this.props.navigation.navigate('Chatroom')}
+            >
               <View style={{padding: padding}}>
                 <Icon
                   name='comment'

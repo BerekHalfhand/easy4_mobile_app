@@ -6,6 +6,7 @@ import { Provider, connect } from 'react-redux';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 // import reducer from './reducer';
+// import Banner from './src/components/Banner';
 import Home from './src/components/Home';
 import Login from './src/components/Login';
 import Main from './src/components/Main';
@@ -13,10 +14,14 @@ import Tariff from './src/components/Tariff';
 import IncreaseBalance from './src/components/IncreaseBalance';
 import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
+import Chatroom from './src/components/Chatroom';
 
 // const store = createStore(reducer);
 
 const Routes = createStackNavigator({
+  // Banner: {
+  //   screen: Banner
+  // },
   Home: {
     screen: Home
   },
@@ -38,6 +43,9 @@ const Routes = createStackNavigator({
   Recovery: {
     screen: Recovery
   },
+  Chatroom: {
+    screen: Chatroom
+  }
 
 }, {
   headerLayoutPreset: 'center',

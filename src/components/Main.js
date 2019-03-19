@@ -274,7 +274,7 @@ export default class Main extends Screen{
 
             {/* *** */}
           </Content>
-          <StandardFooter />
+          <StandardFooter navigation={this.props.navigation} />
         </Container>
       </Root>
 

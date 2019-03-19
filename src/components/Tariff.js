@@ -98,7 +98,7 @@ export default class Tariff extends Screen {
             }
           </View>
         </Content>
-        <StandardFooter />
+        <StandardFooter navigation={this.props.navigation} />
       </Container>
     );
   }

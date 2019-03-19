@@ -221,7 +221,7 @@ export default class IncreaseBalance extends Screen {
             </Button>
           </View>
         </Content>
-        <StandardFooter />
+        <StandardFooter navigation={this.props.navigation} />
       </Container>
     );
   }

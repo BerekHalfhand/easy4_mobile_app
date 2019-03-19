@@ -121,7 +121,7 @@ export default class Home extends Screen {
 
               {this.renderOfferCheckbox()}
             </Content>
-            <StandardFooter />
+            <StandardFooter navigation={this.props.navigation} />
           </Container>
 
         );

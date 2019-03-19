@@ -4,7 +4,6 @@ import { Alert, Text, ActivityIndicator, KeyboardAvoidingView, ScrollView } from
 import {Button, Body, Form } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
-import InputWithIcon from 'app/src/elements/InputWithIcon';
 import Api from 'app/utils/api';
 import { Formik } from 'formik';
 import {
