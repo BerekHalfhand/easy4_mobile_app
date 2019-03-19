@@ -37,7 +37,7 @@ export default class Main extends Screen{
     const { state: { params = {} } } = navigation;
     return {
       ...Screen.navigationOptions,
-      headerTitle: <LogoTitle title={params.phone || ''} />,
+      headerTitle: <LogoTitle title={params.name || ''} />,
     };
     // subTitle={params.name || ''}
   }

@@ -15,6 +15,7 @@ import IncreaseBalance from './src/components/IncreaseBalance';
 import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
 import Chatroom from './src/components/Chatroom';
+import Callback from './src/components/Callback';
 
 // const store = createStore(reducer);
 
@@ -45,7 +46,10 @@ const Routes = createStackNavigator({
   },
   Chatroom: {
     screen: Chatroom
-  }
+  },
+  Callback: {
+    screen: Callback
+  },
 
 }, {
   headerLayoutPreset: 'center',

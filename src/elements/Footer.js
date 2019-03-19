@@ -25,7 +25,9 @@ export default class StandardFooter extends React.Component{
                 />
               </View>
             </Button>
-            <Button>
+            <Button
+              onPress={() => this.props.navigation.navigate('Callback')}
+            >
               <View style={{padding: padding}}>
                 <Icon
                   name='question-circle-o'
