@@ -23,11 +23,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "pro.easy4.app"
+      "supportsTablet": true
     },
     "android": {
-      "package": "pro.easy4.app"
+      "package": "com.sonet.easy4"
     }
   }
 }
