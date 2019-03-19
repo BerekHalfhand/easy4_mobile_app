@@ -1,14 +1,10 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {
-  View,
-  StyleSheet
-} from 'react-native';
-import {
-  TextField
-} from 'react-native-material-textfield';
+import { View } from 'react-native';
+import { TextField } from 'react-native-material-textfield';
 import PropTypes from 'prop-types';
-import {dP} from 'app/utils/style/styles';
+// import { withFormikControl } from 'react-native-formik';
+import {dP, styles} from 'app/utils/style/styles';
 
 export default class InputWithIcon extends React.Component {
 
@@ -17,7 +13,8 @@ export default class InputWithIcon extends React.Component {
 
     this.state = {
       icon: props.icon,
-      isPassword: props.isPassword
+      isPassword: props.isPassword,
+      focused: false,
     };
   }
 
@@ -41,10 +38,12 @@ export default class InputWithIcon extends React.Component {
 
   };
 
+  focus = () => this.setState({ focused: true });
+
   renderIcon() {
     if (this.state.icon) {
       return (
-        <Icon style={styles.icon}
+        <Icon style={styles.inputIcon}
           name={this.state.icon}
           size={this.props.iconSize}
           color={this.props.iconColor}
@@ -71,16 +70,6 @@ export default class InputWithIcon extends React.Component {
   }
 }
 
-export const styles = StyleSheet.create({
-
-  icon: {
-    position: 'absolute',
-    top: 33,
-    right: 0
-  }
-
-});
-
 InputWithIcon.propTypes = {
   icon: PropTypes.string,
   altIcon: PropTypes.string,
@@ -100,3 +89,5 @@ InputWithIcon.defaultProps = {
   isPassword: false,
   hasErrors: false,
 };
+
+// export default withFormikControl(InputWithIcon);

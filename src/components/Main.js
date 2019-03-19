@@ -37,8 +37,9 @@ export default class Main extends Screen{
     const { state: { params = {} } } = navigation;
     return {
       ...Screen.navigationOptions,
-      headerTitle: <LogoTitle title={params.phone || ''} subTitle={params.name || ''} />,
+      headerTitle: <LogoTitle title={params.phone || ''} />,
     };
+    // subTitle={params.name || ''}
   }
 
   loadData = async () => {
@@ -54,7 +55,7 @@ export default class Main extends Screen{
           throw data.msg;
 
         this.props.navigation.setParams({
-          phone: data.phone,
+          // phone: data.phone,
           name: data.firstName + ' ' + data.lastName,
         });
 

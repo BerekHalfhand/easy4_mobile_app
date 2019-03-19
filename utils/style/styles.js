@@ -116,6 +116,11 @@ export const styles = StyleSheet.create({
     marginRight: 12
     // color: '#005EBA'
   },
+  inputIcon: {
+    position: 'absolute',
+    top: 33,
+    right: 0
+  },
   whiteTextColor: {
     color: dP.color.white,
     fontSize: dP.size.text,
