@@ -5,7 +5,6 @@ import {Button, Body, Form } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
-import NavBack from 'app/src/elements/NavBack';
 import Api from 'app/utils/api';
 
 export default class Recovery extends Screen {
@@ -17,11 +16,8 @@ export default class Recovery extends Screen {
   }
 
   static navigationOptions = {
-    headerBackImage: <NavBack />,
-    headerBackTitle: null,
-    headerTitle: navigation  =>  <LogoTitle title='Сброс пароля' />,
-    headerStyle: styles.baseHeader,
-    headerTintColor: '#fff',
+    ...Screen.navigationOptions,
+    headerTitle: <LogoTitle title='Сброс пароля' />,
   };
 
   formSubmit(){

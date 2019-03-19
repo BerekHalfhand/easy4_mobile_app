@@ -1,14 +1,12 @@
 import React from 'react';
 import {Alert, ActivityIndicator, Dimensions, Platform, Text, KeyboardAvoidingView, Keyboard, ScrollView} from 'react-native';
-import PropTypes from 'prop-types';
 import Screen from './Screen';
 import {Button, Body, Form } from 'native-base';
 // import FingerPrint from './touchid';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
-import InputWithIcon from 'app/src/elements/InputWithIcon';
 import InputScrollable from 'app/src/elements/InputScrollable';
-import NavBack from 'app/src/elements/NavBack';
+import {InputWithMask} from 'app/src/elements/InputWithMask';
 import Api from 'app/utils/api';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -16,12 +14,10 @@ import { wrapScrollView } from 'react-native-scroll-into-view';
 
 const CustomScrollView = wrapScrollView(ScrollView);
 
-const phoneRegEx = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
-
 const validationSchema = yup.object().shape({
   firstName: yup
     .string()
-    .required('Необходимо указать имя')
+    // .required('Необходимо указать имя')
     .label('Имя'),
 
   secondName: yup
@@ -30,17 +26,17 @@ const validationSchema = yup.object().shape({
 
   lastName: yup
     .string()
-    .required('Необходимо указать фамилию')
+    // .required('Необходимо указать фамилию')
     .label('Фамилия'),
 
   phone: yup
-    .string().matches(phoneRegEx, 'Неправильный формат')
-    .required('Необходимо указать номер телефона')
+    .string()
+    // .required('Необходимо указать номер телефона')
     .label('Номер телефона'),
 
   email: yup
     .string()
-    .email()
+    .email('Некорректный email адрес')
     .required('Необходимо указать электронную почту')
     .label('Электронная почта'),
 
@@ -48,7 +44,11 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Необходимо указать пароль')
     .min(6, 'Пароль должен быть длиннее пяти символов')
-    .label('Пароль'),
+    .label('Пароль')
+    .test('password-valid', 'Допускаются только цифры и латинские буквы', (value) => {
+      let regex = new RegExp(/^[a-z0-9]+$/i);
+      return regex.test(value);
+    }),
 });
 
 
@@ -59,11 +59,8 @@ export default class SignUp extends Screen {
   }
 
   static navigationOptions = {
-    headerBackImage: <NavBack />,
-    headerBackTitle: null,
-    headerTitle: navigation  =>  <LogoTitle title='Регистрация' />,
-    headerStyle: styles.baseHeader,
-    headerTintColor: '#fff',
+    ...Screen.navigationOptions,
+    headerTitle: <LogoTitle title='Регистрация' />,
   };
 
   static fetchAuthData(){
@@ -71,7 +68,7 @@ export default class SignUp extends Screen {
   }
 
   formSubmit(values, actions) {
-    console.log('form submit');
+    console.log('form submit', values);
 
     Api.signup(
       values.firstName,
@@ -83,7 +80,6 @@ export default class SignUp extends Screen {
     )
       .then(data => {
         console.log('data:', data);
-        actions.setSubmitting(false);
 
         if (!data._id)
           if (data.errors)
@@ -96,7 +92,9 @@ export default class SignUp extends Screen {
         console.log('redirect to login');
         this.props.navigation.navigate('Login');
       })
-      .catch(e => Alert.alert(e.title, e.message));
+      // .catch(e => Alert.alert(e.title, e.message));
+      .catch(e => actions.setFieldError('general', e.message))
+      .finally(() => actions.setSubmitting(false));
   }
 
   render(data) {
@@ -108,7 +106,6 @@ export default class SignUp extends Screen {
     //
     // if (Platform.OS === 'ios')
     //   viewStyle.maxHeight = height;
-
     return (
       <CustomScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
@@ -118,7 +115,14 @@ export default class SignUp extends Screen {
           behavior = "padding" >
 
           <Formik
-            initialValues={{ firstName: '' }}
+            initialValues={{
+              firstName: '',
+              lastName: '',
+              secondName: '',
+              email: '',
+              phone: '',
+              password: '',
+            }}
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
           >
@@ -126,12 +130,12 @@ export default class SignUp extends Screen {
               <React.Fragment>
 
                 <InputScrollable label='Имя' formikKey='firstName' formikProps={formikProps} />
-                <InputScrollable label='Отчество' formikKey='secondName' formikProps={formikProps} />
                 <InputScrollable label='Фамилия' formikKey='lastName' formikProps={formikProps} />
+                <InputScrollable label='Отчество' formikKey='secondName' formikProps={formikProps} />
                 <InputScrollable label='Электронная почта' formikKey='email' keyboardType='email-address' formikProps={formikProps} />
-                <InputScrollable label='Номер телефона' formikKey='phone' keyboardType='phone-pad' formikProps={formikProps} />
+                <InputScrollable label='Номер телефона' formikKey='phone' keyboardType='phone-pad' mask='+0(000)000-00-00' formikProps={formikProps} />
                 <InputScrollable label='Пароль' formikKey='password' isPassword={true} icon='visibility-off' altIcon='visibility' formikProps={formikProps} />
-
+                <Text style={{ color: dP.color.error }}>{formikProps.errors.general}</Text>
                 {formikProps.isSubmitting ? (
                   <ActivityIndicator />
                 ) : (
@@ -141,7 +145,7 @@ export default class SignUp extends Screen {
                       onPress={formikProps.handleSubmit}
                     >
                       <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
-                          Создать аккаунт
+                        Создать аккаунт
                       </Text>
                     </Button>
                   </Body>

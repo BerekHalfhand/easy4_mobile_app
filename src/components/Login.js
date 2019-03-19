@@ -5,7 +5,6 @@ import {Button, Container, Content, Body, Form, Input, IconNB, TouchableOpacity 
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
-import NavBack from 'app/src/elements/NavBack';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
 
@@ -23,12 +22,8 @@ export default class Login extends Screen {
   }
 
   static navigationOptions = {
-    // TODO: make a proper inheritance from Screen
-    headerBackImage: <NavBack />,
-    headerBackTitle: null,
-    headerTitle: navigation  =>  <LogoTitle title='Вход' />,
-    headerStyle: styles.baseHeader,
-    headerTintColor: '#fff',
+    ...Screen.navigationOptions,
+    headerTitle: <LogoTitle title='Вход' />,
   };
 
   componentDidMount() {

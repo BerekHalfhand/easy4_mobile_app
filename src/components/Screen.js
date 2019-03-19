@@ -14,15 +14,11 @@ export default class Screen extends Component {
       fontLoaded: false,
     };
   }
-    static navigationOptions = ({ navigation }) => {
-      const resultOptions = {
-        headerStyle: styles.baseHeader,
-        headerBackImage: <NavBack />,
-        headerBackTitle: null,
-        headerTintColor: '#fff'
-      };
-
-      return resultOptions;
+    static navigationOptions = {
+      headerStyle: styles.baseHeader,
+      headerBackImage: <NavBack />,
+      headerBackTitle: null,
+      headerTintColor: '#fff'
     };
 
     componentDidMount(){
