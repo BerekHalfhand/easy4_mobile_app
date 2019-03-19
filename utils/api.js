@@ -27,26 +27,15 @@ export default class Api {
     return fetch(request).then(response => response.json());
   }
 
-  static signup = (
-    firstName,
-    secondName,
-    lastName,
-    email,
-    phone,
-    password
-  ) => {
+  static signup = (values) => {
     console.log('api/signup');
 
     const url = 'https://mp.api.easy4.pro/users';
 
-    let data = JSON.stringify({
-      firstName,
-      secondName,
-      lastName,
-      email,
-      phone,
-      password
-    });
+    // strip the values object of empty fields
+    Object.keys(values).forEach((key) => (values[key] === '') && delete values[key]);
+
+    let data = JSON.stringify(values);
 
     var request = new Request(url, {
       method: 'POST',

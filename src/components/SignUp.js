@@ -70,14 +70,7 @@ export default class SignUp extends Screen {
   formSubmit(values, actions) {
     console.log('form submit', values);
 
-    Api.signup(
-      values.firstName,
-      values.secondName,
-      values.lastName,
-      values.email,
-      values.phone,
-      values.password
-    )
+    Api.signup(values)
       .then(data => {
         console.log('data:', data);
 
