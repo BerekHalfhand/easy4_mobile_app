@@ -79,8 +79,7 @@ export default class Home extends Screen {
     }
 
     render() {
-
-      console.log('state:', this.state);
+      // console.log('state:', this.state);
       if (this.state.fontLoaded){
         return (
 
@@ -121,7 +120,7 @@ export default class Home extends Screen {
 
               {this.renderOfferCheckbox()}
             </Content>
-            <StandardFooter navigation={this.props.navigation} />
+            <StandardFooter />
           </Container>
 
         );

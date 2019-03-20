@@ -1,10 +1,11 @@
 import React from 'react';
 // import { AppRegistry } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
+import Drawer from 'app/src/elements/Drawer';
 // import reducer from './reducer';
 // import Banner from './src/components/Banner';
 import Home from './src/components/Home';
@@ -52,9 +53,34 @@ const Routes = createStackNavigator({
   },
 
 }, {
+  initialRouteName: 'Home',
   headerLayoutPreset: 'center',
   headerBackTitle: null,
+
+  navigationOptions: {
+    headerMode: 'screen' // enabling header mode for main screen
+  }
 });
+
+const AppNavigator = createDrawerNavigator({
+  Home: { screen: Routes },
+  // Callback: { screen: Callback },
+  // IncreaseBalance: {
+  //   screen: IncreaseBalance,
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: 'Пополнить баланс',
+  //     // headerLeft: <HamburgerIcon navigationProps={navigation} />,
+  //     //
+  //     // headerStyle: {
+  //     //   backgroundColor: '#FF9800'
+  //     // },
+  //     // headerTintColor: '#fff',
+  //   })
+  // },
+}, {
+  contentComponent: Drawer
+});
+
 
 // turning off in-app warnings
 console.disableYellowBox = true;
@@ -62,7 +88,6 @@ console.disableYellowBox = true;
 // fewer red screens of death
 console.reportErrorsAsExceptions = false;
 
-const App = createAppContainer(Routes);
+const App = createAppContainer(AppNavigator);
 
 export default App;
-// AppRegistry.registerComponent('App', () => App);

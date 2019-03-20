@@ -36,9 +36,15 @@ import {styles} from 'app/utils/style/styles';
 export default class IncreaseBalance extends Screen {
   constructor(props){
     super(props);
-    const phone = props.navigation.state.params.phone;
+    let phone = '';
+    try {
+      phone = props.navigation.state.params.phone;
+    }
+    catch {
+      phone = '';
+    }
     this.state = {
-      phone: phone || '',
+      phone: phone,
       amount: '500.02',
       card: '9999999999999999',
       webpay: true

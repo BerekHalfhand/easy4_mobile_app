@@ -1,7 +1,8 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Keyboard} from 'react-native';
+import {withNavigation} from 'react-navigation';
 
-export default class LogoTitle extends React.Component {
+class LogoTitle extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -14,6 +15,11 @@ export default class LogoTitle extends React.Component {
       subTitle: '',
       borderBottomColor: '#B22222',
     };
+  }
+
+  toggleDrawer = () => {
+    Keyboard.dismiss();
+    this.props.navigation.openDrawer();
   }
 
   renderSubtitle(subTitle, subTitleSize, subTitleColor) {
@@ -31,14 +37,17 @@ export default class LogoTitle extends React.Component {
       subTitleSize,
       title,
       subTitle,
-      borderBottomColor
+      borderBottomColor,
+      navigation
     } = Object.assign(this.state, this.props);
 
     return (
       <View style={{ backgroundColor:background, borderBottomColor: borderBottomColor }}>
-        <Text numberOfLines={1} style={{color: titleColor, textAlign:'center', fontSize: titleSize}}>{ title }</Text>
+        <Text onPress={this.toggleDrawer} numberOfLines={1} style={{color: titleColor, textAlign:'center', fontSize: titleSize}}>{ title }</Text>
         {subTitle ? this.renderSubtitle(subTitle, subTitleSize, subTitleColor) : null}
       </View>
     );
   }
 }
+
+export default withNavigation(LogoTitle);

@@ -3,8 +3,9 @@ import { Footer, FooterTab, Button } from 'native-base';
 import { View } from 'react-native';
 import {dP} from 'app/utils/style/styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { withNavigation } from 'react-navigation';
 
-export default class StandardFooter extends React.Component{
+class StandardFooter extends React.Component{
 
   render(){
     const size = 16;
@@ -43,3 +44,5 @@ export default class StandardFooter extends React.Component{
     );
   }
 }
+
+export default withNavigation(StandardFooter);
