@@ -1,5 +1,6 @@
 import React from 'react';
 import {Font, AppLoading} from 'expo';
+import { connect } from 'react-redux'
 
 import {
   Content,
@@ -16,7 +17,7 @@ import autoBind from 'react-autobind';
 import StandardFooter from 'app/src/elements/Footer';
 
 
-export default class Home extends Screen {
+class Home extends Screen {
   constructor(props) {
     super(props);
     autoBind(this);
@@ -134,3 +135,7 @@ export default class Home extends Screen {
 
     }
 }
+
+const mapStateToProps = state => ({ ...state })
+
+export default connect(mapStateToProps)(Home);

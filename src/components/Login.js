@@ -7,14 +7,17 @@ import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
+import {setAccessToken, setRefreshToken} from 'app/src/actions';
 import { Formik } from 'formik';
 import { compose } from 'recompose';
+import { connect } from 'react-redux';
 import {
   handleTextInput,
   withNextInputAutoFocusInput,
   withNextInputAutoFocusForm
 } from 'react-native-formik';
 import * as Yup from 'yup';
+import { store } from 'app/src/store';
 
 const validationSchema = Yup.object().shape({
   login: Yup.string()
@@ -31,10 +34,15 @@ const MyInput = compose(
 // TODO: make this shit work
 const Form = withNextInputAutoFocusForm(View);
 
-export default class Login extends Screen {
+class Login extends Screen {
   constructor(props) {
     super(props);
     autoBind(this);
+
+    // props.dispatch({
+    //   type: 'RESET',
+    //   payload: {  }
+    // });
   }
 
   static navigationOptions = {
@@ -80,13 +88,8 @@ export default class Login extends Screen {
         if (!data.accessToken)
           throw data.msg;
 
-        AsyncStorage.setItem(
-          'accessToken', data.accessToken
-        );
-        AsyncStorage.setItem(
-          'refreshToken', data.refreshToken
-        );
-
+        this.props.dispatch(setAccessToken(data.accessToken));
+        this.props.dispatch(setRefreshToken(data.refreshToken));
       })
       .then(data => {
         console.log('saved response, redirect');
@@ -135,7 +138,7 @@ export default class Login extends Screen {
                   />
 
                   <Body style={{margin: 24}}>
-                    <Text style={{ color: dP.color.error, position: 'absolute', top: -24 }}>{formikProps.errors.general}</Text>
+                    <Text style={{ color: dP.color.error }}>{formikProps.errors.general}</Text>
                     {formikProps.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
@@ -176,3 +179,7 @@ export default class Login extends Screen {
     // )
   }
 }
+
+const mapStateToProps = state => ({ ...state });
+
+export default connect(mapStateToProps)(Login);

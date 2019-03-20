@@ -1,12 +1,13 @@
 import React from 'react';
 // import { AppRegistry } from 'react-native';
-import { createStore, applyMiddleware } from 'redux';
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 import Drawer from 'app/src/elements/Drawer';
-// import reducer from './reducer';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from 'app/src/store';
+
 // import Banner from './src/components/Banner';
 import Home from './src/components/Home';
 import Login from './src/components/Login';
@@ -17,8 +18,6 @@ import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
 import Chatroom from './src/components/Chatroom';
 import Callback from './src/components/Callback';
-
-// const store = createStore(reducer);
 
 const Routes = createStackNavigator({
   // Banner: {
@@ -64,7 +63,6 @@ const Routes = createStackNavigator({
 
 const AppNavigator = createDrawerNavigator({
   Home: { screen: Routes },
-  // Callback: { screen: Callback },
   // IncreaseBalance: {
   //   screen: IncreaseBalance,
   //   navigationOptions: ({ navigation }) => ({
@@ -88,6 +86,22 @@ console.disableYellowBox = true;
 // fewer red screens of death
 console.reportErrorsAsExceptions = false;
 
-const App = createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(AppNavigator);
 
-export default App;
+export default class App extends React.Component {
+  render () {
+    console.log('store', store.getState())
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppContainer/>
+        </PersistGate>
+      </Provider>
+    );
+  }
+}
+
+// TODO: perhaps there is a better way to connect, once
+// const mapStateToProps = state => ({ ...state })
+//
+// export default connect(mapStateToProps)(App);

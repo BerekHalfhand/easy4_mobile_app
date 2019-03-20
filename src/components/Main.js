@@ -13,8 +13,10 @@ import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
+import { connect } from 'react-redux';
+import { store } from 'app/src/store';
 
-export default class Main extends Screen{
+class Main extends Screen{
   constructor(props){
     super(props);
     autoBind(this);
@@ -25,7 +27,9 @@ export default class Main extends Screen{
       lastName: '',
       clicked:'',
       balance: 0,
+      accessToken: store.getState().accessToken,
     };
+    // console.log('store', store.getState());
 
   }
 
@@ -42,12 +46,10 @@ export default class Main extends Screen{
     // subTitle={params.name || ''}
   }
 
-  loadData = async () => {
-    const token = await AsyncStorage.getItem('accessToken');
-    this.setState({token: token});
-    console.log('token', token);
+  loadData = () => {
+    console.log('token', this.state.accessToken);
 
-    let userData = Api.userInfo(token)
+    let userData = Api.userInfo(this.state.accessToken)
       .then(data => {
         console.log('userData:', data);
 
@@ -67,7 +69,7 @@ export default class Main extends Screen{
       })
       .catch(e => Alert.alert('Data Fetching Error', e.toString()));
 
-    let userPhones = Api.msisdns(token)
+    let userPhones = Api.msisdns(this.state.accessToken)
       .then(data => {
         console.log('userPhones:', data);
 
@@ -83,7 +85,7 @@ export default class Main extends Screen{
 
   getBalance = async (phone) => {
     console.log('getBalance:', phone);
-    Api.balance(phone, this.state.token)
+    Api.balance(phone, this.state.accessToken)
       // .then(response => console.log(response))
       .then(data => {
         console.log('getBalance:', data);
@@ -282,3 +284,7 @@ export default class Main extends Screen{
     );
   }
 }
+
+const mapStateToProps = state => ({ ...state });
+
+export default connect(mapStateToProps)(Main);
