@@ -13,8 +13,8 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "contain",
+      "backgroundColor": "#004d99"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +23,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.intersat.easy4",
+      "buildNumber": "0.0.1"
     },
     "android": {
       "package": "com.sonet.easy4"
