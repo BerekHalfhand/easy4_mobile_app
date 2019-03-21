@@ -6,18 +6,18 @@ import {Button, Body, Form } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputScrollable from 'app/src/elements/InputScrollable';
-import {InputWithMask} from 'app/src/elements/InputWithMask';
+import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { wrapScrollView } from 'react-native-scroll-into-view';
+import { connect } from 'react-redux';
 
 const CustomScrollView = wrapScrollView(ScrollView);
 
 const validationSchema = yup.object().shape({
   firstName: yup
     .string()
-    // .required('Необходимо указать имя')
     .label('Имя'),
 
   secondName: yup
@@ -26,12 +26,10 @@ const validationSchema = yup.object().shape({
 
   lastName: yup
     .string()
-    // .required('Необходимо указать фамилию')
     .label('Фамилия'),
 
   phone: yup
     .string()
-    // .required('Необходимо указать номер телефона')
     .label('Номер телефона'),
 
   email: yup
@@ -53,19 +51,16 @@ const validationSchema = yup.object().shape({
 
 
 
-export default class SignUp extends Screen {
+class SignUp extends Screen {
   constructor(props) {
     super(props);
+    autoBind(this);
   }
 
   static navigationOptions = {
     ...Screen.navigationOptions,
     headerTitle: <LogoTitle title='Регистрация' />,
   };
-
-  static fetchAuthData(){
-    return true;
-  }
 
   formSubmit(values, actions) {
     console.log('form submit', values);
@@ -152,3 +147,7 @@ export default class SignUp extends Screen {
     );
   }
 }
+
+const mapStateToProps = state => ({ ...state });
+
+export default connect(mapStateToProps)(SignUp);

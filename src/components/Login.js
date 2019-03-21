@@ -7,7 +7,7 @@ import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
-import {setAccessToken, setRefreshToken} from 'app/src/actions';
+import {setAccessToken, setRefreshToken, checkToken} from 'app/src/actions';
 import { Formik } from 'formik';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -17,7 +17,6 @@ import {
   withNextInputAutoFocusForm
 } from 'react-native-formik';
 import * as Yup from 'yup';
-import { store } from 'app/src/store';
 
 const validationSchema = Yup.object().shape({
   login: Yup.string()
@@ -38,11 +37,6 @@ class Login extends Screen {
   constructor(props) {
     super(props);
     autoBind(this);
-
-    // props.dispatch({
-    //   type: 'RESET',
-    //   payload: {  }
-    // });
   }
 
   static navigationOptions = {
@@ -50,30 +44,27 @@ class Login extends Screen {
     headerTitle: <LogoTitle title='Вход' />,
   };
 
-  componentDidMount() {
-    this.fetchAuthData();
-  }
-
-
-  fetchAuthData = async () => {
-    // try {
-    //   const accT = await AsyncStorage.getItem('accessToken');
-    //   if (accT) {
-    //     fetch('https://mp.api.easy4.pro/auth/tokens/check/'+accT, {
-    //       method: 'GET',
-    //     })
-    //       .then(response => response.json())
-    //       .then(data => {
-    //         console.log('data:',data);
-    //
-    //         if (data.login)
-    //           this.props.navigation.navigate('Main');
-    //       });
-    //   }
-    // } catch (e) {
-    //   console.log('error', e);
-    // }
-  }
+  // componentDidMount() {
+  //   this.fetchAuthData();
+  // }
+  //
+  //
+  // fetchAuthData = async () => {
+  //   try {
+  //     if (this.props.accessToken) {
+  //       console.log('checking the fucking token')
+  //       this.props.dispatch(checkToken(this.props.accessToken))
+  //         // .then(data => {
+  //         //   console.log('data:',data);
+  //         //
+  //         //   if (data.login)
+  //         //     this.props.navigation.navigate('Main');
+  //         // });
+  //     }
+  //   } catch (e) {
+  //     console.log('error', e);
+  //   }
+  // }
 
   onPressRecovery() {
     this.props.navigation.navigate('Recovery');
@@ -97,19 +88,14 @@ class Login extends Screen {
       })
       .catch(e => actions.setFieldError('general', e.toString()))
       .finally(() => actions.setSubmitting(false));
-
-    //TODO  to finish registration and login, sae data in storage
   }
 
-  render(data) {
-
-    // console.log('state: ', this.state);
-    // if (this.state.fontLoaded) {
+  render() {
     return (
       <ScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
         <KeyboardAvoidingView
-          keyboardVerticalOffset = {280} // adjust the value here if you need more padding
+          keyboardVerticalOffset = {280}
           style = {{ flex: 1, padding: 24 }}
           behavior = "padding" >
           <Formik
@@ -124,7 +110,6 @@ class Login extends Screen {
                 <Form>
                   <MyInput
                     label='Телефон или электронная почта'
-                    autoFocus
                     name='login'
                     type='email'
                     icon='person-outline'
@@ -171,15 +156,22 @@ class Login extends Screen {
 
       </ScrollView>
     );
-    // }
-    // return(
-    //     <Container>
-    //         <Content padder style={{backgroundColor: dP.color.primary}}></Content>
-    //     </Container>
-    // )
   }
 }
 
 const mapStateToProps = state => ({ ...state });
 
 export default connect(mapStateToProps)(Login);
+
+// const mapStateToProps = ({ _persist = {}, data = {}, isLoadingData = false, accessToken = null }) => ({
+//   _persist,
+//   data,
+//   isLoadingData,
+//   accessToken
+// });
+// export default connect(
+//   mapStateToProps,
+//   {
+//     checkToken
+//   }
+// )(Login);

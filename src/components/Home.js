@@ -15,6 +15,7 @@ import Screen from './Screen';
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import StandardFooter from 'app/src/elements/Footer';
+import {checkToken} from 'app/src/actions';
 
 
 class Home extends Screen {
@@ -25,7 +26,18 @@ class Home extends Screen {
       fontLoaded: false,
       offerAccepted: null,
     };
+
+    props.dispatch({
+      type: 'READ_STATE',
+      payload: {}
+    });
+
+
     this.getOfferState();
+    this.fetchAuthData();
+
+    // console.log('Home.props', this.props);
+    // console.log('Home.state', this.state);
   }
 
     static navigationOptions = {
@@ -34,11 +46,33 @@ class Home extends Screen {
       headerBackTitle: null,
     };
 
+    // TODO: find out why it breaks font loading
+    // componentDidMount() {
+    //   this.fetchAuthData();
+    // }
+
+    fetchAuthData = async () => {
+      try {
+        if (this.props.accessToken && this.props.refreshToken) {
+          console.log('Found accessToken: ',this.props.accessToken);
+          this.props.dispatch(checkToken(this.props.accessToken, this.props.refreshToken));
+        } else {
+          console.log('Couldn\'t find accessToken!');
+        }
+      } catch (e) {
+        console.log('Token check error', e);
+      }
+    }
+
     onPressLogin() {
-      if (this.state.offerAccepted === true)
-        this.props.navigation.navigate('Login');
-      else
-        Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
+      // console.log('onPressLogin props', this.props);
+
+      if (this.state.offerAccepted === true) {
+        if (this.props.authorized)
+          this.props.navigation.navigate('Main');
+        else
+          this.props.navigation.navigate('Login');
+      } else Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
     }
 
     onPressSignUp() {
@@ -136,6 +170,6 @@ class Home extends Screen {
     }
 }
 
-const mapStateToProps = state => ({ ...state })
+const mapStateToProps = state => ({ ...state });
 
 export default connect(mapStateToProps)(Home);
