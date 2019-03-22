@@ -57,14 +57,19 @@ class Drawer extends React.Component {
     autoBind(this);
   }
 
-  logout () {
+  onPressLogout () {
     this.props.navigation.closeDrawer();
     this.props.dispatch(logout());
   }
 
-  navigateTo = ( route ) => {
+  onPressBalance (phone) {
     this.props.navigation.closeDrawer();
-    NavigationService.navigate(route);
+    this.navigateTo('IncreaseBalance', {phone: phone});
+  }
+
+  navigateTo = ( route, params ) => {
+    this.props.navigation.closeDrawer();
+    NavigationService.navigate(route, params);
   };
 
   render() {
@@ -89,7 +94,7 @@ class Drawer extends React.Component {
         <View style={styles.itemsContainer}>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateTo('IncreaseBalance')}>Пополнить баланс</Text>
+            <Text style={styles.itemText} onPress={() => this.onPressBalance(phone)}>Пополнить баланс</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
@@ -105,7 +110,7 @@ class Drawer extends React.Component {
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={this.logout}>Выйти</Text>
+            <Text style={styles.itemText} onPress={this.onPressLogout}>Выйти</Text>
           </View>
         </View>
       </Container>

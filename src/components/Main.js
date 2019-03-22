@@ -26,7 +26,7 @@ class Main extends Screen{
       firstName: '',
       lastName: '',
       clicked:'',
-      balance: 0,
+      balance: null,
     };
 
   }
@@ -39,7 +39,8 @@ class Main extends Screen{
     const { state: { params = {} } } = navigation;
     return {
       ...Screen.navigationOptions,
-      headerTitle: <LogoTitle title={params.name || ''} />,
+      headerLeft: null,
+      headerTitle: <LogoTitle title={params.name || ''} subTitle={params.phone || ''}/>,
     };
     // subTitle={params.name || ''}
   }
@@ -57,8 +58,8 @@ class Main extends Screen{
 
         if (data.firstName)
           this.props.navigation.setParams({
-            // phone: data.phone,
             name: data.firstName + ' ' + data.lastName,
+            ...(data.phone && {phone: data.phone})
           });
 
         this.setState({
@@ -168,6 +169,8 @@ class Main extends Screen{
     const CANCEL_INDEX = 2;
     // console.log('state:', this.state);
     // console.log('navigation:', this.props);
+    const balance = <ClientMainBalance balance={this.state.balance} />;
+
     return(
       <Root>
         <Container style={{backgroundColor:'#004d99'}}>
@@ -180,7 +183,7 @@ class Main extends Screen{
 
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{width:'60%'}}>
-                <ClientMainBalance balance={this.state.balance} />
+                {this.state.balance !== null ? balance : null}
               </View>
               <View style={{width:'40%', alignItems:'flex-end'}}>
                 <View style={{flex: 1, justifyContent: 'flex-end', alignContent:'center'}}>
