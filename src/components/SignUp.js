@@ -9,7 +9,7 @@ import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
 import {signup} from 'app/src/actions';
 import { Formik } from 'formik';
-import { wrapScrollView } from 'react-native-scroll-into-view';
+// import { wrapScrollView } from 'react-native-scroll-into-view';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import {
@@ -19,7 +19,7 @@ import {
 } from 'react-native-formik';
 import * as Yup from 'yup';
 
-const CustomScrollView = wrapScrollView(ScrollView);
+// const CustomScrollView = wrapScrollView(ScrollView);
 
 const validationSchema = Yup.object().shape({
   email: Yup
@@ -63,14 +63,14 @@ class SignUp extends Screen {
   }
 
   render() {
-    const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 64;
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 300;
 
     const error = (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
       {this.props.errors && this.props.errors.signupError}
     </Text>);
 
     return (
-      <CustomScrollView style={{backgroundColor: dP.color.primary}}
+      <ScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
         <KeyboardAvoidingView enabled
           keyboardVerticalOffset = {keyboardVerticalOffset}
@@ -126,7 +126,7 @@ class SignUp extends Screen {
 
 
         </KeyboardAvoidingView>
-      </CustomScrollView>
+      </ScrollView>
     );
   }
 }

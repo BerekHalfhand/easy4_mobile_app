@@ -59,18 +59,21 @@ export function signup(email, password) {
       email,
       password
     },
-    onSuccess: signupSuccess,
-    successTransition: 'Login',
+    onSuccess: (data) => signupSuccess(data, email, password),
     onFailure: signupFailure,
     label: T.SIGNUP,
     errorLabel: 'signupError'
   });
 }
 
-const signupSuccess = data => {
-  return {
-    type: T.SIGNUP_SUCCESS,
-    payload: data
+const signupSuccess = (data, email, password) => {
+  return function(dispatch) {
+    console.log('signupSuccess', data, email, password);
+    dispatch(login(email, password));
+    return {
+      type: T.SIGNUP_SUCCESS,
+      payload: data
+    };
   };
 };
 

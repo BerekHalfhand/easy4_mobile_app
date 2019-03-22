@@ -20,7 +20,7 @@ class LogoTitle extends React.Component {
 
   toggleDrawer = () => {
     Keyboard.dismiss();
-    
+
     if (this.props.authorized)
       this.props.navigation.openDrawer();
   }

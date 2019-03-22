@@ -81,6 +81,7 @@ export const styles = StyleSheet.create({
     paddingRight: 20,
     paddingBottom: 10,
     backgroundColor: dP.color.accent,
+    alignSelf: 'center',
     // borderRadius: 24
   },
   buttonPrimaryCash: {
