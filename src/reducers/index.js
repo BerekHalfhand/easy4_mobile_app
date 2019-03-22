@@ -11,6 +11,13 @@ export default (state = {}, action) => {
       isLoadingData: true
     };
 
+  case T.API_ERROR:
+    console.log('action/API_ERROR', payload);
+    return {
+      ...state,
+      errors: payload.errors
+    };
+
   case T.API_END:
     return {
       ...state,
@@ -24,12 +31,6 @@ export default (state = {}, action) => {
   case T.RESET_STATE:
     console.log('action/RESET_STATE', state);
     return {};
-
-  case 'PERSIST_ACCESS_TOKEN':
-    return {...state, accessToken: payload.token};
-
-  case 'PERSIST_REFRESH_TOKEN':
-    return {...state, refreshToken: payload.token};
 
   case T.CHECK_TOKEN_SUCCESS:
     console.log('action/CHECK_TOKEN_SUCCESS', payload);
@@ -71,10 +72,27 @@ export default (state = {}, action) => {
 
   case T.USER_INFO_FAILURE:
     console.log('action/USER_INFO_FAILURE');
+    return state;
+
+  case T.LOGIN_SUCCESS:
+    console.log('action/LOGIN_SUCCESS', payload);
+    return {
+      ...state,
+      accessToken: payload.accessToken,
+      refreshToken: payload.refreshToken,
+      authorized: true,
+    };
+
+  case T.LOGIN_FAILURE:
+    console.log('action/LOGIN_FAILURE');
     return {
       ...state,
       user: null,
     };
+
+  case T.LOGOUT:
+    console.log('action/LOGOUT');
+    return {};
 
   default:
     return state;

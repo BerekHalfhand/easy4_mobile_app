@@ -16,22 +16,22 @@ class StandardFooter extends React.Component{
         <Footer>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
             <Button
-              onPress={() => this.props.navigation.navigate('Chatroom')}
+              onPress={() => this.props.navigation.navigate('Callback')}
             >
               <View style={{padding: padding}}>
                 <Icon
-                  name='comment'
+                  name='question-circle-o'
                   size={size}
                   color={dP.color.primary}
                 />
               </View>
             </Button>
             <Button
-              onPress={() => this.props.navigation.navigate('Callback')}
+              onPress={() => this.props.navigation.navigate('Chatroom')}
             >
               <View style={{padding: padding}}>
                 <Icon
-                  name='question-circle-o'
+                  name='comment'
                   size={size}
                   color={dP.color.primary}
                 />

@@ -10,6 +10,12 @@ export const USER_INFO = 'USER_INFO';
 export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
 export const USER_INFO_FAILURE = 'USER_INFO_FAILURE';
 
+export const LOGIN = 'LOGIN';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+
+export const LOGOUT = 'LOGOUT';
+
 export const API = 'API';
 export const API_START = 'API_START';
 export const API_END = 'API_END';

@@ -1,22 +1,14 @@
 import * as T from './types';
+import NavigationService from 'app/src/services/NavigationService';
 
-export const persistAccessToken = (token) => ({ type: 'PERSIST_ACCESS_TOKEN', payload: {token} });
-export const persistRefreshToken = (token) => ({ type: 'PERSIST_REFRESH_TOKEN', payload: {token} });
+export const logoutAction = () => ({ type: 'LOGOUT', payload: {} });
 
-export function setAccessToken(token) {
+export function logout() {
   return function(dispatch) {
-    dispatch(persistAccessToken(token));
+    dispatch(logoutAction());
+    NavigationService.navigate('Home');
   };
 }
-
-export function setRefreshToken(token) {
-  return function(dispatch) {
-    dispatch(persistRefreshToken(token));
-  };
-}
-
-
-
 
 export function checkToken(accessToken, refreshToken) {
   // console.log('checkToken', token);
@@ -113,15 +105,51 @@ const userInfoFailure = data => {
   };
 };
 
+export function login(login, password) {
+  console.log('login', login, password);
+
+  return apiAction({
+    url: '/auth/login',
+    method: 'POST',
+    data: {
+      login,
+      password
+    },
+    onSuccess: loginSuccess,
+    successTransition: 'Main',
+    onFailure: loginFailure,
+    // failureTransition: 'Home',
+    label: T.LOGIN,
+    errorLabel: 'loginError'
+  });
+}
+
+const loginSuccess = data => {
+  return {
+    type: T.LOGIN_SUCCESS,
+    payload: data
+  };
+};
+
+const loginFailure = data => {
+  return {
+    type: T.LOGIN_FAILURE,
+    payload: data
+  };
+};
+
 function apiAction({
   url = '',
   method = 'GET',
   data = null,
   accessToken = null,
   onSuccess = () => {},
+  successTransition = null,
   onFailure = () => {},
+  failureTransition = null,
   label = '',
-  headersOverride = null
+  headersOverride = null,
+  errorLabel = 'error'
 }) {
   return {
     type: T.API,
@@ -131,9 +159,12 @@ function apiAction({
       data,
       accessToken,
       onSuccess,
+      successTransition,
       onFailure,
+      failureTransition,
       label,
-      headersOverride
+      headersOverride,
+      errorLabel,
     }
   };
 }

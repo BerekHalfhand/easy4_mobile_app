@@ -1,5 +1,6 @@
 import { API } from 'app/src/actions/types';
 import { accessDenied, apiError, apiStart, apiEnd } from 'app/src/actions/api';
+import NavigationService from 'app/src/services/NavigationService';
 
 const apiMiddleware = ({ dispatch }) => next => action => {
   next(action);
@@ -12,16 +13,19 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     data,
     accessToken,
     onSuccess,
+    successTransition,
     onFailure,
+    failureTransition,
     label,
-    headers
+    headers,
+    errorLabel,
   } = action.payload;
   const useBody = !['GET', 'HEAD'].includes(method);
 
   const baseHeaders = new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${accessToken}`,
+    ...(accessToken && {'Authorization': `Bearer ${accessToken}`}),
   });
   const baseUrl = 'https://mp.api.easy4.pro';
 
@@ -32,6 +36,12 @@ const apiMiddleware = ({ dispatch }) => next => action => {
   let body = JSON.stringify({
     ...data
   });
+
+  // console.log('request body: ', {
+  //   method,
+  //   headers: headers || baseHeaders,
+  //   ...(useBody && {body: body})
+  // });
 
   fetch(baseUrl+url, {
     method,
@@ -54,15 +64,19 @@ const apiMiddleware = ({ dispatch }) => next => action => {
       if (data.msg && data.msg !== 'OK') throw data.msg;
 
       dispatch(onSuccess(data));
+      if (successTransition)
+        NavigationService.navigate(successTransition);
     })
     .catch(error => {
       console.log('error', error);
-      dispatch(apiError(error));
+      dispatch(apiError(errorLabel, error));
       dispatch(onFailure(error));
 
       if (error.response && error.response.status === 403) {
         dispatch(accessDenied(window.location.pathname));
       }
+      if (failureTransition)
+        NavigationService.navigate(failureTransition);
     })
     .finally(() => {
       if (label) {

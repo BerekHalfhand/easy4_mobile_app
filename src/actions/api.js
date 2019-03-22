@@ -17,7 +17,12 @@ export const accessDenied = url => ({
   }
 });
 
-export const apiError = error => ({
+export const apiError = (errorLabel, error) => ({
   type: API_ERROR,
-  error
+  payload: {
+    errors: {
+      [errorLabel]: error.toString(),
+    }
+  }
 });
+// TODO: erase that error on success

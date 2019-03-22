@@ -5,6 +5,7 @@ import { Provider, connect } from 'react-redux';
 import Drawer from 'app/src/elements/Drawer';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from 'app/src/store';
+import NavigationService from 'app/src/services/NavigationService';
 
 // import Banner from './src/components/Banner';
 import Home from './src/components/Home';
@@ -60,7 +61,12 @@ const Routes = createStackNavigator({
 });
 
 const AppNavigator = createDrawerNavigator({
-  Home: { screen: Routes },
+  Home: {
+    screen: Routes,
+    navigationOptions: ({navigation}) => ({
+      drawerLockMode: 'locked-closed'
+    })
+  },
   // IncreaseBalance: {
   //   screen: IncreaseBalance,
   //   navigationOptions: ({ navigation }) => ({
@@ -91,7 +97,10 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AppContainer/>
+          <AppContainer ref={navigatorRef => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+          }}
+          />
         </PersistGate>
       </Provider>
     );

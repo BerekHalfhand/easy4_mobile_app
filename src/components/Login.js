@@ -7,7 +7,7 @@ import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
-import {setAccessToken, setRefreshToken, checkToken} from 'app/src/actions';
+import {login} from 'app/src/actions';
 import { Formik } from 'formik';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -44,53 +44,36 @@ class Login extends Screen {
     headerTitle: <LogoTitle title='Вход' />,
   };
 
-  // componentDidMount() {
-  //   this.fetchAuthData();
-  // }
-  //
-  //
-  // fetchAuthData = async () => {
-  //   try {
-  //     if (this.props.accessToken) {
-  //       console.log('checking the fucking token')
-  //       this.props.dispatch(checkToken(this.props.accessToken))
-  //         // .then(data => {
-  //         //   console.log('data:',data);
-  //         //
-  //         //   if (data.login)
-  //         //     this.props.navigation.navigate('Main');
-  //         // });
-  //     }
-  //   } catch (e) {
-  //     console.log('error', e);
-  //   }
-  // }
-
   onPressRecovery() {
     this.props.navigation.navigate('Recovery');
   }
 
   formSubmit(values, actions){
     console.log('form submit', values);
-    Api.login(values.login, values.password)
-      .then(data => {
-        console.log('data:', data);
-
-        if (!data.accessToken)
-          throw data.msg;
-
-        this.props.dispatch(setAccessToken(data.accessToken));
-        this.props.dispatch(setRefreshToken(data.refreshToken));
-      })
-      .then(data => {
-        console.log('saved response, redirect');
-        this.props.navigation.navigate('Main');
-      })
-      .catch(e => actions.setFieldError('general', e.toString()))
-      .finally(() => actions.setSubmitting(false));
+    this.props.dispatch(login(values.login, values.password));
+    // Api.login(values.login, values.password)
+    //   .then(data => {
+    //     console.log('data:', data);
+    //
+    //     if (!data.accessToken)
+    //       throw data.msg;
+    //
+    //     this.props.dispatch(setAccessToken(data.accessToken));
+    //     this.props.dispatch(setRefreshToken(data.refreshToken));
+    //   })
+    //   .then(data => {
+    //     console.log('saved response, redirect');
+    //     this.props.navigation.navigate('Main');
+    //   })
+    //   .catch(e => actions.setFieldError('general', e.toString()))
+    //   .finally(() => actions.setSubmitting(false));
   }
 
   render() {
+    const error = (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
+      {this.props.errors && this.props.errors.loginError}
+    </Text>);
+
     return (
       <ScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
@@ -102,8 +85,8 @@ class Login extends Screen {
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
             initialValues={{
-              login: 'develop@easy4.pro',
-              password: 'qweASD123',
+              login: '',
+              password: '',
             }}
             render={formikProps => {
               return (
@@ -123,8 +106,8 @@ class Login extends Screen {
                   />
 
                   <Body style={{margin: 24}}>
-                    <Text style={{ color: dP.color.error }}>{formikProps.errors.general}</Text>
-                    {formikProps.isSubmitting ? (
+                    {this.props.errors && this.props.errors.loginError ? error : null}
+                    {this.props.isLoadingData ? (
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded

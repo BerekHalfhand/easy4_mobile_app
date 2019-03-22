@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import {NavigationActions, withNavigation} from 'react-navigation';
+import {withNavigation} from 'react-navigation';
 import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
 import {dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
+import {logout} from 'app/src/actions';
+import PropTypes from 'prop-types';
+import { DrawerItems, SafeAreaView } from 'react-navigation';
+import NavigationService from 'app/src/services/NavigationService';
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -54,29 +58,22 @@ class Drawer extends React.Component {
   }
 
   logout () {
-    this.props.dispatch({
-      type: 'RESET',
-      payload: {}
-    });
-    this.navigateToScreen('Home');
+    this.props.navigation.closeDrawer();
+    this.props.dispatch(logout());
   }
 
-  navigateToScreen = ( route ) => {
-    // console.log('navigateToScreen', route, this.props.navigation);
-    const navigateAction = NavigationActions.navigate({
-      routeName: route
-    });
+  navigateTo = ( route ) => {
     this.props.navigation.closeDrawer();
-    this.props.navigation.dispatch(navigateAction);
+    NavigationService.navigate(route);
   };
 
   render() {
+    if (!this.props.user) return false;
+
     const {
       firstName,
-      secondName,
       lastName,
       phone,
-      email,
     } = this.props.user;
     return (
       <Container>
@@ -92,19 +89,19 @@ class Drawer extends React.Component {
         <View style={styles.itemsContainer}>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateToScreen('IncreaseBalance')}>Пополнить баланс</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('IncreaseBalance')}>Пополнить баланс</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateToScreen('Home')}>Наши контакты</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>Наши контакты</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateToScreen('Home')}>Наши тарифы</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>Наши тарифы</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateToScreen('Home')}>О приложении</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>О приложении</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
@@ -116,6 +113,19 @@ class Drawer extends React.Component {
     );
   }
 }
+
+Drawer.propTypes = {
+  user: PropTypes.object,
+  navigation: PropTypes.object,
+};
+
+Drawer.defaultProps = {
+  user: {
+    firstName: '',
+    lastName: '',
+    phone: '',
+  },
+};
 
 const mapStateToProps = state => ({ ...state });
 

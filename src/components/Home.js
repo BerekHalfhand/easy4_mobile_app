@@ -1,6 +1,6 @@
 import React from 'react';
 import {Font, AppLoading} from 'expo';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import {
   Content,
@@ -65,7 +65,7 @@ class Home extends Screen {
     }
 
     onPressLogin() {
-      // console.log('onPressLogin props', this.props);
+      // console.log('onPressLogin props', this.props.accessToken, this.props.refreshToken, this.props.user);
 
       if (this.state.offerAccepted === true) {
         if (this.props.authorized)

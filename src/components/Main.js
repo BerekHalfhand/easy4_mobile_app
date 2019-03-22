@@ -55,10 +55,11 @@ class Main extends Screen{
         if (!data._id)
           throw data.msg;
 
-        this.props.navigation.setParams({
-          // phone: data.phone,
-          name: data.firstName + ' ' + data.lastName,
-        });
+        if (data.firstName)
+          this.props.navigation.setParams({
+            // phone: data.phone,
+            name: data.firstName + ' ' + data.lastName,
+          });
 
         this.setState({
           phone: data.phone,
