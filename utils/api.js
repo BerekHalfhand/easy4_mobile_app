@@ -5,46 +5,46 @@ export default class Api {
     'Content-Type': 'application/json',
   })
 
-  static login = (
-    login,
-    password
-  ) => {
-    console.log('api/login');
+  // static login = (
+  //   login,
+  //   password
+  // ) => {
+  //   console.log('api/login');
+  //
+  //   const url = 'https://mp.api.easy4.pro/auth/login';
+  //
+  //   let data = JSON.stringify({
+  //     login,
+  //     password
+  //   });
+  //
+  //   var request = new Request(url, {
+  //     method: 'POST',
+  //     body: data,
+  //     headers: Api.basicHeaders
+  //   });
+  //
+  //   return fetch(request).then(response => response.json());
+  // }
 
-    const url = 'https://mp.api.easy4.pro/auth/login';
-
-    let data = JSON.stringify({
-      login,
-      password
-    });
-
-    var request = new Request(url, {
-      method: 'POST',
-      body: data,
-      headers: Api.basicHeaders
-    });
-
-    return fetch(request).then(response => response.json());
-  }
-
-  static signup = (values) => {
-    console.log('api/signup');
-
-    const url = 'https://mp.api.easy4.pro/users';
-
-    // strip the values object of empty fields
-    Object.keys(values).forEach((key) => (values[key] === '') && delete values[key]);
-
-    let data = JSON.stringify(values);
-
-    var request = new Request(url, {
-      method: 'POST',
-      body: data,
-      headers: Api.basicHeaders
-    });
-
-    return fetch(request).then(response => response.json());
-  }
+  // static signup = (values) => {
+  //   console.log('api/signup');
+  //
+  //   const url = 'https://mp.api.easy4.pro/users';
+  //
+  //   // strip the values object of empty fields
+  //   Object.keys(values).forEach((key) => (values[key] === '') && delete values[key]);
+  //
+  //   let data = JSON.stringify(values);
+  //
+  //   var request = new Request(url, {
+  //     method: 'POST',
+  //     body: data,
+  //     headers: Api.basicHeaders
+  //   });
+  //
+  //   return fetch(request).then(response => response.json());
+  // }
 
   static userInfo = (token) => {
     console.log('api/userInfo');

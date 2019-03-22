@@ -38,7 +38,7 @@ export default class InputWithIcon extends React.Component {
 
   };
 
-  focus = () => this.setState({ focused: true });
+  focus = () => { this.input.focus(); }
 
   renderIcon() {
     if (this.state.icon) {
@@ -57,6 +57,7 @@ export default class InputWithIcon extends React.Component {
     return (
       <View>
         <TextField
+          ref={input => this.input = input}
           secureTextEntry={this.state.isPassword}
           textColor={dP.color.white}
           baseColor={this.props.hasErrors ? dP.color.error : '#ABABAB'}

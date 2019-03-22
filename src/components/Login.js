@@ -48,25 +48,9 @@ class Login extends Screen {
     this.props.navigation.navigate('Recovery');
   }
 
-  formSubmit(values, actions){
+  formSubmit(values){
     console.log('form submit', values);
     this.props.dispatch(login(values.login, values.password));
-    // Api.login(values.login, values.password)
-    //   .then(data => {
-    //     console.log('data:', data);
-    //
-    //     if (!data.accessToken)
-    //       throw data.msg;
-    //
-    //     this.props.dispatch(setAccessToken(data.accessToken));
-    //     this.props.dispatch(setRefreshToken(data.refreshToken));
-    //   })
-    //   .then(data => {
-    //     console.log('saved response, redirect');
-    //     this.props.navigation.navigate('Main');
-    //   })
-    //   .catch(e => actions.setFieldError('general', e.toString()))
-    //   .finally(() => actions.setSubmitting(false));
   }
 
   render() {
@@ -82,7 +66,7 @@ class Login extends Screen {
           style = {{ flex: 1, padding: 24 }}
           behavior = "padding" >
           <Formik
-            onSubmit={(values, actions) => this.formSubmit(values, actions)}
+            onSubmit={(values) => this.formSubmit(values)}
             validationSchema={validationSchema}
             initialValues={{
               login: '',

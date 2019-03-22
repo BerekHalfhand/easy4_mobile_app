@@ -74,6 +74,19 @@ export default (state = {}, action) => {
     console.log('action/USER_INFO_FAILURE');
     return state;
 
+  case T.SIGNUP_SUCCESS:
+    console.log('action/SIGNUP_SUCCESS', payload);
+    return {
+      ...state,
+      // accessToken: payload.accessToken,
+      // refreshToken: payload.refreshToken,
+      // authorized: true,
+    };
+
+  case T.SIGNUP_FAILURE:
+    console.log('action/SIGNUP_FAILURE');
+    return state;
+
   case T.LOGIN_SUCCESS:
     console.log('action/LOGIN_SUCCESS', payload);
     return {

@@ -1,44 +1,34 @@
 import React from 'react';
 import {Alert, ActivityIndicator, Dimensions, Platform, Text, KeyboardAvoidingView, Keyboard, ScrollView} from 'react-native';
 import Screen from './Screen';
-import {Button, Body, Form } from 'native-base';
+import {Button, Body, View} from 'native-base';
 // import FingerPrint from './touchid';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
-import InputScrollable from 'app/src/elements/InputScrollable';
+import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
-import Api from 'app/utils/api';
+import {signup} from 'app/src/actions';
 import { Formik } from 'formik';
-import * as yup from 'yup';
 import { wrapScrollView } from 'react-native-scroll-into-view';
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import {
+  handleTextInput,
+  withNextInputAutoFocusInput,
+  withNextInputAutoFocusForm
+} from 'react-native-formik';
+import * as Yup from 'yup';
 
 const CustomScrollView = wrapScrollView(ScrollView);
 
-const validationSchema = yup.object().shape({
-  firstName: yup
-    .string()
-    .label('Имя'),
-
-  secondName: yup
-    .string()
-    .label('Отчество'),
-
-  lastName: yup
-    .string()
-    .label('Фамилия'),
-
-  phone: yup
-    .string()
-    .label('Номер телефона'),
-
-  email: yup
+const validationSchema = Yup.object().shape({
+  email: Yup
     .string()
     .email('Некорректный email адрес')
     .required('Необходимо указать электронную почту')
     .label('Электронная почта'),
 
-  password: yup
+  password: Yup
     .string()
     .required('Необходимо указать пароль')
     .min(6, 'Пароль должен быть длиннее пяти символов')
@@ -49,7 +39,12 @@ const validationSchema = yup.object().shape({
     }),
 });
 
+const MyInput = compose(
+  handleTextInput,
+  withNextInputAutoFocusInput
+)(InputWithIcon);
 
+const Form = withNextInputAutoFocusForm(View);
 
 class SignUp extends Screen {
   constructor(props) {
@@ -62,38 +57,18 @@ class SignUp extends Screen {
     headerTitle: <LogoTitle title='Регистрация' />,
   };
 
-  formSubmit(values, actions) {
+  formSubmit(values) {
     console.log('form submit', values);
-
-    Api.signup(values)
-      .then(data => {
-        console.log('data:', data);
-
-        if (!data._id)
-          if (data.errors)
-            throw {title: data.msg, message: data.errors[0].message};
-          else
-            throw {title: 'Sign Up error', message: data.msg};
-
-      })
-      .then(data => {
-        console.log('redirect to login');
-        this.props.navigation.navigate('Login');
-      })
-      // .catch(e => Alert.alert(e.title, e.message));
-      .catch(e => actions.setFieldError('general', e.message))
-      .finally(() => actions.setSubmitting(false));
+    this.props.dispatch(signup(values.email, values.password));
   }
 
-  render(data) {
-    // TODO: fix that pesky scroll bug on IOS
+  render() {
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 64;
 
-    const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 64
-    // const { height } = Dimensions.get('window');
-    // let viewStyle = { flex: 1, padding: 24 };
-    //
-    // if (Platform.OS === 'ios')
-    //   viewStyle.maxHeight = height;
+    const error = (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
+      {this.props.errors && this.props.errors.signupError}
+    </Text>);
+
     return (
       <CustomScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
@@ -113,34 +88,42 @@ class SignUp extends Screen {
             }}
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
-          >
-            {formikProps => (
-              <React.Fragment>
+            render={formikProps => {
+              return (
+                <Form>
+                  <MyInput
+                    label='Электронная почта'
+                    name='email'
+                    type='email'
+                  />
+                  <MyInput
+                    label='Пароль'
+                    name='password'
+                    isPassword={true}
+                    icon='visibility-off'
+                    altIcon='visibility'
+                  />
 
-                <InputScrollable label='Имя' formikKey='firstName' formikProps={formikProps} />
-                <InputScrollable label='Фамилия' formikKey='lastName' formikProps={formikProps} />
-                <InputScrollable label='Отчество' formikKey='secondName' formikProps={formikProps} />
-                <InputScrollable label='Электронная почта' formikKey='email' keyboardType='email-address' formikProps={formikProps} />
-                <InputScrollable label='Номер телефона' formikKey='phone' keyboardType='phone-pad' mask='+0(000)000-00-00' formikProps={formikProps} />
-                <InputScrollable label='Пароль' formikKey='password' isPassword={true} icon='visibility-off' altIcon='visibility' formikProps={formikProps} />
-                <Text style={{ color: dP.color.error }}>{formikProps.errors.general}</Text>
-                {formikProps.isSubmitting ? (
-                  <ActivityIndicator />
-                ) : (
                   <Body style={{margin: 24}}>
-                    <Button full rounded
-                      style={styles.buttonPrimary}
-                      onPress={formikProps.handleSubmit}
-                    >
-                      <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
-                        Создать аккаунт
-                      </Text>
-                    </Button>
+                    {this.props.errors && this.props.errors.signupError ? error : null}
+                    {this.props.isLoadingData ? (
+                      <ActivityIndicator />
+                    ) : (
+                      <Button full rounded
+                        style={styles.buttonPrimary}
+                        onPress={formikProps.handleSubmit}
+                      >
+                        <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:14, color:'#005eba'}}>
+                          Зарегистрироваться
+                        </Text>
+                      </Button>
+                    )}
                   </Body>
-                )}
-              </React.Fragment>
-            )}
-          </Formik>
+                </Form>
+              );
+            }}
+          />
+
 
         </KeyboardAvoidingView>
       </CustomScrollView>

@@ -42,7 +42,6 @@ class Main extends Screen{
       headerLeft: null,
       headerTitle: <LogoTitle title={params.name || ''} subTitle={params.phone || ''}/>,
     };
-    // subTitle={params.name || ''}
   }
 
   loadData = () => {
@@ -59,7 +58,7 @@ class Main extends Screen{
         if (data.firstName)
           this.props.navigation.setParams({
             name: data.firstName + ' ' + data.lastName,
-            ...(data.phone && {phone: data.phone})
+            // ...(data.phone && {phone: data.phone})
           });
 
         this.setState({
