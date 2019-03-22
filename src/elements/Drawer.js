@@ -1,8 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import {NavigationActions, withNavigation} from 'react-navigation';
+import {withNavigation} from 'react-navigation';
 import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
 import {dP} from 'app/utils/style/styles';
+import autoBind from 'react-autobind';
+import { connect } from 'react-redux';
+import {logout} from 'app/src/actions';
+import PropTypes from 'prop-types';
+import { DrawerItems, SafeAreaView } from 'react-navigation';
+import NavigationService from 'app/src/services/NavigationService';
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -48,45 +54,58 @@ const styles = StyleSheet.create({
 class Drawer extends React.Component {
   constructor(props) {
     super(props);
+    autoBind(this);
   }
 
-  navigateToScreen = ( route ) =>(
-    () => {
-      // console.log(route, this.props.navigation);
-      const navigateAction = NavigationActions.navigate({
-        routeName: route
-      });
-      this.props.navigation.dispatch(navigateAction);
-    })
+  logout () {
+    this.props.navigation.closeDrawer();
+    this.props.dispatch(logout());
+  }
+
+  navigateTo = ( route ) => {
+    this.props.navigation.closeDrawer();
+    NavigationService.navigate(route);
+  };
 
   render() {
+    if (!this.props.user) return false;
+
+    const {
+      firstName,
+      lastName,
+      phone,
+    } = this.props.user;
     return (
       <Container>
         <View style={styles.headerContainer}>
           <View style={{flex: 1, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', alignItems: 'flex-end', padding: 15}} >
             <View style={styles.userPic}></View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 15}}>
-              <Text style={styles.headerName}>Павел Галанкин</Text>
-              <Text style={styles.headerPhone}>+7 (916) 258-5555</Text>
+              <Text style={styles.headerName}>{firstName + ' ' + lastName || 'Павел Галанкин'}</Text>
+              <Text style={styles.headerPhone}>{phone || '+7 (916) 258-5555'}</Text>
             </View>
           </View>
         </View>
         <View style={styles.itemsContainer}>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={this.navigateToScreen('IncreaseBalance')}>Пополнить баланс</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('IncreaseBalance')}>Пополнить баланс</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={this.navigateToScreen('Home')}>Наши контакты</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>Наши контакты</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={this.navigateToScreen('Home')}>Наши тарифы</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>Наши тарифы</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={this.navigateToScreen('Home')}>О приложении</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>О приложении</Text>
+          </View>
+          <View style={styles.itemStyle}>
+            <View style={styles.mockIcon}></View>
+            <Text style={styles.itemText} onPress={this.logout}>Выйти</Text>
           </View>
         </View>
       </Container>
@@ -95,4 +114,19 @@ class Drawer extends React.Component {
   }
 }
 
-export default withNavigation(Drawer);
+Drawer.propTypes = {
+  user: PropTypes.object,
+  navigation: PropTypes.object,
+};
+
+Drawer.defaultProps = {
+  user: {
+    firstName: '',
+    lastName: '',
+    phone: '',
+  },
+};
+
+const mapStateToProps = state => ({ ...state });
+
+export default withNavigation(connect(mapStateToProps)(Drawer));

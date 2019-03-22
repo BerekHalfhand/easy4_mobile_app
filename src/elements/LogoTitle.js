@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, Keyboard} from 'react-native';
 import {withNavigation} from 'react-navigation';
+import { connect } from 'react-redux';
 
 class LogoTitle extends React.Component {
   constructor(props){
@@ -19,7 +20,9 @@ class LogoTitle extends React.Component {
 
   toggleDrawer = () => {
     Keyboard.dismiss();
-    this.props.navigation.openDrawer();
+    
+    if (this.props.authorized)
+      this.props.navigation.openDrawer();
   }
 
   renderSubtitle(subTitle, subTitleSize, subTitleColor) {
@@ -50,4 +53,7 @@ class LogoTitle extends React.Component {
   }
 }
 
-export default withNavigation(LogoTitle);
+
+const mapStateToProps = state => ({ ...state });
+
+export default withNavigation(connect(mapStateToProps)(LogoTitle));

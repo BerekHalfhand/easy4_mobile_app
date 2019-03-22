@@ -7,7 +7,7 @@ import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
-import {setAccessToken, setRefreshToken} from 'app/src/actions';
+import {login} from 'app/src/actions';
 import { Formik } from 'formik';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -17,7 +17,6 @@ import {
   withNextInputAutoFocusForm
 } from 'react-native-formik';
 import * as Yup from 'yup';
-import { store } from 'app/src/store';
 
 const validationSchema = Yup.object().shape({
   login: Yup.string()
@@ -38,11 +37,6 @@ class Login extends Screen {
   constructor(props) {
     super(props);
     autoBind(this);
-
-    // props.dispatch({
-    //   type: 'RESET',
-    //   payload: {  }
-    // });
   }
 
   static navigationOptions = {
@@ -50,81 +44,55 @@ class Login extends Screen {
     headerTitle: <LogoTitle title='Вход' />,
   };
 
-  componentDidMount() {
-    this.fetchAuthData();
-  }
-
-
-  fetchAuthData = async () => {
-    // try {
-    //   const accT = await AsyncStorage.getItem('accessToken');
-    //   if (accT) {
-    //     fetch('https://mp.api.easy4.pro/auth/tokens/check/'+accT, {
-    //       method: 'GET',
-    //     })
-    //       .then(response => response.json())
-    //       .then(data => {
-    //         console.log('data:',data);
-    //
-    //         if (data.login)
-    //           this.props.navigation.navigate('Main');
-    //       });
-    //   }
-    // } catch (e) {
-    //   console.log('error', e);
-    // }
-  }
-
   onPressRecovery() {
     this.props.navigation.navigate('Recovery');
   }
 
   formSubmit(values, actions){
     console.log('form submit', values);
-    Api.login(values.login, values.password)
-      .then(data => {
-        console.log('data:', data);
-
-        if (!data.accessToken)
-          throw data.msg;
-
-        this.props.dispatch(setAccessToken(data.accessToken));
-        this.props.dispatch(setRefreshToken(data.refreshToken));
-      })
-      .then(data => {
-        console.log('saved response, redirect');
-        this.props.navigation.navigate('Main');
-      })
-      .catch(e => actions.setFieldError('general', e.toString()))
-      .finally(() => actions.setSubmitting(false));
-
-    //TODO  to finish registration and login, sae data in storage
+    this.props.dispatch(login(values.login, values.password));
+    // Api.login(values.login, values.password)
+    //   .then(data => {
+    //     console.log('data:', data);
+    //
+    //     if (!data.accessToken)
+    //       throw data.msg;
+    //
+    //     this.props.dispatch(setAccessToken(data.accessToken));
+    //     this.props.dispatch(setRefreshToken(data.refreshToken));
+    //   })
+    //   .then(data => {
+    //     console.log('saved response, redirect');
+    //     this.props.navigation.navigate('Main');
+    //   })
+    //   .catch(e => actions.setFieldError('general', e.toString()))
+    //   .finally(() => actions.setSubmitting(false));
   }
 
-  render(data) {
+  render() {
+    const error = (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
+      {this.props.errors && this.props.errors.loginError}
+    </Text>);
 
-    // console.log('state: ', this.state);
-    // if (this.state.fontLoaded) {
     return (
       <ScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
         <KeyboardAvoidingView
-          keyboardVerticalOffset = {280} // adjust the value here if you need more padding
+          keyboardVerticalOffset = {280}
           style = {{ flex: 1, padding: 24 }}
           behavior = "padding" >
           <Formik
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
             initialValues={{
-              login: 'develop@easy4.pro',
-              password: 'qweASD123',
+              login: '',
+              password: '',
             }}
             render={formikProps => {
               return (
                 <Form>
                   <MyInput
                     label='Телефон или электронная почта'
-                    autoFocus
                     name='login'
                     type='email'
                     icon='person-outline'
@@ -138,8 +106,8 @@ class Login extends Screen {
                   />
 
                   <Body style={{margin: 24}}>
-                    <Text style={{ color: dP.color.error }}>{formikProps.errors.general}</Text>
-                    {formikProps.isSubmitting ? (
+                    {this.props.errors && this.props.errors.loginError ? error : null}
+                    {this.props.isLoadingData ? (
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded
@@ -171,15 +139,22 @@ class Login extends Screen {
 
       </ScrollView>
     );
-    // }
-    // return(
-    //     <Container>
-    //         <Content padder style={{backgroundColor: dP.color.primary}}></Content>
-    //     </Container>
-    // )
   }
 }
 
 const mapStateToProps = state => ({ ...state });
 
 export default connect(mapStateToProps)(Login);
+
+// const mapStateToProps = ({ _persist = {}, data = {}, isLoadingData = false, accessToken = null }) => ({
+//   _persist,
+//   data,
+//   isLoadingData,
+//   accessToken
+// });
+// export default connect(
+//   mapStateToProps,
+//   {
+//     checkToken
+//   }
+// )(Login);

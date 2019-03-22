@@ -1,7 +1,10 @@
 import React from 'react';
 import Screen from './Screen';
-import {WebView} from 'react-native';
-import {styles} from 'app/utils/style/styles';
+import {Platform, WebView} from 'react-native';
+import {
+  Container
+} from 'native-base';
+import LogoTitle from 'app/src/elements/LogoTitle';
 
 export default class Chatroom extends Screen {
   constructor(props) {
@@ -9,17 +12,24 @@ export default class Chatroom extends Screen {
   }
 
   static navigationOptions = {
-    headerStyle: styles.baseHeader,
-    header: null,
-    headerBackTitle: null,
+    ...Screen.navigationOptions,
+    headerTitle: <LogoTitle title='Чат' />,
   };
 
   render() {
+    const Js = 'const meta = document.createElement(\'meta\'); \
+                meta.setAttribute(\'content\', \'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=0\'); \
+                meta.setAttribute(\'name\', \'viewport\'); document.getElementsByTagName(\'head\')[0].appendChild(meta);';
+
     return (
-      <WebView
-        source={{uri: 'https://crm.easy4.pro/online/easy4helper'}}
-        style={{marginTop: 20}}
-      />
+      <Container>
+        <WebView
+          source={{uri: 'https://crm.easy4.pro/online/easy4helper'}}
+          scalesPageToFit={Platform.OS === 'ios' ? true : false}
+          injectedJavaScript={Js}
+          scrollEnabled
+        />
+      </Container>
     );
   }
 }

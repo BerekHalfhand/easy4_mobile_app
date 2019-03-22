@@ -2,11 +2,10 @@ import React from 'react';
 // import { AppRegistry } from 'react-native';
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
-import axios from 'axios';
-import axiosMiddleware from 'redux-axios-middleware';
 import Drawer from 'app/src/elements/Drawer';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from 'app/src/store';
+import NavigationService from 'app/src/services/NavigationService';
 
 // import Banner from './src/components/Banner';
 import Home from './src/components/Home';
@@ -62,7 +61,12 @@ const Routes = createStackNavigator({
 });
 
 const AppNavigator = createDrawerNavigator({
-  Home: { screen: Routes },
+  Home: {
+    screen: Routes,
+    navigationOptions: ({navigation}) => ({
+      drawerLockMode: 'locked-closed'
+    })
+  },
   // IncreaseBalance: {
   //   screen: IncreaseBalance,
   //   navigationOptions: ({ navigation }) => ({
@@ -90,11 +94,13 @@ const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends React.Component {
   render () {
-    console.log('store', store.getState())
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AppContainer/>
+          <AppContainer ref={navigatorRef => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+          }}
+          />
         </PersistGate>
       </Provider>
     );
