@@ -38,6 +38,21 @@ export default (state = {}, action) => {
     console.log('action/RESET_STATE', state);
     return {};
 
+  case T.ERROR_DISMISS:
+    console.log('action/ERROR_DISMISS', payload);
+    return {
+      ...state,
+      ...(payload.errorLabel && {
+        errors: {
+          ...state.errors,
+          [payload.errorLabel]: null
+        }
+      }),
+      ...(!payload.errorLabel && {
+        errors: {}
+      })
+    };
+
   case T.CHECK_TOKEN_SUCCESS:
     console.log('action/CHECK_TOKEN_SUCCESS', payload);
     return {...state, authorized: true};
@@ -72,6 +87,7 @@ export default (state = {}, action) => {
         firstName: payload.firstName,
         secondName: payload.secondName,
         lastName: payload.lastName,
+        fullName: `${payload.firstName} ${payload.lastName}`,
         phone: payload.phone,
         email: payload.email,
       }
@@ -79,7 +95,11 @@ export default (state = {}, action) => {
 
   case T.USER_INFO_FAILURE:
     console.log('action/USER_INFO_FAILURE');
-    return state;
+    return {
+      ...state,
+      user: {},
+      authorized: false,
+    };
 
   case T.SIGNUP_SUCCESS:
     console.log('action/SIGNUP_SUCCESS', payload);

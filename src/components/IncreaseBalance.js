@@ -1,13 +1,10 @@
 import React from 'react';
 import {View, Text, Image, WebView} from 'react-native';
 import {
-  Root,
   Container,
   Content,
   Input,
-  Form,
   ListItem,
-  Left,
   Button,
   Icon,
   Body,
@@ -17,18 +14,6 @@ import {
 import LogoTitle from 'app/src/elements/LogoTitle';
 import Screen from './Screen';
 import StandardFooter from 'app/src/elements/Footer';
-import {styles} from 'app/utils/style/styles';
-
-
-// class LogoTitle extends React.Component {
-//     render() {
-//         return (
-//             <View style={{ backgroundColor:'#004d99' }}>
-//                 <Text style={{color:'#FFFFFF', textAlign:'center', fontSize:20}}>Управление расходами</Text>
-//             </View>
-//         );
-//     }
-// }
 
 /**
  * Пополнение баланса

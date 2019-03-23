@@ -6,6 +6,7 @@ export const API_ERROR = 'API_ERROR';
 
 export const READ_STATE = 'READ_STATE';
 export const RESET_STATE = 'RESET_STATE';
+export const ERROR_DISMISS = 'ERROR_DISMISS';
 
 // AUTH
 

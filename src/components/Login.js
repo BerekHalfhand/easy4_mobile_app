@@ -1,7 +1,7 @@
 import React from 'react';
-import { Alert, ActivityIndicator, Text, AsyncStorage, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { ActivityIndicator, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 import Screen from './Screen';
-import {Button, Container, Content, Body, View, Input, IconNB, TouchableOpacity } from 'native-base';
+import {Button, Body, View } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';

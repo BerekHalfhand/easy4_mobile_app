@@ -46,16 +46,16 @@ export default class Api {
   //   return fetch(request).then(response => response.json());
   // }
 
-  static userInfo = (token) => {
-    console.log('api/userInfo');
-
-    return fetch('https://mp.api.easy4.pro/user/info', {
-      headers: {
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    }).then(response => response.json());
-  }
+  // static userInfo = (token) => {
+  //   console.log('api/userInfo');
+  //
+  //   return fetch('https://mp.api.easy4.pro/user/info', {
+  //     headers: {
+  //       Accept: 'application/json',
+  //       Authorization: 'Bearer ' + token,
+  //     },
+  //   }).then(response => response.json());
+  // }
 
   static msisdns = (token) => {
     console.log('api/msisdns');

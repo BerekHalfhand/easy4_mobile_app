@@ -11,6 +11,7 @@ export function userInfo(accessToken) {
     accessToken: accessToken,
     onSuccess: userInfoSuccess,
     onFailure: userInfoFailure,
+    errorLabel: 'userInfoError',
     label: T.USER_INFO
   });
 }

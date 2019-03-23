@@ -3,6 +3,7 @@ import {Text, View, Keyboard, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import { connect } from 'react-redux';
 import {readState} from 'app/src/actions';
+import PropTypes from 'prop-types';
 
 class LogoTitle extends React.Component {
   constructor(props){
@@ -56,6 +57,13 @@ class LogoTitle extends React.Component {
   }
 }
 
+LogoTitle.propTypes = {
+  authorized: PropTypes.bool,
+};
+
+LogoTitle.defaultProps = {
+  authorized: false,
+};
 
 const mapStateToProps = state => ({ ...state });
 

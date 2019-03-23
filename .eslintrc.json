@@ -44,6 +44,11 @@
         ],
         "no-console": [
           "warn"
+        ],
+        "react/prop-types": [
+          "warn", {
+            "ignore": ["navigation", "dispatch"]
+          }
         ]
     }
 }

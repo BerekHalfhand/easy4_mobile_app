@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'native-base';
 import { Text, FlatList, TouchableOpacity } from 'react-native';
-import { dP, styles } from 'app/utils/style/styles';
+import { styles } from 'app/utils/style/styles';
 import PropTypes from 'prop-types';
 import NavigationService from 'app/src/services/NavigationService';
 

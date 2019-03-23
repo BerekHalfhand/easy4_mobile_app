@@ -7,3 +7,10 @@ export const readState = () => {
     payload: {}
   };
 };
+
+export const dismissError = (errorLabel) => {
+  return {
+    type: 'ERROR_DISMISS',
+    payload: {errorLabel}
+  };
+};

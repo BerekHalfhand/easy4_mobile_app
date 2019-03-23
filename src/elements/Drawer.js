@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {withNavigation} from 'react-navigation';
-import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
+import { Container } from 'native-base';
 import {dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import {logout} from 'app/src/actions';
 import PropTypes from 'prop-types';
-import { DrawerItems, SafeAreaView } from 'react-navigation';
+// import { DrawerItems, SafeAreaView } from 'react-navigation';
 import NavigationService from 'app/src/services/NavigationService';
 
 const styles = StyleSheet.create({

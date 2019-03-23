@@ -1,21 +1,25 @@
 import React from 'react';
-import {Alert, AsyncStorage, TextInput, Image, View, Text} from 'react-native';
+import {Alert, Image, View, Text} from 'react-native';
 import Screen from './Screen';
-import {Button, Container, Footer, FooterTab,
+import {
+  Button,
+  Container,
   Root,
   Icon,
   ActionSheet,
-  Content, Body, Header, Title, ListItem, List, Left, Right, Switch, Form, Picker} from 'native-base';
-import {styles, dP} from 'app/utils/style/styles';
+  Content
+} from 'native-base';
+import {styles} from 'app/utils/style/styles';
 import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import TariffPane from 'app/src/elements/TariffPane';
+import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
 import { connect } from 'react-redux';
-import {userInfo, selectPhone} from 'app/src/actions';
+import {userInfo, selectPhone, dismissError} from 'app/src/actions';
 
 class Main extends Screen{
   constructor(props){
@@ -24,9 +28,7 @@ class Main extends Screen{
     this.state = {
       phone: '',
       phones: new Set(),
-      firstName: '',
-      lastName: '',
-      clicked:'',
+      user: props.user,
       balance: null,
       fakeTariff1: {
         title: 'Easy4 Travel',
@@ -49,27 +51,12 @@ class Main extends Screen{
       },
 
     };
-  }
 
-  componentWillMount() {
-    this.loadData();
-
-    if (this.props.user && this.props.user.selectedPhone)
-      this.getBalance(this.props.user.selectedPhone);
-  }
-
-  componentDidMount() {
-    // TODO: instant info rendering
-    const name = this.props.user ?
-      this.props.user.firstName + ' ' + this.props.user.lastName :
-      '';
-
-    const phone = this.props.user ?
-      this.props.user.selectedPhone :
-      '';
-
-    this.props.navigation.setParams({ name, phone });
-    console.log('params must be set!', name, phone);
+    if (props.user)
+      props.navigation.setParams({
+        name: props.user.fullName,
+        phone: props.user.selectedPhone
+      });
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -81,30 +68,43 @@ class Main extends Screen{
     };
   }
 
+  componentWillMount() {
+    this.loadData();
+
+    if (this.props.user && this.props.user.selectedPhone)
+      this.getBalance(this.props.user.selectedPhone);
+  }
+
+  componentDidUpdate(prevProps){
+    // Update header data if it's available and have chaged
+    if (this.props.user &&
+        (!prevProps.user ||
+          (this.props.user.fullName != prevProps.user.fullName ||
+           this.props.user.selectedPhone != prevProps.user.selectedPhone))) {
+      this.props.navigation.setParams({
+        name: this.props.user.firstName + ' ' + this.props.user.lastName,
+        ...(this.props.user.selectedPhone && {phone: this.props.user.selectedPhone})
+      });
+    }
+
+    // If there is a new error, show it
+    if (this.props.errors && this.props.errors.userInfoError &&
+        (!prevProps.errors || this.props.errors.userInfoError != prevProps.errors.userInfoError)) {
+      Alert.alert(
+        'User Info Error',
+        this.props.errors.userInfoError,
+        [{text: 'OK', onPress: this.onDismissError}]);
+    }
+  }
+
+  onDismissError = () => {
+    this.props.dispatch(dismissError('userInfoError'));
+    NavigationService.navigate('Login');
+  }
+
   loadData = () => {
     console.log('token', this.props.accessToken);
     this.props.dispatch(userInfo(this.props.accessToken));
-
-    let userData = Api.userInfo(this.props.accessToken)
-      .then(data => {
-        console.log('userData:', data);
-
-        if (!data._id)
-          throw data.msg;
-
-        if (data.firstName)
-          this.props.navigation.setParams({
-            name: data.firstName + ' ' + data.lastName,
-            // ...(data.phone && {phone: data.phone})
-          });
-
-        this.setState({
-          phone: data.phone,
-          firstName: data.firstName,
-          lastName: data.lastName,
-        });
-      })
-      .catch(e => Alert.alert('Data Fetching Error', e.toString()));
 
     let userPhones = Api.msisdns(this.props.accessToken)
       .then(data => {
