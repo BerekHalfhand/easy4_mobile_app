@@ -11,6 +11,7 @@ import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import LogoTitle from 'app/src/elements/LogoTitle';
+import TariffPane from 'app/src/elements/TariffPane';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
 import { connect } from 'react-redux';
@@ -27,6 +28,26 @@ class Main extends Screen{
       lastName: '',
       clicked:'',
       balance: null,
+      fakeTariff1: {
+        title: 'Easy4 Travel',
+        subTitle: 'Тариф Трэвел',
+        description: [
+          {key: 'Без абонентской платы'},
+          {key: '1 Р за Мб*'},
+          {key: '2 Р за минуту*'},
+          {key: 'Единый тариф во всех странах территории обслуживания'},
+        ],
+      },
+      fakeTariff2: {
+        title: 'Connect Internet',
+        subTitle: 'Тариф Коннект Интернет',
+        description: [
+          {key: 'Без абонентской платы'},
+          {key: 'Пакет 3 Гб за 999Р*'},
+          {key: 'Более 60 стран обслуживания'},
+        ],
+      },
+
     };
 
   }
@@ -164,10 +185,8 @@ class Main extends Screen{
 
   render() {
     const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
-    const DESTRUCTIVE_INDEX = 3;
     const CANCEL_INDEX = 2;
-    // console.log('state:', this.state);
-    // console.log('navigation:', this.props);
+
     const balance = <ClientMainBalance balance={this.state.balance} />;
 
     return(
@@ -193,8 +212,6 @@ class Main extends Screen{
                         {
                           options: BUTTONS,
                           cancelButtonIndex: CANCEL_INDEX,
-                          // destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                          // title: "Testing ActionSheet"
                         },
                         buttonIndex => {
                           this.setState({ clicked: BUTTONS[buttonIndex] });
@@ -224,7 +241,17 @@ class Main extends Screen{
 
             {/* *** */}
 
-            {/* List Options */}
+            <TariffPane
+              title={this.state.fakeTariff1.title}
+              subTitle={this.state.fakeTariff1.subTitle}
+              description={this.state.fakeTariff1.description} />
+
+            <TariffPane
+              title={this.state.fakeTariff2.title}
+              subTitle={this.state.fakeTariff2.subTitle}
+              description={this.state.fakeTariff2.description} />
+
+            {/*
             <View style={{marginLeft:-14, marginBottom: 30}}>
               <ListItem icon style={{height:56}}
                 onPress={() => this.props.navigation.navigate('Tariff')}
@@ -242,21 +269,6 @@ class Main extends Screen{
                 </Right>
               </ListItem>
 
-              <ListItem icon style={{height:56}}>
-                <Left>
-                  <Button style={{ backgroundColor: '#FF9501' }}>
-                    <Icon active name="airplane" />
-                  </Button>
-                </Left>
-                <Body style={{height:56}}>
-                  <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Квоты</Text>
-                </Body>
-                <Right style={{height:56}}>
-                  <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24}}/>
-                  {/* <Switch value={false} /> */}
-                </Right>
-              </ListItem>
-
               <ListItem icon style={{height:56}}
                 onPress={() => this.props.navigation.navigate('Costs')}
               >
@@ -270,13 +282,11 @@ class Main extends Screen{
                 </Body>
                 <Right style={{height:56}}>
                   <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, }} />
-                  {/* <Switch value={false} /> */}
                 </Right>
               </ListItem>
             </View>
+            */}
 
-
-            {/* *** */}
           </Content>
           <StandardFooter />
         </Container>

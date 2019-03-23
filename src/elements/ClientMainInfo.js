@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'native-base';
 import { Text } from 'react-native';
-import { dP } from 'app/utils/style/styles';
+import { dP, styles } from 'app/utils/style/styles';
 
 
 export default class ClientMainInfo extends React.Component{
@@ -23,14 +23,7 @@ export default class ClientMainInfo extends React.Component{
   render(){
 
     return(
-      <View style={{marginBottom:44, backgroundColor:'#FFFFFF',
-        borderRadius:8,
-        padding:16,
-        shadowColor:'#002B55',
-        shadowRadius:32,
-        shadowOffset:{width:0,height:16},
-        shadowOpacity:1
-      }}>
+      <View style={styles.pane}>
         <View style={{flex: 1, flexDirection: 'row', alignContent:'space-between',
           shadowColor:'#000000',
           shadowRadius:5,
