@@ -11,7 +11,8 @@ export const apiAction = ({
   failureTransition = null,
   label = '',
   headersOverride = null,
-  errorLabel = 'error'
+  errorLabel = 'error',
+  busyScreen = null,
 }) => {
   return {
     type: API,
@@ -27,18 +28,25 @@ export const apiAction = ({
       label,
       headersOverride,
       errorLabel,
+      busyScreen,
     }
   };
 };
 
-export const apiStart = label => ({
+export const apiStart = (label, busyScreen) => ({
   type: API_START,
-  payload: label
+  payload: {
+    label,
+    busyScreen
+  }
 });
 
-export const apiEnd = label => ({
+export const apiEnd = (label, busyScreen) => ({
   type: API_END,
-  payload: label
+  payload: {
+    label,
+    busyScreen
+  }
 });
 
 export const accessDenied = url => ({

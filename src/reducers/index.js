@@ -1,14 +1,17 @@
 import * as T from '../actions/types';
 
 export default (state = {}, action) => {
-  console.log('action type => ', action.type);
-  let {payload} = action;
+  let {type, payload} = action;
+  console.log('action type => ', type);
 
-  switch (action.type) {
+  switch (type) {
   case T.API_START:
     return {
       ...state,
-      isLoadingData: true
+      isLoadingData: true,
+      ...(payload.busyScreen && {
+        busy: { [payload.busyScreen]: true }
+      })
     };
 
   case T.API_ERROR:
@@ -21,7 +24,10 @@ export default (state = {}, action) => {
   case T.API_END:
     return {
       ...state,
-      isLoadingData: false
+      isLoadingData: false,
+      ...(payload.busyScreen && {
+        busy: { [payload.busyScreen]: false }
+      })
     };
 
   case T.READ_STATE:

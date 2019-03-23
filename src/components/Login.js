@@ -6,7 +6,6 @@ import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
-import Api from 'app/utils/api';
 import {login} from 'app/src/actions';
 import { Formik } from 'formik';
 import { compose } from 'recompose';
@@ -30,7 +29,6 @@ const MyInput = compose(
   withNextInputAutoFocusInput
 )(InputWithIcon);
 
-// TODO: make this shit work
 const Form = withNextInputAutoFocusForm(View);
 
 class Login extends Screen {
@@ -91,7 +89,7 @@ class Login extends Screen {
 
                   <Body style={{margin: 24}}>
                     {this.props.errors && this.props.errors.loginError ? error : null}
-                    {this.props.isLoadingData ? (
+                    {this.props.busy && this.props.busy.login ? (
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded

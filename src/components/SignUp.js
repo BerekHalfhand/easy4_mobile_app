@@ -106,7 +106,7 @@ class SignUp extends Screen {
 
                   <Body style={{margin: 24}}>
                     {this.props.errors && this.props.errors.signupError ? error : null}
-                    {this.props.isLoadingData ? (
+                    {this.props.busy && this.props.busy.signup ? (
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded

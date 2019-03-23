@@ -19,6 +19,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     label,
     headers,
     errorLabel,
+    busyScreen,
   } = action.payload;
   const useBody = !['GET', 'HEAD'].includes(method);
 
@@ -30,7 +31,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
   const baseUrl = 'https://mp.api.easy4.pro';
 
   if (label) {
-    dispatch(apiStart(label));
+    dispatch(apiStart(label, busyScreen));
   }
 
   let body = JSON.stringify({
@@ -80,7 +81,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     })
     .finally(() => {
       if (label) {
-        dispatch(apiEnd(label));
+        dispatch(apiEnd(label, busyScreen));
       }
     });
 };

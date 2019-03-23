@@ -29,7 +29,8 @@ export function login(login, password) {
     successTransition: 'Main',
     onFailure: loginFailure,
     label: T.LOGIN,
-    errorLabel: 'loginError'
+    errorLabel: 'loginError',
+    busyScreen: 'login',
   });
 }
 
@@ -62,7 +63,8 @@ export function signup(email, password) {
     onSuccess: (data) => signupSuccess(data, email, password),
     onFailure: signupFailure,
     label: T.SIGNUP,
-    errorLabel: 'signupError'
+    errorLabel: 'signupError',
+    busyScreen: 'signup',
   });
 }
 
