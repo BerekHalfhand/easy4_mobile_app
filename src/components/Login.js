@@ -6,7 +6,6 @@ import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
-import Api from 'app/utils/api';
 import {login} from 'app/src/actions';
 import { Formik } from 'formik';
 import { compose } from 'recompose';
@@ -30,7 +29,6 @@ const MyInput = compose(
   withNextInputAutoFocusInput
 )(InputWithIcon);
 
-// TODO: make this shit work
 const Form = withNextInputAutoFocusForm(View);
 
 class Login extends Screen {
@@ -48,25 +46,9 @@ class Login extends Screen {
     this.props.navigation.navigate('Recovery');
   }
 
-  formSubmit(values, actions){
+  formSubmit(values){
     console.log('form submit', values);
     this.props.dispatch(login(values.login, values.password));
-    // Api.login(values.login, values.password)
-    //   .then(data => {
-    //     console.log('data:', data);
-    //
-    //     if (!data.accessToken)
-    //       throw data.msg;
-    //
-    //     this.props.dispatch(setAccessToken(data.accessToken));
-    //     this.props.dispatch(setRefreshToken(data.refreshToken));
-    //   })
-    //   .then(data => {
-    //     console.log('saved response, redirect');
-    //     this.props.navigation.navigate('Main');
-    //   })
-    //   .catch(e => actions.setFieldError('general', e.toString()))
-    //   .finally(() => actions.setSubmitting(false));
   }
 
   render() {
@@ -82,7 +64,7 @@ class Login extends Screen {
           style = {{ flex: 1, padding: 24 }}
           behavior = "padding" >
           <Formik
-            onSubmit={(values, actions) => this.formSubmit(values, actions)}
+            onSubmit={(values) => this.formSubmit(values)}
             validationSchema={validationSchema}
             initialValues={{
               login: '',
@@ -107,7 +89,7 @@ class Login extends Screen {
 
                   <Body style={{margin: 24}}>
                     {this.props.errors && this.props.errors.loginError ? error : null}
-                    {this.props.isLoadingData ? (
+                    {this.props.busy && this.props.busy.login ? (
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded

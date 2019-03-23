@@ -63,8 +63,11 @@ class Drawer extends React.Component {
   }
 
   onPressBalance (phone) {
-    this.props.navigation.closeDrawer();
     this.navigateTo('IncreaseBalance', {phone: phone});
+  }
+
+  onPressTariffs () {
+    this.navigateTo('Tariff');
   }
 
   navigateTo = ( route, params ) => {
@@ -86,8 +89,8 @@ class Drawer extends React.Component {
           <View style={{flex: 1, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', alignItems: 'flex-end', padding: 15}} >
             <View style={styles.userPic}></View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 15}}>
-              <Text style={styles.headerName}>{firstName + ' ' + lastName || 'Павел Галанкин'}</Text>
-              <Text style={styles.headerPhone}>{phone || '+7 (916) 258-5555'}</Text>
+              <Text style={styles.headerName}>{firstName + ' ' + lastName || 'John Doe'}</Text>
+              <Text style={styles.headerPhone}>{this.props.user.selectedPhone || ''}</Text>
             </View>
           </View>
         </View>
@@ -98,11 +101,11 @@ class Drawer extends React.Component {
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>Наши контакты</Text>
+            <Text style={styles.itemText} onPress={() => this.navigateTo('Chatroom')}>Наши контакты</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>Наши тарифы</Text>
+            <Text style={styles.itemText} onPress={this.onPressTariffs}>Наши тарифы</Text>
           </View>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>

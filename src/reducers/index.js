@@ -1,14 +1,17 @@
 import * as T from '../actions/types';
 
 export default (state = {}, action) => {
-  console.log('action type => ', action.type);
-  let {payload} = action;
+  let {type, payload} = action;
+  console.log('action type => ', type);
 
-  switch (action.type) {
+  switch (type) {
   case T.API_START:
     return {
       ...state,
-      isLoadingData: true
+      isLoadingData: true,
+      ...(payload.busyScreen && {
+        busy: { [payload.busyScreen]: true }
+      })
     };
 
   case T.API_ERROR:
@@ -21,7 +24,10 @@ export default (state = {}, action) => {
   case T.API_END:
     return {
       ...state,
-      isLoadingData: false
+      isLoadingData: false,
+      ...(payload.busyScreen && {
+        busy: { [payload.busyScreen]: false }
+      })
     };
 
   case T.READ_STATE:
@@ -62,6 +68,7 @@ export default (state = {}, action) => {
     return {
       ...state,
       user: {
+        ...state.user,
         firstName: payload.firstName,
         secondName: payload.secondName,
         lastName: payload.lastName,
@@ -72,6 +79,14 @@ export default (state = {}, action) => {
 
   case T.USER_INFO_FAILURE:
     console.log('action/USER_INFO_FAILURE');
+    return state;
+
+  case T.SIGNUP_SUCCESS:
+    console.log('action/SIGNUP_SUCCESS', payload);
+    return state;
+
+  case T.SIGNUP_FAILURE:
+    console.log('action/SIGNUP_FAILURE');
     return state;
 
   case T.LOGIN_SUCCESS:
@@ -93,6 +108,17 @@ export default (state = {}, action) => {
   case T.LOGOUT:
     console.log('action/LOGOUT');
     return {};
+
+
+  case T.SELECT_PHONE:
+    console.log('action/SELECT_PHONE', payload);
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        selectedPhone: payload.phone,
+      }
+    };
 
   default:
     return state;

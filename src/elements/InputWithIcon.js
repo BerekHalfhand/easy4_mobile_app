@@ -3,7 +3,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import PropTypes from 'prop-types';
-// import { withFormikControl } from 'react-native-formik';
 import {dP, styles} from 'app/utils/style/styles';
 
 export default class InputWithIcon extends React.Component {
@@ -38,7 +37,7 @@ export default class InputWithIcon extends React.Component {
 
   };
 
-  focus = () => this.setState({ focused: true });
+  focus = () => { this.input.focus(); }
 
   renderIcon() {
     if (this.state.icon) {
@@ -57,6 +56,7 @@ export default class InputWithIcon extends React.Component {
     return (
       <View>
         <TextField
+          ref={input => this.input = input}
           secureTextEntry={this.state.isPassword}
           textColor={dP.color.white}
           baseColor={this.props.hasErrors ? dP.color.error : '#ABABAB'}
@@ -89,5 +89,3 @@ InputWithIcon.defaultProps = {
   isPassword: false,
   hasErrors: false,
 };
-
-// export default withFormikControl(InputWithIcon);

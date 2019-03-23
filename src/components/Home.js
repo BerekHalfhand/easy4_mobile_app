@@ -127,8 +127,7 @@ class Home extends Screen {
                 <Text style={{fontFamily:'SFCT_Medium', letterSpacing:-0.5, fontSize:24, color:'#FFFFFF'}}>Добро пожаловать в Easy4</Text>
               </Body>
               <Body style={{marginTop: 24}}>
-                <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>Самое удобное приложение в мире</Text>
-                <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>среди приложений для приложений</Text>
+                <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>Безроуминговый мобильный оператор</Text>
               </Body>
               <Body style={{marginTop: 48}}>
                 <Button full rounded

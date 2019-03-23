@@ -1,36 +1,41 @@
 import React from 'react';
 import { View } from 'native-base';
 import { Text } from 'react-native';
-import { dP } from 'app/utils/style/styles';
-
+import { dP, styles } from 'app/utils/style/styles';
+import PropTypes from 'prop-types';
 
 export default class ClientMainInfo extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      fake: {
-        balance: '1020.03',
-        date: '32 мая',
-        minute: 2364,
-        minutePack: 5000,
-        gigabyte:'1.32',
-        gigabytePack:'1.5',
-        sms:1419,
-        smsPack:1500
-      }
+      callsRate: 2.4,
+      trafficRate: 1.2,
+      smsRate: 18,
     };
   }
+
+  calculateRemaning(balance, rate) {
+    if (balance == 0) return 0;
+    if (rate == 0) return '\u221E'; //infinity
+
+    const truncZeroes = (string) => {
+      if (string.slice(-1) == '0' || string.slice(-1) == '.')
+        string = truncZeroes(string.substring(0, string.length - 1));
+
+      return string;
+    };
+
+    let rounded = (Math.floor((balance / rate) * 100) / 100).toFixed(2);
+    rounded = truncZeroes(rounded.toString());
+
+    return rounded;
+  }
+
   render(){
+    const {balance} = this.props;
 
     return(
-      <View style={{marginBottom:44, backgroundColor:'#FFFFFF',
-        borderRadius:8,
-        padding:16,
-        shadowColor:'#002B55',
-        shadowRadius:32,
-        shadowOffset:{width:0,height:16},
-        shadowOpacity:1
-      }}>
+      <View style={styles.pane}>
         <View style={{flex: 1, flexDirection: 'row', alignContent:'space-between',
           shadowColor:'#000000',
           shadowRadius:5,
@@ -38,36 +43,27 @@ export default class ClientMainInfo extends React.Component{
         }}>
           <View style={{width:'33%'}}>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
-                            Звонки
+              Звонки
             </Text>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
-              {this.state.fake.minute}
+              {this.calculateRemaning(balance, this.state.callsRate)}
             </Text>
-            { /* <Text style={{fontFamily:'SFCT_Regular', fontSize:13, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
-                            из {this.state.fake.minutePack} мин
-            </Text>*/}
           </View>
           <View style={{width:'33%',borderLeftWidth:1, borderRightWidth:1, borderLeftColor:'#F2F2F2', borderRightColor:'#F2F2F2'}}>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
-                            Интернет
+              Интернет
             </Text>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
-              {this.state.fake.gigabyte}
+              {this.calculateRemaning(balance, this.state.trafficRate)}
             </Text>
-            {/*<Text style={{fontFamily:'SFCT_Regular', fontSize:14, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
-                            из {this.state.fake.gigabytePack}  гб
-            </Text>*/}
           </View>
           <View style={{width:'33%'}}>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
-                            СМС
+              SMS
             </Text>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
-              {this.state.fake.sms}
+              {this.calculateRemaning(balance, this.state.smsRate)}
             </Text>
-            {/*<Text style={{fontFamily:'SFCT_Regular', fontSize:14, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
-                            из {this.state.fake.smsPack} СМС
-            </Text>*/}
           </View>
         </View>
       </View>
@@ -75,3 +71,11 @@ export default class ClientMainInfo extends React.Component{
     );
   }
 }
+
+ClientMainInfo.propTypes = {
+  balance: PropTypes.number.isRequired,
+};
+
+ClientMainInfo.defaultProps = {
+  balance: 0,
+};

@@ -11,10 +11,11 @@ import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import LogoTitle from 'app/src/elements/LogoTitle';
+import TariffPane from 'app/src/elements/TariffPane';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
 import { connect } from 'react-redux';
-import {userInfo} from 'app/src/actions';
+import {userInfo, selectPhone} from 'app/src/actions';
 
 class Main extends Screen{
   constructor(props){
@@ -27,12 +28,48 @@ class Main extends Screen{
       lastName: '',
       clicked:'',
       balance: null,
-    };
+      fakeTariff1: {
+        title: 'Easy4 Travel',
+        subTitle: 'Тариф Трэвел',
+        description: [
+          {key: 'Без абонентской платы'},
+          {key: '1 Р за Мб*'},
+          {key: '2 Р за минуту*'},
+          {key: 'Единый тариф во всех странах территории обслуживания'},
+        ],
+      },
+      fakeTariff2: {
+        title: 'Connect Internet',
+        subTitle: 'Тариф Коннект Интернет',
+        description: [
+          {key: 'Без абонентской платы'},
+          {key: 'Пакет 3 Гб за 999Р*'},
+          {key: 'Более 60 стран обслуживания'},
+        ],
+      },
 
+    };
   }
 
   componentWillMount() {
     this.loadData();
+
+    if (this.props.user && this.props.user.selectedPhone)
+      this.getBalance(this.props.user.selectedPhone);
+  }
+
+  componentDidMount() {
+    // TODO: instant info rendering
+    const name = this.props.user ?
+      this.props.user.firstName + ' ' + this.props.user.lastName :
+      '';
+
+    const phone = this.props.user ?
+      this.props.user.selectedPhone :
+      '';
+
+    this.props.navigation.setParams({ name, phone });
+    console.log('params must be set!', name, phone);
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -42,7 +79,6 @@ class Main extends Screen{
       headerLeft: null,
       headerTitle: <LogoTitle title={params.name || ''} subTitle={params.phone || ''}/>,
     };
-    // subTitle={params.name || ''}
   }
 
   loadData = () => {
@@ -59,7 +95,7 @@ class Main extends Screen{
         if (data.firstName)
           this.props.navigation.setParams({
             name: data.firstName + ' ' + data.lastName,
-            ...(data.phone && {phone: data.phone})
+            // ...(data.phone && {phone: data.phone})
           });
 
         this.setState({
@@ -80,6 +116,7 @@ class Main extends Screen{
         this.setState({
           phones: new Set(data.items.map(a => a.msisdn))
         });
+
       })
       .catch(e => Alert.alert('MSISDNS Fetching Error', e.toString()));
   };
@@ -132,6 +169,7 @@ class Main extends Screen{
           phone: phone,
           // balance: phones[phone],
         });
+        this.props.dispatch(selectPhone(phone));
         this.props.navigation.setParams({ phone: phone });
       }
     );
@@ -165,11 +203,10 @@ class Main extends Screen{
 
   render() {
     const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
-    const DESTRUCTIVE_INDEX = 3;
     const CANCEL_INDEX = 2;
-    // console.log('state:', this.state);
-    // console.log('navigation:', this.props);
+
     const balance = <ClientMainBalance balance={this.state.balance} />;
+    const mainInfo = (this.state.balance ? <ClientMainInfo balance={this.state.balance} /> : null);
 
     return(
       <Root>
@@ -194,8 +231,6 @@ class Main extends Screen{
                         {
                           options: BUTTONS,
                           cancelButtonIndex: CANCEL_INDEX,
-                          // destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                          // title: "Testing ActionSheet"
                         },
                         buttonIndex => {
                           this.setState({ clicked: BUTTONS[buttonIndex] });
@@ -221,11 +256,21 @@ class Main extends Screen{
 
             {/* Info Block */}
 
-            <ClientMainInfo />
+            {mainInfo}
 
             {/* *** */}
 
-            {/* List Options */}
+            <TariffPane
+              title={this.state.fakeTariff1.title}
+              subTitle={this.state.fakeTariff1.subTitle}
+              description={this.state.fakeTariff1.description} />
+
+            <TariffPane
+              title={this.state.fakeTariff2.title}
+              subTitle={this.state.fakeTariff2.subTitle}
+              description={this.state.fakeTariff2.description} />
+
+            {/*
             <View style={{marginLeft:-14, marginBottom: 30}}>
               <ListItem icon style={{height:56}}
                 onPress={() => this.props.navigation.navigate('Tariff')}
@@ -243,21 +288,6 @@ class Main extends Screen{
                 </Right>
               </ListItem>
 
-              <ListItem icon style={{height:56}}>
-                <Left>
-                  <Button style={{ backgroundColor: '#FF9501' }}>
-                    <Icon active name="airplane" />
-                  </Button>
-                </Left>
-                <Body style={{height:56}}>
-                  <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Квоты</Text>
-                </Body>
-                <Right style={{height:56}}>
-                  <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24}}/>
-                  {/* <Switch value={false} /> */}
-                </Right>
-              </ListItem>
-
               <ListItem icon style={{height:56}}
                 onPress={() => this.props.navigation.navigate('Costs')}
               >
@@ -271,13 +301,11 @@ class Main extends Screen{
                 </Body>
                 <Right style={{height:56}}>
                   <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, }} />
-                  {/* <Switch value={false} /> */}
                 </Right>
               </ListItem>
             </View>
+            */}
 
-
-            {/* *** */}
           </Content>
           <StandardFooter />
         </Container>

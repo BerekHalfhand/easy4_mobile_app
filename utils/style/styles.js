@@ -81,6 +81,7 @@ export const styles = StyleSheet.create({
     paddingRight: 20,
     paddingBottom: 10,
     backgroundColor: dP.color.accent,
+    alignSelf: 'center',
     // borderRadius: 24
   },
   buttonPrimaryCash: {
@@ -120,6 +121,16 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 33,
     right: 0
+  },
+  pane: {
+    marginBottom:44,
+    backgroundColor:dP.color.white,
+    borderRadius:8,
+    padding:16,
+    shadowColor:'#002B55',
+    shadowRadius:32,
+    shadowOffset:{width:0,height:16},
+    shadowOpacity:1
   },
   whiteTextColor: {
     color: dP.color.white,
