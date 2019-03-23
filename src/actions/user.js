@@ -28,3 +28,10 @@ const userInfoFailure = data => {
     payload: data
   };
 };
+
+export const selectPhone = phone => {
+  return {
+    type: T.SELECT_PHONE,
+    payload: {phone}
+  };
+};

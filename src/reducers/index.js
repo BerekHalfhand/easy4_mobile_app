@@ -68,6 +68,7 @@ export default (state = {}, action) => {
     return {
       ...state,
       user: {
+        ...state.user,
         firstName: payload.firstName,
         secondName: payload.secondName,
         lastName: payload.lastName,
@@ -82,12 +83,7 @@ export default (state = {}, action) => {
 
   case T.SIGNUP_SUCCESS:
     console.log('action/SIGNUP_SUCCESS', payload);
-    return {
-      ...state,
-      // accessToken: payload.accessToken,
-      // refreshToken: payload.refreshToken,
-      // authorized: true,
-    };
+    return state;
 
   case T.SIGNUP_FAILURE:
     console.log('action/SIGNUP_FAILURE');
@@ -112,6 +108,17 @@ export default (state = {}, action) => {
   case T.LOGOUT:
     console.log('action/LOGOUT');
     return {};
+
+
+  case T.SELECT_PHONE:
+    console.log('action/SELECT_PHONE', payload);
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        selectedPhone: payload.phone,
+      }
+    };
 
   default:
     return state;

@@ -90,6 +90,7 @@ class Drawer extends React.Component {
             <View style={styles.userPic}></View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 15}}>
               <Text style={styles.headerName}>{firstName + ' ' + lastName || 'John Doe'}</Text>
+              <Text style={styles.headerPhone}>{this.props.user.selectedPhone || ''}</Text>
             </View>
           </View>
         </View>

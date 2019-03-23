@@ -3,7 +3,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import PropTypes from 'prop-types';
-// import { withFormikControl } from 'react-native-formik';
 import {dP, styles} from 'app/utils/style/styles';
 
 export default class InputWithIcon extends React.Component {
@@ -90,5 +89,3 @@ InputWithIcon.defaultProps = {
   isPassword: false,
   hasErrors: false,
 };
-
-// export default withFormikControl(InputWithIcon);

@@ -15,7 +15,7 @@ import TariffPane from 'app/src/elements/TariffPane';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
 import { connect } from 'react-redux';
-import {userInfo} from 'app/src/actions';
+import {userInfo, selectPhone} from 'app/src/actions';
 
 class Main extends Screen{
   constructor(props){
@@ -49,11 +49,27 @@ class Main extends Screen{
       },
 
     };
-
   }
 
   componentWillMount() {
     this.loadData();
+
+    if (this.props.user && this.props.user.selectedPhone)
+      this.getBalance(this.props.user.selectedPhone);
+  }
+
+  componentDidMount() {
+    // TODO: instant info rendering
+    const name = this.props.user ?
+      this.props.user.firstName + ' ' + this.props.user.lastName :
+      '';
+
+    const phone = this.props.user ?
+      this.props.user.selectedPhone :
+      '';
+
+    this.props.navigation.setParams({ name, phone });
+    console.log('params must be set!', name, phone);
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -100,6 +116,7 @@ class Main extends Screen{
         this.setState({
           phones: new Set(data.items.map(a => a.msisdn))
         });
+
       })
       .catch(e => Alert.alert('MSISDNS Fetching Error', e.toString()));
   };
@@ -152,6 +169,7 @@ class Main extends Screen{
           phone: phone,
           // balance: phones[phone],
         });
+        this.props.dispatch(selectPhone(phone));
         this.props.navigation.setParams({ phone: phone });
       }
     );
@@ -188,6 +206,7 @@ class Main extends Screen{
     const CANCEL_INDEX = 2;
 
     const balance = <ClientMainBalance balance={this.state.balance} />;
+    const mainInfo = (this.state.balance ? <ClientMainInfo balance={this.state.balance} /> : null);
 
     return(
       <Root>
@@ -237,7 +256,7 @@ class Main extends Screen{
 
             {/* Info Block */}
 
-            <ClientMainInfo />
+            {mainInfo}
 
             {/* *** */}
 

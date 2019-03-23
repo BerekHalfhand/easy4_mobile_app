@@ -1,7 +1,8 @@
 import React from 'react';
-import {Text, View, Keyboard} from 'react-native';
+import {Text, View, Keyboard, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import { connect } from 'react-redux';
+import {readState} from 'app/src/actions';
 
 class LogoTitle extends React.Component {
   constructor(props){
@@ -20,6 +21,7 @@ class LogoTitle extends React.Component {
 
   toggleDrawer = () => {
     Keyboard.dismiss();
+    this.props.dispatch(readState());
 
     if (this.props.authorized)
       this.props.navigation.openDrawer();
@@ -40,14 +42,15 @@ class LogoTitle extends React.Component {
       subTitleSize,
       title,
       subTitle,
-      borderBottomColor,
-      navigation
+      borderBottomColor
     } = Object.assign(this.state, this.props);
 
     return (
       <View style={{ backgroundColor:background, borderBottomColor: borderBottomColor }}>
-        <Text onPress={this.toggleDrawer} numberOfLines={1} style={{color: titleColor, textAlign:'center', fontSize: titleSize}}>{ title }</Text>
-        {subTitle ? this.renderSubtitle(subTitle, subTitleSize, subTitleColor) : null}
+        <TouchableOpacity onPress={this.toggleDrawer}>
+          <Text numberOfLines={1} style={{color: titleColor, textAlign:'center', fontSize: titleSize}}>{ title }</Text>
+          {subTitle ? this.renderSubtitle(subTitle, subTitleSize, subTitleColor) : null}
+        </TouchableOpacity>
       </View>
     );
   }
