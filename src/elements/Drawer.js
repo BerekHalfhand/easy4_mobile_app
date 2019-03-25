@@ -89,12 +89,9 @@ class Drawer extends React.Component {
     if (!this.props.user) return false;
 
     const {
-      firstName,
-      lastName,
-      phone,
+      fullName,
+      selectedPhone,
     } = this.props.user;
-
-    //TODO wrong phone number is sent for payment
 
     return (
       <Container>
@@ -102,15 +99,15 @@ class Drawer extends React.Component {
           <View style={{flex: 1, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', alignItems: 'flex-end', padding: 15}} >
             <View style={styles.userPic}></View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 15}}>
-              <Text style={styles.headerName}>{firstName + ' ' + lastName || 'John Doe'}</Text>
-              <Text style={styles.headerPhone}>{this.props.user.selectedPhone || ''}</Text>
+              <Text style={styles.headerName}>{fullName || 'John Doe'}</Text>
+              <Text style={styles.headerPhone}>{selectedPhone || ''}</Text>
             </View>
           </View>
         </View>
         <View style={styles.itemsContainer}>
           {/*<View style={styles.itemStyle}>*/}
             {/*<View style={styles.mockIcon}></View>*/}
-            {/*<Text style={styles.itemText} onPress={() => this.onPressBalance(phone)}>Пополнить баланс</Text>*/}
+            {/*<Text style={styles.itemText} onPress={() => this.onPressBalance(selectedPhone)}>Пополнить баланс</Text>*/}
           {/*</View>*/}
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>

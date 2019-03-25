@@ -19,7 +19,7 @@ import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
 import { connect } from 'react-redux';
-import {userInfo, selectPhone, dismissError, fetchMsisdns} from 'app/src/actions';
+import {userInfo, selectPhone, dismissError, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
 class Main extends Screen{
   constructor(props){
@@ -111,6 +111,16 @@ class Main extends Screen{
           { onDismiss: () => this.onDismissError('fetchMsisdnsError') }
         );
       }
+
+      if (this.props.errors.fetchBalanceError &&
+          (!prevProps.errors || this.props.errors.fetchBalanceError != prevProps.errors.fetchBalanceError)) {
+        Alert.alert(
+          'Balance Fetching Error',
+          this.props.errors.fetchBalanceError,
+          [{text: 'OK', onPress: () => this.onDismissError('fetchBalanceError')}],
+          { onDismiss: () => this.onDismissError('fetchBalanceError') }
+        );
+      }
     }
   }
 
@@ -122,27 +132,15 @@ class Main extends Screen{
 
   loadData = () => {
     console.log('token', this.props.accessToken);
-    const { accessToken, dispatch } = this.props
+    const { accessToken, dispatch } = this.props;
     dispatch(userInfo(accessToken));
     dispatch(fetchMsisdns(accessToken));
   };
 
   getBalance = async (phone) => {
     console.log('getBalance:', phone);
-    Api.balance(phone, this.props.accessToken)
-      // .then(response => console.log(response))
-      .then(data => {
-        console.log('getBalance:', data);
-
-        if (typeof data.balance !== 'number')
-          throw data.msg;
-
-        this.setState({
-          balance: data.balance,
-        });
-        console.log('setting balance to:', this.state.balance);
-      })
-      .catch(e => Alert.alert('Balance Fetching Error', e.toString()));
+    const { accessToken, dispatch } = this.props;
+    dispatch(fetchBalance(phone, accessToken));
   }
 
   selectPhone = msisdn => {
@@ -215,8 +213,12 @@ class Main extends Screen{
     const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
     const CANCEL_INDEX = 2;
 
-    const balance = <ClientMainBalance balance={this.state.balance} />;
-    const mainInfo = (this.state.balance ? <ClientMainInfo balance={this.state.balance} /> : null);
+    const balance = (this.props.user && this.props.user.balance !== null ?
+      <ClientMainBalance balance={this.props.user.balance} />
+      : null);
+    const mainInfo = (this.props.user && this.props.user.balance !== null ?
+      <ClientMainInfo balance={this.props.user.balance} />
+      : null);
 
     return(
       <Root>
@@ -230,7 +232,7 @@ class Main extends Screen{
 
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{width:'60%'}}>
-                {this.state.balance !== null ? balance : null}
+                {balance}
               </View>
               <View style={{width:'40%', alignItems:'flex-end'}}>
                 <View style={{flex: 1, justifyContent: 'flex-end', alignContent:'center'}}>
