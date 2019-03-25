@@ -62,3 +62,29 @@ const fetchMsisdnsFailure = data => {
     payload: data
   };
 };
+
+export function fetchBalance(phone, accessToken) {
+  console.log('fetchBalance', phone, accessToken);
+  return apiAction({
+    url: '/test/balance/' + phone,
+    accessToken: accessToken,
+    onSuccess: fetchBalanceSuccess,
+    onFailure: fetchBalanceFailure,
+    errorLabel: 'fetchBalanceError',
+    label: T.BALANCE_FETCH
+  });
+}
+
+const fetchBalanceSuccess = data => {
+  return {
+    type: T.BALANCE_FETCH_SUCCESS,
+    payload: data
+  };
+};
+
+const fetchBalanceFailure = data => {
+  return {
+    type: T.BALANCE_FETCH_FAILURE,
+    payload: data
+  };
+};

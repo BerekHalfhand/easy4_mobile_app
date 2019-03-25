@@ -37,7 +37,7 @@ export default class ClientMainBalance extends React.Component{
             </Text>
           </View>
           <View>
-            <Text style={{fontSize:24, color:'#FFFFFF'}}>P</Text>
+            <Text style={{fontSize:24, color:'#FFFFFF'}}>₽</Text>
           </View>
         </View>
       </View>

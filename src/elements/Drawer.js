@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import { Container } from 'native-base';
 import {dP} from 'app/utils/style/styles';
@@ -9,6 +9,7 @@ import {logout} from 'app/src/actions';
 import PropTypes from 'prop-types';
 // import { DrawerItems, SafeAreaView } from 'react-navigation';
 import NavigationService from 'app/src/services/NavigationService';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -30,11 +31,13 @@ const styles = StyleSheet.create({
   itemStyle: {
     height: 30,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 15,
   },
   itemText: {
-    paddingLeft: 15
+    paddingLeft: 15,
+    flex: 3
   },
   userPic: {
     backgroundColor: 'gray',
@@ -47,6 +50,13 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 5,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    flex: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 
 });
@@ -79,12 +89,9 @@ class Drawer extends React.Component {
     if (!this.props.user) return false;
 
     const {
-      firstName,
-      lastName,
-      phone,
+      fullName,
+      selectedPhone,
     } = this.props.user;
-
-    //TODO wrong phone number is sent for payment
 
     return (
       <Container>
@@ -92,15 +99,15 @@ class Drawer extends React.Component {
           <View style={{flex: 1, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', alignItems: 'flex-end', padding: 15}} >
             <View style={styles.userPic}></View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 15}}>
-              <Text style={styles.headerName}>{firstName + ' ' + lastName || 'John Doe'}</Text>
-              <Text style={styles.headerPhone}>{this.props.user.selectedPhone || ''}</Text>
+              <Text style={styles.headerName}>{fullName || 'John Doe'}</Text>
+              <Text style={styles.headerPhone}>{selectedPhone || ''}</Text>
             </View>
           </View>
         </View>
         <View style={styles.itemsContainer}>
           {/*<View style={styles.itemStyle}>*/}
             {/*<View style={styles.mockIcon}></View>*/}
-            {/*<Text style={styles.itemText} onPress={() => this.onPressBalance(phone)}>Пополнить баланс</Text>*/}
+            {/*<Text style={styles.itemText} onPress={() => this.onPressBalance(selectedPhone)}>Пополнить баланс</Text>*/}
           {/*</View>*/}
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
@@ -114,10 +121,12 @@ class Drawer extends React.Component {
             <View style={styles.mockIcon}></View>
             <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>О приложении</Text>
           </View>
-          <View style={styles.itemStyle}>
-            <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={this.onPressLogout}>Выйти</Text>
-          </View>
+          <TouchableOpacity style={styles.itemStyle} onPress={this.onPressLogout}>
+            <View style={styles.icon}>
+              <Icon name='sign-out' color={dP.color.primary} size={24} />
+            </View>
+            <Text style={styles.itemText}>Выйти</Text>
+          </TouchableOpacity>
         </View>
       </Container>
 
