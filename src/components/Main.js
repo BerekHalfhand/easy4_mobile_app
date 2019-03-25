@@ -145,6 +145,12 @@ class Main extends Screen{
       .catch(e => Alert.alert('Balance Fetching Error', e.toString()));
   }
 
+  selectPhone = msisdn => {
+    this.props.dispatch(selectPhone(msisdn));
+    this.props.navigation.setParams({ phone: msisdn });
+    this.getBalance(msisdn);
+  }
+
   onPressIncrease(idx, phone){
     switch (idx) {
     case 0:
@@ -170,16 +176,17 @@ class Main extends Screen{
             return false;
 
           let phone = this.props.user.msisdns[buttonIndex];
-          this.getBalance(phone);
 
-          this.props.dispatch(selectPhone(phone));
-          this.props.navigation.setParams({ phone: phone });
+          this.selectPhone(phone);
         }
       );
   }
 
   renderMSISDNS() {
     if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length > 0) {
+      if (!this.props.user.selectedPhone) {
+        this.selectPhone(this.props.user.msisdns[0]);
+      }
       return (
         <Button full transparent rounded
           style={styles.buttonPrimaryInverse}
