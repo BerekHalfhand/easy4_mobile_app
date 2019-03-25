@@ -17,7 +17,6 @@ import LogoTitle from 'app/src/elements/LogoTitle';
 import TariffPane from 'app/src/elements/TariffPane';
 import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
-import Api from 'app/utils/api';
 import { connect } from 'react-redux';
 import {userInfo, selectPhone, dismissError, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
@@ -246,7 +245,8 @@ class Main extends Screen{
                         },
                         buttonIndex => {
                           this.setState({ clicked: BUTTONS[buttonIndex] });
-                          this.onPressIncrease(buttonIndex, this.state.phone);
+                          if (this.props.user)
+                            this.onPressIncrease(buttonIndex, this.props.user.selectedPhone);
                         }
                       )}
                   >
