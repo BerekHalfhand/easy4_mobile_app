@@ -14,24 +14,11 @@ export default class ClientMainInfo extends React.Component{
     };
   }
 
-  calculateRemaning(balance, rate, floor = false) {
+  calculateRemaning(balance, rate) {
     if (balance == 0) return 0;
     if (rate == 0) return '\u221E'; //infinity
 
-    const truncZeroes = (string) => {
-      if (string.slice(-1) == '0' || string.slice(-1) == '.')
-        string = truncZeroes(string.substring(0, string.length - 1));
-
-      return string;
-    };
-    let rounded = 0;
-    if (floor) {
-      rounded = Math.floor(balance / rate);
-    } else {
-      rounded = (Math.floor((balance / rate) * 100) / 100).toFixed(2);
-      rounded = truncZeroes(rounded.toString());
-    }
-    return rounded;
+    return Math.floor(balance / rate);
   }
 
   render(){
@@ -65,7 +52,7 @@ export default class ClientMainInfo extends React.Component{
               SMS
             </Text>
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
-              {this.calculateRemaning(balance, this.state.smsRate, true)}
+              {this.calculateRemaning(balance, this.state.smsRate)}
             </Text>
           </View>
         </View>
