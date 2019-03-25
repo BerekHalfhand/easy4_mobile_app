@@ -64,4 +64,10 @@ export const apiError = (errorLabel, error) => ({
     }
   }
 });
-// TODO: erase that error on success
+
+export const apiErrorDismiss = (errorLabel) => {
+  return {
+    type: 'ERROR_DISMISS',
+    payload: {errorLabel}
+  };
+};

@@ -18,7 +18,7 @@ import TariffPane from 'app/src/elements/TariffPane';
 import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import {userInfo, selectPhone, dismissError, fetchMsisdns, fetchBalance} from 'app/src/actions';
+import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
 class Main extends Screen{
   constructor(props){
@@ -79,47 +79,14 @@ class Main extends Screen{
 
   componentDidUpdate(prevProps){
     // Update header data if it's available and have chaged
-    if (this.props.user &&
+    if (this.props.user && this.props.user.fullName &&
         (!prevProps.user ||
           (this.props.user.fullName != prevProps.user.fullName ||
            this.props.user.selectedPhone != prevProps.user.selectedPhone))) {
       this.props.navigation.setParams({
-        name: this.props.user.firstName + ' ' + this.props.user.lastName,
+        name: this.props.user.fullName,
         ...(this.props.user.selectedPhone && {phone: this.props.user.selectedPhone})
       });
-    }
-
-    // If there is a new error, show it
-    if (this.props.errors) {
-      if (this.props.errors.userInfoError &&
-          (!prevProps.errors || this.props.errors.userInfoError != prevProps.errors.userInfoError)) {
-        Alert.alert(
-          'User Info Error',
-          this.props.errors.userInfoError,
-          [{text: 'OK', onPress: () => this.onDismissError('userInfoError')}],
-          { onDismiss: () => this.onDismissError('userInfoError') }
-        );
-      }
-
-      if (this.props.errors.fetchMsisdnsError &&
-          (!prevProps.errors || this.props.errors.fetchMsisdnsError != prevProps.errors.fetchMsisdnsError)) {
-        Alert.alert(
-          'MSISDNs Fetching Error',
-          this.props.errors.fetchMsisdnsError,
-          [{text: 'OK', onPress: () => this.onDismissError('fetchMsisdnsError')}],
-          { onDismiss: () => this.onDismissError('fetchMsisdnsError') }
-        );
-      }
-
-      if (this.props.errors.fetchBalanceError &&
-          (!prevProps.errors || this.props.errors.fetchBalanceError != prevProps.errors.fetchBalanceError)) {
-        Alert.alert(
-          'Balance Fetching Error',
-          this.props.errors.fetchBalanceError,
-          [{text: 'OK', onPress: () => this.onDismissError('fetchBalanceError')}],
-          { onDismiss: () => this.onDismissError('fetchBalanceError') }
-        );
-      }
     }
   }
 
@@ -148,6 +115,12 @@ class Main extends Screen{
     this.getBalance(msisdn);
   }
 
+  hasBalance = () => {
+    return this.props.user &&
+      this.props.user.balance !== null &&
+      typeof this.props.user.balance !== 'undefined';
+  }
+
   onPressIncrease(idx, phone){
     switch (idx) {
     case 0:
@@ -160,7 +133,6 @@ class Main extends Screen{
   }
 
   onPressNumbers() {
-    // TODO: choose one automatically
     if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length)
       ActionSheet.show(
         {
@@ -212,10 +184,10 @@ class Main extends Screen{
     const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
     const CANCEL_INDEX = 2;
 
-    const balance = (this.props.user && this.props.user.balance !== null ?
+    const balance = (this.hasBalance() ?
       <ClientMainBalance balance={this.props.user.balance} />
       : null);
-    const mainInfo = (this.props.user && this.props.user.balance !== null ?
+    const mainInfo = (this.hasBalance() ?
       <ClientMainInfo balance={this.props.user.balance} />
       : null);
 

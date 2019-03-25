@@ -152,7 +152,13 @@ export default (state = {}, action) => {
 
   case T.MSISDNS_FETCH_FAILURE:
     console.log('action/MSISDNS_FETCH_FAILURE', payload);
-    return state;
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        msisdns: [],
+      }
+    };
 
   case T.BALANCE_FETCH_SUCCESS:
     console.log('action/BALANCE_FETCH_SUCCESS', payload);

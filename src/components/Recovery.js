@@ -4,13 +4,15 @@ import { Alert, Text, ActivityIndicator, KeyboardAvoidingView, ScrollView } from
 import {Button, Body, Form } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
-import Api from 'app/utils/api';
+import { connect } from 'react-redux';
+import autoBind from 'react-autobind';
 import { Formik } from 'formik';
 import {
   handleTextInput
 } from 'react-native-formik';
 import * as Yup from 'yup';
 import { TextField } from 'react-native-material-textfield';
+import {restorePassword} from 'app/src/actions';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -20,9 +22,10 @@ const validationSchema = Yup.object().shape({
 
 const MyInput = handleTextInput(TextField);
 
-export default class Recovery extends Screen {
+class Recovery extends Screen {
   constructor(props) {
     super(props);
+    autoBind(this);
   }
 
   static navigationOptions = {
@@ -32,23 +35,15 @@ export default class Recovery extends Screen {
 
   formSubmit(values, actions){
     console.log('form submit', values);
-    Api.restorePassword(values.email)
-      .then(data => {
-        console.log('data:', data);
-
-        if (data.msg != 'OK')
-          throw data.msg;
-
-        Alert.alert('Recovery success', 'На вашу почту отправлено письмо с описанием следующего шага');
-      })
-      .then(data => {
-        setTimeout(() => this.props.navigation.navigate('Login'), 1000);
-      })
-      .catch(e => actions.setFieldError('general', e.toString()))
-      .finally(() => actions.setSubmitting(false));
+    const { dispatch } = this.props;
+    dispatch(restorePassword(values.email));
   }
 
   render() {
+    const error = (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
+      {this.props.errors && this.props.errors.restorePasswordError}
+    </Text>);
+
     return (
       <ScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
@@ -76,8 +71,8 @@ export default class Recovery extends Screen {
                     errorColor={dP.color.error}
                   />
                   <Body style={{margin: 24}}>
-                    <Text style={{ color: dP.color.error, position: 'absolute', top: -24 }}>{formikProps.errors.general}</Text>
-                    {formikProps.isSubmitting ? (
+                    {this.props.errors && this.props.errors.restorePasswordError ? error : null}
+                    {this.props.busy && this.props.busy.recovery ? (
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded
@@ -100,3 +95,7 @@ export default class Recovery extends Screen {
     );
   }
 }
+
+const mapStateToProps = state => ({ ...state });
+
+export default connect(mapStateToProps)(Recovery);
