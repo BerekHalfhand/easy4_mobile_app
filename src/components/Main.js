@@ -33,6 +33,7 @@ class Main extends Screen{
       fakeTariff1: {
         title: 'Тариф Трэвел 1',
         subTitle: 'Easy4 Travel',
+        text: 'Тарифный план «Travel 1» («Трэвел 1») линейки Easy4 Travel, предназначен для туристов и деловых людей, часто совершающих международные поездки.',
         description: [
           {key: 'Без абонентской платы'},
           {key: '1 ₽ за Мб*'},
@@ -43,6 +44,7 @@ class Main extends Screen{
       fakeTariff2: {
         title: 'Тариф 999',
         subTitle: 'Easy4 Connect',
+        text: 'Тарифный план «999» для мобильного интернета линейки Easy4 Connect, предназначен для использования в роутерах, смартфонах, планшетах и других «умных» устройствах на территории России и за рубежом.',
         description: [
           {key: 'Только интернет'},
           {key: 'Без абонентской платы'},
@@ -120,8 +122,9 @@ class Main extends Screen{
 
   loadData = () => {
     console.log('token', this.props.accessToken);
-    this.props.dispatch(userInfo(this.props.accessToken));
-    this.props.dispatch(fetchMsisdns(this.props.accessToken));
+    const { accessToken, dispatch } = this.props
+    dispatch(userInfo(accessToken));
+    dispatch(fetchMsisdns(accessToken));
   };
 
   getBalance = async (phone) => {
@@ -263,11 +266,13 @@ class Main extends Screen{
             <TariffPane
               title={this.state.fakeTariff1.title}
               subTitle={this.state.fakeTariff1.subTitle}
+              text={this.state.fakeTariff1.text}
               description={this.state.fakeTariff1.description} />
 
             <TariffPane
               title={this.state.fakeTariff2.title}
               subTitle={this.state.fakeTariff2.subTitle}
+              text={this.state.fakeTariff2.text}
               description={this.state.fakeTariff2.description} />
 
             {/*

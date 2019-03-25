@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Switch } from 'react-native';
+import { View, Text, Switch, FlatList } from 'react-native';
 import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
 import {styles} from 'app/utils/style/styles';
 import StandardFooter from 'app/src/elements/Footer';
@@ -12,7 +12,22 @@ import Screen from './Screen';
 export default class Tariff extends Screen {
   constructor(props){
     super(props);
+    let title = 'Название тарифа',
+      subTitle = 'Незаменимый продукт для туристов и бизнесменов, часто выезжающих за границу',
+      text = '',
+      description = [];
+
+    if (props.navigation.state.params) {
+      title = props.navigation.state.params.title;
+      subTitle = props.navigation.state.params.subTitle;
+      text = props.navigation.state.params.text;
+      description = props.navigation.state.params.description;
+    }
     this.state = {
+      title,
+      subTitle,
+      text,
+      description,
       fake: {
         tariffName:'Название тарифа',
         tariffDescription: 'Незаменимый продукт для туристов и бизнесменов, часто выезжающих за границу',
@@ -65,17 +80,23 @@ export default class Tariff extends Screen {
     const listItem = this.state.fake.tariffServicesList;
     return(
       <Container style={{backgroundColor:'#004d99'}}>
-        <Content padder>
+        <Content padder style={{ width: '100%', padding:24}}>
           <View style={{marginTop:32}}>
-            <Text style={{color:'#FFFFFF', fontSize: 24}}>{ this.state.fake.tariffName }</Text>
+            <Text style={{color:'#FFFFFF', fontSize: 24}}>{ this.state.title }</Text>
           </View>
           <View style={{marginTop:8}}>
-            <Text style={{color:'#FFFFFF', fontSize: 14}}>{ this.state.fake.tariffDescription }</Text>
+            <Text style={{color:'#FFFFFF', fontSize: 16}}>{ this.state.subTitle }</Text>
           </View>
-          <View style={{marginTop:32}}>
-            <Text style={{color:'#FFFFFF', fontSize: 20}}>{ this.state.fake.tariffServicesTitle }</Text>
+          <View style={{marginTop:12}}>
+            <Text style={{color:'#FFFFFF', fontSize: 14}}>{ this.state.text }</Text>
           </View>
-          <View>
+          <View style={{marginTop:8}}>
+            <FlatList
+              data={this.state.description}
+              renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
+            />
+          </View>
+          {/*<View>
             {
               listItem.map(
                 (item, idx) => {
@@ -96,7 +117,7 @@ export default class Tariff extends Screen {
                 }
               )
             }
-          </View>
+          </View>*/}
         </Content>
         <StandardFooter />
       </Container>

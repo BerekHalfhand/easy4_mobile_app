@@ -11,8 +11,13 @@ export default class TariffPane extends React.Component{
     super(props);
   }
 
-  onTouch() {
-    NavigationService.navigate('Tariff');
+  onTouch = () => {
+    NavigationService.navigate('Tariff', {
+      title: this.props.title,
+      subTitle: this.props.subTitle,
+      text: this.props.text,
+      description: this.props.description,
+    });
   }
 
   render(){
