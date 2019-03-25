@@ -31,22 +31,23 @@ class Main extends Screen{
       user: props.user,
       balance: null,
       fakeTariff1: {
-        title: 'Easy4 Travel',
-        subTitle: 'Тариф Трэвел',
+        title: 'Тариф Трэвел 1',
+        subTitle: 'Easy4 Travel',
         description: [
           {key: 'Без абонентской платы'},
-          {key: '1 Р за Мб*'},
-          {key: '2 Р за минуту*'},
-          {key: 'Единый тариф во всех странах территории обслуживания'},
+          {key: '1 ₽ за Мб*'},
+          {key: '2 ₽ за минуту*'},
+          {key: 'Единый тариф во всех странах территории обслуживания, включая Россию'},
         ],
       },
       fakeTariff2: {
-        title: 'Connect Internet',
-        subTitle: 'Тариф Коннект Интернет',
+        title: 'Тариф 999',
+        subTitle: 'Easy4 Connect',
         description: [
+          {key: 'Только интернет'},
           {key: 'Без абонентской платы'},
-          {key: 'Пакет 3 Гб за 999Р*'},
-          {key: 'Более 60 стран обслуживания'},
+          {key: 'Пакет 3 Гб за 999 ₽*'},
+          {key: 'Более 60 стран обслуживания, включая Россию'},
         ],
       },
 
@@ -153,7 +154,7 @@ class Main extends Screen{
   }
 
   onPressNumbers() {
-    // let phones = Array.from(this.state.phones);
+    // TODO: choose one automatically
     if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length)
       ActionSheet.show(
         {
@@ -168,10 +169,6 @@ class Main extends Screen{
           let phone = this.props.user.msisdns[buttonIndex];
           this.getBalance(phone);
 
-          // this.setState({
-          //   phone: phone,
-          //   // balance: phones[phone],
-          // });
           this.props.dispatch(selectPhone(phone));
           this.props.navigation.setParams({ phone: phone });
         }
