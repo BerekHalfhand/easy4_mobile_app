@@ -106,6 +106,8 @@ class Main extends Screen{
     console.log('token', this.props.accessToken);
     this.props.dispatch(userInfo(this.props.accessToken));
 
+    //TODO if there is a phone number, first make an active
+
     let userPhones = Api.msisdns(this.props.accessToken)
       .then(data => {
         console.log('userPhones:', data);

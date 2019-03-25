@@ -83,6 +83,9 @@ class Drawer extends React.Component {
       lastName,
       phone,
     } = this.props.user;
+
+    //TODO wrong phone number is sent for payment
+
     return (
       <Container>
         <View style={styles.headerContainer}>
@@ -95,10 +98,10 @@ class Drawer extends React.Component {
           </View>
         </View>
         <View style={styles.itemsContainer}>
-          <View style={styles.itemStyle}>
-            <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.onPressBalance(phone)}>Пополнить баланс</Text>
-          </View>
+          {/*<View style={styles.itemStyle}>*/}
+            {/*<View style={styles.mockIcon}></View>*/}
+            {/*<Text style={styles.itemText} onPress={() => this.onPressBalance(phone)}>Пополнить баланс</Text>*/}
+          {/*</View>*/}
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
             <Text style={styles.itemText} onPress={() => this.navigateTo('Chatroom')}>Наши контакты</Text>
