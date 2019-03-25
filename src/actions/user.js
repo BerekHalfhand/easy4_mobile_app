@@ -36,3 +36,29 @@ export const selectPhone = phone => {
     payload: {phone}
   };
 };
+
+export function fetchMsisdns(accessToken) {
+  console.log('fetchMsisdns', accessToken);
+  return apiAction({
+    url: '/external/msisdns',
+    accessToken: accessToken,
+    onSuccess: fetchMsisdnsSuccess,
+    onFailure: fetchMsisdnsFailure,
+    errorLabel: 'fetchMsisdnsError',
+    label: T.MSISDNS_FETCH
+  });
+}
+
+const fetchMsisdnsSuccess = data => {
+  return {
+    type: T.MSISDNS_FETCH_SUCCESS,
+    payload: data
+  };
+};
+
+const fetchMsisdnsFailure = data => {
+  return {
+    type: T.MSISDNS_FETCH_FAILURE,
+    payload: data
+  };
+};

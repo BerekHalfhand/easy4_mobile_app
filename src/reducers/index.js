@@ -140,6 +140,20 @@ export default (state = {}, action) => {
       }
     };
 
+  case T.MSISDNS_FETCH_SUCCESS:
+    console.log('action/MSISDNS_FETCH_SUCCESS', payload);
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        msisdns: payload.items.map(v => v.msisdn),
+      }
+    };
+
+  case T.MSISDNS_FETCH_FAILURE:
+    console.log('action/MSISDNS_FETCH_FAILURE', payload);
+    return state;
+
   default:
     return state;
   }

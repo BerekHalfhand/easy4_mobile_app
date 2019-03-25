@@ -19,7 +19,7 @@ import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import Api from 'app/utils/api';
 import { connect } from 'react-redux';
-import {userInfo, selectPhone, dismissError} from 'app/src/actions';
+import {userInfo, selectPhone, dismissError, fetchMsisdns} from 'app/src/actions';
 
 class Main extends Screen{
   constructor(props){
@@ -88,37 +88,39 @@ class Main extends Screen{
     }
 
     // If there is a new error, show it
-    if (this.props.errors && this.props.errors.userInfoError &&
-        (!prevProps.errors || this.props.errors.userInfoError != prevProps.errors.userInfoError)) {
-      Alert.alert(
-        'User Info Error',
-        this.props.errors.userInfoError,
-        [{text: 'OK', onPress: this.onDismissError}]);
+    if (this.props.errors) {
+      if (this.props.errors.userInfoError &&
+          (!prevProps.errors || this.props.errors.userInfoError != prevProps.errors.userInfoError)) {
+        Alert.alert(
+          'User Info Error',
+          this.props.errors.userInfoError,
+          [{text: 'OK', onPress: () => this.onDismissError('userInfoError')}],
+          { onDismiss: () => this.onDismissError('userInfoError') }
+        );
+      }
+
+      if (this.props.errors.fetchMsisdnsError &&
+          (!prevProps.errors || this.props.errors.fetchMsisdnsError != prevProps.errors.fetchMsisdnsError)) {
+        Alert.alert(
+          'MSISDNs Fetching Error',
+          this.props.errors.fetchMsisdnsError,
+          [{text: 'OK', onPress: () => this.onDismissError('fetchMsisdnsError')}],
+          { onDismiss: () => this.onDismissError('fetchMsisdnsError') }
+        );
+      }
     }
   }
 
-  onDismissError = () => {
-    this.props.dispatch(dismissError('userInfoError'));
-    NavigationService.navigate('Login');
+  onDismissError = type => {
+    this.props.dispatch(dismissError(type));
+    if (type == 'userInfoError')
+      NavigationService.navigate('Login');
   }
 
   loadData = () => {
     console.log('token', this.props.accessToken);
     this.props.dispatch(userInfo(this.props.accessToken));
-
-    let userPhones = Api.msisdns(this.props.accessToken)
-      .then(data => {
-        console.log('userPhones:', data);
-
-        if (!data.items)
-          throw data.msg;
-
-        this.setState({
-          phones: new Set(data.items.map(a => a.msisdn))
-        });
-
-      })
-      .catch(e => Alert.alert('MSISDNS Fetching Error', e.toString()));
+    this.props.dispatch(fetchMsisdns(this.props.accessToken));
   };
 
   getBalance = async (phone) => {
@@ -151,32 +153,33 @@ class Main extends Screen{
   }
 
   onPressNumbers() {
-    let phones = Array.from(this.state.phones);
-    ActionSheet.show(
-      {
-        options: phones.concat(['Отмена']),
-        cancelButtonIndex: phones.length,
-        title: 'Основной номер'
-      },
-      buttonIndex => {
-        if (buttonIndex == phones.length) //Отмена
-          return false;
+    // let phones = Array.from(this.state.phones);
+    if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length)
+      ActionSheet.show(
+        {
+          options: this.props.user.msisdns.concat(['Отмена']),
+          cancelButtonIndex: this.props.user.msisdns.length,
+          title: 'Основной номер'
+        },
+        buttonIndex => {
+          if (buttonIndex == this.props.user.msisdns.length) //Отмена
+            return false;
 
-        let phone = phones[buttonIndex];
-        this.getBalance(phone);
+          let phone = this.props.user.msisdns[buttonIndex];
+          this.getBalance(phone);
 
-        this.setState({
-          phone: phone,
-          // balance: phones[phone],
-        });
-        this.props.dispatch(selectPhone(phone));
-        this.props.navigation.setParams({ phone: phone });
-      }
-    );
+          // this.setState({
+          //   phone: phone,
+          //   // balance: phones[phone],
+          // });
+          this.props.dispatch(selectPhone(phone));
+          this.props.navigation.setParams({ phone: phone });
+        }
+      );
   }
 
   renderMSISDNS() {
-    if (this.state.phones.size > 0) {
+    if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length > 0) {
       return (
         <Button full transparent rounded
           style={styles.buttonPrimaryInverse}
@@ -184,7 +187,7 @@ class Main extends Screen{
         >
           <View >
             <Text style={{fontFamily:'SFCT_Regular', fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-              {this.state.phones.size}
+              {this.props.user.msisdns.length}
             </Text>
           </View>
           <View>
