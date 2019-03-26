@@ -6,6 +6,8 @@ import Drawer from 'app/src/elements/Drawer';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from 'app/src/store';
 import NavigationService from 'app/src/services/NavigationService';
+import moment from 'moment';
+import 'moment/locale/ru';
 
 // import Banner from './src/components/Banner';
 import Offline from './src/components/Offline';
@@ -95,6 +97,9 @@ console.disableYellowBox = true;
 console.reportErrorsAsExceptions = false;
 
 const AppContainer = createAppContainer(AppNavigator);
+
+moment.locale('ru');
+console.log('Selected locale:', moment.locale());
 
 export default class App extends React.Component {
   render () {

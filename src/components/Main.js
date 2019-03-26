@@ -18,6 +18,7 @@ import TariffPane from 'app/src/elements/TariffPane';
 import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
 class Main extends Screen{
@@ -29,6 +30,7 @@ class Main extends Screen{
       phones: new Set(),
       user: props.user,
       balance: null,
+      balanceFetched: null,
       fakeTariff1: {
         title: 'Тариф Трэвел 1',
         subTitle: 'Easy4 Travel',
@@ -113,6 +115,11 @@ class Main extends Screen{
     console.log('getBalance:', phone);
     const { accessToken, dispatch } = this.props;
     dispatch(fetchBalance(phone, accessToken));
+
+    // 26 марта, 5 апреля
+    this.setState({
+      balanceFetched: moment().format("D MMMM"),
+    });
   }
 
   selectPhone = msisdn => {
@@ -121,10 +128,10 @@ class Main extends Screen{
     this.getBalance(msisdn);
   }
 
-  hasBalance = () => {
-    return this.props.user &&
-      this.props.user.balance !== null &&
-      typeof this.props.user.balance !== 'undefined';
+  hasBalance = (user) => {
+    return user &&
+      user.balance !== null &&
+      typeof user.balance !== 'undefined';
   }
 
   onPressIncrease(idx, phone){
@@ -187,10 +194,10 @@ class Main extends Screen{
     const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
     const CANCEL_INDEX = 2;
 
-    const balance = (this.hasBalance() ?
-      <ClientMainBalance balance={this.props.user.balance} />
+    const balance = (this.hasBalance(this.props.user) ?
+      <ClientMainBalance balance={this.props.user.balance} balanceFetched={this.state.balanceFetched}/>
       : null);
-    const mainInfo = (this.hasBalance() ?
+    const mainInfo = (this.hasBalance(this.props.user) ?
       <ClientMainInfo balance={this.props.user.balance} />
       : null);
 
