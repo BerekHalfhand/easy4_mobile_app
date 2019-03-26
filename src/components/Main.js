@@ -19,6 +19,7 @@ import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import {declOfNumRus} from 'app/utils/helpers';
 import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
 class Main extends Screen{
@@ -105,14 +106,14 @@ class Main extends Screen{
   }
 
   loadData = () => {
-    console.log('token', this.props.accessToken);
+    // console.log('token', this.props.accessToken);
     const { accessToken, dispatch } = this.props;
     dispatch(userInfo(accessToken));
     dispatch(fetchMsisdns(accessToken));
   };
 
   getBalance = async (phone) => {
-    console.log('getBalance:', phone);
+    // console.log('getBalance:', phone);
     const { accessToken, dispatch } = this.props;
     dispatch(fetchBalance(phone, accessToken));
 
@@ -178,7 +179,7 @@ class Main extends Screen{
           </View>
           <View>
             <Text onPress={this.onPressNumbers} style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-              номеров на аккауне
+              {declOfNumRus(this.props.user.msisdns.length, ['номер', 'номера', 'номеров'])} на аккауне
             </Text>
           </View>
           <View>
