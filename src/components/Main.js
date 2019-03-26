@@ -54,11 +54,15 @@ class Main extends Screen{
 
     };
 
-    if (props.user)
+    if (props.user) {
       props.navigation.setParams({
         name: props.user.fullName,
         phone: props.user.selectedPhone
       });
+      if (!props.user.selectedPhone && props.user.msisdns && props.user.msisdns.length) {
+        this.selectPhone(props.user.msisdns[0]);
+      }
+    }
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -78,22 +82,24 @@ class Main extends Screen{
   }
 
   componentDidUpdate(prevProps){
-    // Update header data if it's available and have chaged
-    if (this.props.user && this.props.user.fullName &&
-        (!prevProps.user ||
-          (this.props.user.fullName != prevProps.user.fullName ||
-           this.props.user.selectedPhone != prevProps.user.selectedPhone))) {
-      this.props.navigation.setParams({
-        name: this.props.user.fullName,
-        ...(this.props.user.selectedPhone && {phone: this.props.user.selectedPhone})
-      });
-    }
-  }
+    if (this.props.user) {
+      // Update header data if it's available and have chaged
+      if (this.props.user.fullName &&
+          (!prevProps.user ||
+            (this.props.user.fullName != prevProps.user.fullName ||
+             this.props.user.selectedPhone != prevProps.user.selectedPhone))) {
+        this.props.navigation.setParams({
+          name: this.props.user.fullName,
+          ...(this.props.user.selectedPhone && {phone: this.props.user.selectedPhone})
+        });
+      }
 
-  onDismissError = type => {
-    this.props.dispatch(dismissError(type));
-    if (type == 'userInfoError')
-      NavigationService.navigate('Login');
+      // Select the first phone number as msisdns arrive
+      if (!this.props.user.selectedPhone && this.props.user.msisdns && this.props.user.msisdns.length) {
+        if (!prevProps.user.msisdns || !prevProps.user.msisdns[0])
+          this.selectPhone(this.props.user.msisdns[0]);
+      }
+    }
   }
 
   loadData = () => {
@@ -153,9 +159,6 @@ class Main extends Screen{
 
   renderMSISDNS() {
     if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length > 0) {
-      if (!this.props.user.selectedPhone) {
-        this.selectPhone(this.props.user.msisdns[0]);
-      }
       return (
         <Button full transparent rounded
           style={styles.buttonPrimaryInverse}
@@ -255,42 +258,6 @@ class Main extends Screen{
               subTitle={this.state.fakeTariff2.subTitle}
               text={this.state.fakeTariff2.text}
               description={this.state.fakeTariff2.description} />
-
-            {/*
-            <View style={{marginLeft:-14, marginBottom: 30}}>
-              <ListItem icon style={{height:56}}
-                onPress={() => this.props.navigation.navigate('Tariff')}
-              >
-                <Left>
-                  <Button style={{ backgroundColor: '#FF9501' }}>
-                    <Icon active name="airplane" />
-                  </Button>
-                </Left>
-                <Body style={{height:56}}>
-                  <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Тариф</Text>
-                </Body>
-                <Right style={{height:56}}>
-                  <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24}} />
-                </Right>
-              </ListItem>
-
-              <ListItem icon style={{height:56}}
-                onPress={() => this.props.navigation.navigate('Costs')}
-              >
-                <Left style={{height:56}}>
-                  <Button style={{ backgroundColor: '#FF9501' }}>
-                    <Icon active name="airplane" />
-                  </Button>
-                </Left>
-                <Body style={{height:56}}>
-                  <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Расходы</Text>
-                </Body>
-                <Right style={{height:56}}>
-                  <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, }} />
-                </Right>
-              </ListItem>
-            </View>
-            */}
 
           </Content>
           <StandardFooter />

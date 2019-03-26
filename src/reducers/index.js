@@ -87,7 +87,7 @@ export default (state = {}, action) => {
         firstName: payload.firstName,
         secondName: payload.secondName,
         lastName: payload.lastName,
-        fullName: `${payload.firstName} ${payload.lastName}`,
+        ...(payload.firstName && {fullName: `${payload.firstName} ${payload.lastName}`}),
         phone: payload.phone,
         email: payload.email,
       }
@@ -116,6 +116,7 @@ export default (state = {}, action) => {
       accessToken: payload.accessToken,
       refreshToken: payload.refreshToken,
       authorized: true,
+      user: {},
     };
 
   case T.LOGIN_FAILURE:

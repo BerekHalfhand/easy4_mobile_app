@@ -8,6 +8,7 @@ import { store, persistor } from 'app/src/store';
 import NavigationService from 'app/src/services/NavigationService';
 
 // import Banner from './src/components/Banner';
+import Offline from './src/components/Offline';
 import Home from './src/components/Home';
 import Login from './src/components/Login';
 import Main from './src/components/Main';
@@ -22,6 +23,9 @@ const Routes = createStackNavigator({
   // Banner: {
   //   screen: Banner
   // },
+  Offline: {
+    screen: Offline
+  },
   Home: {
     screen: Home
   },
