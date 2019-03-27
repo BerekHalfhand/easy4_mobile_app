@@ -7,11 +7,6 @@ import PropTypes from 'prop-types';
 export default class ClientMainBalance extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-      fake: {
-        date: '28 сентября'
-      }
-    };
   }
   render(){
     const { width, height } = Dimensions.get('window');
@@ -27,7 +22,7 @@ export default class ClientMainBalance extends React.Component{
             </Text>
           </View>
           <View>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, marginLeft:5, fontSize:16, color:'#FFFFFF'}}>{ this.state.fake.date }</Text>
+            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, marginLeft:5, fontSize:16, color:'#FFFFFF'}}>{ this.props.balanceFetched }</Text>
           </View>
         </View>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems:'flex-end'}}>
@@ -48,4 +43,10 @@ export default class ClientMainBalance extends React.Component{
 
 ClientMainBalance.propTypes = {
   balance: PropTypes.number,
+  balanceFetched: PropTypes.string,
+};
+
+ClientMainBalance.defaultProps = {
+  balance: 0,
+  balanceFetched: 'сегодня',
 };

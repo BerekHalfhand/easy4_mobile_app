@@ -131,6 +131,6 @@ class SignUp extends Screen {
   }
 }
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => state.api;
 
 export default connect(mapStateToProps)(SignUp);

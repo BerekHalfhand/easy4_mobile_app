@@ -4,10 +4,13 @@ import { createStackNavigator, createAppContainer, createDrawerNavigator } from 
 import { Provider, connect } from 'react-redux';
 import Drawer from 'app/src/elements/Drawer';
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from 'app/src/store';
+import { store, persistor } from 'app/src/reducers';
 import NavigationService from 'app/src/services/NavigationService';
+import moment from 'moment';
+import 'moment/locale/ru';
 
 // import Banner from './src/components/Banner';
+import Offline from './src/components/Offline';
 import Home from './src/components/Home';
 import Login from './src/components/Login';
 import Main from './src/components/Main';
@@ -22,6 +25,9 @@ const Routes = createStackNavigator({
   // Banner: {
   //   screen: Banner
   // },
+  Offline: {
+    screen: Offline
+  },
   Home: {
     screen: Home
   },
@@ -91,6 +97,9 @@ console.disableYellowBox = true;
 console.reportErrorsAsExceptions = false;
 
 const AppContainer = createAppContainer(AppNavigator);
+
+moment.locale('ru');
+console.log('Selected locale:', moment.locale());
 
 export default class App extends React.Component {
   render () {

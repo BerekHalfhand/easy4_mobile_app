@@ -18,7 +18,9 @@ import TariffPane from 'app/src/elements/TariffPane';
 import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import {userInfo, selectPhone, dismissError, fetchMsisdns, fetchBalance} from 'app/src/actions';
+import moment from 'moment';
+import {declOfNumRus} from 'app/utils/helpers';
+import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
 class Main extends Screen{
   constructor(props){
@@ -29,6 +31,7 @@ class Main extends Screen{
       phones: new Set(),
       user: props.user,
       balance: null,
+      balanceFetched: null,
       fakeTariff1: {
         title: 'Тариф Трэвел 1',
         subTitle: 'Easy4 Travel',
@@ -41,7 +44,7 @@ class Main extends Screen{
         ],
       },
       fakeTariff2: {
-        title: 'Тариф 999',
+        title: 'Коннект 999',
         subTitle: 'Easy4 Connect',
         text: 'Тарифный план «999» для мобильного интернета линейки Easy4 Connect, предназначен для использования в роутерах, смартфонах, планшетах и других «умных» устройствах на территории России и за рубежом.',
         description: [
@@ -54,11 +57,15 @@ class Main extends Screen{
 
     };
 
-    if (props.user)
+    if (props.user) {
       props.navigation.setParams({
         name: props.user.fullName,
         phone: props.user.selectedPhone
       });
+      if (!props.user.selectedPhone && props.user.msisdns && props.user.msisdns.length) {
+        this.selectPhone(props.user.msisdns[0]);
+      }
+    }
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -78,74 +85,54 @@ class Main extends Screen{
   }
 
   componentDidUpdate(prevProps){
-    // Update header data if it's available and have chaged
-    if (this.props.user &&
-        (!prevProps.user ||
-          (this.props.user.fullName != prevProps.user.fullName ||
-           this.props.user.selectedPhone != prevProps.user.selectedPhone))) {
-      this.props.navigation.setParams({
-        name: this.props.user.firstName + ' ' + this.props.user.lastName,
-        ...(this.props.user.selectedPhone && {phone: this.props.user.selectedPhone})
-      });
-    }
-
-    // If there is a new error, show it
-    if (this.props.errors) {
-      if (this.props.errors.userInfoError &&
-          (!prevProps.errors || this.props.errors.userInfoError != prevProps.errors.userInfoError)) {
-        Alert.alert(
-          'User Info Error',
-          this.props.errors.userInfoError,
-          [{text: 'OK', onPress: () => this.onDismissError('userInfoError')}],
-          { onDismiss: () => this.onDismissError('userInfoError') }
-        );
+    if (this.props.user) {
+      // Update header data if it's available and have chaged
+      if (this.props.user.fullName &&
+          (!prevProps.user ||
+            (this.props.user.fullName != prevProps.user.fullName ||
+             this.props.user.selectedPhone != prevProps.user.selectedPhone))) {
+        this.props.navigation.setParams({
+          name: this.props.user.fullName,
+          ...(this.props.user.selectedPhone && {phone: this.props.user.selectedPhone})
+        });
       }
 
-      if (this.props.errors.fetchMsisdnsError &&
-          (!prevProps.errors || this.props.errors.fetchMsisdnsError != prevProps.errors.fetchMsisdnsError)) {
-        Alert.alert(
-          'MSISDNs Fetching Error',
-          this.props.errors.fetchMsisdnsError,
-          [{text: 'OK', onPress: () => this.onDismissError('fetchMsisdnsError')}],
-          { onDismiss: () => this.onDismissError('fetchMsisdnsError') }
-        );
-      }
-
-      if (this.props.errors.fetchBalanceError &&
-          (!prevProps.errors || this.props.errors.fetchBalanceError != prevProps.errors.fetchBalanceError)) {
-        Alert.alert(
-          'Balance Fetching Error',
-          this.props.errors.fetchBalanceError,
-          [{text: 'OK', onPress: () => this.onDismissError('fetchBalanceError')}],
-          { onDismiss: () => this.onDismissError('fetchBalanceError') }
-        );
+      // Select the first phone number as msisdns arrive
+      if (!this.props.user.selectedPhone && this.props.user.msisdns && this.props.user.msisdns.length) {
+        if (!prevProps.user.msisdns || !prevProps.user.msisdns[0])
+          this.selectPhone(this.props.user.msisdns[0]);
       }
     }
-  }
-
-  onDismissError = type => {
-    this.props.dispatch(dismissError(type));
-    if (type == 'userInfoError')
-      NavigationService.navigate('Login');
   }
 
   loadData = () => {
-    console.log('token', this.props.accessToken);
-    const { accessToken, dispatch } = this.props;
-    dispatch(userInfo(accessToken));
-    dispatch(fetchMsisdns(accessToken));
+    // console.log('loadData', this.props);
+    const { auth, dispatch } = this.props;
+    dispatch(userInfo(auth.accessToken));
+    dispatch(fetchMsisdns(auth.accessToken));
   };
 
   getBalance = async (phone) => {
-    console.log('getBalance:', phone);
+    // console.log('getBalance:', phone);
     const { accessToken, dispatch } = this.props;
     dispatch(fetchBalance(phone, accessToken));
+
+    // 26 марта, 5 апреля
+    this.setState({
+      balanceFetched: moment().format("D MMMM"),
+    });
   }
 
   selectPhone = msisdn => {
     this.props.dispatch(selectPhone(msisdn));
     this.props.navigation.setParams({ phone: msisdn });
     this.getBalance(msisdn);
+  }
+
+  hasBalance = (user) => {
+    return user &&
+      user.balance !== null &&
+      typeof user.balance !== 'undefined';
   }
 
   onPressIncrease(idx, phone){
@@ -160,7 +147,6 @@ class Main extends Screen{
   }
 
   onPressNumbers() {
-    // TODO: choose one automatically
     if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length)
       ActionSheet.show(
         {
@@ -181,9 +167,6 @@ class Main extends Screen{
 
   renderMSISDNS() {
     if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length > 0) {
-      if (!this.props.user.selectedPhone) {
-        this.selectPhone(this.props.user.msisdns[0]);
-      }
       return (
         <Button full transparent rounded
           style={styles.buttonPrimaryInverse}
@@ -196,7 +179,7 @@ class Main extends Screen{
           </View>
           <View>
             <Text onPress={this.onPressNumbers} style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-              номеров на аккауне
+              {declOfNumRus(this.props.user.msisdns.length, ['номер', 'номера', 'номеров'])} на аккауне
             </Text>
           </View>
           <View>
@@ -212,10 +195,10 @@ class Main extends Screen{
     const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
     const CANCEL_INDEX = 2;
 
-    const balance = (this.props.user && this.props.user.balance !== null ?
-      <ClientMainBalance balance={this.props.user.balance} />
+    const balance = (this.hasBalance(this.props.user) ?
+      <ClientMainBalance balance={this.props.user.balance} balanceFetched={this.state.balanceFetched}/>
       : null);
-    const mainInfo = (this.props.user && this.props.user.balance !== null ?
+    const mainInfo = (this.hasBalance(this.props.user) ?
       <ClientMainInfo balance={this.props.user.balance} />
       : null);
 
@@ -283,42 +266,6 @@ class Main extends Screen{
               subTitle={this.state.fakeTariff2.subTitle}
               text={this.state.fakeTariff2.text}
               description={this.state.fakeTariff2.description} />
-
-            {/*
-            <View style={{marginLeft:-14, marginBottom: 30}}>
-              <ListItem icon style={{height:56}}
-                onPress={() => this.props.navigation.navigate('Tariff')}
-              >
-                <Left>
-                  <Button style={{ backgroundColor: '#FF9501' }}>
-                    <Icon active name="airplane" />
-                  </Button>
-                </Left>
-                <Body style={{height:56}}>
-                  <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Тариф</Text>
-                </Body>
-                <Right style={{height:56}}>
-                  <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24}} />
-                </Right>
-              </ListItem>
-
-              <ListItem icon style={{height:56}}
-                onPress={() => this.props.navigation.navigate('Costs')}
-              >
-                <Left style={{height:56}}>
-                  <Button style={{ backgroundColor: '#FF9501' }}>
-                    <Icon active name="airplane" />
-                  </Button>
-                </Left>
-                <Body style={{height:56}}>
-                  <Text style={{fontFamily:'SFCT_Regular', color:'#FFFFFF', fontSize:16, lineHeight:56, height:56}}>Расходы</Text>
-                </Body>
-                <Right style={{height:56}}>
-                  <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, }} />
-                </Right>
-              </ListItem>
-            </View>
-            */}
 
           </Content>
           <StandardFooter />

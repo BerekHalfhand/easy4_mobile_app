@@ -1,6 +1,7 @@
 import * as T from './types';
-import {apiAction} from './api';
+import {apiAction, apiErrorDismiss} from './api';
 import NavigationService from 'app/src/services/NavigationService';
+import { Alert } from 'react-native';
 
 // LOGOUT
 
@@ -16,7 +17,7 @@ export function logout() {
 // LOGIN
 
 export function login(login, password) {
-  console.log('login', login, password);
+  // console.log('login', login, password);
 
   return apiAction({
     url: '/auth/login',
@@ -51,7 +52,7 @@ const loginFailure = data => {
 // SIGNUP
 
 export function signup(email, password) {
-  console.log('signup', email, password);
+  // console.log('signup', email, password);
 
   return apiAction({
     url: '/users',
@@ -70,7 +71,7 @@ export function signup(email, password) {
 
 const signupSuccess = (data, email, password) => {
   return function(dispatch) {
-    console.log('signupSuccess', data, email, password);
+    // console.log('signupSuccess', data, email, password);
     dispatch(login(email, password));
     return {
       type: T.SIGNUP_SUCCESS,
@@ -94,9 +95,7 @@ export function checkToken(accessToken, refreshToken) {
     url: `/auth/tokens/check/${accessToken}`,
     accessToken: accessToken,
     onSuccess: checkTokenSuccess,
-    // onSuccess: () => updateToken(refreshToken),
-    onFailure: () => updateToken(refreshToken),
-    // onFailure: () => checkTokenFailure(refreshToken),
+    onFailure: () => checkTokenFailure(refreshToken),
     label: T.CHECK_TOKEN
   });
 }
@@ -108,30 +107,19 @@ const checkTokenSuccess = data => {
   };
 };
 
-const checkTokenFailure = refreshToken => {
-  // updateToken(refreshToken);
-  return {
+const checkTokenFailure = refreshToken => dispatch => {
+  dispatch({
     type: T.CHECK_TOKEN_FAILURE,
     payload: refreshToken
-  };
+  });
+
+  dispatch(updateToken(refreshToken));
 };
-
-// TODO: add side effect here to reset accessToken if a check failed
-
-// function checkTokenFailure(refreshToken) {
-//   updateToken(refreshToken);
-//   return function(dispatch) {
-//     dispatch({
-//       type: T.CHECK_TOKEN_FAILURE,
-//       payload: refreshToken
-//     });
-//   };
-// }
 
 // UPDATE TOKEN
 
 function updateToken(token) {
-  console.log('updateToken', token);
+  // console.log('updateToken', token);
   return apiAction({
     url: '/auth/tokens/refresh',
     method: 'POST',
@@ -153,6 +141,46 @@ const updateTokenSuccess = data => {
 const updateTokenFailure = data => {
   return {
     type: T.UPDATE_TOKEN_FAILURE,
+    payload: data
+  };
+};
+
+export function restorePassword(email) {
+  // console.log('restorePassword', restorePassword);
+  return apiAction({
+    url: `/emails/${email}/restore/password`,
+    onSuccess: restorePasswordSuccess,
+    onFailure: restorePasswordFailure,
+    errorLabel: 'restorePasswordError',
+    label: T.RESTORE_PASSWORD,
+    busyScreen: 'recovery',
+  });
+}
+
+const restorePasswordSuccess = data => dispatch => {
+  // console.log('restorePasswordSuccess', data);
+
+  const onDismiss = () => {
+    dispatch(apiErrorDismiss('restorePasswordError'));
+    NavigationService.navigate('Login');
+  };
+
+  Alert.alert(
+    'Recovery success',
+    'На вашу почту отправлено письмо с описанием следующего шага',
+    [{text: 'OK', onPress: onDismiss}],
+    { onDismiss: onDismiss }
+  );
+
+  return {
+    type: T.RESTORE_PASSWORD_SUCCESS,
+    payload: data
+  };
+};
+
+const restorePasswordFailure = data => {
+  return {
+    type: T.RESTORE_PASSWORD_FAILURE,
     payload: data
   };
 };

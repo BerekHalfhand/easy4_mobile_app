@@ -1,6 +1,7 @@
 import { API } from 'app/src/actions/types';
 import { accessDenied, apiError, apiStart, apiEnd } from 'app/src/actions/api';
 import NavigationService from 'app/src/services/NavigationService';
+import {NetInfo} from 'react-native';
 
 const apiMiddleware = ({ dispatch }) => next => action => {
   next(action);
@@ -29,6 +30,14 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     ...(accessToken && {'Authorization': `Bearer ${accessToken}`}),
   });
   const baseUrl = 'https://mp.api.easy4.pro';
+
+  NetInfo.getConnectionInfo().then((connectionInfo) => {
+    // If the connection is gone, redirect to the Offline screen, and memorize the failed action
+    if (connectionInfo.type === 'none' || connectionInfo.type === 'unknown') {
+      let route = NavigationService.getCurrentRoute(true);
+      NavigationService.navigate('Offline', {action, route: route});
+    }
+  });
 
   if (label) {
     dispatch(apiStart(label, busyScreen));

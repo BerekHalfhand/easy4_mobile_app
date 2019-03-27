@@ -65,6 +65,6 @@ LogoTitle.defaultProps = {
   authorized: false,
 };
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => state.auth;
 
 export default withNavigation(connect(mapStateToProps)(LogoTitle));

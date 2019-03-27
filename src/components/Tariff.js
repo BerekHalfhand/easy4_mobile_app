@@ -17,7 +17,7 @@ export default class Tariff extends Screen {
       text = '',
       description = [];
 
-    if (props.navigation.state.params) {
+    if (props.navigation.state && props.navigation.state.params) {
       title = props.navigation.state.params.title;
       subTitle = props.navigation.state.params.subTitle;
       text = props.navigation.state.params.text;

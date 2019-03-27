@@ -124,19 +124,6 @@ class Login extends Screen {
   }
 }
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => state.api;
 
 export default connect(mapStateToProps)(Login);
-
-// const mapStateToProps = ({ _persist = {}, data = {}, isLoadingData = false, accessToken = null }) => ({
-//   _persist,
-//   data,
-//   isLoadingData,
-//   accessToken
-// });
-// export default connect(
-//   mapStateToProps,
-//   {
-//     checkToken
-//   }
-// )(Login);
