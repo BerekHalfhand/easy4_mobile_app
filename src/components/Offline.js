@@ -43,7 +43,7 @@ class Offline extends Screen {
       'First change, type: ' +
         connectionInfo.type +
         ', action: ' +
-        this.state.action.payload,
+        this.state.action,
     );
     if (connectionInfo.type !== 'none' && connectionInfo.type !== 'unknown') {
       NetInfo.removeEventListener(
@@ -60,10 +60,12 @@ class Offline extends Screen {
       // prefer Main for the authorized users
       if (defaultRoute == 'Main' && route == 'Home') route = defaultRoute;
 
-      this.props.dispatch(apiErrorDismiss(this.state.action.payload.errorLabel));
+      if (this.state.action)
+        this.props.dispatch(apiErrorDismiss(this.state.action.payload.errorLabel));
       setTimeout(() => {
         NavigationService.navigate(route);
-        this.props.dispatch(apiAction(this.state.action.payload));
+        if (this.state.action)
+          this.props.dispatch(apiAction(this.state.action.payload));
       }, 250);
     }
   }

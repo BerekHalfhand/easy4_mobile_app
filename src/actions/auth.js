@@ -5,20 +5,34 @@ import { Alert } from 'react-native';
 
 // LOGOUT
 
-export const logoutAction = () => ({ type: 'LOGOUT', payload: {} });
-
-export function logout() {
-  return function(dispatch) {
-    dispatch(logoutAction());
-    NavigationService.navigate('Home');
-  };
+export function logout(accessToken) {
+  return apiAction({
+    url: `/auth/logout/${accessToken}`,
+    onSuccess: logoutSuccess,
+    successTransition: 'Home',
+    onFailure: logoutFailure,
+    label: T.LOGOUT,
+    errorLabel: 'logoutError',
+  });
 }
+
+const logoutSuccess = data => {
+  return {
+    type: T.LOGOUT_SUCCESS,
+    payload: data
+  };
+};
+
+const logoutFailure = data => {
+  return {
+    type: T.LOGOUT_FAILURE,
+    payload: data
+  };
+};
 
 // LOGIN
 
 export function login(login, password) {
-  // console.log('login', login, password);
-
   return apiAction({
     url: '/auth/login',
     method: 'POST',
@@ -52,8 +66,6 @@ const loginFailure = data => {
 // SIGNUP
 
 export function signup(email, password) {
-  // console.log('signup', email, password);
-
   return apiAction({
     url: '/users',
     method: 'POST',
@@ -71,7 +83,6 @@ export function signup(email, password) {
 
 const signupSuccess = (data, email, password) => {
   return function(dispatch) {
-    // console.log('signupSuccess', data, email, password);
     dispatch(login(email, password));
     return {
       type: T.SIGNUP_SUCCESS,
@@ -90,7 +101,6 @@ const signupFailure = data => {
 // CHECK TOKEN
 
 export function checkToken(accessToken, refreshToken) {
-  // console.log('checkToken', token);
   return apiAction({
     url: `/auth/tokens/check/${accessToken}`,
     accessToken: accessToken,
@@ -119,7 +129,6 @@ const checkTokenFailure = refreshToken => dispatch => {
 // UPDATE TOKEN
 
 function updateToken(token) {
-  // console.log('updateToken', token);
   return apiAction({
     url: '/auth/tokens/refresh',
     method: 'POST',
@@ -146,7 +155,6 @@ const updateTokenFailure = data => {
 };
 
 export function restorePassword(email) {
-  // console.log('restorePassword', restorePassword);
   return apiAction({
     url: `/emails/${email}/restore/password`,
     onSuccess: restorePasswordSuccess,
@@ -158,8 +166,6 @@ export function restorePassword(email) {
 }
 
 const restorePasswordSuccess = data => dispatch => {
-  // console.log('restorePasswordSuccess', data);
-
   const onDismiss = () => {
     dispatch(apiErrorDismiss('restorePasswordError'));
     NavigationService.navigate('Login');

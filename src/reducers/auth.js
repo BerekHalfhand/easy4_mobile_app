@@ -10,8 +10,9 @@ export default (state = {}, action) => {
     return state;
 
   case T.RESET_STATE:
-  case T.LOGOUT:
-    console.log(`AUTH/${type}`, payload);
+  case T.LOGOUT_SUCCESS:
+  case T.LOGOUT_FAILURE:
+    console.log(`AUTH/${type}`, state);
     return {};
 
   case T.CHECK_TOKEN_SUCCESS:

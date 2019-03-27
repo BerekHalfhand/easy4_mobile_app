@@ -5,7 +5,7 @@ import { Container } from 'native-base';
 import {dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import {logout} from 'app/src/actions';
+import { logout, resetState } from 'app/src/actions';
 import PropTypes from 'prop-types';
 // import { DrawerItems, SafeAreaView } from 'react-navigation';
 import NavigationService from 'app/src/services/NavigationService';
@@ -68,8 +68,12 @@ class Drawer extends React.Component {
   }
 
   onPressLogout () {
-    this.props.navigation.closeDrawer();
-    this.props.dispatch(logout());
+    const { navigation, auth, dispatch } = this.props;
+    navigation.closeDrawer();
+    if (auth && auth.accessToken)
+      dispatch(logout(auth.accessToken));
+    else
+      dispatch(resetState());
   }
 
   onPressBalance (phone) {
@@ -93,6 +97,13 @@ class Drawer extends React.Component {
       selectedPhone,
     } = this.props.user;
 
+    const increaseBalance = (
+      <View style={styles.itemStyle}>
+        <View style={styles.mockIcon}></View>
+        <Text style={styles.itemText} onPress={() => this.onPressBalance(selectedPhone)}>Пополнить баланс</Text>
+      </View>
+    );
+
     return (
       <Container>
         <View style={styles.headerContainer}>
@@ -105,10 +116,7 @@ class Drawer extends React.Component {
           </View>
         </View>
         <View style={styles.itemsContainer}>
-          {/*<View style={styles.itemStyle}>*/}
-            {/*<View style={styles.mockIcon}></View>*/}
-            {/*<Text style={styles.itemText} onPress={() => this.onPressBalance(selectedPhone)}>Пополнить баланс</Text>*/}
-          {/*</View>*/}
+          {selectedPhone ? increaseBalance : null}
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
             <Text style={styles.itemText} onPress={() => this.navigateTo('Chatroom')}>Наши контакты</Text>

@@ -44,6 +44,8 @@ const userInfoFailure = data => dispatch => {
   });
 };
 
+// PHONES
+
 export const selectPhone = phone => {
   return {
     type: T.SELECT_PHONE,

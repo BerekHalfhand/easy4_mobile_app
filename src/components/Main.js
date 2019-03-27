@@ -135,15 +135,16 @@ class Main extends Screen{
       typeof user.balance !== 'undefined';
   }
 
-  onPressIncrease(idx, phone){
-    switch (idx) {
-    case 0:
-      this.props.navigation.navigate('IncreaseBalance', {phone: phone});
-      break;
+  onPressIncrease(idx){
+    let { selectedPhone } = this.props.user;
+    if (selectedPhone){
+      switch (idx) {
+      case 0:
+        this.props.navigation.navigate('IncreaseBalance', {phone: selectedPhone});
+        break;
 
-
+      }
     }
-
   }
 
   onPressNumbers() {
@@ -229,7 +230,7 @@ class Main extends Screen{
                         buttonIndex => {
                           this.setState({ clicked: BUTTONS[buttonIndex] });
                           if (this.props.user)
-                            this.onPressIncrease(buttonIndex, this.props.user.selectedPhone);
+                            this.onPressIncrease(buttonIndex);
                         }
                       )}
                   >
