@@ -50,8 +50,10 @@ class Offline extends Screen {
         'connectionChange',
         this.handleFirstConnectivityChange,
       );
+
       let defaultRoute = 'Home';
-      if (this.props.user && this.props.authorized) defaultRoute = 'Main';
+      if (this.props.user && this.props.user.email && this.props.auth && this.props.auth.authorized)
+        defaultRoute = 'Main';
 
       let route = this.state.route && this.state.route != 'Offline' ? this.state.route : defaultRoute;
 

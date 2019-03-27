@@ -52,15 +52,15 @@ class Home extends Screen {
 
     if (this.state.offerAccepted === true) {
       if (this.props.authorized)
-        this.props.navigation.navigate('Main');
+        NavigationService.navigate('Main');
       else
-        this.props.navigation.navigate('Login');
+        NavigationService.navigate('Login');
     } else Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
   }
 
   onPressSignUp() {
     if (this.state.offerAccepted === true)
-      this.props.navigation.navigate('SignUp');
+      NavigationService.navigate('SignUp');
     else
       Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
   }
@@ -180,6 +180,6 @@ class Home extends Screen {
   }
 }
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => state.auth;
 
 export default connect(mapStateToProps)(Home);

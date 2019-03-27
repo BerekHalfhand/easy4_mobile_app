@@ -44,7 +44,7 @@ class Main extends Screen{
         ],
       },
       fakeTariff2: {
-        title: 'Тариф 999',
+        title: 'Коннект 999',
         subTitle: 'Easy4 Connect',
         text: 'Тарифный план «999» для мобильного интернета линейки Easy4 Connect, предназначен для использования в роутерах, смартфонах, планшетах и других «умных» устройствах на территории России и за рубежом.',
         description: [
@@ -106,10 +106,10 @@ class Main extends Screen{
   }
 
   loadData = () => {
-    // console.log('token', this.props.accessToken);
-    const { accessToken, dispatch } = this.props;
-    dispatch(userInfo(accessToken));
-    dispatch(fetchMsisdns(accessToken));
+    // console.log('loadData', this.props);
+    const { auth, dispatch } = this.props;
+    dispatch(userInfo(auth.accessToken));
+    dispatch(fetchMsisdns(auth.accessToken));
   };
 
   getBalance = async (phone) => {

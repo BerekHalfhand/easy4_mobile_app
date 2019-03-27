@@ -4,7 +4,7 @@ import { createStackNavigator, createAppContainer, createDrawerNavigator } from 
 import { Provider, connect } from 'react-redux';
 import Drawer from 'app/src/elements/Drawer';
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from 'app/src/store';
+import { store, persistor } from 'app/src/reducers';
 import NavigationService from 'app/src/services/NavigationService';
 import moment from 'moment';
 import 'moment/locale/ru';
