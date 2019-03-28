@@ -26,19 +26,13 @@ export default (state = initialState, action) => {
       offerAccepted: !state.offerAccepted,
     };
 
-  // case T.BANNERS_FETCH_SUCCESS:
-  //   console.log('APP/BANNERS_FETCH_SUCCESS', payload);
-  //   return {
-  //     ...state,
-  //     bannersLoaded: true,
-  //   };
-  //
-  // case T.BANNERS_FETCH_FAILURE:
-  //   console.log('APP/BANNERS_FETCH_FAILURE', payload);
-  //   return {
-  //     ...state,
-  //     bannersLoaded: false,
-  //   };
+  case T.BANNERS_SEEN:
+    console.log('APP/BANNERS_SEEN', payload);
+    return {
+      ...state,
+      bannersSeen: true,
+    };
+
 
   default:
     return state;

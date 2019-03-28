@@ -103,12 +103,24 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
     paddingRight: 20,
     paddingBottom: 10,
+    alignSelf: 'center',
     // backgroundColor: dP.color.primary,
     // borderRadius: 24
   },
   buttonPrimaryInverseText: {
     color: dP.color.accent,
     fontSize: dP.size.text
+  },
+  buttonTariff: {
+    width: 150,
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingRight: 10,
+    paddingBottom: 5,
+    backgroundColor: dP.color.accent,
+    alignSelf: 'center',
+    borderRadius: 10,
+    // borderRadius: 24
   },
   checkbox: {
     backgroundColor: dP.color.accent,

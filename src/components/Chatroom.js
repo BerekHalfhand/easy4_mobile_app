@@ -1,6 +1,6 @@
 import React from 'react';
 import Screen from './Screen';
-import {Platform, WebView} from 'react-native';
+import {Platform, KeyboardAvoidingView, ScrollView, WebView} from 'react-native';
 import {
   Container
 } from 'native-base';
@@ -22,14 +22,17 @@ export default class Chatroom extends Screen {
                 meta.setAttribute(\'name\', \'viewport\'); document.getElementsByTagName(\'head\')[0].appendChild(meta);';
 
     return (
-      <Container>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={80}
+        style={{ flex: 1 }}
+        behavior='padding' >
         <WebView
           source={{uri: 'https://crm.easy4.pro/online/easy4helper'}}
           scalesPageToFit={Platform.OS === 'ios' ? true : false}
           injectedJavaScript={Js}
           scrollEnabled
         />
-      </Container>
+      </KeyboardAvoidingView>
     );
   }
 }

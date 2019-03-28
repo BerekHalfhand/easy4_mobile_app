@@ -19,29 +19,10 @@ export function toggleOffer() {
   };
 }
 
-// export function fetchBanners() {
-//   return apiAction({
-//     url: '/mobilepromo',
-//     onSuccess: fetchBannersSuccess,
-//     successTransition: 'Banners',
-//     onFailure: fetchBannersFailure,
-//     failureTransition: 'Home',
-//     label: T.BANNERS_FETCH,
-//     errorLabel: 'bannersError',
-//     busyScreen: 'banners',
-//   });
-// }
-//
-// const fetchBannersSuccess = data => {
-//   return {
-//     type: T.BANNERS_FETCH_SUCCESS,
-//     payload: data
-//   };
-// };
-//
-// const fetchBannersFailure = data => {
-//   return {
-//     type: T.BANNERS_FETCH_FAILURE,
-//     payload: data
-//   };
-// };
+const markBannersSeenAction = () => ({ type: T.BANNERS_SEEN, payload: {} });
+
+export function markBannersSeen() {
+  return function(dispatch) {
+    dispatch(markBannersSeenAction());
+  };
+}
