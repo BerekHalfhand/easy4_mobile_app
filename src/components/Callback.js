@@ -20,14 +20,9 @@ const validationSchema = Yup.object().shape({
 
 const MyInput = handleTextInput(TextField);
 
-const phoneMask = '+0(000)000-00-00';
-
 export default class Feedback extends Screen {
   constructor(props) {
     super(props);
-    this.state = {
-      phone: '+',
-    }
   }
 
   static navigationOptions = {
@@ -37,8 +32,9 @@ export default class Feedback extends Screen {
 
   formSubmit(values, actions){
     // TODO: find a better way to handle it
-    values.phone = values.phone.substring(0, phoneMask.length);
-    console.log('form submit', values, this.state);
+    // values.phone = values.phone.substring(0, phoneMask.length);
+    console.log('form submit', values);
+    Alert.alert('Ой', 'Функционал ещё не готов!');
     actions.setSubmitting(false);
     // Api.restorePassword(values.email)
     //   .then(data => {
@@ -54,17 +50,6 @@ export default class Feedback extends Screen {
     //   })
     //   .catch(e => actions.setFieldError('general', e.toString()))
     //   .finally(() => actions.setSubmitting(false));
-  }
-
-  formatPhoneNumber = value => {
-    if (phoneMask && value) {
-      let output = StringMask
-        .process(value.replace(/\D+/g, ''), phoneMask)
-        .result;
-      return output;
-    }
-
-    return value;
   }
 
   render() {
@@ -99,7 +84,12 @@ export default class Feedback extends Screen {
                     {...inputStyle}
                   />
                   <TextInputMask
-                    type={'custom'}
+                    customTextInput={TextField}
+                    customTextInputProps={inputStyle}
+                    placeholder='+'
+                    label='Телефон'
+                    style={{color: 'white'}}
+                    type={'cel-phone'}
                     options={{
                       /**
                        * mask: (String | required | default '')
@@ -109,22 +99,11 @@ export default class Feedback extends Screen {
                        * S - accept alphanumeric.
                        * * - accept all, EXCEPT white space.
                       */
-                      mask: '+9 (999) 999-99-99'
+                      withDDD: true,
+                      dddMask: '+9 (999) 999-99-99'
                     }}
-                    customTextInput={MyInput}
-                    customTextInputProps={{
-                      ...inputStyle,
-                      keyboardType: 'phone-pad',
-                      label: 'Телефон'
-                    }}
-
-                    value={this.state.phone}
-                    onChangeText={text => {
-                      this.setState({
-                        phone: text
-                      })
-                    }}
-                    name='phone'
+                    value={formikProps.values.phone}
+                    onChangeText={text => formikProps.setFieldValue('phone', text)}
                   />
                   <Body style={{margin: 24}}>
                     <Text style={{ color: dP.color.error, position: 'absolute', top: -24 }}>{formikProps.errors.general}</Text>
