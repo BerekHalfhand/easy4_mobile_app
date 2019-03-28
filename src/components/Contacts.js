@@ -30,16 +30,19 @@ export default class Contacts extends Screen {
             <Text style={{...styles.whiteTextColorH, marginBottom: 16}}>
               Группа компаний Easy4
             </Text>
-            <Text style={{...styles.whiteTextColor, textDecorationLine: 'underline', marginBottom: 8}}
+            <Text style={{...styles.whiteTextColor, textDecorationLine: 'underline', marginBottom: 8, display: 'none'}}
               onPress={() => NavigationService.navigate('Chatroom')}>
               Онлайн-помощник
             </Text>
             <Autolink style={{...styles.whiteTextColor, marginBottom: 8}}
               linkStyle={{textDecorationLine: 'underline'}}
               text='8 800 707 0009 - бесплатный номер для звонков по России' />
-            <Autolink style={{...styles.whiteTextColor, marginBottom: 8}}
+            <Autolink style={{...styles.whiteTextColor}}
               linkStyle={{textDecorationLine: 'underline'}}
-              text='+7 (958) 798 1111 - бесплатный номер для звонков из других стран (с телефона Easy4)' />
+              text='+7 (958) 798 1111 - бесплатный номер для звонков из других стран' />
+            <Text style={{...styles.whiteTextColor, marginBottom: 8}}>
+              (с телефона Easy4)
+            </Text>
             <Autolink style={{...styles.whiteTextColor, marginBottom: 8}}
               linkStyle={{textDecorationLine: 'underline'}}
               text='Email: easy4@easy4.pro' />

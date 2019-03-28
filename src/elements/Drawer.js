@@ -131,10 +131,12 @@ class Drawer extends React.Component {
             </View>
             <Text style={styles.itemText}>Наши тарифы</Text>
           </TouchableOpacity>
-          <View style={styles.itemStyle}>
-            <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>О приложении</Text>
-          </View>
+          <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('About')}>
+            <View style={styles.icon}>
+              <Icon name='question-circle-o' color={dP.color.primary} size={24} />
+            </View>
+            <Text style={styles.itemText}>О приложении</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.itemStyle} onPress={this.onPressLogout}>
             <View style={styles.icon}>
               <Icon name='sign-out' color={dP.color.primary} size={24} />

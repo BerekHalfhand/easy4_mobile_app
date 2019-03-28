@@ -10,6 +10,7 @@ import NavigationService from 'app/src/services/NavigationService';
 import moment from 'moment';
 import 'moment/locale/ru';
 
+import About from './src/components/About';
 import Loader from './src/components/Loader';
 import Banners from './src/components/Banners';
 import Offline from './src/components/Offline';
@@ -39,6 +40,7 @@ console.reportErrorsAsExceptions = false;
 // ROUTING
 
 const Routes = createStackNavigator({
+  About: { screen: About },
   Loader: { screen: Loader },
   Banners: { screen: Banners },
   Offline: { screen: Offline },
