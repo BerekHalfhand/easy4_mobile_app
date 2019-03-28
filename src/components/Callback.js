@@ -11,6 +11,7 @@ import {
 } from 'react-native-formik';
 import * as Yup from 'yup';
 import { TextField } from 'react-native-material-textfield';
+import { TextInputMask } from 'react-native-masked-text';
 
 const validationSchema = Yup.object().shape({
   phone: Yup.string()
@@ -24,6 +25,9 @@ const phoneMask = '+0(000)000-00-00';
 export default class Feedback extends Screen {
   constructor(props) {
     super(props);
+    this.state = {
+      phone: '+',
+    }
   }
 
   static navigationOptions = {
@@ -32,10 +36,9 @@ export default class Feedback extends Screen {
   };
 
   formSubmit(values, actions){
-    // ensure that the phone doesn't overflow the mask
     // TODO: find a better way to handle it
     values.phone = values.phone.substring(0, phoneMask.length);
-    console.log('form submit', values);
+    console.log('form submit', values, this.state);
     actions.setSubmitting(false);
     // Api.restorePassword(values.email)
     //   .then(data => {
@@ -84,7 +87,7 @@ export default class Feedback extends Screen {
             validationSchema={validationSchema}
             initialValues={{
               name: '',
-              phone: '',
+              phone: '+',
             }}
             render={formikProps => {
               return (
@@ -95,12 +98,33 @@ export default class Feedback extends Screen {
                     type='name'
                     {...inputStyle}
                   />
-                  <MyInput
-                    label='Телефон'
+                  <TextInputMask
+                    type={'custom'}
+                    options={{
+                      /**
+                       * mask: (String | required | default '')
+                       * the mask pattern
+                       * 9 - accept digit.
+                       * A - accept alpha.
+                       * S - accept alphanumeric.
+                       * * - accept all, EXCEPT white space.
+                      */
+                      mask: '+9 (999) 999-99-99'
+                    }}
+                    customTextInput={MyInput}
+                    customTextInputProps={{
+                      ...inputStyle,
+                      keyboardType: 'phone-pad',
+                      label: 'Телефон'
+                    }}
+
+                    value={this.state.phone}
+                    onChangeText={text => {
+                      this.setState({
+                        phone: text
+                      })
+                    }}
                     name='phone'
-                    type='digits'
-                    value={this.formatPhoneNumber(formikProps.values.phone)}
-                    {...inputStyle}
                   />
                   <Body style={{margin: 24}}>
                     <Text style={{ color: dP.color.error, position: 'absolute', top: -24 }}>{formikProps.errors.general}</Text>

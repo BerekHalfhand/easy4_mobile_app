@@ -81,7 +81,7 @@ class Drawer extends React.Component {
   }
 
   onPressTariffs () {
-    this.navigateTo('Tariff');
+    this.navigateTo('TariffList');
   }
 
   navigateTo = ( route, params ) => {
@@ -121,10 +121,12 @@ class Drawer extends React.Component {
             <View style={styles.mockIcon}></View>
             <Text style={styles.itemText} onPress={() => this.navigateTo('Chatroom')}>Наши контакты</Text>
           </View>
-          <View style={styles.itemStyle}>
-            <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={this.onPressTariffs}>Наши тарифы</Text>
-          </View>
+          <TouchableOpacity style={styles.itemStyle} onPress={this.onPressTariffs}>
+            <View style={styles.icon}>
+              <Icon name='briefcase' color={dP.color.primary} size={24} />
+            </View>
+            <Text style={styles.itemText}>Наши тарифы</Text>
+          </TouchableOpacity>
           <View style={styles.itemStyle}>
             <View style={styles.mockIcon}></View>
             <Text style={styles.itemText} onPress={() => this.navigateTo('Home')}>О приложении</Text>

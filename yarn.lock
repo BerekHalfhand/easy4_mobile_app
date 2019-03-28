@@ -4341,6 +4341,11 @@ moment-timezone@^0.5.23:
   dependencies:
     moment ">= 2.9.0"
 
+moment@2.19.3:
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
+  integrity sha1-vbmdJw1tf9p4zA+6zoVeJ/59pp8=
+
 "moment@>= 2.9.0", moment@^2.22.2, moment@^2.24.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
@@ -5150,6 +5155,14 @@ react-native-keyboard-aware-scroll-view@0.8.0:
 react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
   resolved "https://codeload.github.com/expo/react-native-maps/tar.gz/e6f98ff7272e5d0a7fe974a41f28593af2d77bb2"
+
+react-native-masked-text@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/react-native-masked-text/-/react-native-masked-text-1.11.1.tgz#2a9e40292b58b8e3f29a1064ad4b6679c981a46a"
+  integrity sha512-L7W+P/etMhLMxAzvRJ0KZS6/35xKkttuwyVz/Mb+uJMQMeC4Xe+nU75ipedOkqlF3odgbM0U4YL0MDXlI5f1xw==
+  dependencies:
+    moment "2.19.3"
+    tinymask "^1.0.2"
 
 react-native-material-textfield@^0.12.0:
   version "0.12.0"
@@ -6167,6 +6180,11 @@ tiny-warning@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.2.tgz#1dfae771ee1a04396bdfde27a3adcebc6b648b28"
   integrity sha512-rru86D9CpQRLvsFG5XFdy0KdLAvjdQDyZCsRcuu60WtzFylDM3eAWSxEVz5kzL2Gp544XiUvPbVKtOA/txLi9Q==
+
+tinymask@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/tinymask/-/tinymask-1.0.2.tgz#df3775a94087b0d3d056c256e8923c01b7ec0941"
+  integrity sha1-3zd1qUCHsNPQVsJW6JI8AbfsCUE=
 
 tmp@^0.0.33:
   version "0.0.33"

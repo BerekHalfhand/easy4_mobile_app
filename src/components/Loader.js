@@ -3,7 +3,7 @@ import Screen from './Screen';
 import {View, Text, NetInfo} from 'react-native';
 import {Content, Container} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { connect } from 'react-redux';
+import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import {styles} from 'app/utils/style/styles';
 
@@ -34,6 +34,7 @@ export default class Loader extends Screen {
               size={200}
               color='white'
               style={{alignSelf: 'center'}}
+              onPress={() => NavigationService.navigate('Home')}
             />
           </View>
         </Content>

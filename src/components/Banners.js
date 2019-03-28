@@ -130,7 +130,7 @@ class Banners extends Screen {
         </View>
         <View style={{ height: '100%', padding:24, position: 'absolute', justifyContent: 'flex-end'}} >
 
-          <View>
+          <View style={{marginBottom: 8}}>
             <Button full large
               style={styles.buttonTariff}
               onPress={this.onPressTariffs}
@@ -141,7 +141,7 @@ class Banners extends Screen {
             </Button>
           </View>
 
-          <View>
+          <View style={{marginBottom: 24}}>
             <Button full transparent rounded
               style={styles.buttonPrimaryInverse}
               onPress={this.onPressContinue}
@@ -164,6 +164,7 @@ const style = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: dP.color.primary,
   },
   barContainer: {
     position: 'absolute',
