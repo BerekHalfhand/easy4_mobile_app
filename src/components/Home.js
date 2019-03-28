@@ -16,7 +16,7 @@ import Screen from './Screen';
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import StandardFooter from 'app/src/elements/Footer';
-import {checkToken, toggleOffer, readState, resetState} from 'app/src/actions';
+import {checkToken, toggleOffer, togglePolicy, readState, resetState} from 'app/src/actions';
 
 
 class Home extends Screen {
@@ -35,19 +35,19 @@ class Home extends Screen {
   };
 
   onPressLogin() {
-    if (this.props.offerAccepted === true) {
+    if (this.props.offerAccepted === true && this.props.policyAccepted === true) {
       if (this.props.authorized && this.props.accessToken)
         NavigationService.navigate('Main');
       else
         NavigationService.navigate('Login');
-    } else Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
+    } else Alert.alert('Ошибка', 'Пожалуйста примите условия оказания услуг и политику конфиденциальности');
   }
 
   onPressSignUp() {
-    if (this.props.offerAccepted === true)
+    if (this.props.offerAccepted === true && this.props.policyAccepted === true)
       NavigationService.navigate('SignUp');
     else
-      Alert.alert('Ошибка', 'Пожалуйста примите договор оферты');
+      Alert.alert('Ошибка', 'Пожалуйста примите условия оказания услуг и политику конфиденциальности');
   }
 
   onReset = () => {
@@ -58,7 +58,9 @@ class Home extends Screen {
     this.props.dispatch(toggleOffer());
   }
 
-
+  onPressPolicy = async () => {
+    this.props.dispatch(togglePolicy());
+  }
 
   fetchAuthData = async () => {
     try {
@@ -75,14 +77,29 @@ class Home extends Screen {
 
   renderOfferCheckbox() {
     return (
-      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 60}}>
+      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 40}}>
         <CheckBox checked={this.props.offerAccepted}
           onPress={this.onPressOffer}
           style={styles.checkbox}
         />
         <View style={{marginLeft: 12}}>
           <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}
-            onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf')}>Договор оферты</Text>
+            onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf')}>Условия оказания услуг</Text>
+        </View>
+      </Body>
+    );
+  }
+
+  renderPolicyCheckbox() {
+    return (
+      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+        <CheckBox checked={this.props.policyAccepted}
+          onPress={this.onPressPolicy}
+          style={styles.checkbox}
+        />
+        <View style={{marginLeft: 12}}>
+          <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}
+            onPress={() => Linking.openURL('https://easy4.pro/privacy.html')}>Политика конфиденциальности</Text>
         </View>
       </Body>
     );
@@ -125,6 +142,8 @@ class Home extends Screen {
           </Body>
 
           {this.renderOfferCheckbox()}
+
+          {this.renderPolicyCheckbox()}
 
         </Content>
         <StandardFooter />

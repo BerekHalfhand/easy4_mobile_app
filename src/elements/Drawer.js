@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 // import { DrawerItems, SafeAreaView } from 'react-navigation';
 import NavigationService from 'app/src/services/NavigationService';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {phoneFormat} from 'app/utils/helpers';
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+    display: 'none',
   },
   mockIcon: {
     backgroundColor: dP.color.primary,
@@ -100,11 +102,15 @@ class Drawer extends React.Component {
     } = this.props.user;
 
     const increaseBalance = (
-      <View style={styles.itemStyle}>
-        <View style={styles.mockIcon}></View>
-        <Text style={styles.itemText} onPress={() => this.onPressBalance(selectedPhone)}>Пополнить баланс</Text>
-      </View>
+      <TouchableOpacity style={styles.itemStyle} onPress={() => this.onPressBalance(phoneFormat(selectedPhone))}>
+        <View style={styles.icon}>
+          <Icon name='money' color={dP.color.primary} size={24} />
+        </View>
+        <Text style={styles.itemText}>Пополнить баланс</Text>
+      </TouchableOpacity>
     );
+
+    const phoneText = (selectedPhone ? <Text style={styles.headerPhone}>{phoneFormat(selectedPhone)}</Text> : null);
 
     return (
       <Container>
@@ -112,8 +118,8 @@ class Drawer extends React.Component {
           <View style={{flex: 1, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', alignItems: 'flex-end', padding: 15}} >
             <View style={styles.userPic}></View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 15}}>
-              <Text style={styles.headerName}>{fullName || 'John Doe'}</Text>
-              <Text style={styles.headerPhone}>{selectedPhone || ''}</Text>
+              <Text style={styles.headerName}>{fullName || ''}</Text>
+              {phoneText}
             </View>
           </View>
         </View>

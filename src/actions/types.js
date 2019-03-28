@@ -53,5 +53,6 @@ export const READ_STATE = 'READ_STATE';
 export const RESET_STATE = 'RESET_STATE';
 
 export const OFFER_TOGGLE = 'OFFER_TOGGLE';
+export const POLICY_TOGGLE = 'POLICY_TOGGLE';
 
 export const BANNERS_SEEN = 'BANNERS_SEEN';

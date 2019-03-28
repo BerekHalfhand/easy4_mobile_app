@@ -19,7 +19,7 @@ import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import {declOfNumRus} from 'app/utils/helpers';
+import {declOfNumRus, phoneFormat} from 'app/utils/helpers';
 import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
 class Main extends Screen{
@@ -73,7 +73,7 @@ class Main extends Screen{
     return {
       ...Screen.navigationOptions,
       headerLeft: null,
-      headerTitle: <LogoTitle title={params.name || ''} subTitle={params.phone || ''}/>,
+      headerTitle: <LogoTitle title={params.name || 'Главная'} subTitle={phoneFormat(params.phone) || ''}/>,
     };
   }
 
@@ -140,7 +140,7 @@ class Main extends Screen{
     if (selectedPhone){
       switch (idx) {
       case 0:
-        this.props.navigation.navigate('IncreaseBalance', {phone: selectedPhone});
+        this.props.navigation.navigate('IncreaseBalance', {phone: phoneFormat(selectedPhone)});
         break;
 
       }
@@ -202,6 +202,27 @@ class Main extends Screen{
     const mainInfo = (this.hasBalance(this.props.user) ?
       <ClientMainInfo balance={this.props.user.balance} />
       : null);
+    const topUpButton = (this.props.user && this.props.user.selectedPhone ? (
+      <Button  rounded
+        style={styles.buttonPrimaryCash}
+        onPress={() =>
+          ActionSheet.show(
+            {
+              options: BUTTONS,
+              cancelButtonIndex: CANCEL_INDEX,
+            },
+            buttonIndex => {
+              this.setState({ clicked: BUTTONS[buttonIndex] });
+              if (this.props.user)
+                this.onPressIncrease(buttonIndex);
+            }
+          )}
+      >
+        <Text style={{fontFamily:'SFCT_Semibold', fontSize:12, letterSpacing: 0.25, color:'rgb(0, 94, 186)'}}>
+          Пополнить
+        </Text>
+      </Button>
+    ) : null);
 
     return(
       <Root>
@@ -219,25 +240,7 @@ class Main extends Screen{
               </View>
               <View style={{width:'40%', alignItems:'flex-end'}}>
                 <View style={{flex: 1, justifyContent: 'flex-end', alignContent:'center'}}>
-                  <Button  rounded
-                    style={styles.buttonPrimaryCash}
-                    onPress={() =>
-                      ActionSheet.show(
-                        {
-                          options: BUTTONS,
-                          cancelButtonIndex: CANCEL_INDEX,
-                        },
-                        buttonIndex => {
-                          this.setState({ clicked: BUTTONS[buttonIndex] });
-                          if (this.props.user)
-                            this.onPressIncrease(buttonIndex);
-                        }
-                      )}
-                  >
-                    <Text style={{fontFamily:'SFCT_Semibold', fontSize:12, letterSpacing: 0.25, color:'rgb(0, 94, 186)'}}>
-                      Пополнить
-                    </Text>
-                  </Button>
+                  {topUpButton}
                 </View>
               </View>
             </View>

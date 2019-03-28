@@ -2,7 +2,7 @@ import * as T from '../actions/types';
 
 const initialState = {
   offerAccepted: false,
-  bannersLoaded: null,
+  policyAccepted: false,
   bannersSeen: false,
 };
 
@@ -24,6 +24,13 @@ export default (state = initialState, action) => {
     return {
       ...state,
       offerAccepted: !state.offerAccepted,
+    };
+
+  case T.POLICY_TOGGLE:
+    console.log('APP/POLICY_TOGGLE', state);
+    return {
+      ...state,
+      policyAccepted: !state.policyAccepted,
     };
 
   case T.BANNERS_SEEN:

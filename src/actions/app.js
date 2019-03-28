@@ -1,28 +1,12 @@
 import * as T from './types';
-import {apiAction, apiErrorDismiss} from './api';
-import NavigationService from 'app/src/services/NavigationService';
-import { Alert } from 'react-native';
 
-export const readState = () => {
-  return { type: T.READ_STATE };
-};
-
-export const resetState = () => {
-  return { type: T.RESET_STATE };
-};
+export const readState = () => ({ type: T.READ_STATE });
+export const resetState = () => ({ type: T.RESET_STATE });
 
 const toggleOfferAction = () => ({ type: T.OFFER_TOGGLE, payload: {} });
-
-export function toggleOffer() {
-  return function(dispatch) {
-    dispatch(toggleOfferAction());
-  };
-}
-
+const togglePolicyAction = () => ({ type: T.POLICY_TOGGLE, payload: {} });
 const markBannersSeenAction = () => ({ type: T.BANNERS_SEEN, payload: {} });
 
-export function markBannersSeen() {
-  return function(dispatch) {
-    dispatch(markBannersSeenAction());
-  };
-}
+export const toggleOffer = () => dispatch => dispatch(toggleOfferAction());
+export const togglePolicy = () => dispatch => dispatch(togglePolicyAction());
+export const markBannersSeen = () => dispatch => dispatch(markBannersSeenAction());
