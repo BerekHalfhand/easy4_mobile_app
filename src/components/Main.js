@@ -193,7 +193,7 @@ class Main extends Screen{
   }
 
   render() {
-    const BUTTONS = ['Банковская карта', 'Онлайн банк', 'Отмена'];
+    const BUTTONS = ['Банковская карта', 'Отмена'];
     const CANCEL_INDEX = 2;
 
     const balance = (this.hasBalance(this.props.user) ?

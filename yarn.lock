@@ -990,6 +990,13 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+autolinker@^3.0.3:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/autolinker/-/autolinker-3.0.5.tgz#ea8b76631cceb485dc6467d1270dd430cbd8ea51"
+  integrity sha512-3cUfuYHAZHEluASJcGdZ/VSRHqOMKfNCHNso2RDCuMTdWKIjEf4+DUZ9ZVnLHP7NC7FSa7CII+xYdzF346WWlg==
+  dependencies:
+    tslib "^1.9.3"
+
 babel-code-frame@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"
@@ -5092,6 +5099,14 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-native-autolink@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-autolink/-/react-native-autolink-1.8.0.tgz#a4b9592ba2c91a479a203a8496053ee8b08b2454"
+  integrity sha512-qDde1eRk2Tq5+Vyo0ZURIAennBTllq23W5LCJ3EI5Zz6U/WXxOuHyX3IOoV6yuN8A+0rNHrHQAMhD2HnQwZvcw==
+  dependencies:
+    autolinker "^3.0.3"
+    prop-types "^15.7.2"
 
 react-native-branch@2.2.5:
   version "2.2.5"

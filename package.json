@@ -21,6 +21,7 @@
     "react": "16.5.0",
     "react-autobind": "^1.0.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-autolink": "^1.8.0",
     "react-native-dropdownalert": "^3.9.2",
     "react-native-formik": "^1.7.5",
     "react-native-masked-text": "^1.11.1",

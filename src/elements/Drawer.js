@@ -74,6 +74,8 @@ class Drawer extends React.Component {
       dispatch(logout(auth.accessToken));
     else
       dispatch(resetState());
+
+    NavigationService.navigate('Home');
   }
 
   onPressBalance (phone) {
@@ -117,10 +119,12 @@ class Drawer extends React.Component {
         </View>
         <View style={styles.itemsContainer}>
           {selectedPhone ? increaseBalance : null}
-          <View style={styles.itemStyle}>
-            <View style={styles.mockIcon}></View>
-            <Text style={styles.itemText} onPress={() => this.navigateTo('Chatroom')}>Наши контакты</Text>
-          </View>
+          <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('Contacts')}>
+            <View style={styles.icon}>
+              <Icon name='envelope-open' color={dP.color.primary} size={24} />
+            </View>
+            <Text style={styles.itemText}>Наши контакты</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.itemStyle} onPress={this.onPressTariffs}>
             <View style={styles.icon}>
               <Icon name='briefcase' color={dP.color.primary} size={24} />

@@ -22,6 +22,7 @@ import IncreaseBalance from './src/components/IncreaseBalance';
 import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
 import Chatroom from './src/components/Chatroom';
+import Contacts from './src/components/Contacts';
 import Callback from './src/components/Callback';
 
 // OPTIONS
@@ -50,6 +51,7 @@ const Routes = createStackNavigator({
   SignUp: { screen: SignUp },
   Recovery: { screen: Recovery },
   Chatroom: { screen: Chatroom },
+  Contacts: { screen: Contacts },
   Callback: { screen: Callback },
 }, {
   initialRouteName: 'Loader',
