@@ -1,6 +1,12 @@
 import * as T from '../actions/types';
 
-export default (state = {}, action) => {
+const initialState = {
+  offerAccepted: false,
+  bannersLoaded: null,
+  bannersSeen: false,
+};
+
+export default (state = initialState, action) => {
   let {type, payload} = action;
   // console.log('APP action type => ', type);
 
@@ -13,13 +19,20 @@ export default (state = {}, action) => {
     console.log('APP/RESET_STATE', state);
     return {};
 
-  case T.BANNERS_FETCH_SUCCESS:
-    console.log('APP/BANNERS_FETCH_SUCCESS', payload);
-    return state;
+  case T.OFFER_TOGGLE:
+    console.log('APP/OFFER_TOGGLE', state);
+    return {
+      ...state,
+      offerAccepted: !state.offerAccepted,
+    };
 
-  case T.BANNERS_FETCH_FAILURE:
-    console.log('APP/BANNERS_FETCH_FAILURE', payload);
-    return state;
+  case T.BANNERS_SEEN:
+    console.log('APP/BANNERS_SEEN', payload);
+    return {
+      ...state,
+      bannersSeen: true,
+    };
+
 
   default:
     return state;

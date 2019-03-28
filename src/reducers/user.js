@@ -16,7 +16,8 @@ export default (state = {}, action) => {
   case T.USER_INFO_FAILURE:
   case T.LOGIN_SUCCESS:
   case T.LOGIN_FAILURE:
-  case T.LOGOUT:
+  case T.LOGOUT_SUCCESS:
+  case T.LOGOUT_FAILURE:
     console.log(`USER/${type}`, payload);
     return {};
 

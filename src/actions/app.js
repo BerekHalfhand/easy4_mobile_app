@@ -3,26 +3,26 @@ import {apiAction, apiErrorDismiss} from './api';
 import NavigationService from 'app/src/services/NavigationService';
 import { Alert } from 'react-native';
 
+export const readState = () => {
+  return { type: T.READ_STATE };
+};
 
-export function fetchBanners() {
-  return apiAction({
-    url: '/mobilepromo',
-    onSuccess: fetchBannersSuccess,
-    onFailure: fetchBannersFailure,
-    label: T.BANNERS_FETCH,
-  });
+export const resetState = () => {
+  return { type: T.RESET_STATE };
+};
+
+const toggleOfferAction = () => ({ type: T.OFFER_TOGGLE, payload: {} });
+
+export function toggleOffer() {
+  return function(dispatch) {
+    dispatch(toggleOfferAction());
+  };
 }
 
-const fetchBannersSuccess = data => {
-  return {
-    type: T.BANNERS_FETCH_SUCCESS,
-    payload: data
-  };
-};
+const markBannersSeenAction = () => ({ type: T.BANNERS_SEEN, payload: {} });
 
-const fetchBannersFailure = data => {
-  return {
-    type: T.BANNERS_FETCH_FAILURE,
-    payload: data
+export function markBannersSeen() {
+  return function(dispatch) {
+    dispatch(markBannersSeenAction());
   };
-};
+}

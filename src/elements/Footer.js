@@ -20,7 +20,7 @@ class StandardFooter extends React.Component{
             >
               <View style={{padding: padding}}>
                 <Icon
-                  name='question-circle-o'
+                  name='phone'
                   size={size}
                   color={dP.color.primary}
                 />

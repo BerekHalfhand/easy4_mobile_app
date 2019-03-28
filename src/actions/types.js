@@ -3,9 +3,6 @@ export const API_START = 'API_START';
 export const API_END = 'API_END';
 export const ACCESS_DENIED = 'ACCESS_DENIED';
 export const API_ERROR = 'API_ERROR';
-
-export const READ_STATE = 'READ_STATE';
-export const RESET_STATE = 'RESET_STATE';
 export const ERROR_DISMISS = 'ERROR_DISMISS';
 
 // AUTH
@@ -31,6 +28,8 @@ export const RESTORE_PASSWORD_SUCCESS = 'RESTORE_PASSWORD_SUCCESS';
 export const RESTORE_PASSWORD_FAILURE = 'RESTORE_PASSWORD_FAILURE';
 
 export const LOGOUT = 'LOGOUT';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 // USER
 
@@ -50,6 +49,9 @@ export const BALANCE_FETCH_FAILURE = 'BALANCE_FETCH_FAILURE';
 
 // APP
 
-export const BANNERS_FETCH = 'BANNERS_FETCH';
-export const BANNERS_FETCH_SUCCESS = 'BANNERS_FETCH_SUCCESS';
-export const BANNERS_FETCH_FAILURE = 'BANNERS_FETCH_FAILURE';
+export const READ_STATE = 'READ_STATE';
+export const RESET_STATE = 'RESET_STATE';
+
+export const OFFER_TOGGLE = 'OFFER_TOGGLE';
+
+export const BANNERS_SEEN = 'BANNERS_SEEN';
