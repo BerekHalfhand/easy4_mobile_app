@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Image, View, Text} from 'react-native';
+import {Alert, Image, View, Text, ScrollView} from 'react-native';
 import Screen from './Screen';
 import {
   Button,
@@ -22,6 +22,14 @@ import moment from 'moment';
 import {declOfNumRus, phoneFormat} from 'app/utils/helpers';
 import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
+import { GestureHandler } from 'expo';
+
+const {
+  PanGestureHandler,
+  TapGestureHandler,
+  State,
+} = GestureHandler;
+
 class Main extends Screen{
   constructor(props){
     super(props);
@@ -32,31 +40,7 @@ class Main extends Screen{
       user: props.user,
       balance: null,
       balanceFetched: moment().format("D MMMM"),
-      fakeTariff1: {
-        title: 'Тариф Трэвел 1',
-        subTitle: 'Easy4 Travel',
-        text: 'Тарифный план «Travel 1» («Трэвел 1») линейки Easy4 Travel, предназначен \
-для туристов и деловых людей, часто совершающих международные поездки.',
-        description: [
-          {key: 'Без абонентской платы'},
-          {key: '1 ₽ за Мб*'},
-          {key: '2 ₽ за минуту*'},
-          {key: 'Единый тариф во всех странах территории обслуживания, включая Россию'},
-        ],
-      },
-      fakeTariff2: {
-        title: 'Коннект 999',
-        subTitle: 'Easy4 Connect',
-        text: 'Тарифный план «999» для мобильного интернета линейки Easy4 Connect, предназначен \
-для использования в роутерах, смартфонах, планшетах и других «умных» устройствах на территории России и за рубежом.',
-        description: [
-          {key: 'Только интернет'},
-          {key: 'Без абонентской платы'},
-          {key: 'Пакет 3 Гб за 999 ₽*'},
-          {key: 'Более 60 стран обслуживания, включая Россию'},
-        ],
-      },
-
+      gestureEnabled: true,
     };
 
     if (props.user) {
@@ -66,6 +50,26 @@ class Main extends Screen{
       });
     }
   }
+
+  // Gesture handling
+  ref = React.createRef();
+  scrollRef = React.createRef();
+
+  _onScrollDown = (event) => {
+    if (!this.state.gestureEnabled) return;
+    const {translationY} = event.nativeEvent;
+
+    console.log('_onScrollDown', translationY);
+  };
+
+  _onScroll = ({nativeEvent}) => {
+    if (nativeEvent.contentOffset.y <= 0 && !this.state.gestureEnabled) {
+      this.setState({gestureEnabled: true });
+    }
+    if (nativeEvent.contentOffset.y > 0 && this.state.gestureEnabled) {
+      this.setState({gestureEnabled: false});
+    }
+  };
 
   static navigationOptions = ({ navigation }) => {
     const { state: { params = {} } } = navigation;
@@ -219,38 +223,46 @@ class Main extends Screen{
       </View>
     ) : null );
 
+    const { gestureEnabled } = this.props;
 
     return(
       <Root>
-        <Container style={{backgroundColor:'#004d99'}}>
+        <ScrollView
+          ref={this.scrollRef}
+          waitFor={gestureEnabled ? this.ref : this.scrollRef}
+          scrollEventThrottle={40}
+          onScroll={this._onScroll}
+          style={{backgroundColor:'#004d99'}}
+        >
+          <PanGestureHandler
+            enabled={gestureEnabled}
+            ref={this.ref}
+            activeOffsetY={5}
+            failOffsetY={-5}
+            onGestureEvent={this._onScrollDown}
+          >
+            <View>
+              <Image
+                style={{width: '100%', zIndex:-3, position:'absolute'}}
+                source={require('../../assets/image/bitmap.png')}
+              />
+              <Content style={{ width: '100%', padding:24}}>
 
-          <Image
-            style={{width: '100%', zIndex:-3, position:'absolute'}}
-            source={require('../../assets/image/bitmap.png')}
-          />
-          <Content style={{ width: '100%', padding:24}}>
+                {balanceBlock}
 
-            {balanceBlock}
+                {msisdns}
 
-            {msisdns}
+                {mainInfo}
 
-            {mainInfo}
+                <TariffPane tariff='travel' />
 
-            <TariffPane
-              title={this.state.fakeTariff1.title}
-              subTitle={this.state.fakeTariff1.subTitle}
-              text={this.state.fakeTariff1.text}
-              description={this.state.fakeTariff1.description} />
+                <TariffPane tariff='connect' />
 
-            <TariffPane
-              title={this.state.fakeTariff2.title}
-              subTitle={this.state.fakeTariff2.subTitle}
-              text={this.state.fakeTariff2.text}
-              description={this.state.fakeTariff2.description} />
-
-          </Content>
-          <StandardFooter />
-        </Container>
+              </Content>
+            </View>
+          </PanGestureHandler>
+        </ScrollView>
+        <StandardFooter />
       </Root>
 
 

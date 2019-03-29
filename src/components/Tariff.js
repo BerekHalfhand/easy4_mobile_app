@@ -5,6 +5,7 @@ import {styles} from 'app/utils/style/styles';
 import StandardFooter from 'app/src/elements/Footer';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import Screen from './Screen';
+import Autolink from 'react-native-autolink';
 
 /**
  * Описание действующего тарифа
@@ -12,22 +13,13 @@ import Screen from './Screen';
 export default class Tariff extends Screen {
   constructor(props){
     super(props);
-    let title = 'Название тарифа',
-      subTitle = 'Незаменимый продукт для туристов и бизнесменов, часто выезжающих за границу',
-      text = '',
-      description = [];
+    let tariff = {};
 
     if (props.navigation.state && props.navigation.state.params) {
-      title = props.navigation.state.params.title;
-      subTitle = props.navigation.state.params.subTitle;
-      text = props.navigation.state.params.text;
-      description = props.navigation.state.params.description;
+      tariff = props.navigation.state.params.tariff;
     }
     this.state = {
-      title,
-      subTitle,
-      text,
-      description,
+      tariff,
       fake: {
         tariffName:'Название тарифа',
         tariffDescription: 'Незаменимый продукт для туристов и бизнесменов, часто выезжающих за границу',
@@ -78,23 +70,110 @@ export default class Tariff extends Screen {
   render(){
     // console.log('tariffServicesList:', this.state.fake.tariffServicesList);
     const listItem = this.state.fake.tariffServicesList;
+
+    const characteristicsRus = (this.state.tariff.characteristicsRus ? (
+      <View>
+        <View style={{marginTop: 16}}>
+          <Text style={{color:'#FFFFFF', fontSize: 18}}>При нахождении на территории России:</Text>
+        </View>
+        <View style={{marginTop:8}}>
+          <FlatList
+            data={this.state.tariff.characteristicsRus}
+            renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
+          />
+        </View>
+      </View>
+    ) : null);
+
+    const characteristicsNonRus = (this.state.tariff.characteristicsNonRus ? (
+      <View>
+        <View style={{marginTop: 16}}>
+          <Text style={{color:'#FFFFFF', fontSize: 18}}>При нахождении за пределами России:</Text>
+        </View>
+        <View style={{marginTop:8}}>
+          <FlatList
+            data={this.state.tariff.characteristicsNonRus}
+            renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
+          />
+        </View>
+      </View>
+    ) : null);
+
+    const devices = (this.state.tariff.devices ? (
+      <View>
+        <View style={{marginTop: 24}}>
+          <Text style={{color:'#FFFFFF', fontSize: 20}}>Доступные устройства</Text>
+        </View>
+        <View style={{marginTop:8}}>
+          <Text style={{color:'#FFFFFF'}}>{this.state.tariff.devices}</Text>
+        </View>
+      </View>
+    ) : null);
+
     return(
       <Container style={{backgroundColor:'#004d99'}}>
-        <Content padder style={{ width: '100%', padding:24}}>
-          <View style={{marginTop:32}}>
-            <Text style={{color:'#FFFFFF', fontSize: 24}}>{ this.state.title }</Text>
-          </View>
-          <View style={{marginTop:8}}>
-            <Text style={{color:'#FFFFFF', fontSize: 16}}>{ this.state.subTitle }</Text>
+        <Content padder style={{ width: '100%', padding: 16}}>
+          <View>
+            <Text style={{color:'#FFFFFF', fontSize: 24}}>{ this.state.tariff.title }</Text>
           </View>
           <View style={{marginTop:12}}>
-            <Text style={{color:'#FFFFFF', fontSize: 14}}>{ this.state.text }</Text>
+            <Text style={{color:'#FFFFFF', fontSize: 14}}>{ this.state.tariff.text }</Text>
           </View>
           <View style={{marginTop:8}}>
             <FlatList
-              data={this.state.description}
+              data={this.state.tariff.descriptionLong}
               renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
             />
+          </View>
+
+          <View style={{marginTop: 24}}>
+            <Text style={{color:'#FFFFFF', fontSize: 20}}>Характеристики</Text>
+          </View>
+          <View style={{marginTop:8}}>
+            <FlatList
+              data={this.state.tariff.characteristics}
+              renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
+            />
+          </View>
+
+          {characteristicsRus}
+
+          {characteristicsNonRus}
+
+          <View style={{marginTop:8}}>
+            <Text style={{color:'#FFFFFF', fontSize: 10}}>Все цены указаны в рублях с учетом налогов</Text>
+          </View>
+
+          <View style={{marginTop: 24}}>
+            <Text style={{color:'#FFFFFF', fontSize: 20}}>Особенности</Text>
+          </View>
+          <View style={{marginTop:8}}>
+            <FlatList
+              data={this.state.tariff.quirks}
+              renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
+            />
+          </View>
+
+          {devices}
+
+          <View style={{marginTop: 24}}>
+            <Text style={{color:'#FFFFFF', fontSize: 20}}>Как подключить</Text>
+          </View>
+          <View style={{marginTop:8}}>
+            <Text style={{color:'#FFFFFF'}}>{`Оформить заявку на приобретение SIM-карт с тарифным планом ${this.state.tariff.title} можно на сайте easy4.pro`}</Text>
+            <Text style={{color:'#FFFFFF'}}>{`Для перехода на тарифный план ${this.state.tariff.title}:`}</Text>
+            <Text style={{color: '#FFFFFF'}}>{'- Наберите команду *100*1*1#'}</Text>
+            <Autolink style={{color: '#FFFFFF'}}
+              linkStyle={{textDecorationLine: 'underline'}}
+              text='- Воспользуйтесь Личным кабинетом my.easy4.pro' />
+          </View>
+
+          <View style={{marginTop: 24}}>
+            <Text style={{color:'#FFFFFF', fontSize: 20}}>Территория оказания услуг</Text>
+          </View>
+          <View style={{marginTop:8}}>
+            <Text style={{color:'#FFFFFF'}}>{this.state.tariff.territoryText}</Text>
+            <Text style={{color:'#FFFFFF', marginTop:8, marginBottom: 16}}>{this.state.tariff.territoryList}</Text>
           </View>
           {/*<View>
             {
