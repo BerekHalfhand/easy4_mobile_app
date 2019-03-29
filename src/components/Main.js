@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Image, View, Text, ScrollView} from 'react-native';
+import {Alert, Image, View, Text, ScrollView, RefreshControl} from 'react-native';
 import Screen from './Screen';
 import {
   Button,
@@ -22,14 +22,6 @@ import moment from 'moment';
 import {declOfNumRus, phoneFormat} from 'app/utils/helpers';
 import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
 
-import { GestureHandler } from 'expo';
-
-const {
-  PanGestureHandler,
-  TapGestureHandler,
-  State,
-} = GestureHandler;
-
 class Main extends Screen{
   constructor(props){
     super(props);
@@ -39,8 +31,8 @@ class Main extends Screen{
       phones: new Set(),
       user: props.user,
       balance: null,
-      balanceFetched: moment().format("D MMMM"),
-      gestureEnabled: true,
+      balanceFetched: moment().format('D MMMM'),
+      refreshing: false,
     };
 
     if (props.user) {
@@ -51,25 +43,10 @@ class Main extends Screen{
     }
   }
 
-  // Gesture handling
-  ref = React.createRef();
-  scrollRef = React.createRef();
-
-  _onScrollDown = (event) => {
-    if (!this.state.gestureEnabled) return;
-    const {translationY} = event.nativeEvent;
-
-    console.log('_onScrollDown', translationY);
-  };
-
-  _onScroll = ({nativeEvent}) => {
-    if (nativeEvent.contentOffset.y <= 0 && !this.state.gestureEnabled) {
-      this.setState({gestureEnabled: true });
-    }
-    if (nativeEvent.contentOffset.y > 0 && this.state.gestureEnabled) {
-      this.setState({gestureEnabled: false});
-    }
-  };
+  onRefresh = () => {
+    this.setState({refreshing: true});
+    this.loadData();
+  }
 
   static navigationOptions = ({ navigation }) => {
     const { state: { params = {} } } = navigation;
@@ -92,8 +69,20 @@ class Main extends Screen{
           ...(this.props.user.selectedPhone && {phone: this.props.user.selectedPhone})
         });
       }
+
+      // The data has been refreshed
+      if (this.state.refreshing && prevProps.api.isLoadingData && !this.props.api.isLoadingData)
+        this.setState({refreshing: false});
     }
   }
+
+  loadData = () => {
+    const { auth, dispatch } = this.props;
+
+    dispatch(userInfo(auth.accessToken));
+    dispatch(fetchMsisdns(auth.accessToken));
+  };
+
 
   getBalance = async (phone) => {
     // console.log('getBalance:', phone);
@@ -102,7 +91,7 @@ class Main extends Screen{
 
     // 26 марта, 5 апреля
     this.setState({
-      balanceFetched: moment().format("D MMMM"),
+      balanceFetched: moment().format('D MMMM'),
     });
   }
 
@@ -223,44 +212,35 @@ class Main extends Screen{
       </View>
     ) : null );
 
-    const { gestureEnabled } = this.props;
-
     return(
       <Root>
         <ScrollView
-          ref={this.scrollRef}
-          waitFor={gestureEnabled ? this.ref : this.scrollRef}
-          scrollEventThrottle={40}
-          onScroll={this._onScroll}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+
           style={{backgroundColor:'#004d99'}}
         >
-          <PanGestureHandler
-            enabled={gestureEnabled}
-            ref={this.ref}
-            activeOffsetY={5}
-            failOffsetY={-5}
-            onGestureEvent={this._onScrollDown}
-          >
-            <View>
-              <Image
-                style={{width: '100%', zIndex:-3, position:'absolute'}}
-                source={require('../../assets/image/bitmap.png')}
-              />
-              <Content style={{ width: '100%', padding:24}}>
+          <Image
+            style={{width: '100%', zIndex:-3, position:'absolute'}}
+            source={require('app/assets/image/bitmap.png')}
+          />
+          <Content style={{ width: '100%', padding:24}}>
 
-                {balanceBlock}
+            {balanceBlock}
 
-                {msisdns}
+            {msisdns}
 
-                {mainInfo}
+            {mainInfo}
 
-                <TariffPane tariff='travel' />
+            <TariffPane tariff='travel' />
 
-                <TariffPane tariff='connect' />
+            <TariffPane tariff='connect' />
 
-              </Content>
-            </View>
-          </PanGestureHandler>
+          </Content>
         </ScrollView>
         <StandardFooter />
       </Root>
