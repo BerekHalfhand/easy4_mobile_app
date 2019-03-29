@@ -72,7 +72,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
         NavigationService.navigate(successTransition);
     })
     .catch(error => {
-      console.log('error', error);
+      // console.log('error', error);
       dispatch(apiError(errorLabel, error));
       dispatch(onFailure(error));
 

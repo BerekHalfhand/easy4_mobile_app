@@ -9,25 +9,32 @@ import app from './app';
 import auth from './auth';
 import user from './user';
 
-const persistConfig = {
+const rootPersistConfig = {
   storage,
   key: 'root',
   whitelist: [
-    'api',
+    // 'api',
     'app',
     'auth',
     'user',
   ],
 };
 
+// const apiPersistConfig = {
+//   storage,
+//   key: 'api',
+//   blacklist: ['errors']
+// };
+
 const rootReducer = combineReducers({
+  // api: persistReducer(apiPersistConfig, api),
   api,
   app,
   auth,
   user
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 
 export const store = createStore(
   persistedReducer,

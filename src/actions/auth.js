@@ -1,7 +1,10 @@
 import * as T from './types';
 import {apiAction, apiErrorDismiss} from './api';
+import {userInfo, fetchMsisdns} from './user';
 import NavigationService from 'app/src/services/NavigationService';
 import { Alert } from 'react-native';
+
+const defaultError = 'Что-то пошло не так! Мы уже работаем над этим';
 
 // LOGOUT
 
@@ -49,18 +52,34 @@ export function login(login, password) {
   });
 }
 
-const loginSuccess = data => {
-  return {
+const loginSuccess = data => dispatch => {
+  dispatch({
     type: T.LOGIN_SUCCESS,
     payload: data
-  };
+  });
+
+  if (data && data.accessToken) {
+    dispatch(userInfo(data.accessToken));
+    dispatch(fetchMsisdns(data.accessToken));
+  }
 };
 
-const loginFailure = data => {
-  return {
+const loginFailure = data => dispatch => {
+  const onDismiss = () => {
+    dispatch(apiErrorDismiss('loginError'));
+  };
+
+  Alert.alert(
+    '',
+    'Неправильная комбинация логин-пароль',
+    [{text: 'OK', onPress: onDismiss}],
+    { onDismiss: onDismiss }
+  );
+
+  dispatch({
     type: T.LOGIN_FAILURE,
     payload: data
-  };
+  });
 };
 
 // SIGNUP
@@ -106,7 +125,8 @@ export function checkToken(accessToken, refreshToken) {
     accessToken: accessToken,
     onSuccess: checkTokenSuccess,
     onFailure: () => checkTokenFailure(refreshToken),
-    label: T.CHECK_TOKEN
+    label: T.CHECK_TOKEN,
+    errorLabel: 'checkTokenError',
   });
 }
 
@@ -136,15 +156,18 @@ function updateToken(token) {
     accessToken: token,
     onSuccess: updateTokenSuccess,
     onFailure: updateTokenFailure,
-    label: T.UPDATE_TOKEN
+    label: T.UPDATE_TOKEN,
+    errorLabel: 'updateTokenError',
   });
 }
 
-const updateTokenSuccess = data => {
-  return {
+const updateTokenSuccess = data => dispatch => {
+  dispatch({
     type: T.UPDATE_TOKEN_SUCCESS,
     payload: data
-  };
+  });
+
+  dispatch(apiErrorDismiss('checkTokenError'));
 };
 
 const updateTokenFailure = data => {

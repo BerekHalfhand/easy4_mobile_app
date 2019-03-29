@@ -21,7 +21,11 @@ export default (state = {}, action) => {
 
   case T.CHECK_TOKEN_FAILURE:
     console.log('AUTH/CHECK_TOKEN_FAILURE');
-    return {...state, accessToken: null};
+    return {
+      ...state,
+      accessToken: null,
+      authorized: false,
+    };
 
   case T.UPDATE_TOKEN_SUCCESS:
     console.log('AUTH/UPDATE_TOKEN_SUCCESS', payload);

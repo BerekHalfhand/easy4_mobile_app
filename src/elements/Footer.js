@@ -1,26 +1,50 @@
 import React from 'react';
 import { Footer, FooterTab, Button } from 'native-base';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import {dP} from 'app/utils/style/styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import {readState} from 'app/src/actions';
 
 class StandardFooter extends React.Component{
+  toggleDrawer = () => {
+    Keyboard.dismiss();
+    this.props.dispatch(readState());
+
+    if (this.props.authorized)
+      this.props.navigation.openDrawer();
+  }
 
   render(){
-    const size = 16;
+    const size = 24;
     const padding = 10;
+
+    const menuButton = (this.props.authorized ? (
+      <Button
+        onPress={this.toggleDrawer}
+      >
+        <View style={{padding: padding}}>
+          <Icon
+            name='menu'
+            size={size}
+            color={dP.color.primary}
+          />
+        </View>
+      </Button>
+    ) : null);
 
     return(
       <View>
         <Footer>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
+            {menuButton}
             <Button
               onPress={() => this.props.navigation.navigate('Callback')}
             >
               <View style={{padding: padding}}>
                 <Icon
-                  name='phone'
+                  name='phone-forwarded'
                   size={size}
                   color={dP.color.primary}
                 />
@@ -45,4 +69,6 @@ class StandardFooter extends React.Component{
   }
 }
 
-export default withNavigation(StandardFooter);
+const mapStateToProps = state => state.auth;
+
+export default withNavigation(connect(mapStateToProps)(StandardFooter));

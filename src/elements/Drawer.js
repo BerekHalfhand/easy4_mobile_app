@@ -15,7 +15,12 @@ import {phoneFormat} from 'app/utils/helpers';
 const styles = StyleSheet.create({
   headerContainer: {
     height: 120,
-    backgroundColor: dP.color.primary
+    backgroundColor: dP.color.primary,
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    alignItems: 'flex-end',
+    padding: 15,
   },
   headerName: {
     color: dP.color.white,
@@ -46,6 +51,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     display: 'none',
+    paddingRight: 15,
   },
   mockIcon: {
     backgroundColor: dP.color.primary,
@@ -115,12 +121,10 @@ class Drawer extends React.Component {
     return (
       <Container>
         <View style={styles.headerContainer}>
-          <View style={{flex: 1, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', alignItems: 'flex-end', padding: 15}} >
-            <View style={styles.userPic}></View>
-            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 15}}>
-              <Text style={styles.headerName}>{fullName || ''}</Text>
-              {phoneText}
-            </View>
+          <View style={styles.userPic}></View>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+            <Text style={styles.headerName}>{fullName || ''}</Text>
+            {phoneText}
           </View>
         </View>
         <View style={styles.itemsContainer}>
