@@ -8,7 +8,9 @@ import {
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { compose } from 'recompose';
+import { sendLead } from 'app/src/actions';
 import { Formik } from 'formik';
+import { connect } from 'react-redux';
 import {
   handleTextInput,
   withNextInputAutoFocusInput,
@@ -26,7 +28,7 @@ const validationSchema = Yup.object().shape({
     .required('Необходимо указать электронную почту')
     .label('Электронная почта'),
 
-  message: Yup
+  text: Yup
     .string()
     .required('Необходимо ввести сообщение')
     .label('Сообщение')
@@ -39,12 +41,9 @@ const MyInput = compose(
 
 const Form = withNextInputAutoFocusForm(View);
 
-export default class Chatroom extends Screen {
+class Chatroom extends Screen {
   constructor(props) {
     super(props);
-    this.state = {
-      phone: '+',
-    };
   }
 
   static navigationOptions = {
@@ -53,36 +52,24 @@ export default class Chatroom extends Screen {
   };
 
   formSubmit(values, actions) {
-    console.log('form submit', values);
-    Alert.alert('Ой', 'Функционал ещё не готов!');
-    actions.setSubmitting(false);
-    // this.props.dispatch(signup(values.email, values.password));
+    this.props.dispatch(sendLead(values, actions));
   }
 
   render() {
-    // const Js = 'const meta = document.createElement(\'meta\'); \
-    //             meta.setAttribute(\'content\', \'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=0\'); \
-    //             meta.setAttribute(\'name\', \'viewport\'); document.getElementsByTagName(\'head\')[0].appendChild(meta);';
-    //
-    // return (
-    //   <KeyboardAvoidingView
-    //     keyboardVerticalOffset={80}
-    //     style={{ flex: 1 }}
-    //     behavior='padding' >
-    //     <WebView
-    //       source={{uri: 'https://crm.easy4.pro/online/easy4helper'}}
-    //       scalesPageToFit={Platform.OS === 'ios' ? true : false}
-    //       injectedJavaScript={Js}
-    //       scrollEnabled
-    //     />
-    //   </KeyboardAvoidingView>
-    // );
     const inputStyle = {
       textColor: dP.color.white,
       baseColor: '#ABABAB',
       tintColor: dP.color.accent,
       errorColor: dP.color.error,
     };
+
+    const error = (this.props.errors && this.props.errors.sendLeadError ?
+      (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
+        {this.props.errors.sendLeadError}
+      </Text>) : null );
+
+    const {accessToken, fullName, email, phone} = this.props;
+
     return (
       <ScrollView style={{backgroundColor: dP.color.primary}}
         keyboardShouldPersistTaps='always' >
@@ -94,10 +81,10 @@ export default class Chatroom extends Screen {
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
             initialValues={{
-              name: '',
-              phone: '+',
-              email: '',
-              message: '',
+              name: accessToken && fullName ? fullName : '',
+              phone: accessToken && phone ? phone : '+',
+              email: accessToken && email ? email : '',
+              text: '',
             }}
             render={formikProps => {
               return (
@@ -131,12 +118,12 @@ export default class Chatroom extends Screen {
                   />
                   <MyInput
                     label='Сообщение'
-                    name='message'
+                    name='text'
                     type='text'
                     {...inputStyle}
                   />
                   <Body style={{margin: 24}}>
-                    <Text style={{ color: dP.color.error, position: 'absolute', top: -24 }}>{formikProps.errors.general}</Text>
+                    {error}
                     {formikProps.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
@@ -160,3 +147,7 @@ export default class Chatroom extends Screen {
     );
   }
 }
+
+const mapStateToProps = state => ({...state.api, ...state.auth, ...state.user});
+
+export default connect(mapStateToProps)(Chatroom);

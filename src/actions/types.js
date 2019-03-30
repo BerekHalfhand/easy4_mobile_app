@@ -56,3 +56,7 @@ export const OFFER_TOGGLE = 'OFFER_TOGGLE';
 export const POLICY_TOGGLE = 'POLICY_TOGGLE';
 
 export const BANNERS_SEEN = 'BANNERS_SEEN';
+
+export const SEND_LEAD = 'SEND_LEAD';
+export const SEND_LEAD_SUCCESS = 'SEND_LEAD_SUCCESS';
+export const SEND_LEAD_FAILURE = 'SEND_LEAD_FAILURE';

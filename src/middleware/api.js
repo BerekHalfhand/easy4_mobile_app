@@ -10,6 +10,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
 
   const {
     url,
+    baseUrlOverride,
     method,
     data,
     accessToken,
@@ -29,7 +30,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     'Content-Type': 'application/json',
     ...(accessToken && {'Authorization': `Bearer ${accessToken}`}),
   });
-  const baseUrl = 'https://mp.api.easy4.pro';
+  const baseUrl = baseUrlOverride || 'https://mp.api.easy4.pro';
 
   NetInfo.getConnectionInfo().then((connectionInfo) => {
     // If the connection is gone, redirect to the Offline screen, and memorize the failed action
@@ -64,7 +65,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     // })
     .then(response => response.json())
     .then(data => {
-      console.log('API response data: ', data);
+      console.log(`${baseUrl+url} => API response data:`, data);
       if (data.msg && data.msg !== 'OK') throw data.msg;
 
       dispatch(onSuccess(data));
@@ -72,7 +73,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
         NavigationService.navigate(successTransition);
     })
     .catch(error => {
-      // console.log('error', error);
+      console.log(`${baseUrl+url} => API error:`, error);
       dispatch(apiError(errorLabel, error));
       dispatch(onFailure(error));
 
