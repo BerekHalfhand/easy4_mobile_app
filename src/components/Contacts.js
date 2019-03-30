@@ -34,26 +34,26 @@ export default class Contacts extends Screen {
               {/*onPress={() => NavigationService.navigate('Chatroom')}>*/}
               {/*Онлайн-помощник*/}
             {/*</Text>*/}
-            <Autolink style={{...styles.whiteTextColor, fontSize: 32, marginBottom: 8, marginTop: 36, textAlign: 'center'}}
+            <Autolink style={{...styles.whiteTextColor, fontSize: 24, marginBottom: 8, marginTop: 36, textAlign: 'center'}}
               // linkStyle={{textDecorationLine: 'underline'}}
                 linkStyle={{color:'#FFFFFF'}}
               text='8 800 707 0009' />
-            <Text style={{...styles.whiteTextColor, marginBottom: 40, textAlign: 'center'}}>
+            <Text style={{...styles.whiteTextColor, color: '#D4D4D4', marginBottom: 40, textAlign: 'center'}}>
               Бесплатный номер для звонков по России
             </Text>
-            <Autolink style={{...styles.whiteTextColor, fontSize: 32, marginBottom: 8, textAlign: 'center'}}
+            <Autolink style={{...styles.whiteTextColor, fontSize: 24, marginBottom: 8, textAlign: 'center'}}
               linkStyle={{color:'#FFFFFF'}}
               text='+7 (958) 798 1111' />
-            <Text style={{...styles.whiteTextColor, marginBottom: 8, textAlign: 'center'}}>
+            <Text style={{...styles.whiteTextColor, color: '#D4D4D4', textAlign: 'center'}}>
               Бесплатный номер для звонков
             </Text>
-            <Text style={{...styles.whiteTextColor, marginBottom: 40, textAlign: 'center'}}>
+            <Text style={{...styles.whiteTextColor, color: '#D4D4D4', marginBottom: 40, textAlign: 'center'}}>
               из других стран (с телефона Easy4)
             </Text>
-            <Autolink style={{...styles.whiteTextColor, fontSize: 32, marginBottom: 40, textAlign: 'center'}}
+            <Autolink style={{...styles.whiteTextColor, fontSize: 24, marginBottom: 40, textAlign: 'center'}}
               linkStyle={{color:'#FFFFFF'}}
               text='easy4@easy4.pro' />
-            <Text style={{...styles.whiteTextColor, marginBottom: 8, textAlign: 'center'}}>
+            <Text style={{...styles.whiteTextColor, color: '#D4D4D4', marginBottom: 8, textAlign: 'center'}}>
               ИЦ "Сколково" Большой бульвар, 42, стр.1, Москва, 121205
             </Text>
           </View>
