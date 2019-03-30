@@ -26,26 +26,35 @@ export default class Contacts extends Screen {
     return (
       <Container style={{backgroundColor: dP.color.primary}}>
         <Content padder style={{ width: '100%', padding:16}}>
-          <View style={{textAlign: 'left'}}>
-            <Text style={{...styles.whiteTextColorH, marginBottom: 16}}>
-              Группа компаний Easy4
+          <View style={{textAlign: 'center'}}>
+            {/*<Text style={{...styles.whiteTextColorH, marginBottom: 16}}>*/}
+              {/*Группа компаний Easy4*/}
+            {/*</Text>*/}
+            {/*<Text style={{...styles.whiteTextColor, textDecorationLine: 'underline', marginBottom: 8, display: 'none'}}*/}
+              {/*onPress={() => NavigationService.navigate('Chatroom')}>*/}
+              {/*Онлайн-помощник*/}
+            {/*</Text>*/}
+            <Autolink style={{...styles.whiteTextColor, fontSize: 32, marginBottom: 8, marginTop: 36}}
+              // linkStyle={{textDecorationLine: 'underline'}}
+                linkStyle={{color:'#FFFFFF', textAlign: 'center'}}
+              text='8 800 707 0009' />
+            <Text style={{...styles.whiteTextColor, marginBottom: 40, textAlign: 'center'}}>
+              Бесплатный номер для звонков по России
             </Text>
-            <Text style={{...styles.whiteTextColor, textDecorationLine: 'underline', marginBottom: 8, display: 'none'}}
-              onPress={() => NavigationService.navigate('Chatroom')}>
-              Онлайн-помощник
+            <Autolink style={{...styles.whiteTextColor, fontSize: 32, marginBottom: 8, textAlign: 'center'}}
+              linkStyle={{color:'#FFFFFF'}}
+              text='+7 (958) 798 1111' />
+            <Text style={{...styles.whiteTextColor, marginBottom: 8, textAlign: 'center'}}>
+              Бесплатный номер для звонков
             </Text>
-            <Autolink style={{...styles.whiteTextColor, marginBottom: 8}}
-              linkStyle={{textDecorationLine: 'underline'}}
-              text='8 800 707 0009 - бесплатный номер для звонков по России' />
-            <Autolink style={{...styles.whiteTextColor}}
-              linkStyle={{textDecorationLine: 'underline'}}
-              text='+7 (958) 798 1111 - бесплатный номер для звонков из других стран (с телефона Easy4)' />
-
-            <Autolink style={{...styles.whiteTextColor, marginBottom: 8}}
-              linkStyle={{textDecorationLine: 'underline'}}
-              text='Email: easy4@easy4.pro' />
-            <Text style={{...styles.whiteTextColor, marginBottom: 8}}>
-              Адрес: ИЦ "Сколково" Большой бульвар, 42, стр.1, Москва, 121205
+            <Text style={{...styles.whiteTextColor, marginBottom: 40, textAlign: 'center'}}>
+              из других стран (с телефона Easy4)
+            </Text>
+            <Autolink style={{...styles.whiteTextColor, fontSize: 32, marginBottom: 40, textAlign: 'center'}}
+              linkStyle={{color:'#FFFFFF'}}
+              text='easy4@easy4.pro' />
+            <Text style={{...styles.whiteTextColor, marginBottom: 8, textAlign: 'center'}}>
+              ИЦ "Сколково" Большой бульвар, 42, стр.1, Москва, 121205
             </Text>
           </View>
         </Content>
