@@ -28,7 +28,7 @@ export default class About extends Screen {
           <View style={{alignItems: 'center'}}>
             <Image
               style={{width: 96, height: 128, resizeMode: 'contain'}}
-              source={require('app/assets/image/logo3x.png')}
+              source={require('../../assets/image/logo3x.png')}
             />
             <Text style={{...styles.whiteTextColor,fontSize: 20, letterSpacing: 2, marginTop: 24, textAlign: 'justify'}}>
               {version}
