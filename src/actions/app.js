@@ -31,13 +31,17 @@ export function sendLead(data, actions) {
 
 const sendLeadSuccess = (data, actions) => dispatch => {
   const onDismiss = () => {
-    const {auth} = store.getState();
+    const {auth, app} = store.getState();
     dispatch(apiErrorDismiss('sendLeadError'));
     actions.setSubmitting(false);
     if (auth.authorized)
       NavigationService.navigate('Main');
-    else
-      NavigationService.navigate('Home');
+    else {
+      if (app.bannersSeen)
+        NavigationService.navigate('Home');
+      else
+        NavigationService.navigate('Banners');
+    }
 
   };
 
