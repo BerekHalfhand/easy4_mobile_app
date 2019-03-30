@@ -34,9 +34,9 @@ export default class Contacts extends Screen {
               {/*onPress={() => NavigationService.navigate('Chatroom')}>*/}
               {/*Онлайн-помощник*/}
             {/*</Text>*/}
-            <Autolink style={{...styles.whiteTextColor, fontSize: 32, marginBottom: 8, marginTop: 36}}
+            <Autolink style={{...styles.whiteTextColor, fontSize: 32, marginBottom: 8, marginTop: 36, textAlign: 'center'}}
               // linkStyle={{textDecorationLine: 'underline'}}
-                linkStyle={{color:'#FFFFFF', textAlign: 'center'}}
+                linkStyle={{color:'#FFFFFF'}}
               text='8 800 707 0009' />
             <Text style={{...styles.whiteTextColor, marginBottom: 40, textAlign: 'center'}}>
               Бесплатный номер для звонков по России
