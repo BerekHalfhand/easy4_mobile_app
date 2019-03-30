@@ -52,9 +52,10 @@ class Login extends Screen {
   }
 
   render() {
-    const error = (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
-      {this.props.errors && this.props.errors.loginError}
-    </Text>);
+    const error = (this.props.errors && this.props.errors.loginError ?
+      (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
+        {this.props.errors.loginError}
+      </Text>) : null );
 
     return (
       <ScrollView style={{backgroundColor: dP.color.primary}}
@@ -88,7 +89,7 @@ class Login extends Screen {
                   />
 
                   <Body style={{margin: 24}}>
-                    {this.props.errors && this.props.errors.loginError ? error : null}
+                    {error}
                     {this.props.busy && this.props.busy.login ? (
                       <ActivityIndicator />
                     ) : (

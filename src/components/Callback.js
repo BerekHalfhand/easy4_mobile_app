@@ -5,7 +5,8 @@ import {Button, Body, Form } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { Formik } from 'formik';
-import StringMask from 'string-mask';
+import { connect } from 'react-redux';
+import { sendLead } from 'app/src/actions';
 import {
   handleTextInput
 } from 'react-native-formik';
@@ -20,7 +21,7 @@ const validationSchema = Yup.object().shape({
 
 const MyInput = handleTextInput(TextField);
 
-export default class Feedback extends Screen {
+class Feedback extends Screen {
   constructor(props) {
     super(props);
   }
@@ -31,25 +32,7 @@ export default class Feedback extends Screen {
   };
 
   formSubmit(values, actions){
-    // TODO: find a better way to handle it
-    // values.phone = values.phone.substring(0, phoneMask.length);
-    console.log('form submit', values);
-    Alert.alert('Ой', 'Функционал ещё не готов!');
-    actions.setSubmitting(false);
-    // Api.restorePassword(values.email)
-    //   .then(data => {
-    //     console.log('data:', data);
-    //
-    //     if (data.msg != 'OK')
-    //       throw data.msg;
-    //
-    //     Alert.alert('Recovery success', 'На вашу почту отправлено письмо с описанием следующего шага');
-    //   })
-    //   .then(data => {
-    //     setTimeout(() => this.props.navigation.navigate('Login'), 1000);
-    //   })
-    //   .catch(e => actions.setFieldError('general', e.toString()))
-    //   .finally(() => actions.setSubmitting(false));
+    this.props.dispatch(sendLead(values, actions));
   }
 
   render() {
@@ -59,6 +42,13 @@ export default class Feedback extends Screen {
       tintColor: dP.color.accent,
       errorColor: dP.color.error,
     };
+
+    const error = (this.props.errors && this.props.errors.sendLeadError ?
+      (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
+        {this.props.errors.sendLeadError}
+      </Text>) : null );
+
+    const {accessToken, fullName, phone} = this.props;
 
     return (
       <ScrollView style={{backgroundColor: dP.color.primary}}
@@ -71,8 +61,8 @@ export default class Feedback extends Screen {
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
             initialValues={{
-              name: '',
-              phone: '+',
+              name: accessToken && fullName ? fullName : '',
+              phone: accessToken && phone ? phone : '+',
             }}
             render={formikProps => {
               return (
@@ -106,7 +96,7 @@ export default class Feedback extends Screen {
                     onChangeText={text => formikProps.setFieldValue('phone', text)}
                   />
                   <Body style={{margin: 24}}>
-                    <Text style={{ color: dP.color.error, position: 'absolute', top: -24 }}>{formikProps.errors.general}</Text>
+                    {error}
                     {formikProps.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
@@ -130,3 +120,7 @@ export default class Feedback extends Screen {
     );
   }
 }
+
+const mapStateToProps = state => ({...state.api, ...state.auth, ...state.user});
+
+export default connect(mapStateToProps)(Feedback);

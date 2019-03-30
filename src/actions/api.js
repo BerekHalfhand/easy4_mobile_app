@@ -2,6 +2,7 @@ import { API, API_START, API_END, ACCESS_DENIED, API_ERROR } from './types';
 
 export const apiAction = ({
   url = '',
+  baseUrlOverride = null,
   method = 'GET',
   data = null,
   accessToken = null,
@@ -18,6 +19,7 @@ export const apiAction = ({
     type: API,
     payload: {
       url,
+      baseUrlOverride,
       method,
       data,
       accessToken,

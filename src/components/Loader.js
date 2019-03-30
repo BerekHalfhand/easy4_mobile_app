@@ -1,8 +1,7 @@
 import React from 'react';
 import Screen from './Screen';
-import {View, Text, NetInfo} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import {Content, Container} from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import NavigationService from 'app/src/services/NavigationService';
 import autoBind from 'react-autobind';
 import {styles} from 'app/utils/style/styles';
@@ -28,12 +27,10 @@ export default class Loader extends Screen {
               Загрузка
             </Text>
           </View>
-          <View style={{marginTop:16, flex: 1, justifyContent: 'center'}}>
-            <Icon
-              name='refresh'
-              size={200}
-              color='white'
-              style={{alignSelf: 'center'}}
+          <View style={{marginTop:16, flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Image
+              style={{width: 150, height: 200, resizeMode: 'contain'}}
+              source={require('app/assets/image/logo3x.png')}
               onPress={() => NavigationService.navigate('Home')}
             />
           </View>

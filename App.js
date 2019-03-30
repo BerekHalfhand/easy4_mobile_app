@@ -91,14 +91,15 @@ class App extends React.Component {
   }
 
   loadData = async () => {
-    const banners = [
+    const images = [
       require('app/assets/image/banners/1.jpg'),
       require('app/assets/image/banners/2.jpg'),
       require('app/assets/image/banners/3.jpg'),
       require('app/assets/image/banners/4.jpg'),
+      require('app/assets/image/logo3x.png'),
     ];
 
-    const cacheImages = banners.map((image) => {
+    const cacheImages = images.map((image) => {
       return Asset.fromModule(image).downloadAsync();
     });
 
