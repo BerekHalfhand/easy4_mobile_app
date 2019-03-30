@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers} from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 import thunk from 'redux-thunk';
 import apiMiddleware from 'app/src/middleware/api';
@@ -12,6 +13,7 @@ import user from './user';
 const rootPersistConfig = {
   storage,
   key: 'root',
+  stateReconciler: autoMergeLevel2,
   whitelist: [
     // 'api',
     'app',

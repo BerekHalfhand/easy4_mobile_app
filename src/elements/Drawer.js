@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import { Container } from 'native-base';
 import {dP} from 'app/utils/style/styles';
@@ -120,13 +120,12 @@ class Drawer extends React.Component {
 
     return (
       <Container>
-        <View style={styles.headerContainer}>
-          <View style={styles.userPic}></View>
+        <TouchableHighlight style={styles.headerContainer} onPress={() => this.navigateTo('Main')}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <Text style={styles.headerName}>{fullName || ''}</Text>
             {phoneText}
           </View>
-        </View>
+        </TouchableHighlight>
         <View style={styles.itemsContainer}>
           {selectedPhone ? increaseBalance : null}
           <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('Contacts')}>

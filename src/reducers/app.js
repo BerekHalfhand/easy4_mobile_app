@@ -1,8 +1,8 @@
 import * as T from '../actions/types';
 
 const initialState = {
-  offerAccepted: false,
-  policyAccepted: false,
+  offerAccepted: true,
+  policyAccepted: true,
   bannersSeen: false,
 };
 
@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
 
   case T.RESET_STATE:
     console.log('APP/RESET_STATE', state);
-    return {};
+    return initialState;
 
   case T.OFFER_TOGGLE:
     console.log('APP/OFFER_TOGGLE', state);

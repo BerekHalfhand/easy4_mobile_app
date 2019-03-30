@@ -1,6 +1,6 @@
 import React from 'react';
 import Screen from './Screen';
-import {Animated, ImageBackground, StyleSheet, Image, View, Text, ScrollView, Dimensions} from 'react-native';
+import {Animated, ImageBackground, StyleSheet, View, Text, ScrollView, Dimensions} from 'react-native';
 import {Button} from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import NavigationService from 'app/src/services/NavigationService';
