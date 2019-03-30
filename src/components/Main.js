@@ -1,10 +1,9 @@
 import React from 'react';
-import {Alert, Image, View, Text, ScrollView, RefreshControl} from 'react-native';
+import {Image, View, Text, ScrollView, RefreshControl, Dimensions} from 'react-native';
 import Screen from './Screen';
 import {
   Button,
   Container,
-  Root,
   Icon,
   ActionSheet,
   Content
@@ -15,7 +14,7 @@ import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import TariffPane from 'app/src/elements/TariffPane';
-import NavigationService from 'app/src/services/NavigationService';
+import {dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -142,6 +141,8 @@ class Main extends Screen{
     const BUTTONS = ['Банковская карта', 'Отмена'];
     const CANCEL_INDEX = 2;
 
+    const width = Dimensions.get('window').width;
+
     const balance = (this.hasBalance(this.props.user) ?
       <ClientMainBalance balance={this.props.user.balance} balanceFetched={this.state.balanceFetched}/>
       : null);
@@ -213,21 +214,24 @@ class Main extends Screen{
     ) : null );
 
     return(
-      <Root>
+      <Container style={{backgroundColor: dP.color.primary}}>
+        <View>
+          <Image
+            style={{width, position:'absolute', top: 10}}
+            source={require('app/assets/image/bitmap.png')}
+          />
+        </View>
         <ScrollView
           refreshControl={
             <RefreshControl
+              tintColor='white'
               refreshing={this.state.refreshing}
               onRefresh={this.onRefresh}
             />
           }
 
-          style={{backgroundColor:'#004d99'}}
         >
-          <Image
-            style={{width: '100%', zIndex:-3, position:'absolute'}}
-            source={require('app/assets/image/bitmap.png')}
-          />
+
           <Content style={{ width: '100%', padding:24}}>
 
             {balanceBlock}
@@ -243,9 +247,7 @@ class Main extends Screen{
           </Content>
         </ScrollView>
         <StandardFooter />
-      </Root>
-
-
+      </Container>
     );
   }
 }
