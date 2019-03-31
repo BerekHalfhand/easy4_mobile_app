@@ -218,7 +218,7 @@ class Main extends Screen{
         <View>
           <Image
             style={{width, position:'absolute', top: 10}}
-            source={require('app/assets/image/bitmap.png')}
+            source={require('app/assets/image/balls.png')}
           />
         </View>
         <ScrollView
