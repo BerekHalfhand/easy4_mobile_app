@@ -9,17 +9,18 @@ import {
   Content
 } from 'native-base';
 import {styles} from 'app/utils/style/styles';
-import StandardFooter from 'app/src/elements/Footer';
-import ClientMainBalance from 'app/src/elements/ClientMainBalance';
-import ClientMainInfo from 'app/src/elements/ClientMainInfo';
-import LogoTitle from 'app/src/elements/LogoTitle';
-import TariffPane from 'app/src/elements/TariffPane';
-import {dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import {declOfNumRus, phoneFormat} from 'app/utils/helpers';
 import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
+
+
+import StandardFooter from 'app/src/elements/Footer';
+import ClientMainBalance from 'app/src/elements/ClientMainBalance';
+import ClientMainInfo from 'app/src/elements/ClientMainInfo';
+import LogoTitle from 'app/src/elements/LogoTitle';
+import TariffPane from 'app/src/elements/TariffPane';
 
 class Main extends Screen{
   constructor(props){
@@ -163,7 +164,7 @@ class Main extends Screen{
             }
           )}
       >
-        <Text style={{fontFamily:'SFCT_Semibold', fontSize:12, letterSpacing: 0.25, color:'rgb(0, 94, 186)'}}>
+        <Text style={{...styles.textButtonPrimary, fontSize:12}}>
           Пополнить
         </Text>
       </Button>
@@ -190,14 +191,14 @@ class Main extends Screen{
             onPress={this.onPressNumbers}
           >
             <View >
-              <Text style={{fontFamily:'SFCT_Regular', fontSize:13, color:'#FFFFFF', lineHeight:24}}>
+              <Text style={styles.textLabel}>
                 {this.props.user.msisdns.length}
               </Text>
             </View>
             <View>
               <Text onPress={this.onPressNumbers}
-                style={{fontFamily:'SFCT_Regular', marginLeft:5, fontSize:13, color:'#FFFFFF', lineHeight:24}}>
-                {declOfNumRus(this.props.user.msisdns.length, ['номер', 'номера', 'номеров'])} на аккауне
+                style={styles.textLabel}>
+                {' ' + declOfNumRus(this.props.user.msisdns.length, ['номер', 'номера', 'номеров'])} на аккауне
               </Text>
             </View>
             <View>

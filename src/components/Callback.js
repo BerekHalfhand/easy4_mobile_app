@@ -1,8 +1,8 @@
 import React from 'react';
 import Screen from './Screen';
-import { Text, ActivityIndicator, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Text, ActivityIndicator } from 'react-native';
 import {Button, Body, Form, Content, Container } from 'native-base';
-import {styles, dP, stylesExtra} from 'app/utils/style/styles';
+import {styles, stylesExtra} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
@@ -88,7 +88,7 @@ class Feedback extends Screen {
                         style={styles.buttonPrimary}
                         onPress={formikProps.handleSubmit}
                       >
-                        <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
+                        <Text style={styles.textButtonPrimary}>
                           Отправить
                         </Text>
                       </Button>

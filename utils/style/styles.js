@@ -53,6 +53,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // FONTS
   whiteTextColor: {
     color: dP.color.white,
     fontSize: dP.size.text,
@@ -62,6 +63,66 @@ export const styles = StyleSheet.create({
     color: dP.color.white,
     fontSize: dP.size.h,
     // fontFamily: 'SFCompact Text'
+  },
+  textPrimaryH: {
+    color: dP.color.white,
+    fontFamily: 'SFCT_Light',
+    letterSpacing: -2.5,
+    fontSize: 48,
+  },
+  textSecondaryH: {
+    color: dP.color.white,
+    fontFamily: 'SFCT_Regular',
+    letterSpacing: -1.5,
+    fontSize: 34,
+  },
+  textBlockH: {
+    color: dP.color.white,
+    fontFamily: 'SFCT_Medium',
+    letterSpacing: -0.5,
+    fontSize: 24,
+  },
+  textSmallBlockH: {
+    color: dP.color.white,
+    fontFamily: 'SFCT_Medium',
+    letterSpacing: -0.25,
+    fontSize: 20,
+  },
+  textSimple: {
+    color: dP.color.white,
+    fontFamily: 'SFCT_Regular',
+    letterSpacing: -0.25,
+    fontSize: 16,
+  },
+  textLargeBlock: {
+    color: dP.color.white,
+    fontFamily: 'SFCT_Regular',
+    letterSpacing: -0.15,
+    fontSize: 14,
+  },
+  textButtonPrimary: {
+    color: dP.color.primary,
+    fontFamily: 'SFCT_Semibold',
+    letterSpacing: 0.25,
+    fontSize: 16,
+  },
+  textButtonSecondary: {
+    color: dP.color.accent,
+    fontFamily: 'SFCT_Semibold',
+    letterSpacing: 0.25,
+    fontSize: 13,
+  },
+  textLabel: {
+    color: dP.color.white,
+    fontFamily: 'SFCT_Regular',
+    letterSpacing: 0,
+    fontSize: 13,
+  },
+  textDate: {
+    color: dP.color.white,
+    fontFamily: 'SFCT_Medium',
+    letterSpacing: 2,
+    fontSize: 13,
   },
   // CARD
   cardItem: {
@@ -100,7 +161,6 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
     backgroundColor: dP.color.accent,
     alignSelf: 'center',
-    // borderRadius: 24
   },
   buttonPrimaryCash: {
     // width: dP.size.buttonWidth,
@@ -109,7 +169,6 @@ export const styles = StyleSheet.create({
     paddingRight: 20,
     paddingBottom: 10,
     backgroundColor: dP.color.accent,
-    // borderRadius: 24
   },
   buttonPrimaryText: {
     color: dP.color.primary,
@@ -122,8 +181,6 @@ export const styles = StyleSheet.create({
     paddingRight: 20,
     paddingBottom: 10,
     alignSelf: 'center',
-    // backgroundColor: dP.color.primary,
-    // borderRadius: 24
   },
   buttonPrimaryInverseText: {
     color: dP.color.accent,
@@ -145,7 +202,6 @@ export const styles = StyleSheet.create({
     borderColor: dP.color.accent,
     borderRadius: 4,
     marginRight: 12
-    // color: '#005EBA'
   },
   inputIcon: {
     position: 'absolute',
@@ -170,4 +226,30 @@ export const stylesExtra = {
     tintColor: dP.color.accent,
     errorColor: dP.color.error,
   },
+  carousel: {
+    barContainer: {
+      position: 'absolute',
+      zIndex: 2,
+      bottom: 10,
+      flexDirection: 'row',
+    },
+    track: {
+      backgroundColor: '#ccc',
+      overflow: 'hidden',
+      height: 2,
+    },
+    bar: {
+      backgroundColor: '#5294d6',
+      height: 2,
+      position: 'absolute',
+      left: 0,
+      top: 0,
+    },
+    buttonsBlock: {
+      height: '100%',
+      padding: 24,
+      position: 'absolute',
+      justifyContent: 'flex-end',
+    }
+  }
 };

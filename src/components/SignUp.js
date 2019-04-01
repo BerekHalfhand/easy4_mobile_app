@@ -3,7 +3,7 @@ import {ActivityIndicator, Text} from 'react-native';
 import Screen from './Screen';
 import {Button, Body, View, Container, Content} from 'native-base';
 // import FingerPrint from './touchid';
-import {styles, dP} from 'app/utils/style/styles';
+import {styles} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
@@ -99,10 +99,10 @@ class SignUp extends Screen {
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded
-                        style={styles.buttonPrimary}
+                        style={{...styles.buttonPrimary, width: '100%'}}
                         onPress={formikProps.handleSubmit}
                       >
-                        <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:14, color:'#005eba'}}>
+                        <Text style={styles.textButtonPrimary}>
                           Зарегистрироваться
                         </Text>
                       </Button>

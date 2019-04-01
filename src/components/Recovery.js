@@ -2,7 +2,7 @@ import React from 'react';
 import Screen from './Screen';
 import { Text, ActivityIndicator } from 'react-native';
 import {Button, Body, Form, Container, Content } from 'native-base';
-import {styles, dP} from 'app/utils/style/styles';
+import {styles, stylesExtra} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
@@ -57,10 +57,7 @@ class Recovery extends Screen {
                     autoFocus
                     name='email'
                     type='email'
-                    textColor={dP.color.white}
-                    baseColor='#ABABAB'
-                    tintColor={dP.color.accent}
-                    errorColor={dP.color.error}
+                    {...stylesExtra.input}
                   />
                   <Body style={{margin: 24}}>
                     {this.showError('restorePasswordError')}
@@ -71,7 +68,7 @@ class Recovery extends Screen {
                         style={styles.buttonPrimary}
                         onPress={formikProps.handleSubmit}
                       >
-                        <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
+                        <Text style={styles.textButtonPrimary}>
                           Отправить
                         </Text>
                       </Button>

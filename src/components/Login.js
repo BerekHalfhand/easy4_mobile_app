@@ -88,7 +88,7 @@ class Login extends Screen {
                         style={styles.buttonPrimary}
                         onPress={formikProps.handleSubmit}
                       >
-                        <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
+                        <Text style={styles.textButtonPrimary}>
                           Войти
                         </Text>
                       </Button>
@@ -100,7 +100,7 @@ class Login extends Screen {
                       style={styles.buttonPrimaryInverse}
                       onPress={this.onPressRecovery}
                     >
-                      <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:16}}>
+                      <Text style={styles.textButtonSecondary}>
                         Забыли пароль?
                       </Text>
                     </Button>

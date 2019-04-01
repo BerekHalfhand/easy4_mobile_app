@@ -2,7 +2,7 @@ import React from 'react';
 import Screen from './Screen';
 import {Animated, ImageBackground, StyleSheet, View, Text, ScrollView, Dimensions} from 'react-native';
 import {Container, Content, Button} from 'native-base';
-import {styles, dP} from 'app/utils/style/styles';
+import {styles, stylesExtra} from 'app/utils/style/styles';
 import NavigationService from 'app/src/services/NavigationService';
 import { connect } from 'react-redux';
 import { markBannersSeen } from 'app/src/actions';
@@ -66,7 +66,7 @@ class Banners extends Screen {
           style={{ width: deviceWidth }}
         >
           <View style={{padding: 24}}>
-            <Text style={{color:'white', marginTop: 50, fontSize: 18, textAlign: 'center'}}>
+            <Text style={{...styles.textSimple, marginTop: 32, textAlign: 'center'}}>
               {captions[i]}
             </Text>
           </View>
@@ -84,7 +84,7 @@ class Banners extends Screen {
         <View
           key={`bar${i}`}
           style={[
-            style.track,
+            stylesExtra.carousel.track,
             {
               width: this.itemWidth,
               marginLeft: i === 0 ? 0 : BAR_SPACE,
@@ -94,7 +94,7 @@ class Banners extends Screen {
           <Animated.View
 
             style={[
-              style.bar,
+              stylesExtra.carousel.bar,
               {
                 width: this.itemWidth,
                 transform: [
@@ -125,17 +125,17 @@ class Banners extends Screen {
           {imageArray}
 
         </ScrollView>
-        <View style={style.barContainer} >
+        <View style={stylesExtra.carousel.barContainer} >
           {barArray}
         </View>
-        <View style={{ height: '100%', padding:24, position: 'absolute', justifyContent: 'flex-end'}} >
+        <View style={stylesExtra.carousel.buttonsBlock} >
 
           <View style={{marginBottom: 8}}>
             <Button full large
               style={styles.buttonTariff}
               onPress={this.onPressTariffs}
             >
-              <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:24, color: dP.color.white}}>
+              <Text style={styles.textBlockH}>
                 ТАРИФЫ
               </Text>
             </Button>
@@ -146,7 +146,7 @@ class Banners extends Screen {
               style={styles.buttonPrimaryInverse}
               onPress={this.onPressContinue}
             >
-              <Text style={{fontFamily:'SFCT_Regular',letterSpacing:0.29, color: dP.color.white, fontSize:14}} align='center'>
+              <Text style={styles.textLargeBlock}>
                 Я уже абонент Easy4
               </Text>
 
@@ -158,33 +158,6 @@ class Banners extends Screen {
     );
   }
 }
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: dP.color.primary,
-  },
-  barContainer: {
-    position: 'absolute',
-    zIndex: 2,
-    bottom: 10,
-    flexDirection: 'row',
-  },
-  track: {
-    backgroundColor: '#ccc',
-    overflow: 'hidden',
-    height: 2,
-  },
-  bar: {
-    backgroundColor: '#5294d6',
-    height: 2,
-    position: 'absolute',
-    left: 0,
-    top: 0,
-  },
-});
 
 const mapStateToProps = state => state.app;
 

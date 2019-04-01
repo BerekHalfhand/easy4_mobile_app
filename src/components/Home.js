@@ -83,7 +83,7 @@ class Home extends Screen {
           style={styles.checkbox}
         />
         <View style={{marginLeft: 12}}>
-          <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}
+          <Text style={styles.textLabel}
             onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf')}>Условия оказания услуг</Text>
         </View>
       </Body>
@@ -98,7 +98,7 @@ class Home extends Screen {
           style={styles.checkbox}
         />
         <View style={{marginLeft: 12}}>
-          <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}
+          <Text style={styles.textLabel}
             onPress={() => Linking.openURL('https://easy4.pro/privacy.html')}>Политика конфиденциальности</Text>
         </View>
       </Body>
@@ -110,20 +110,20 @@ class Home extends Screen {
       <Container style={styles.container}>
         <Content padder>
           <Body style={{ justifyContent: 'center', marginTop: 46}}>
-            <Image source={require('../../assets/image/logo-w100.png')}/>
+            <Image source={require('app/assets/image/logo-w100.png')}/>
           </Body>
           <Body style={{marginTop: 24}}>
-            <Text style={{fontFamily:'SFCT_Medium', letterSpacing:-0.5, fontSize:24, color:'#FFFFFF'}}>Добро пожаловать в Easy4</Text>
+            <Text style={styles.textBlockH}>Добро пожаловать в Easy4</Text>
           </Body>
           <Body style={{marginTop: 24}}>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>Безроуминговый мобильный оператор</Text>
+            <Text style={styles.textSimple}>Безроуминговый мобильный оператор</Text>
           </Body>
           <Body style={{marginTop: 48}}>
             <Button full rounded
               style={styles.buttonPrimary}
               onPress={this.onPressLogin}
             >
-              <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
+              <Text style={styles.textButtonPrimary} uppercase={false}>
                 Войти
               </Text>
             </Button>
@@ -134,7 +134,7 @@ class Home extends Screen {
               style={styles.buttonPrimaryInverse}
               onPress={this.onPressSignUp}
             >
-              <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:13}} align='center'>
+              <Text style={styles.textButtonSecondary} uppercase={false}>
                 Регистрация
               </Text>
 
