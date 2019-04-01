@@ -7,7 +7,7 @@ import {
   Container,
   Content,
 } from 'native-base';
-import {styles, dP} from 'app/utils/style/styles';
+import {styles, dP, stylesExtra} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { compose } from 'recompose';
 import { sendLead } from 'app/src/actions';
@@ -21,7 +21,6 @@ import {
 import * as Yup from 'yup';
 import { TextField } from 'react-native-material-textfield';
 import { TextInputMask } from 'react-native-masked-text';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const validationSchema = Yup.object().shape({
   email: Yup
@@ -58,13 +57,6 @@ class Feedback extends Screen {
   }
 
   render() {
-    const inputStyle = {
-      textColor: dP.color.white,
-      baseColor: '#ABABAB',
-      tintColor: dP.color.accent,
-      errorColor: dP.color.error,
-    };
-
     const {accessToken, fullName, email, phone} = this.props;
 
     return (
@@ -86,16 +78,16 @@ class Feedback extends Screen {
                     label='Ваше имя'
                     name='name'
                     type='name'
-                    {...inputStyle}
+                    {...stylesExtra.input}
                   />
 
                   <TextInputMask
                     customTextInput={TextField}
-                    customTextInputProps={inputStyle}
+                    customTextInputProps={stylesExtra.input}
                     placeholder='+'
                     label='Телефон'
                     style={{color: 'white'}}
-                    type={'cel-phone'}
+                    type='cel-phone'
                     options={{
                       withDDD: true,
                       dddMask: '+9 (999) 999-99-99'
@@ -107,13 +99,13 @@ class Feedback extends Screen {
                     label='Электронная почта'
                     name='email'
                     type='email'
-                    {...inputStyle}
+                    {...stylesExtra.input}
                   />
                   <MyInput
                     label='Сообщение'
                     name='text'
                     type='text'
-                    {...inputStyle}
+                    {...stylesExtra.input}
                   />
                   <Body style={{margin: 24}}>
                     {this.showError('sendLeadError')}
