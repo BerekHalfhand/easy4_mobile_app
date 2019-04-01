@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, View, Text, ScrollView, RefreshControl, Dimensions} from 'react-native';
 import Screen from './Screen';
 import {
+  Root,
   Button,
   Container,
   Icon,
@@ -214,40 +215,42 @@ class Main extends Screen{
     ) : null );
 
     return(
-      <Container style={{backgroundColor: dP.color.primary}}>
-        <View>
-          <Image
-            style={{width, position:'absolute', top: 10}}
-            source={require('app/assets/image/bitmap.png')}
-          />
-        </View>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              tintColor='white'
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
+      <Root>
+        <Container style={{backgroundColor: dP.color.primary}}>
+          <View>
+            <Image
+              style={{width, position:'absolute', top: 10}}
+              source={require('app/assets/image/bitmap.png')}
             />
-          }
+          </View>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                tintColor='white'
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
 
-        >
+          >
 
-          <Content style={{ width: '100%', padding:24}}>
+            <Content style={{ width: '100%', padding:24}}>
 
-            {balanceBlock}
+              {balanceBlock}
 
-            {msisdns}
+              {msisdns}
 
-            {mainInfo}
+              {mainInfo}
 
-            <TariffPane tariff='travel' />
+              <TariffPane tariff='travel' />
 
-            <TariffPane tariff='connect' />
+              <TariffPane tariff='connect' />
 
-          </Content>
-        </ScrollView>
-        <StandardFooter />
-      </Container>
+            </Content>
+          </ScrollView>
+          <StandardFooter />
+        </Container>
+      </Root>
     );
   }
 }
