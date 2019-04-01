@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, Switch, FlatList } from 'react-native';
-import { Container, Content, Icon, ListItem, Button, Body, Left, Right } from 'native-base';
+import { Container, Content } from 'native-base';
 import {styles} from 'app/utils/style/styles';
 import StandardFooter from 'app/src/elements/Footer';
 import LogoTitle from 'app/src/elements/LogoTitle';
@@ -19,9 +18,9 @@ export default class TariffList extends Screen {
 
   render(){
     return(
-      <Container style={{backgroundColor:'#004d99'}}>
-        <Content padder style={{ width: '100%', padding:24}}>
-        
+      <Container style={styles.container}>
+        <Content padder style={styles.content}>
+
           <TariffPane tariff='travel' showButton={true} />
 
           <TariffPane tariff='connect' showButton={true} />

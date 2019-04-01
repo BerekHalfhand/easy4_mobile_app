@@ -1,7 +1,7 @@
 import React from 'react';
 import Screen from './Screen';
 import {Animated, ImageBackground, StyleSheet, View, Text, ScrollView, Dimensions} from 'react-native';
-import {Button} from 'native-base';
+import {Container, Content, Button} from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import NavigationService from 'app/src/services/NavigationService';
 import { connect } from 'react-redux';
@@ -109,7 +109,7 @@ class Banners extends Screen {
     }
 
     return (
-      <View style={style.container} >
+      <Container style={{...styles.container, ...styles.contentCentered}}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -154,7 +154,7 @@ class Banners extends Screen {
           </View>
 
         </View>
-      </View>
+      </Container>
     );
   }
 }

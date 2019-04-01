@@ -1,7 +1,7 @@
 import React from 'react';
-import { ActivityIndicator, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { ActivityIndicator, Text, Platform, ScrollView } from 'react-native';
 import Screen from './Screen';
-import {Button, Body, View } from 'native-base';
+import {Button, Body, View, Container, Content } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
@@ -52,18 +52,9 @@ class Login extends Screen {
   }
 
   render() {
-    const error = (this.props.errors && this.props.errors.loginError ?
-      (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
-        {this.props.errors.loginError}
-      </Text>) : null );
-
     return (
-      <ScrollView style={{backgroundColor: dP.color.primary}}
-        keyboardShouldPersistTaps='always' >
-        <KeyboardAvoidingView
-          keyboardVerticalOffset = {280}
-          style = {{ flex: 1, padding: 24 }}
-          behavior = "padding" >
+      <Container style={styles.container}>
+        <Content style={styles.content}>
           <Formik
             onSubmit={(values) => this.formSubmit(values)}
             validationSchema={validationSchema}
@@ -89,7 +80,7 @@ class Login extends Screen {
                   />
 
                   <Body style={{margin: 24}}>
-                    {error}
+                    {this.showError('loginError')}
                     {this.props.busy && this.props.busy.login ? (
                       <ActivityIndicator />
                     ) : (
@@ -118,9 +109,9 @@ class Login extends Screen {
               );
             }}
           />
-        </KeyboardAvoidingView>
 
-      </ScrollView>
+        </Content>
+      </Container>
     );
   }
 }

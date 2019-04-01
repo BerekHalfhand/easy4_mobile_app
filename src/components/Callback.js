@@ -1,8 +1,8 @@
 import React from 'react';
 import Screen from './Screen';
-import { Alert, Text, ActivityIndicator, KeyboardAvoidingView, ScrollView } from 'react-native';
-import {Button, Body, Form } from 'native-base';
-import {styles, dP} from 'app/utils/style/styles';
+import { Text, ActivityIndicator, KeyboardAvoidingView, ScrollView } from 'react-native';
+import {Button, Body, Form, Content, Container } from 'native-base';
+import {styles, dP, stylesExtra} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
@@ -36,27 +36,11 @@ class Feedback extends Screen {
   }
 
   render() {
-    const inputStyle = {
-      textColor: dP.color.white,
-      baseColor: '#ABABAB',
-      tintColor: dP.color.accent,
-      errorColor: dP.color.error,
-    };
-
-    const error = (this.props.errors && this.props.errors.sendLeadError ?
-      (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
-        {this.props.errors.sendLeadError}
-      </Text>) : null );
-
     const {accessToken, fullName, phone} = this.props;
 
     return (
-      <ScrollView style={{backgroundColor: dP.color.primary}}
-        keyboardShouldPersistTaps='always' >
-        <KeyboardAvoidingView
-          keyboardVerticalOffset = {300}
-          style = {{ flex: 1, padding: 24 }}
-          behavior = "padding" >
+      <Container style={styles.container}>
+        <Content style={styles.content}>
           <Formik
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
@@ -71,15 +55,15 @@ class Feedback extends Screen {
                     label='Ваше имя'
                     name='name'
                     type='name'
-                    {...inputStyle}
+                    {...stylesExtra.input}
                   />
                   <TextInputMask
                     customTextInput={TextField}
-                    customTextInputProps={inputStyle}
+                    customTextInputProps={stylesExtra.input}
                     placeholder='+'
                     label='Телефон'
                     style={{color: 'white'}}
-                    type={'cel-phone'}
+                    type='cel-phone'
                     options={{
                       /**
                        * mask: (String | required | default '')
@@ -96,7 +80,7 @@ class Feedback extends Screen {
                     onChangeText={text => formikProps.setFieldValue('phone', text)}
                   />
                   <Body style={{margin: 24}}>
-                    {error}
+                    {this.showError('sendLeadError')}
                     {formikProps.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
@@ -115,8 +99,8 @@ class Feedback extends Screen {
             }}
           />
 
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </Content>
+      </Container>
     );
   }
 }

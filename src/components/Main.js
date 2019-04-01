@@ -2,7 +2,6 @@ import React from 'react';
 import {Image, View, Text, ScrollView, RefreshControl, Dimensions} from 'react-native';
 import Screen from './Screen';
 import {
-  Root,
   Button,
   Container,
   Icon,
@@ -27,10 +26,6 @@ class Main extends Screen{
     super(props);
     autoBind(this);
     this.state = {
-      phone: '',
-      phones: new Set(),
-      user: props.user,
-      balance: null,
       balanceFetched: moment().format('D MMMM'),
       refreshing: false,
     };
@@ -215,42 +210,40 @@ class Main extends Screen{
     ) : null );
 
     return(
-      <Root>
-        <Container style={{backgroundColor: dP.color.primary}}>
-          <View>
-            <Image
-              style={{width, position:'absolute', top: 10}}
-              source={require('app/assets/image/balls.png')}
+      <Container style={styles.container}>
+        <View>
+          <Image
+            style={{width, position:'absolute', top: 10}}
+            source={require('app/assets/image/balls.png')}
+          />
+        </View>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              tintColor='white'
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
             />
-          </View>
-          <ScrollView
-            refreshControl={
-              <RefreshControl
-                tintColor='white'
-                refreshing={this.state.refreshing}
-                onRefresh={this.onRefresh}
-              />
-            }
+          }
 
-          >
+        >
 
-            <Content style={{ width: '100%', padding:24}}>
+          <Content padder style={styles.content}>
 
-              {balanceBlock}
+            {balanceBlock}
 
-              {msisdns}
+            {msisdns}
 
-              {mainInfo}
+            {mainInfo}
 
-              <TariffPane tariff='travel' />
+            <TariffPane tariff='travel' />
 
-              <TariffPane tariff='connect' />
+            <TariffPane tariff='connect' />
 
-            </Content>
-          </ScrollView>
-          <StandardFooter />
-        </Container>
-      </Root>
+          </Content>
+        </ScrollView>
+        <StandardFooter />
+      </Container>
     );
   }
 }

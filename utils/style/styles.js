@@ -39,6 +39,30 @@ export const styles = StyleSheet.create({
     // marginBottom: 10,
     textAlign: 'center'
   },
+  // COMMON
+  container: {
+    backgroundColor: dP.color.primary,
+  },
+  content: {
+    padding: 16,
+    // borderColor: 'red',
+    // borderWidth: 1,
+  },
+  contentCentered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  whiteTextColor: {
+    color: dP.color.white,
+    fontSize: dP.size.text,
+    // fontFamily: 'SFCompact Text'
+  },
+  whiteTextColorH: {
+    color: dP.color.white,
+    fontSize: dP.size.h,
+    // fontFamily: 'SFCompact Text'
+  },
   // CARD
   cardItem: {
     backgroundColor: '#4064AD'
@@ -67,12 +91,6 @@ export const styles = StyleSheet.create({
   // Старт
   statusBar: {
     backgroundColor: '#ffffff',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   buttonPrimary: {
     width: dP.size.buttonWidth,
@@ -144,14 +162,12 @@ export const styles = StyleSheet.create({
     shadowOffset:{width:0,height:16},
     shadowOpacity:1
   },
-  whiteTextColor: {
-    color: dP.color.white,
-    fontSize: dP.size.text,
-    // fontFamily: 'SFCompact Text'
-  },
-  whiteTextColorH: {
-    color: dP.color.white,
-    fontSize: dP.size.h,
-    // fontFamily: 'SFCompact Text'
-  }
 });
+export const stylesExtra = {
+  input: {
+    textColor: dP.color.white,
+    baseColor: '#ABABAB',
+    tintColor: dP.color.accent,
+    errorColor: dP.color.error,
+  },
+};

@@ -3,7 +3,9 @@ import Screen from './Screen';
 import {Alert, ActivityIndicator, KeyboardAvoidingView, Text, ScrollView, View, WebView} from 'react-native';
 import {
   Body,
-  Button
+  Button,
+  Container,
+  Content,
 } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
@@ -19,7 +21,7 @@ import {
 import * as Yup from 'yup';
 import { TextField } from 'react-native-material-textfield';
 import { TextInputMask } from 'react-native-masked-text';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const validationSchema = Yup.object().shape({
   email: Yup
@@ -41,7 +43,7 @@ const MyInput = compose(
 
 const Form = withNextInputAutoFocusForm(View);
 
-class Chatroom extends Screen {
+class Feedback extends Screen {
   constructor(props) {
     super(props);
   }
@@ -63,20 +65,11 @@ class Chatroom extends Screen {
       errorColor: dP.color.error,
     };
 
-    const error = (this.props.errors && this.props.errors.sendLeadError ?
-      (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
-        {this.props.errors.sendLeadError}
-      </Text>) : null );
-
     const {accessToken, fullName, email, phone} = this.props;
 
     return (
-      <ScrollView style={{backgroundColor: dP.color.primary}}
-        keyboardShouldPersistTaps='always' >
-        <KeyboardAvoidingView
-          keyboardVerticalOffset = {300}
-          style = {{ flex: 1, padding: 24 }}
-          behavior = "padding" >
+      <Container style={styles.container}>
+        <Content style={styles.content}>
           <Formik
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
@@ -123,7 +116,7 @@ class Chatroom extends Screen {
                     {...inputStyle}
                   />
                   <Body style={{margin: 24}}>
-                    {error}
+                    {this.showError('sendLeadError')}
                     {formikProps.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
@@ -142,12 +135,12 @@ class Chatroom extends Screen {
             }}
           />
 
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </Content>
+      </Container>
     );
   }
 }
 
 const mapStateToProps = state => ({...state.api, ...state.auth, ...state.user});
 
-export default connect(mapStateToProps)(Chatroom);
+export default connect(mapStateToProps)(Feedback);

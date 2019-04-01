@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StatusBar} from 'react-native';
+import {View, StatusBar, Text} from 'react-native';
 import {Root} from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import NavBack from 'app/src/elements/NavBack';
@@ -15,6 +15,15 @@ export default class Screen extends Component {
     headerBackTitle: null,
     headerTintColor: '#fff'
   };
+
+  showError = label => {
+    if (this.props.errors && this.props.errors[label])
+      return (
+        <Text style={{ color: dP.color.error, marginBottom: 10 }}>
+          {this.props.errors[label]}
+        </Text>
+      );
+  }
 
   render() {
     return(

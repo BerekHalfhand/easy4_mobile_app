@@ -111,8 +111,8 @@ export default class Tariff extends Screen {
     ) : null);
 
     return(
-      <Container style={{backgroundColor:'#004d99'}}>
-        <Content padder style={{ width: '100%', padding: 16}}>
+      <Container style={styles.container}>
+        <Content style={styles.content}>
           <View>
             <Text style={{color:'#FFFFFF', fontSize: 24}}>{ this.state.tariff.title }</Text>
           </View>

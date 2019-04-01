@@ -107,9 +107,9 @@ class Home extends Screen {
 
   render() {
     return (
-      <Container>
-        <Content padder style={{backgroundColor: dP.color.primary}}>
-          <Body style={{ justifyContent: 'center', marginTop: 92}}>
+      <Container style={styles.container}>
+        <Content padder>
+          <Body style={{ justifyContent: 'center', marginTop: 46}}>
             <Image source={require('../../assets/image/logo-w100.png')}/>
           </Body>
           <Body style={{marginTop: 24}}>

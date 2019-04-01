@@ -1,7 +1,7 @@
 import React from 'react';
 import Screen from './Screen';
-import { Alert, Text, ActivityIndicator, KeyboardAvoidingView, ScrollView } from 'react-native';
-import {Button, Body, Form } from 'native-base';
+import { Text, ActivityIndicator } from 'react-native';
+import {Button, Body, Form, Container, Content } from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { connect } from 'react-redux';
@@ -40,17 +40,9 @@ class Recovery extends Screen {
   }
 
   render() {
-    const error = (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
-      {this.props.errors && this.props.errors.restorePasswordError}
-    </Text>);
-
     return (
-      <ScrollView style={{backgroundColor: dP.color.primary}}
-        keyboardShouldPersistTaps='always' >
-        <KeyboardAvoidingView
-          keyboardVerticalOffset = {64}
-          style = {{ flex: 1, padding: 24 }}
-          behavior = "padding" >
+      <Container style={styles.container}>
+        <Content style={styles.content}>
           <Formik
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
@@ -71,7 +63,7 @@ class Recovery extends Screen {
                     errorColor={dP.color.error}
                   />
                   <Body style={{margin: 24}}>
-                    {this.props.errors && this.props.errors.restorePasswordError ? error : null}
+                    {this.showError('restorePasswordError')}
                     {this.props.busy && this.props.busy.recovery ? (
                       <ActivityIndicator />
                     ) : (
@@ -89,9 +81,8 @@ class Recovery extends Screen {
               );
             }}
           />
-
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </Content>
+      </Container>
     );
   }
 }
