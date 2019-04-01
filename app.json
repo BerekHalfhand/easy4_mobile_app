@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.1.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./assets/app-icon.png",
     "splash": {
@@ -24,12 +24,12 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.intersat.easy",
-      "buildNumber": "0.0.10"
+      "bundleIdentifier": "com.intersat.Easy4",
+      "buildNumber": "0.0.11"
     },
     "android": {
       "package": "com.sonet.easy4",
-      "versionCode": 10
+      "versionCode": 11
     }
   }
 }
