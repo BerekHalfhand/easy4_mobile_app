@@ -1,6 +1,6 @@
 import React from 'react';
 import Screen from './Screen';
-import { Text, ActivityIndicator } from 'react-native';
+import { Text, ActivityIndicator, Platform } from 'react-native';
 import {Button, Body, Form, Content, Container } from 'native-base';
 import {styles, stylesExtra} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
@@ -31,7 +31,9 @@ class Feedback extends Screen {
     headerTitle: <LogoTitle title='Перезвонить мне' />,
   };
 
-  formSubmit(values, actions){
+  formSubmit(values, actions) {
+    values.from = Platform.OS === 'ios' ? 2 : 1;
+    values.lead_type = 1;
     this.props.dispatch(sendLead(values, actions));
   }
 

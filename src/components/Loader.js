@@ -23,7 +23,7 @@ export default class Loader extends Screen {
       <Container style={styles.container}>
         <Content padder style={styles.content} contentContainerStyle={styles.contentCentered}>
           <View style={{marginTop:32}}>
-            <Text style={{color:'#FFFFFF', fontSize: 24, fontWeight: 'bold', textAlign: 'center'}}>
+            <Text style={styles.textBlockH}>
               Загрузка
             </Text>
           </View>

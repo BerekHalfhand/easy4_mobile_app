@@ -1,13 +1,13 @@
 import React from 'react';
 import Screen from './Screen';
-import {Alert, ActivityIndicator, KeyboardAvoidingView, Text, ScrollView, View, WebView} from 'react-native';
+import {ActivityIndicator, Platform, Text, View} from 'react-native';
 import {
   Body,
   Button,
   Container,
   Content,
 } from 'native-base';
-import {styles, dP, stylesExtra} from 'app/utils/style/styles';
+import {styles, stylesExtra} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { compose } from 'recompose';
 import { sendLead } from 'app/src/actions';
@@ -53,6 +53,8 @@ class Feedback extends Screen {
   };
 
   formSubmit(values, actions) {
+    values.from = Platform.OS === 'ios' ? 2 : 1;
+    values.lead_type = 2;
     this.props.dispatch(sendLead(values, actions));
   }
 
@@ -116,7 +118,7 @@ class Feedback extends Screen {
                         style={styles.buttonPrimary}
                         onPress={formikProps.handleSubmit}
                       >
-                        <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
+                        <Text style={styles.textButtonPrimary}>
                           Отправить
                         </Text>
                       </Button>

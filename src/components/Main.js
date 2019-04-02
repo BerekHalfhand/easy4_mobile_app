@@ -116,10 +116,12 @@ class Main extends Screen{
   }
 
   onPressNumbers() {
-    if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length)
+    if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length) {
+      let phones = this.props.user.msisdns.map(v => phoneFormat(v));
+      
       ActionSheet.show(
         {
-          options: this.props.user.msisdns.concat(['Отмена']),
+          options: phones.concat(['Отмена']),
           cancelButtonIndex: this.props.user.msisdns.length,
           title: 'Основной номер'
         },
@@ -132,6 +134,7 @@ class Main extends Screen{
           this.selectPhone(phone);
         }
       );
+    }
   }
 
   render() {
