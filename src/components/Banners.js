@@ -2,7 +2,7 @@ import React from 'react';
 import Screen from './Screen';
 import {Animated, ImageBackground, StyleSheet, View, Text, ScrollView, Dimensions} from 'react-native';
 import {Container, Content, Button} from 'native-base';
-import {styles, stylesExtra} from 'app/utils/style/styles';
+import {styles, stylesExtra, dP} from 'app/utils/style/styles';
 import NavigationService from 'app/src/services/NavigationService';
 import { connect } from 'react-redux';
 import { markBannersSeen } from 'app/src/actions';
@@ -11,11 +11,18 @@ const deviceWidth = Dimensions.get('window').width;
 const FIXED_BAR_WIDTH = 280;
 const BAR_SPACE = 10;
 
+const titles = [
+  'Путешествуй!',
+  'Выделяйся!',
+  'Управляй!',
+  'Объединяй!',
+];
+
 const captions = [
-  'Создаём безроуминговое пространство по всему миру',
-  'Одна SIM карта - несколько номеров (технология multi-IMSI)',
-  'Построение уникальных корпоративных экосистем',
-  'Международная мобильная платформа для интернета вещей',
+  'Безроуминговое пространство по всему миру',
+  'Премиальные услуги и связь от одного оператора',
+  'Полный контроль над умными устройствами и М2М',
+  'Особые условия для спортивных сообществ и единомышленников',
 ];
 
 class Banners extends Screen {
@@ -66,7 +73,10 @@ class Banners extends Screen {
           style={{ width: deviceWidth }}
         >
           <View style={{padding: 24}}>
-            <Text style={{...styles.textSimple, marginTop: 32, textAlign: 'center'}}>
+            <Text style={{...styles.textSecondaryH, color: dP.color.primary}}>
+              {titles[i].toUpperCase()}
+            </Text>
+            <Text style={{...styles.textSimple, color: dP.color.primary, marginTop: 8}}>
               {captions[i]}
             </Text>
           </View>
@@ -143,11 +153,11 @@ class Banners extends Screen {
 
           <View style={{marginBottom: 24}}>
             <Button full transparent rounded
-              style={styles.buttonPrimaryInverse}
+              style={{...styles.buttonPrimaryInverse, width: '100%'}}
               onPress={this.onPressContinue}
             >
               <Text style={styles.textLargeBlock}>
-                Я уже абонент Easy4
+                Войти или зарегистрироваться
               </Text>
 
             </Button>

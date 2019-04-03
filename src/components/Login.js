@@ -1,8 +1,8 @@
 import React from 'react';
-import { ActivityIndicator, Text, Platform, ScrollView } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import Screen from './Screen';
 import {Button, Body, View, Container, Content } from 'native-base';
-import {styles, dP} from 'app/utils/style/styles';
+import {styles} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';

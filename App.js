@@ -57,7 +57,7 @@ const Routes = createStackNavigator({
   Feedback: { screen: Feedback },
   Callback: { screen: Callback },
 }, {
-  initialRouteName: 'Loader',
+  initialRouteName: 'Home',
   headerLayoutPreset: 'center',
   headerBackTitle: null,
 
@@ -129,10 +129,10 @@ class App extends React.Component {
       if (connectionInfo.type === 'none' || connectionInfo.type === 'unknown') {
         NavigationService.navigate('Offline', {route: 'Home'});
       } else {
-        if (this.state.bannersSeen === false)
-          NavigationService.navigate('Banners');
-        else
-          NavigationService.navigate('Home');
+        // if (this.state.bannersSeen === false)
+        //   NavigationService.navigate('Banners');
+        // else
+        //   NavigationService.navigate('Home');
       }
     });
   }
