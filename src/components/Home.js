@@ -77,7 +77,7 @@ class Home extends Screen {
 
   renderOfferCheckbox() {
     return (
-      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 40}}>
+      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 24}}>
         <CheckBox checked={this.props.offerAccepted}
           onPress={this.onPressOffer}
           style={styles.checkbox}
@@ -92,7 +92,7 @@ class Home extends Screen {
 
   renderPolicyCheckbox() {
     return (
-      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 8}}>
         <CheckBox checked={this.props.policyAccepted}
           onPress={this.onPressPolicy}
           style={styles.checkbox}
@@ -109,16 +109,19 @@ class Home extends Screen {
     return (
       <Container style={styles.container}>
         <Content padder>
-          <Body style={{ justifyContent: 'center', marginTop: 46}}>
-            <Image source={require('app/assets/image/logo-w100.png')}/>
+          <Body style={{ justifyContent: 'center', marginTop: 32}}>
+            <Image
+              style={{width: 150, height: 200, resizeMode: 'contain'}}
+              source={require('app/assets/image/logo3x.png')}
+            />
           </Body>
           <Body style={{marginTop: 24}}>
             <Text style={styles.textBlockH}>Добро пожаловать в Easy4</Text>
           </Body>
-          <Body style={{marginTop: 24}}>
+          <Body style={{marginTop: 16}}>
             <Text style={styles.textSimple}>Безроуминговый мобильный оператор</Text>
           </Body>
-          <Body style={{marginTop: 48}}>
+          <Body style={{marginTop: 32}}>
             <Button full rounded
               style={styles.buttonPrimary}
               onPress={this.onPressLogin}
