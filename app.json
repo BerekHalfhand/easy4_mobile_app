@@ -24,7 +24,7 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.intersat.Easy4",
+      "bundleIdentifier": "com.intersat.easy",
       "buildNumber": "0.0.11"
     },
     "android": {
