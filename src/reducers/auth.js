@@ -24,7 +24,6 @@ export default (state = {}, action) => {
     return {
       ...state,
       accessToken: null,
-      authorized: false,
     };
 
   case T.UPDATE_TOKEN_SUCCESS:
@@ -42,6 +41,7 @@ export default (state = {}, action) => {
       ...state,
       accessToken: null,
       refreshToken: null,
+      authorized: false,
     };
 
   case T.SIGNUP_SUCCESS:

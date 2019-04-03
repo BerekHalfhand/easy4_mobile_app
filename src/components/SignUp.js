@@ -1,9 +1,9 @@
 import React from 'react';
-import {Alert, ActivityIndicator, Dimensions, Platform, Text, KeyboardAvoidingView, Keyboard, ScrollView} from 'react-native';
+import {ActivityIndicator, Text} from 'react-native';
 import Screen from './Screen';
-import {Button, Body, View} from 'native-base';
+import {Button, Body, View, Container, Content} from 'native-base';
 // import FingerPrint from './touchid';
-import {styles, dP} from 'app/utils/style/styles';
+import {styles} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
@@ -63,20 +63,9 @@ class SignUp extends Screen {
   }
 
   render() {
-    const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 300;
-
-    const error = (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
-      {this.props.errors && this.props.errors.signupError}
-    </Text>);
-
     return (
-      <ScrollView style={{backgroundColor: dP.color.primary}}
-        keyboardShouldPersistTaps='always' >
-        <KeyboardAvoidingView enabled
-          keyboardVerticalOffset = {keyboardVerticalOffset}
-          style = {{ flex: 1, padding: 24 }}
-          behavior = "padding" >
-
+      <Container style={styles.container}>
+        <Content padder style={styles.content}>
           <Formik
             initialValues={{
               firstName: '',
@@ -105,15 +94,15 @@ class SignUp extends Screen {
                   />
 
                   <Body style={{margin: 24}}>
-                    {this.props.errors && this.props.errors.signupError ? error : null}
+                    {this.showError('signupError')}
                     {this.props.busy && this.props.busy.signup ? (
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded
-                        style={styles.buttonPrimary}
+                        style={{...styles.buttonPrimary, width: '100%'}}
                         onPress={formikProps.handleSubmit}
                       >
-                        <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:14, color:'#005eba'}}>
+                        <Text style={styles.textButtonPrimary}>
                           Зарегистрироваться
                         </Text>
                       </Button>
@@ -123,10 +112,8 @@ class SignUp extends Screen {
               );
             }}
           />
-
-
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </Content>
+      </Container>
     );
   }
 }

@@ -30,6 +30,9 @@
     "android": {
       "package": "com.sonet.easy4",
       "versionCode": 11
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#004d99",
     }
   }
 }

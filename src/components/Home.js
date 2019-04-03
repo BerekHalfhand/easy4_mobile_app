@@ -77,13 +77,13 @@ class Home extends Screen {
 
   renderOfferCheckbox() {
     return (
-      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 40}}>
+      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 24}}>
         <CheckBox checked={this.props.offerAccepted}
           onPress={this.onPressOffer}
           style={styles.checkbox}
         />
         <View style={{marginLeft: 12}}>
-          <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}
+          <Text style={styles.textLabel}
             onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf')}>Условия оказания услуг</Text>
         </View>
       </Body>
@@ -92,13 +92,13 @@ class Home extends Screen {
 
   renderPolicyCheckbox() {
     return (
-      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 8}}>
         <CheckBox checked={this.props.policyAccepted}
           onPress={this.onPressPolicy}
           style={styles.checkbox}
         />
         <View style={{marginLeft: 12}}>
-          <Text style={{fontFamily:'SFCT_Regular',letterSpacing:-.025, color: '#ffffff'}}
+          <Text style={styles.textLabel}
             onPress={() => Linking.openURL('https://easy4.pro/privacy.html')}>Политика конфиденциальности</Text>
         </View>
       </Body>
@@ -107,23 +107,26 @@ class Home extends Screen {
 
   render() {
     return (
-      <Container>
-        <Content padder style={{backgroundColor: dP.color.primary}}>
-          <Body style={{ justifyContent: 'center', marginTop: 92}}>
-            <Image source={require('../../assets/image/logo-w100.png')}/>
+      <Container style={styles.container}>
+        <Content padder>
+          <Body style={{ justifyContent: 'center', marginTop: 32}}>
+            <Image
+              style={{width: 150, height: 200, resizeMode: 'contain'}}
+              source={require('app/assets/image/logo3x.png')}
+            />
           </Body>
           <Body style={{marginTop: 24}}>
-            <Text style={{fontFamily:'SFCT_Medium', letterSpacing:-0.5, fontSize:24, color:'#FFFFFF'}}>Добро пожаловать в Easy4</Text>
+            <Text style={styles.textBlockH}>Добро пожаловать в Easy4</Text>
           </Body>
-          <Body style={{marginTop: 24}}>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>Безроуминговый мобильный оператор</Text>
+          <Body style={{marginTop: 16}}>
+            <Text style={styles.textSimple}>Безроуминговый мобильный оператор</Text>
           </Body>
-          <Body style={{marginTop: 48}}>
+          <Body style={{marginTop: 32}}>
             <Button full rounded
               style={styles.buttonPrimary}
               onPress={this.onPressLogin}
             >
-              <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
+              <Text style={styles.textButtonPrimary} uppercase={false}>
                 Войти
               </Text>
             </Button>
@@ -134,7 +137,7 @@ class Home extends Screen {
               style={styles.buttonPrimaryInverse}
               onPress={this.onPressSignUp}
             >
-              <Text style={{fontFamily:'SFCT_Semibold',letterSpacing:0.29, color:'#FED657', fontSize:13}} align='center'>
+              <Text style={styles.textButtonSecondary} uppercase={false}>
                 Регистрация
               </Text>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppRegistry, NetInfo } from 'react-native';
 import { Asset, Font, AppLoading } from 'expo';
+import { Root } from 'native-base';
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import Drawer from 'app/src/elements/Drawer';
@@ -22,7 +23,7 @@ import TariffList from './src/components/TariffList';
 import IncreaseBalance from './src/components/IncreaseBalance';
 import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
-import Chatroom from './src/components/Chatroom';
+import Feedback from './src/components/Feedback';
 import Contacts from './src/components/Contacts';
 import Callback from './src/components/Callback';
 
@@ -52,11 +53,11 @@ const Routes = createStackNavigator({
   IncreaseBalance: { screen: IncreaseBalance },
   SignUp: { screen: SignUp },
   Recovery: { screen: Recovery },
-  Chatroom: { screen: Chatroom },
   Contacts: { screen: Contacts },
+  Feedback: { screen: Feedback },
   Callback: { screen: Callback },
 }, {
-  initialRouteName: 'Loader',
+  initialRouteName: 'Home',
   headerLayoutPreset: 'center',
   headerBackTitle: null,
 
@@ -103,7 +104,7 @@ class App extends React.Component {
       return Asset.fromModule(image).downloadAsync();
     });
 
-    const fontLoading = Font.loadAsync({
+    const loadFonts = Font.loadAsync({
       'SFCD_Black': require('app/assets/fonts/SFCompactDisplay-Black.ttf'),
       'SFCT_Semibold': require('app/assets/fonts/SFCompactText-Semibold.ttf'),
       'SFCT_Medium': require('app/assets/fonts/SFCompactText-Medium.ttf'),
@@ -114,7 +115,7 @@ class App extends React.Component {
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     });
 
-    return Promise.all([fontLoading, cacheImages]);
+    return Promise.all([loadFonts, cacheImages]);
   };
 
   onFinish = () => {
@@ -128,10 +129,10 @@ class App extends React.Component {
       if (connectionInfo.type === 'none' || connectionInfo.type === 'unknown') {
         NavigationService.navigate('Offline', {route: 'Home'});
       } else {
-        if (this.state.bannersSeen === false)
-          NavigationService.navigate('Banners');
-        else
-          NavigationService.navigate('Home');
+        // if (this.state.bannersSeen === false)
+        //   NavigationService.navigate('Banners');
+        // else
+        //   NavigationService.navigate('Home');
       }
     });
   }
@@ -155,7 +156,9 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          {this.state.isReady ? appReady : appLoading}
+          <Root>
+            {this.state.isReady ? appReady : appLoading}
+          </Root>
         </PersistGate>
       </Provider>
     );

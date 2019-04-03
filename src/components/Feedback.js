@@ -1,11 +1,13 @@
 import React from 'react';
 import Screen from './Screen';
-import {Alert, ActivityIndicator, KeyboardAvoidingView, Text, ScrollView, View, WebView} from 'react-native';
+import {ActivityIndicator, Platform, Text, View} from 'react-native';
 import {
   Body,
-  Button
+  Button,
+  Container,
+  Content,
 } from 'native-base';
-import {styles, dP} from 'app/utils/style/styles';
+import {styles, stylesExtra} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { compose } from 'recompose';
 import { sendLead } from 'app/src/actions';
@@ -19,7 +21,6 @@ import {
 import * as Yup from 'yup';
 import { TextField } from 'react-native-material-textfield';
 import { TextInputMask } from 'react-native-masked-text';
-
 
 const validationSchema = Yup.object().shape({
   email: Yup
@@ -41,7 +42,7 @@ const MyInput = compose(
 
 const Form = withNextInputAutoFocusForm(View);
 
-class Chatroom extends Screen {
+class Feedback extends Screen {
   constructor(props) {
     super(props);
   }
@@ -52,31 +53,17 @@ class Chatroom extends Screen {
   };
 
   formSubmit(values, actions) {
+    values.from = Platform.OS === 'ios' ? 2 : 1;
+    values.lead_type = 2;
     this.props.dispatch(sendLead(values, actions));
   }
 
   render() {
-    const inputStyle = {
-      textColor: dP.color.white,
-      baseColor: '#ABABAB',
-      tintColor: dP.color.accent,
-      errorColor: dP.color.error,
-    };
-
-    const error = (this.props.errors && this.props.errors.sendLeadError ?
-      (<Text style={{ color: dP.color.error, marginBottom: 10 }}>
-        {this.props.errors.sendLeadError}
-      </Text>) : null );
-
     const {accessToken, fullName, email, phone} = this.props;
 
     return (
-      <ScrollView style={{backgroundColor: dP.color.primary}}
-        keyboardShouldPersistTaps='always' >
-        <KeyboardAvoidingView
-          keyboardVerticalOffset = {300}
-          style = {{ flex: 1, padding: 24 }}
-          behavior = "padding" >
+      <Container style={styles.container}>
+        <Content style={styles.content}>
           <Formik
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
@@ -93,16 +80,16 @@ class Chatroom extends Screen {
                     label='Ваше имя'
                     name='name'
                     type='name'
-                    {...inputStyle}
+                    {...stylesExtra.input}
                   />
 
                   <TextInputMask
                     customTextInput={TextField}
-                    customTextInputProps={inputStyle}
+                    customTextInputProps={stylesExtra.input}
                     placeholder='+'
                     label='Телефон'
                     style={{color: 'white'}}
-                    type={'cel-phone'}
+                    type='cel-phone'
                     options={{
                       withDDD: true,
                       dddMask: '+9 (999) 999-99-99'
@@ -114,16 +101,16 @@ class Chatroom extends Screen {
                     label='Электронная почта'
                     name='email'
                     type='email'
-                    {...inputStyle}
+                    {...stylesExtra.input}
                   />
                   <MyInput
                     label='Сообщение'
                     name='text'
                     type='text'
-                    {...inputStyle}
+                    {...stylesExtra.input}
                   />
                   <Body style={{margin: 24}}>
-                    {error}
+                    {this.showError('sendLeadError')}
                     {formikProps.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
@@ -131,7 +118,7 @@ class Chatroom extends Screen {
                         style={styles.buttonPrimary}
                         onPress={formikProps.handleSubmit}
                       >
-                        <Text style={{fontFamily:'SFCT_Semibold', letterSpacing:0.25, fontSize:16, color:'#005eba'}}>
+                        <Text style={styles.textButtonPrimary}>
                           Отправить
                         </Text>
                       </Button>
@@ -142,12 +129,12 @@ class Chatroom extends Screen {
             }}
           />
 
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </Content>
+      </Container>
     );
   }
 }
 
 const mapStateToProps = state => ({...state.api, ...state.auth, ...state.user});
 
-export default connect(mapStateToProps)(Chatroom);
+export default connect(mapStateToProps)(Feedback);

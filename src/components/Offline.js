@@ -72,10 +72,10 @@ class Offline extends Screen {
 
   render() {
     return (
-      <Container style={{backgroundColor:'#004d99'}}>
-        <Content padder style={{ width: '100%', padding:24}}>
+      <Container style={styles.container}>
+        <Content padder style={styles.content} contentContainerStyle={styles.contentCentered}>
           <View style={{marginTop:32}}>
-            <Text style={{color:'#FFFFFF', fontSize: 24, fontWeight: 'bold', textAlign: 'center'}}>
+            <Text style={styles.textBlockH}>
               Сеть недоступна
             </Text>
           </View>
@@ -87,8 +87,8 @@ class Offline extends Screen {
               style={{alignSelf: 'center'}}
             />
           </View>
-          <View style={{marginTop:8}}>
-            <Text style={{color:'#FFFFFF', fontSize: 16, textAlign: 'center'}}>
+          <View style={{marginBottom: 8}}>
+            <Text style={{...styles.textSimple, textAlign: 'center'}}>
               Для работы приложения требуется подключение к сети Интернет
             </Text>
           </View>

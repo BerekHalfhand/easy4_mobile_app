@@ -51,7 +51,7 @@ class StandardFooter extends React.Component{
               </View>
             </Button>
             <Button
-              onPress={() => this.props.navigation.navigate('Chatroom')}
+              onPress={() => this.props.navigation.navigate('Feedback')}
             >
               <View style={{padding: padding}}>
                 <Icon
