@@ -111,12 +111,12 @@ class Home extends Screen {
         <Content padder>
           <Body style={{ justifyContent: 'center', marginTop: 32}}>
             <Image
-              style={{width: 150, height: 200, resizeMode: 'contain'}}
+              style={{width: 90, height: 120, resizeMode: 'contain', marginTop: 160}}
               source={require('app/assets/image/logo3x.png')}
             />
           </Body>
           <Body style={{marginTop: 24}}>
-            <Text style={styles.textBlockH}>Добро пожаловать в Easy4</Text>
+            <Text style={styles.textBlockH}>Добро пожаловать</Text>
           </Body>
           <Body style={{marginTop: 16}}>
             <Text style={styles.textSimple}>Безроуминговый мобильный оператор</Text>
