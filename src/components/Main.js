@@ -27,7 +27,6 @@ class Main extends Screen{
     super(props);
     autoBind(this);
     this.state = {
-      balanceFetched: moment().format('D MMMM'),
       refreshing: false,
     };
 
@@ -86,9 +85,9 @@ class Main extends Screen{
     dispatch(fetchBalance(phone, accessToken));
 
     // 26 марта, 5 апреля
-    this.setState({
-      balanceFetched: moment().format('D MMMM'),
-    });
+    // this.setState({
+    //   balanceFetched: moment().format('D MMMM'),
+    // });
   }
 
   selectPhone = msisdn => {
@@ -118,12 +117,12 @@ class Main extends Screen{
   onPressNumbers() {
     if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length) {
       let phones = this.props.user.msisdns.map(v => phoneFormat(v));
-      
+
       ActionSheet.show(
         {
           options: phones.concat(['Отмена']),
           cancelButtonIndex: this.props.user.msisdns.length,
-          title: 'Основной номер'
+          title: 'Посмотреть баланс'
         },
         buttonIndex => {
           if (buttonIndex == this.props.user.msisdns.length) //Отмена
@@ -144,7 +143,7 @@ class Main extends Screen{
     const width = Dimensions.get('window').width;
 
     const balance = (this.hasBalance(this.props.user) ?
-      <ClientMainBalance balance={this.props.user.balance} balanceFetched={this.state.balanceFetched}/>
+      <ClientMainBalance balance={this.props.user.balance}/>
       : null);
 
     const mainInfo = (this.hasBalance(this.props.user) ?
@@ -193,15 +192,9 @@ class Main extends Screen{
             style={styles.buttonPrimaryInverse}
             onPress={this.onPressNumbers}
           >
-            <View >
-              <Text style={styles.textLabel}>
-                {this.props.user.msisdns.length}
-              </Text>
-            </View>
             <View>
-              <Text onPress={this.onPressNumbers}
-                style={styles.textLabel}>
-                {' ' + declOfNumRus(this.props.user.msisdns.length, ['номер', 'номера', 'номеров'])} на аккауне
+              <Text onPress={this.onPressNumbers} style={styles.textLabel}>
+                Ваши номера
               </Text>
             </View>
             <View>

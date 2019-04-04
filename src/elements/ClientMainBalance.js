@@ -18,11 +18,8 @@ export default class ClientMainBalance extends React.Component{
         <View style={{flex: 1, flexDirection: 'row', fontSize:16}}>
           <View >
             <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>
-              Баланс на
+              У вас на балансе
             </Text>
-          </View>
-          <View>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, marginLeft:5, fontSize:16, color:'#FFFFFF'}}>{ this.props.balanceFetched }</Text>
           </View>
         </View>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems:'flex-end'}}>
@@ -43,10 +40,8 @@ export default class ClientMainBalance extends React.Component{
 
 ClientMainBalance.propTypes = {
   balance: PropTypes.number,
-  balanceFetched: PropTypes.string,
 };
 
 ClientMainBalance.defaultProps = {
   balance: 0,
-  balanceFetched: 'сегодня',
 };
