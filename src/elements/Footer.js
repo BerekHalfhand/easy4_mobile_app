@@ -11,34 +11,29 @@ class StandardFooter extends React.Component{
   toggleDrawer = () => {
     Keyboard.dismiss();
     this.props.dispatch(readState());
-
-    if (this.props.authorized)
-      this.props.navigation.openDrawer();
+    this.props.navigation.openDrawer();
   }
 
   render(){
     const size = 24;
     const padding = 10;
 
-    const menuButton = (this.props.authorized ? (
-      <Button
-        onPress={this.toggleDrawer}
-      >
-        <View style={{padding: padding}}>
-          <Icon
-            name='menu'
-            size={size}
-            color={dP.color.primary}
-          />
-        </View>
-      </Button>
-    ) : null);
-
     return(
       <View>
         <Footer>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
-            {menuButton}
+            <Button
+              onPress={this.toggleDrawer}
+            >
+              <View style={{padding: padding}}>
+                <Icon
+                  name='menu'
+                  size={size}
+                  color={dP.color.primary}
+                />
+              </View>
+            </Button>
+
             <Button
               onPress={() => this.props.navigation.navigate('Callback')}
             >

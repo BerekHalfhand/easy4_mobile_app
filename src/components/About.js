@@ -6,6 +6,7 @@ import {
   Content,
 } from 'native-base';
 import LogoTitle from 'app/src/elements/LogoTitle';
+import StandardFooter from 'app/src/elements/Footer';
 import {styles, dP} from 'app/utils/style/styles';
 import { expo } from 'app/app.json';
 
@@ -34,6 +35,7 @@ export default class About extends Screen {
             </Text>
           </View>
         </Content>
+        <StandardFooter />
       </Container>
     );
   }

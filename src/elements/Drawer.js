@@ -107,6 +107,12 @@ class Drawer extends React.Component {
       selectedPhone,
     } = this.props.user;
 
+    const {
+      authorized,
+    } = this.props.auth;
+
+    const phoneText = (selectedPhone ? <Text style={styles.headerPhone}>{phoneFormat(selectedPhone)}</Text> : null);
+    
     const increaseBalance = (
       <TouchableOpacity style={styles.itemStyle} onPress={() => this.onPressBalance(phoneFormat(selectedPhone))}>
         <View style={styles.icon}>
@@ -116,7 +122,14 @@ class Drawer extends React.Component {
       </TouchableOpacity>
     );
 
-    const phoneText = (selectedPhone ? <Text style={styles.headerPhone}>{phoneFormat(selectedPhone)}</Text> : null);
+    const logout = (authorized ? (
+      <TouchableOpacity style={styles.itemStyle} onPress={this.onPressLogout}>
+        <View style={styles.icon}>
+          <Icon name='sign-out' color={dP.color.primary} size={24} />
+        </View>
+        <Text style={styles.itemText}>Выйти</Text>
+      </TouchableOpacity>
+    ) : null );
 
     return (
       <Container>
@@ -146,12 +159,7 @@ class Drawer extends React.Component {
             </View>
             <Text style={styles.itemText}>О приложении</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.itemStyle} onPress={this.onPressLogout}>
-            <View style={styles.icon}>
-              <Icon name='sign-out' color={dP.color.primary} size={24} />
-            </View>
-            <Text style={styles.itemText}>Выйти</Text>
-          </TouchableOpacity>
+          {logout}
         </View>
       </Container>
 
@@ -160,6 +168,7 @@ class Drawer extends React.Component {
 }
 
 Drawer.propTypes = {
+  auth: PropTypes.object,
   user: PropTypes.object,
   navigation: PropTypes.object,
 };
@@ -170,6 +179,9 @@ Drawer.defaultProps = {
     lastName: '',
     phone: '',
   },
+  auth: {
+    authorized: false,
+  }
 };
 
 const mapStateToProps = state => ({ ...state });

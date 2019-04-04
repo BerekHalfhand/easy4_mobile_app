@@ -2,6 +2,7 @@ import React from 'react';
 import {ActivityIndicator, Text} from 'react-native';
 import Screen from './Screen';
 import {Button, Body, View, Container, Content} from 'native-base';
+import StandardFooter from 'app/src/elements/Footer';
 // import FingerPrint from './touchid';
 import {styles} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
@@ -108,11 +109,13 @@ class SignUp extends Screen {
                       </Button>
                     )}
                   </Body>
+
                 </Form>
               );
             }}
           />
         </Content>
+        <StandardFooter />
       </Container>
     );
   }
