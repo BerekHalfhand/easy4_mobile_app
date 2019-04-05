@@ -2,7 +2,8 @@ import React from 'react';
 import { Footer, FooterTab, Button } from 'native-base';
 import { View, Keyboard } from 'react-native';
 import {dP} from 'app/utils/style/styles';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import {readState} from 'app/src/actions';
@@ -18,16 +19,17 @@ class StandardFooter extends React.Component{
   render(){
     const size = 24;
     const padding = 10;
-    const { navigation } = this.props;
+    const { navigation, authorized } = this.props;
 
-    const homeButton = (navigation &&
+    const homeButton = (authorized &&
+                        navigation &&
                         navigation.state &&
-                        navigation.state.routeName != 'Home' ? (
+                        navigation.state.routeName != 'Main' ? (
         <Button
-          onPress={() => NavigationService.navigate('Home')}
+          onPress={() => NavigationService.navigate('Main')}
         >
           <View style={{padding: padding}}>
-            <Icon
+            <MaterialIcons
               name='home'
               size={size}
               color={dP.color.primary}
@@ -44,7 +46,7 @@ class StandardFooter extends React.Component{
               onPress={this.toggleDrawer}
             >
               <View style={{padding: padding}}>
-                <Icon
+                <MaterialIcons
                   name='menu'
                   size={size}
                   color={dP.color.primary}
@@ -56,8 +58,8 @@ class StandardFooter extends React.Component{
               onPress={() => NavigationService.navigate('Callback')}
             >
               <View style={{padding: padding}}>
-                <Icon
-                  name='phone-forwarded'
+                <MaterialCommunityIcons
+                  name='phone-incoming'
                   size={size}
                   color={dP.color.primary}
                 />
@@ -67,8 +69,8 @@ class StandardFooter extends React.Component{
               onPress={() => NavigationService.navigate('Feedback')}
             >
               <View style={{padding: padding}}>
-                <Icon
-                  name='comment'
+                <MaterialIcons
+                  name='live-help'
                   size={size}
                   color={dP.color.primary}
                 />
