@@ -6,41 +6,54 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import {readState} from 'app/src/actions';
+import NavigationService from 'app/src/services/NavigationService';
 
 class StandardFooter extends React.Component{
   toggleDrawer = () => {
     Keyboard.dismiss();
     this.props.dispatch(readState());
-
-    if (this.props.authorized)
-      this.props.navigation.openDrawer();
+    this.props.navigation.openDrawer();
   }
 
   render(){
     const size = 24;
     const padding = 10;
+    const { navigation } = this.props;
 
-    const menuButton = (this.props.authorized ? (
-      <Button
-        onPress={this.toggleDrawer}
-      >
-        <View style={{padding: padding}}>
-          <Icon
-            name='menu'
-            size={size}
-            color={dP.color.primary}
-          />
-        </View>
-      </Button>
-    ) : null);
+    const homeButton = (navigation &&
+                        navigation.state &&
+                        navigation.state.routeName != 'Home' ? (
+        <Button
+          onPress={() => NavigationService.navigate('Home')}
+        >
+          <View style={{padding: padding}}>
+            <Icon
+              name='home'
+              size={size}
+              color={dP.color.primary}
+            />
+          </View>
+        </Button>
+      ) : null );
 
     return(
       <View>
         <Footer>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
-            {menuButton}
             <Button
-              onPress={() => this.props.navigation.navigate('Callback')}
+              onPress={this.toggleDrawer}
+            >
+              <View style={{padding: padding}}>
+                <Icon
+                  name='menu'
+                  size={size}
+                  color={dP.color.primary}
+                />
+              </View>
+            </Button>
+
+            <Button
+              onPress={() => NavigationService.navigate('Callback')}
             >
               <View style={{padding: padding}}>
                 <Icon
@@ -51,7 +64,7 @@ class StandardFooter extends React.Component{
               </View>
             </Button>
             <Button
-              onPress={() => this.props.navigation.navigate('Feedback')}
+              onPress={() => NavigationService.navigate('Feedback')}
             >
               <View style={{padding: padding}}>
                 <Icon
@@ -61,6 +74,8 @@ class StandardFooter extends React.Component{
                 />
               </View>
             </Button>
+
+            {homeButton}
           </FooterTab>
         </Footer>
       </View>

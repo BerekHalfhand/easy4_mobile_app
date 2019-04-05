@@ -65,6 +65,12 @@ export default (state = {}, action) => {
       authorized: false,
     };
 
+  case T.DO_NOT_PERSIST_TOGGLE:
+    return {
+      ...state,
+      doNotPersist: !state.doNotPersist,
+    };
+
   default:
     return state;
   }

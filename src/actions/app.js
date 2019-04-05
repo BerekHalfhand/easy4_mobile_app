@@ -9,10 +9,12 @@ export const resetState = () => ({ type: T.RESET_STATE });
 
 const toggleOfferAction = () => ({ type: T.OFFER_TOGGLE, payload: {} });
 const togglePolicyAction = () => ({ type: T.POLICY_TOGGLE, payload: {} });
+const toggleDoNotPersistAction = () => ({ type: T.DO_NOT_PERSIST_TOGGLE, payload: {} });
 const markBannersSeenAction = () => ({ type: T.BANNERS_SEEN, payload: {} });
 
 export const toggleOffer = () => dispatch => dispatch(toggleOfferAction());
 export const togglePolicy = () => dispatch => dispatch(togglePolicyAction());
+export const toggleDoNotPersist = () => dispatch => dispatch(toggleDoNotPersistAction());
 export const markBannersSeen = () => dispatch => dispatch(markBannersSeenAction());
 
 

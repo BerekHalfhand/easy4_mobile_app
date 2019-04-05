@@ -76,7 +76,7 @@ export default class Tariff extends Screen {
         <View style={{marginTop: 16}}>
           <Text style={{color:'#FFFFFF', fontSize: 18}}>При нахождении на территории России:</Text>
         </View>
-        <View style={{marginTop:8}}>
+        <View style={{marginTop: 8}}>
           <FlatList
             data={this.state.tariff.characteristicsRus}
             renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
@@ -90,7 +90,7 @@ export default class Tariff extends Screen {
         <View style={{marginTop: 16}}>
           <Text style={{color:'#FFFFFF', fontSize: 18}}>При нахождении за пределами России:</Text>
         </View>
-        <View style={{marginTop:8}}>
+        <View style={{marginTop: 8}}>
           <FlatList
             data={this.state.tariff.characteristicsNonRus}
             renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
@@ -104,7 +104,7 @@ export default class Tariff extends Screen {
         <View style={{marginTop: 24}}>
           <Text style={{color:'#FFFFFF', fontSize: 20}}>Доступные устройства</Text>
         </View>
-        <View style={{marginTop:8}}>
+        <View style={{marginTop: 8}}>
           <Text style={{color:'#FFFFFF'}}>{this.state.tariff.devices}</Text>
         </View>
       </View>
@@ -116,10 +116,10 @@ export default class Tariff extends Screen {
           <View>
             <Text style={{color:'#FFFFFF', fontSize: 24}}>{ this.state.tariff.title }</Text>
           </View>
-          <View style={{marginTop:12}}>
+          <View style={{marginTop: 12}}>
             <Text style={{color:'#FFFFFF', fontSize: 14}}>{ this.state.tariff.text }</Text>
           </View>
-          <View style={{marginTop:8}}>
+          <View style={{marginTop: 8}}>
             <FlatList
               data={this.state.tariff.descriptionLong}
               renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
@@ -129,7 +129,7 @@ export default class Tariff extends Screen {
           <View style={{marginTop: 24}}>
             <Text style={{color:'#FFFFFF', fontSize: 20}}>Характеристики</Text>
           </View>
-          <View style={{marginTop:8}}>
+          <View style={{marginTop: 8}}>
             <FlatList
               data={this.state.tariff.characteristics}
               renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
@@ -140,14 +140,14 @@ export default class Tariff extends Screen {
 
           {characteristicsNonRus}
 
-          <View style={{marginTop:8}}>
+          <View style={{marginTop: 8}}>
             <Text style={{color:'#FFFFFF', fontSize: 10}}>Все цены указаны в рублях с учетом налогов</Text>
           </View>
 
           <View style={{marginTop: 24}}>
             <Text style={{color:'#FFFFFF', fontSize: 20}}>Особенности</Text>
           </View>
-          <View style={{marginTop:8}}>
+          <View style={{marginTop: 8}}>
             <FlatList
               data={this.state.tariff.quirks}
               renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
@@ -159,7 +159,7 @@ export default class Tariff extends Screen {
           <View style={{marginTop: 24}}>
             <Text style={{color:'#FFFFFF', fontSize: 20}}>Как подключить</Text>
           </View>
-          <View style={{marginTop:8}}>
+          <View style={{marginTop: 8}}>
             <Text style={{color:'#FFFFFF'}}>{`Оформить заявку на приобретение SIM-карт с тарифным планом ${this.state.tariff.title} можно на сайте easy4.pro`}</Text>
             <Text style={{color:'#FFFFFF'}}>{`Для перехода на тарифный план ${this.state.tariff.title}:`}</Text>
             <Text style={{color: '#FFFFFF'}}>{'- Наберите команду *100*1*1#'}</Text>
@@ -171,9 +171,12 @@ export default class Tariff extends Screen {
           <View style={{marginTop: 24}}>
             <Text style={{color:'#FFFFFF', fontSize: 20}}>Территория оказания услуг</Text>
           </View>
-          <View style={{marginTop:8}}>
+          <View style={{marginTop: 8}}>
             <Text style={{color:'#FFFFFF'}}>{this.state.tariff.territoryText}</Text>
-            <Text style={{color:'#FFFFFF', marginTop:8, marginBottom: 16}}>{this.state.tariff.territoryList}</Text>
+            <Text style={{color:'#FFFFFF', marginTop:8}}>{this.state.tariff.territoryList}</Text>
+          </View>
+          <View style={{marginTop: 16, marginBottom: 32}}>
+            <Text style={{color:'#FFFFFF'}}>*Тариф указан без Ндс</Text>
           </View>
           {/*<View>
             {

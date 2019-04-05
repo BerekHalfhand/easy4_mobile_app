@@ -16,6 +16,8 @@ function navigate(routeName, params) {
 }
 
 function getCurrentRoute(online = false) {
+  if (!_navigator || _navigator.state) return false;
+
   let route = _navigator.state.nav;
   let routesStack = [];
   while(route.routes) {

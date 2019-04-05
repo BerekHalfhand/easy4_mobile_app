@@ -13,13 +13,18 @@ export default (state = {}, action) => {
     console.log('USER/RESET_STATE', state);
     return {};
 
-  case T.USER_INFO_FAILURE:
-  case T.LOGIN_SUCCESS:
-  case T.LOGIN_FAILURE:
   case T.LOGOUT_SUCCESS:
   case T.LOGOUT_FAILURE:
     console.log(`USER/${type}`, payload);
     return {};
+
+  case T.LOGIN_SUCCESS:
+  case T.LOGIN_FAILURE:
+  case T.USER_INFO_FAILURE:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...(state.doNotPersist && {doNotPersist: state.doNotPersist})
+    };
 
   case T.USER_INFO_SUCCESS:
     console.log('USER/USER_INFO_SUCCESS', payload);
@@ -28,9 +33,10 @@ export default (state = {}, action) => {
       firstName: payload.firstName,
       secondName: payload.secondName,
       lastName: payload.lastName,
-      ...(payload.firstName && {fullName: `${payload.firstName} ${payload.lastName}`}),
       phone: payload.phone,
       email: payload.email,
+      ...(payload.firstName && {fullName: `${payload.firstName} ${payload.lastName}`}),
+      ...(state.doNotPersist && {doNotPersist: state.doNotPersist})
     };
 
   case T.SELECT_PHONE:
@@ -66,6 +72,12 @@ export default (state = {}, action) => {
     return {
       ...state,
       balance: null,
+    };
+
+  case T.DO_NOT_PERSIST_TOGGLE:
+    return {
+      ...state,
+      doNotPersist: !state.doNotPersist,
     };
 
   default:

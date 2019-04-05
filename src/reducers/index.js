@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, combineReducers} from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 import thunk from 'redux-thunk';
@@ -10,28 +10,42 @@ import app from './app';
 import auth from './auth';
 import user from './user';
 
+const DoNotPersistTransform = createTransform(
+  // transform state on its way to being serialized and persisted.
+  (inboundState, key) => {
+    if (inboundState.doNotPersist)
+      return {};
+
+    return { ...inboundState };
+  },
+  // transform state being rehydrated
+  null, //(outboundState, key) => {}
+  // define which reducers this transform gets called for.
+  { whitelist: ['user', 'auth'] }
+);
+
 const rootPersistConfig = {
   storage,
   key: 'root',
   stateReconciler: autoMergeLevel2,
+  transforms: [DoNotPersistTransform],
   whitelist: [
     // 'api',
-    'app',
+    // 'app',
     'auth',
     'user',
   ],
 };
 
-// const apiPersistConfig = {
-//   storage,
-//   key: 'api',
-//   blacklist: ['errors']
-// };
+const appPersistConfig = {
+  storage,
+  key: 'app',
+  blacklist: ['doNotPersist']
+};
 
 const rootReducer = combineReducers({
-  // api: persistReducer(apiPersistConfig, api),
+  app: persistReducer(appPersistConfig, app),
   api,
-  app,
   auth,
   user
 });

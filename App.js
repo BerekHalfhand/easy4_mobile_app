@@ -69,9 +69,9 @@ const Routes = createStackNavigator({
 const AppNavigator = createDrawerNavigator({
   Home: {
     screen: Routes,
-    navigationOptions: ({navigation}) => ({
-      drawerLockMode: 'locked-closed'
-    })
+    // navigationOptions: ({navigation}) => ({
+    //   drawerLockMode: 'locked-closed'
+    // })
   },
 }, {
   contentComponent: Drawer
