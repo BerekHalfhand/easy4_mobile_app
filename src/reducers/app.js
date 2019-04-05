@@ -4,6 +4,7 @@ const initialState = {
   offerAccepted: true,
   policyAccepted: true,
   bannersSeen: false,
+  doNotPersist: false,
 };
 
 export default (state = initialState, action) => {
@@ -33,13 +34,19 @@ export default (state = initialState, action) => {
       policyAccepted: !state.policyAccepted,
     };
 
+  case T.DO_NOT_PERSIST_TOGGLE:
+    console.log('APP/DO_NOT_PERSIST_TOGGLE', state);
+    return {
+      ...state,
+      doNotPersist: !state.doNotPersist,
+    };
+
   case T.BANNERS_SEEN:
     console.log('APP/BANNERS_SEEN', payload);
     return {
       ...state,
       bannersSeen: true,
     };
-
 
   default:
     return state;

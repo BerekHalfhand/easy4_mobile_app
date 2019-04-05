@@ -112,7 +112,7 @@ class Drawer extends React.Component {
     } = this.props.auth;
 
     const phoneText = (selectedPhone ? <Text style={styles.headerPhone}>{phoneFormat(selectedPhone)}</Text> : null);
-    
+
     const increaseBalance = (
       <TouchableOpacity style={styles.itemStyle} onPress={() => this.onPressBalance(phoneFormat(selectedPhone))}>
         <View style={styles.icon}>
@@ -133,7 +133,7 @@ class Drawer extends React.Component {
 
     return (
       <Container>
-        <TouchableHighlight style={styles.headerContainer} onPress={() => this.navigateTo('Main')}>
+        <TouchableHighlight style={styles.headerContainer} onPress={() => (authorized ? this.navigateTo('Main') : null)}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <Text style={styles.headerName}>{fullName || ''}</Text>
             {phoneText}

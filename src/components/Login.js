@@ -1,13 +1,14 @@
 import React from 'react';
 import { ActivityIndicator, Text } from 'react-native';
 import Screen from './Screen';
-import {Button, Body, View, Container, Content } from 'native-base';
+import {Button, Body, View, Container, Content, CheckBox } from 'native-base';
 import StandardFooter from 'app/src/elements/Footer';
 import {styles} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
+import NavigationService from 'app/src/services/NavigationService';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
-import {login} from 'app/src/actions';
+import {login, toggleDoNotPersist} from 'app/src/actions';
 import { Formik } from 'formik';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -44,11 +45,15 @@ class Login extends Screen {
   };
 
   onPressRecovery() {
-    this.props.navigation.navigate('Recovery');
+    NavigationService.navigate('Recovery');
+  }
+
+  onPressDoNotPersist() {
+    this.props.dispatch(toggleDoNotPersist());
   }
 
   formSubmit(values){
-    console.log('form submit', values);
+    // console.log('form submit', values);
     this.props.dispatch(login(values.login, values.password));
   }
 
@@ -96,7 +101,7 @@ class Login extends Screen {
                     )}
                   </Body>
 
-                  <Body style={{margin: 24}}>
+                  <Body style={{margin: 24, marginTop: 0}}>
                     <Button full transparent rounded
                       style={styles.buttonPrimaryInverse}
                       onPress={this.onPressRecovery}
@@ -105,6 +110,16 @@ class Login extends Screen {
                         Забыли пароль?
                       </Text>
                     </Button>
+                  </Body>
+
+                  <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 24}}>
+                    <CheckBox checked={this.props.doNotPersist}
+                      onPress={this.onPressDoNotPersist}
+                      style={styles.checkbox}
+                    />
+                    <View style={{marginLeft: 12}}>
+                      <Text style={styles.textLabel}>Гостевой вход</Text>
+                    </View>
                   </Body>
                 </Form>
               );
@@ -118,6 +133,6 @@ class Login extends Screen {
   }
 }
 
-const mapStateToProps = state => state.api;
+const mapStateToProps = state => ({...state.api, ...state.app});
 
 export default connect(mapStateToProps)(Login);

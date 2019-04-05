@@ -54,6 +54,7 @@ export const RESET_STATE = 'RESET_STATE';
 
 export const OFFER_TOGGLE = 'OFFER_TOGGLE';
 export const POLICY_TOGGLE = 'POLICY_TOGGLE';
+export const DO_NOT_PERSIST_TOGGLE = 'DO_NOT_PERSIST_TOGGLE';
 
 export const BANNERS_SEEN = 'BANNERS_SEEN';
 
