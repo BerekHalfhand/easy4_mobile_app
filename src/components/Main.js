@@ -11,8 +11,7 @@ import {
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import {declOfNumRus, phoneFormat} from 'app/utils/helpers';
+import {phoneFormat} from 'app/utils/helpers';
 import {userInfo, fetchMsisdns} from 'app/src/actions';
 import NavigationService from 'app/src/services/NavigationService';
 

@@ -6,7 +6,7 @@ export const declOfNumRus = (n, titles) => {
 
 export const phoneFormat = (phone) => {
   if (!phone || typeof phone !== 'string') return null;
-  
+
   String.prototype.insert = function (index, string) {
     if (index > 0)
       return this.substring(0, index) + string + this.substring(index, this.length);
@@ -17,4 +17,18 @@ export const phoneFormat = (phone) => {
   };
 
   return phone.insert(-2, '-').insert(-5, '-').insert(-9, ') ').insert(-14, ' (').insert(0, '+');
+};
+
+export const getQueryStringParams = query => {
+  return query
+    ? (/^[?#]/.test(query) ? query.slice(1) : query)
+      .slice(query.indexOf('?') + 1)
+      .split('&')
+      .reduce((params, param) => {
+        let [key, value] = param.split('=');
+        params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+        return params;
+      }, {}
+      )
+    : {};
 };

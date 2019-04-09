@@ -48,6 +48,8 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     ...data
   });
 
+  // console.log(`${baseUrl+url} => API`);
+
   fetch(baseUrl+url, {
     method,
     headers: headers || baseHeaders,

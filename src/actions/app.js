@@ -21,7 +21,7 @@ export const markBannersSeen = () => dispatch => dispatch(markBannersSeenAction(
 export function sendLead(data, actions) {
   return apiAction({
     baseUrlOverride: 'https://crm.easy4.pro',
-    url: '/rest-api/crm_leads/putlead/?a=a',
+    url: '/rest-api/crm_leads/putlead/',
     method: 'POST',
     data,
     onSuccess: data => sendLeadSuccess(data, actions),

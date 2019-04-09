@@ -213,3 +213,66 @@ const restorePasswordFailure = data => {
     payload: data
   };
 };
+
+// ГОСУСЛУГИ
+
+export function esiaLink() {
+  return apiAction({
+    url: '/esia/link',
+    onSuccess: esiaLinkSuccess,
+    onFailure: esiaLinkFailure,
+    label: T.ESIA_LINK,
+    errorLabel: 'loginError',
+    busyScreen: 'login',
+  });
+}
+
+const esiaLinkSuccess = data => dispatch => {
+  dispatch({
+    type: T.ESIA_LINK_SUCCESS,
+    payload: data
+  });
+
+  dispatch(apiErrorDismiss('loginError'));
+  if (data && data.url) {
+    NavigationService.navigate('Esia', {link: data.url});
+  }
+};
+
+const esiaLinkFailure = data => {
+  return {
+    type: T.ESIA_LINK_FAILURE,
+    payload: data
+  };
+};
+
+export function esiaAuth(code) {
+  return apiAction({
+    url: `/esia/auth/${code}`,
+    onSuccess: esiaAuthSuccess,
+    successTransition: 'Main',
+    onFailure: esiaAuthFailure,
+    failureTransition: 'Login',
+    label: T.ESIA_AUTH,
+    errorLabel: 'loginError',
+  });
+}
+
+const esiaAuthSuccess = data => dispatch => {
+  dispatch({
+    type: T.ESIA_AUTH_SUCCESS,
+    payload: data
+  });
+
+  if (data && data.accessToken) {
+    dispatch(userInfo(data.accessToken));
+    dispatch(fetchMsisdns(data.accessToken));
+  }
+};
+
+const esiaAuthFailure = data => {
+  return {
+    type: T.ESIA_AUTH_FAILURE,
+    payload: data
+  };
+};

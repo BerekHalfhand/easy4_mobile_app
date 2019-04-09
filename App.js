@@ -14,6 +14,7 @@ import 'moment/locale/ru';
 import About from './src/components/About';
 import Loader from './src/components/Loader';
 import Banners from './src/components/Banners';
+import Esia from './src/components/Esia';
 import Offline from './src/components/Offline';
 import Home from './src/components/Home';
 import Login from './src/components/Login';
@@ -44,6 +45,7 @@ const Routes = createStackNavigator({
   About: { screen: About },
   Loader: { screen: Loader },
   Banners: { screen: Banners },
+  Esia: { screen: Esia },
   Offline: { screen: Offline },
   Home: { screen: Home },
   Login: { screen: Login },

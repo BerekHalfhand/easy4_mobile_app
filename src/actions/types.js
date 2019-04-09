@@ -31,6 +31,14 @@ export const LOGOUT = 'LOGOUT';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
+export const ESIA_LINK = 'ESIA_LINK';
+export const ESIA_LINK_SUCCESS = 'ESIA_LINK_SUCCESS';
+export const ESIA_LINK_FAILURE = 'ESIA_LINK_FAILURE';
+
+export const ESIA_AUTH = 'ESIA_AUTH';
+export const ESIA_AUTH_SUCCESS = 'ESIA_AUTH_SUCCESS';
+export const ESIA_AUTH_FAILURE = 'ESIA_AUTH_FAILURE';
+
 // USER
 
 export const USER_INFO = 'USER_INFO';

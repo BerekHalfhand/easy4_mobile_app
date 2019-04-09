@@ -12,6 +12,7 @@ export default (state = {}, action) => {
   case T.RESET_STATE:
   case T.LOGOUT_SUCCESS:
   case T.LOGOUT_FAILURE:
+  case T.ESIA_LINK_FAILURE:
     console.log(`AUTH/${type}`, state);
     return {};
 
@@ -50,7 +51,8 @@ export default (state = {}, action) => {
     return state;
 
   case T.LOGIN_SUCCESS:
-    console.log('AUTH/LOGIN_SUCCESS', payload);
+  case T.ESIA_AUTH_SUCCESS:
+    console.log(`AUTH/${type}`, payload);
     return {
       ...state,
       accessToken: payload.accessToken,
@@ -66,9 +68,17 @@ export default (state = {}, action) => {
     };
 
   case T.DO_NOT_PERSIST_TOGGLE:
+    console.log(`AUTH/${type}`, payload);
     return {
       ...state,
       doNotPersist: !state.doNotPersist,
+    };
+
+  case T.ESIA_LINK_SUCCESS:
+    console.log(`AUTH/${type}`, payload);
+    return {
+      ...state,
+      esiaLink: payload.url,
     };
 
   default:
