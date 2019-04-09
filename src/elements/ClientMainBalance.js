@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'native-base';
 import { Text, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-
+import {styles} from 'app/utils/style/styles';
 
 export default class ClientMainBalance extends React.Component{
   constructor(props){
@@ -14,24 +14,13 @@ export default class ClientMainBalance extends React.Component{
     const scale =  width / guidelineBaseWidth;
 
     return(
-      <View>
-        <View style={{flex: 1, flexDirection: 'row', fontSize:16}}>
-          <View >
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.25, fontSize:16, color:'#FFFFFF'}}>
-              У вас на балансе
-            </Text>
-          </View>
-        </View>
-        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems:'flex-end'}}>
-          <View style={{}}>
-            <Text style={{fontFamily:'SFCT_Light', fontSize:(46*scale), marginRight:10, marginTop:10, color:'#FFFFFF', letterSpacing:-2.5}}>
-              {this.props.balance}
-            </Text>
-          </View>
-          <View>
-            <Text style={{fontSize:24, color:'#FFFFFF'}}>₽</Text>
-          </View>
-        </View>
+      <View style={{justifyContent: 'flex-end'}}>
+        <Text style={{fontFamily:'Roboto_light', fontSize:18, color:'#FFFFFF'}}>
+          баланс
+        </Text>
+        <Text style={{fontFamily:'Roboto_black', fontSize:(40*scale), marginRight:10, color:'#FFFFFF'}}>
+          {this.props.balance} ₽
+        </Text>
       </View>
 
     );

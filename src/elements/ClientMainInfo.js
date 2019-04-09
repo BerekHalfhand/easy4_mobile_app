@@ -26,42 +26,50 @@ export default class ClientMainInfo extends React.Component{
 
     return(
       <View style={styles.pane}>
-        <View style={{flex: 1, flexDirection: 'row', alignContent:'space-between',
-          shadowColor:'#000000',
-          shadowRadius:5,
-          shadowOffset:{width:10,height:16}
-        }}>
-          <View style={{width:'33%'}}>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
-              Звонки
-            </Text>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
+        <Text style={{fontFamily:'Roboto_light', fontSize:24, color:dP.color.primary}}>
+          Вам доступно
+        </Text>
+        <View style={{flex: 1, flexDirection: 'row', alignContent:'space-between' }}>
+          <View style={{width:'25%'}}>
+            <Text style={{fontFamily:'Roboto_black', letterSpacing:-1.5 , fontSize:36, textAlign:'center', color:dP.color.primary}}>
               {this.calculateRemaning(balance, this.state.callsRate)}
             </Text>
-            <Text style={{fontFamily:'SFCT_Regular', fontSize:13, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
-              мин
+          </View>
+          <View style={{width:'12%', flex: 1, justifyContent: 'center'}}>
+            <Text style={{fontFamily:'Roboto_light', letterSpacing:-.5, fontSize:14, textAlign:'center'}}>
+              или
             </Text>
           </View>
-          <View style={{width:'33%',borderLeftWidth:1, borderRightWidth:1, borderLeftColor:'#F2F2F2', borderRightColor:'#F2F2F2'}}>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
-              Интернет
-            </Text>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
+          <View style={{width:'25%'}}>
+            <Text style={{fontFamily:'Roboto_black', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary}}>
               {this.calculateRemaning(balance, this.state.trafficRate)}
             </Text>
-            <Text style={{fontFamily:'SFCT_Regular', fontSize:13, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
-              мб
+          </View>
+          <View style={{width:'12%', flex: 1, justifyContent: 'center'}}>
+            <Text style={{fontFamily:'Roboto_light', letterSpacing:-.5, fontSize:14, textAlign:'center'}}>
+              или
             </Text>
           </View>
-          <View style={{width:'33%'}}>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-0.15, fontSize:14, textAlign:'center'}}>
-              SMS
-            </Text>
-            <Text style={{fontFamily:'SFCT_Regular', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary, paddingTop:8, paddingBottom:8}}>
+          <View style={{width:'25%'}}>
+            <Text style={{fontFamily:'Roboto_black', letterSpacing:-1.5, fontSize:34, textAlign:'center', color:dP.color.primary}}>
               {this.calculateRemaning(balance, this.state.smsRate)}
             </Text>
-            <Text style={{fontFamily:'SFCT_Regular', fontSize:13, textAlign:'center', color: 'rgba(0,0,0,0.4)'}}>
-              шт
+          </View>
+        </View>
+        <View style={{flex: 1, flexDirection: 'row', alignContent:'space-between' }}>
+          <View style={{width:'25%'}}>
+            <Text style={{fontFamily:'Roboto_light', letterSpacing:-.5, fontSize:13, textAlign:'center', color:dP.color.primary}}>
+              минут
+            </Text>
+          </View>
+          <View style={{width:'50%'}}>
+            <Text style={{fontFamily:'Roboto_light', letterSpacing:-.5, fontSize:13, textAlign:'center', color:dP.color.primary}}>
+              Мб интернета
+            </Text>
+          </View>
+          <View style={{width:'25%'}}>
+            <Text style={{fontFamily:'Roboto_light', letterSpacing:-.5, fontSize:13, textAlign:'center', color:dP.color.primary}}>
+              SMS
             </Text>
           </View>
         </View>

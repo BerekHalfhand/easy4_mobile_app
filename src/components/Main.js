@@ -8,19 +8,19 @@ import {
   ActionSheet,
   Content
 } from 'native-base';
-import {styles} from 'app/utils/style/styles';
+import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import {declOfNumRus, phoneFormat} from 'app/utils/helpers';
-import {userInfo, selectPhone, fetchMsisdns, fetchBalance} from 'app/src/actions';
-
+import {userInfo, fetchMsisdns} from 'app/src/actions';
+import NavigationService from 'app/src/services/NavigationService';
 
 import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import LogoTitle from 'app/src/elements/LogoTitle';
-import TariffPane from 'app/src/elements/TariffPane';
+import {travel} from 'app/src/elements/TariffPane';
 
 class Main extends Screen{
   constructor(props){
@@ -79,23 +79,6 @@ class Main extends Screen{
   };
 
 
-  getBalance = async (phone) => {
-    // console.log('getBalance:', phone);
-    const { accessToken, dispatch } = this.props;
-    dispatch(fetchBalance(phone, accessToken));
-
-    // 26 марта, 5 апреля
-    // this.setState({
-    //   balanceFetched: moment().format('D MMMM'),
-    // });
-  }
-
-  selectPhone = msisdn => {
-    this.props.dispatch(selectPhone(msisdn));
-    this.props.navigation.setParams({ phone: msisdn });
-    this.getBalance(msisdn);
-  }
-
   hasBalance = (user) => {
     return user &&
       user.balance !== null &&
@@ -114,28 +97,6 @@ class Main extends Screen{
     }
   }
 
-  onPressNumbers() {
-    if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length) {
-      let phones = this.props.user.msisdns.map(v => phoneFormat(v));
-
-      ActionSheet.show(
-        {
-          options: phones.concat(['Отмена']),
-          cancelButtonIndex: this.props.user.msisdns.length,
-          title: 'Посмотреть баланс'
-        },
-        buttonIndex => {
-          if (buttonIndex == this.props.user.msisdns.length) //Отмена
-            return false;
-
-          let phone = this.props.user.msisdns[buttonIndex];
-
-          this.selectPhone(phone);
-        }
-      );
-    }
-  }
-
   render() {
     const BUTTONS = ['Банковская карта', 'Отмена'];
     const CANCEL_INDEX = 2;
@@ -147,12 +108,39 @@ class Main extends Screen{
       : null);
 
     const mainInfo = (this.hasBalance(this.props.user) ?
-      <ClientMainInfo balance={this.props.user.balance} />
+      (
+        <View>
+          <Text style={{fontFamily:'Roboto_light', fontSize:18, color:'#FFFFFF', marginTop: 5, marginBottom: -5}}>
+            тариф
+          </Text>
+          <Text style={{fontFamily:'Roboto_black', fontSize:36, color:'#FFFFFF'}}>
+            Travel
+          </Text>
+          <Text style={{fontFamily:'Roboto_light', fontSize:13, color:'#FFFFFF'}}>
+            пакеты минут не включены
+          </Text>
+
+          <ClientMainInfo balance={this.props.user.balance} />
+
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <Text style={{fontFamily:'Roboto', fontSize:14, color:'#FFFFFF', marginLeft: 15}}
+              onPress={() => NavigationService.navigate('Tariff', {tariff: travel})}
+            >
+              условия тарифа
+            </Text>
+            <Text style={{fontFamily:'Roboto', fontSize:14, color:'#FFFFFF', marginLeft: 15}}
+              onPress={() => NavigationService.navigate('TariffList')}
+            >
+              сменить тариф
+            </Text>
+          </View>
+        </View>
+      )
       : null);
 
     const topUpButton = (this.props.user && this.props.user.selectedPhone ? (
-      <Button  rounded
-        style={styles.buttonPrimaryCash}
+      <Button rounded
+        style={{...styles.buttonPrimary, width: '100%', justifyContent: 'center', alignItems: 'center'}}
         onPress={() =>
           ActionSheet.show(
             {
@@ -166,53 +154,46 @@ class Main extends Screen{
             }
           )}
       >
-        <Text style={{...styles.textButtonPrimary, fontSize:12}}>
+        <Text style={{ fontFamily: 'Roboto_black', color: dP.color.primary, fontSize:16, textAlign: 'center'}}>
           Пополнить
         </Text>
       </Button>
     ) : null);
 
     const balanceBlock = (this.props.user.selectedPhone ? (
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        <View style={{width:'60%'}}>
+      <View style={{flex: 1, flexDirection: 'row', marginBottom: 20, alignItems: 'flex-end'}}>
+        <View style={{width:'55%'}}>
           {balance}
         </View>
-        <View style={{width:'40%', alignItems:'flex-end'}}>
-          <View style={{flex: 1, justifyContent: 'flex-end', alignContent:'center'}}>
+        <View style={{width:'45%'}}>
+          <View style={{flex: 1, justifyContent: 'flex-end', alignContent:'center', marginBottom: 10}}>
             {topUpButton}
           </View>
         </View>
       </View>
     ) : null);
 
-    const msisdns = (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length > 0 ? (
-      <View style={{marginBottom:50}}>
-        <View style={{flex: 1, flexDirection: 'row', marginTop:40, height:24}}>
-          <Button full transparent rounded
-            style={styles.buttonPrimaryInverse}
-            onPress={this.onPressNumbers}
-          >
-            <View>
-              <Text onPress={this.onPressNumbers} style={styles.textLabel}>
-                Ваши номера
-              </Text>
-            </View>
-            <View>
-              <Icon active name="arrow-forward" style={{color:'#FED657', fontSize:24, lineHeight:24, marginLeft:8}}/>
-            </View>
 
-          </Button>
-        </View>
-      </View>
-    ) : null );
-
-    return(
+    return (
       <Container style={styles.container}>
-        <View>
-          <Image
-            style={{width, position:'absolute', top: 10}}
-            source={require('app/assets/image/balls.png')}
-          />
+        <View style={{
+          width,
+          height: 180,
+          position:'absolute',
+          top: 110,
+          backgroundColor: dP.color.tariffs.travel,
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+        }}
+        >
+          <View style={{ width: '50%' }}>
+            <Image
+              style={{ height: 180, width: '100%' }}
+              resizeMode='cover'
+              source={require('app/assets/image/tariffs/travel.png')}
+            />
+          </View>
         </View>
         <ScrollView
           refreshControl={
@@ -229,13 +210,7 @@ class Main extends Screen{
 
             {balanceBlock}
 
-            {msisdns}
-
             {mainInfo}
-
-            <TariffPane tariff='travel' />
-
-            <TariffPane tariff='connect' />
 
           </Content>
         </ScrollView>

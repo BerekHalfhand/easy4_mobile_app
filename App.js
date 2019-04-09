@@ -97,6 +97,8 @@ class App extends React.Component {
       require('app/assets/image/banners/2.jpg'),
       require('app/assets/image/banners/3.jpg'),
       require('app/assets/image/banners/4.jpg'),
+      require('app/assets/image/tariffs/travel.png'),
+      require('app/assets/image/tariffs/connect.png'),
       require('app/assets/image/logo3x.png'),
     ];
 
@@ -111,8 +113,12 @@ class App extends React.Component {
       'SFCT_Regular': require('app/assets/fonts/SFCompactText-Regular.ttf'),
       'SFCT_Light': require('app/assets/fonts/SFCompactText-Light.ttf'),
 
-      'Roboto': require('native-base/Fonts/Roboto.ttf'),
-      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      'Roboto': require('app/assets/fonts/Roboto-Regular.ttf'),
+      'Roboto_thin': require('app/assets/fonts/Roboto-Thin.ttf'),
+      'Roboto_light': require('app/assets/fonts/Roboto-Light.ttf'),
+      'Roboto_medium': require('app/assets/fonts/Roboto-Medium.ttf'),
+      'Roboto_bold': require('app/assets/fonts/Roboto-Bold.ttf'),
+      'Roboto_black': require('app/assets/fonts/Roboto-Black.ttf'),
     });
 
     return Promise.all([loadFonts, cacheImages]);

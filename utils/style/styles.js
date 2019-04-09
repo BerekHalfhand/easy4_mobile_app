@@ -7,6 +7,9 @@ export const dP ={
     accent: '#FED657',
     white: '#FFFFFF',
     error: 'red',
+    tariffs: {
+      travel: '#31BEEF',
+    }
   },
   size: {
     h: 24,
@@ -209,12 +212,13 @@ export const styles = StyleSheet.create({
     right: 0
   },
   pane: {
-    marginBottom:44,
+    marginTop: 10,
+    marginBottom: 10,
     backgroundColor:dP.color.white,
     borderRadius:8,
     padding:16,
     shadowColor:'#002B55',
-    shadowRadius:32,
+    shadowRadius:16,
     shadowOffset:{width:0,height:16},
     shadowOpacity:1
   },
