@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import Screen from './Screen';
 import {Button, Body, View, Container, Content, CheckBox } from 'native-base';
 import StandardFooter from 'app/src/elements/Footer';
@@ -10,6 +10,8 @@ import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
 import {login, toggleDoNotPersist, esiaLink} from 'app/src/actions';
 import { Formik } from 'formik';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { LocalAuthentication, SecureStore } from 'expo';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import {
@@ -18,6 +20,7 @@ import {
   withNextInputAutoFocusForm
 } from 'react-native-formik';
 import * as Yup from 'yup';
+
 
 const validationSchema = Yup.object().shape({
   login: Yup.string()
@@ -37,6 +40,10 @@ class Login extends Screen {
   constructor(props) {
     super(props);
     autoBind(this);
+    this.state = {
+      savedLogin: null,
+    };
+    this.checkSaved();
   }
 
   static navigationOptions = {
@@ -56,12 +63,48 @@ class Login extends Screen {
     this.props.dispatch(esiaLink());
   }
 
-  formSubmit(values){
+  onPressTouchId = async () => {
+    const {dispatch, bioTouch, bioFace, bioSaved} = this.props;
+    if (bioSaved && (bioTouch || bioFace)) {
+      LocalAuthentication.authenticateAsync()
+        .then(result => {
+          console.log('authenticateAsync', result);
+          if (result.success) {
+            Promise.all([
+              SecureStore.getItemAsync('login'),
+              SecureStore.getItemAsync('password')]
+            )
+              .then(credentials => this.props.dispatch(login(credentials[0], credentials[1])));
+          }
+        });
+    }
+  }
+
+  checkSaved = async () => {
+    let savedLogin = await SecureStore.getItemAsync('login');
+    if (savedLogin) {
+      this.setState({savedLogin});
+    }
+  }
+
+  formSubmit = values => {
     // console.log('form submit', values);
     this.props.dispatch(login(values.login, values.password));
   }
 
   render() {
+    const {bioTouch, bioFace, bioSaved} = this.props;
+    const biometrics = (bioSaved && (bioTouch || bioFace) && this.state.savedLogin ? (
+      <View style={{alignItems: 'center', marginBottom: 8 }}>
+        <TouchableOpacity
+          style={{padding: 8}}
+          onPress={this.onPressTouchId}
+        >
+          <MaterialIcons name='fingerprint' color='red' size={48} />
+        </TouchableOpacity>
+      </View>
+    ) : null );
+
     return (
       <Container style={styles.container}>
         <Content style={styles.content}>
@@ -105,7 +148,7 @@ class Login extends Screen {
                         </Button>
 
                         <Button full transparent rounded
-                          style={{...styles.buttonPrimaryInverse, marginBottom: 8}}
+                          style={{...styles.buttonPrimaryInverse, marginBottom: 4}}
                           onPress={this.onPressRecovery}
                         >
                           <Text style={styles.textButtonSecondary}>
@@ -114,7 +157,7 @@ class Login extends Screen {
                         </Button>
 
                         <Button full transparent rounded
-                          style={{...styles.buttonPrimaryInverse, width: '100%', marginBottom: 16}}
+                          style={{...styles.buttonPrimaryInverse, marginBottom: 8}}
                           onPress={this.onPressEsia}
                         >
                           <Text style={styles.textButtonSecondary}>
@@ -122,7 +165,9 @@ class Login extends Screen {
                           </Text>
                         </Button>
 
-                        <Body style={{flexDirection: 'row', justifyContent: 'center'}}>
+                        { biometrics }
+
+                        <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 4}}>
                           <CheckBox checked={this.props.doNotPersist}
                             onPress={this.onPressDoNotPersist}
                             style={styles.checkbox}

@@ -9,7 +9,8 @@ import { logout, resetState } from 'app/src/actions';
 import PropTypes from 'prop-types';
 // import { DrawerItems, SafeAreaView } from 'react-navigation';
 import NavigationService from 'app/src/services/NavigationService';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {phoneFormat} from 'app/utils/helpers';
 
 const styles = StyleSheet.create({
@@ -116,7 +117,7 @@ class Drawer extends React.Component {
     const increaseBalance = (
       <TouchableOpacity style={styles.itemStyle} onPress={() => this.onPressBalance(phoneFormat(selectedPhone))}>
         <View style={styles.icon}>
-          <Icon name='money' color={dP.color.primary} size={24} />
+          <MaterialCommunityIcons name='wallet' color={dP.color.primary} size={24} />
         </View>
         <Text style={styles.itemText}>Пополнить баланс</Text>
       </TouchableOpacity>
@@ -125,7 +126,7 @@ class Drawer extends React.Component {
     const logout = (authorized ? (
       <TouchableOpacity style={styles.itemStyle} onPress={this.onPressLogout}>
         <View style={styles.icon}>
-          <Icon name='sign-out' color={dP.color.primary} size={24} />
+          <MaterialCommunityIcons name='logout-variant' color={dP.color.primary} size={24} />
         </View>
         <Text style={styles.itemText}>Выйти</Text>
       </TouchableOpacity>
@@ -143,19 +144,19 @@ class Drawer extends React.Component {
           {selectedPhone ? increaseBalance : null}
           <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('Contacts')}>
             <View style={styles.icon}>
-              <Icon name='envelope-open' color={dP.color.primary} size={24} />
+              <MaterialCommunityIcons name='account-circle' color={dP.color.primary} size={24} />
             </View>
             <Text style={styles.itemText}>Наши контакты</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemStyle} onPress={this.onPressTariffs}>
             <View style={styles.icon}>
-              <Icon name='briefcase' color={dP.color.primary} size={24} />
+              <MaterialIcons name='insert-chart' color={dP.color.primary} size={24} />
             </View>
             <Text style={styles.itemText}>Наши тарифы</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('About')}>
             <View style={styles.icon}>
-              <Icon name='question-circle-o' color={dP.color.primary} size={24} />
+              <MaterialCommunityIcons name='information' color={dP.color.primary} size={24} />
             </View>
             <Text style={styles.itemText}>О приложении</Text>
           </TouchableOpacity>

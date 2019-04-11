@@ -48,6 +48,29 @@ export default (state = initialState, action) => {
       bannersSeen: true,
     };
 
+  case T.BIOMETRY_SET_TYPES:
+    console.log('APP/BIOMETRY_SET_TYPES', payload);
+    return {
+      ...state,
+      bioTouch: payload.supported.indexOf(1) > -1, // true if supports touchId
+      bioFace: payload.supported.indexOf(2) > -1,  // true if supports faceId
+    };
+
+  case T.BIOMETRY_SET_SAVED:
+    console.log('APP/BIOMETRY_SET_SAVED', payload);
+    return {
+      ...state,
+      bioSaved: payload.saved,
+    };
+
+  case T.LOGOUT_SUCCESS:
+  case T.LOGOUT_FAILURE:
+    console.log(`APP/${type}`, payload);
+    return {
+      ...state,
+      doNotPersist: false,
+    };
+
   default:
     return state;
   }

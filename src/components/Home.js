@@ -16,7 +16,8 @@ import Screen from './Screen';
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import StandardFooter from 'app/src/elements/Footer';
-import {checkToken, toggleOffer, togglePolicy, readState, resetState} from 'app/src/actions';
+import {checkToken, toggleOffer, togglePolicy, setBiometryTypes, setBiometrySaved, readState, resetState} from 'app/src/actions';
+import { LocalAuthentication } from 'expo';
 
 
 class Home extends Screen {
@@ -26,6 +27,7 @@ class Home extends Screen {
 
     props.dispatch(readState());
     this.fetchAuthData();
+    this.determineBiometryStatus();
   }
 
   static navigationOptions = {
@@ -73,6 +75,20 @@ class Home extends Screen {
     } catch (e) {
       console.log('Token check error', e);
     }
+  }
+
+  determineBiometryStatus = () => {
+    LocalAuthentication.supportedAuthenticationTypesAsync()
+      .then(e => {
+        console.log('supportedAuthenticationTypesAsync', e);
+        this.props.dispatch(setBiometryTypes(e));
+      });
+
+    LocalAuthentication.isEnrolledAsync()
+      .then(e => {
+        console.log('isEnrolledAsync', e);
+        this.props.dispatch(setBiometrySaved(e));
+      });
   }
 
   renderOfferCheckbox() {

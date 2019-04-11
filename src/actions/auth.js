@@ -3,6 +3,7 @@ import {apiAction, apiErrorDismiss} from './api';
 import {userInfo, fetchMsisdns} from './user';
 import NavigationService from 'app/src/services/NavigationService';
 import { Alert } from 'react-native';
+import { SecureStore } from 'expo';
 
 const defaultError = 'Что-то пошло не так! Мы уже работаем над этим';
 
@@ -43,7 +44,7 @@ export function login(login, password) {
       login,
       password
     },
-    onSuccess: loginSuccess,
+    onSuccess: data => loginSuccess(data, login, password),
     successTransition: 'Main',
     onFailure: loginFailure,
     label: T.LOGIN,
@@ -52,7 +53,7 @@ export function login(login, password) {
   });
 }
 
-const loginSuccess = data => dispatch => {
+const loginSuccess = (data, login, password) => dispatch => {
   dispatch({
     type: T.LOGIN_SUCCESS,
     payload: data
@@ -61,6 +62,9 @@ const loginSuccess = data => dispatch => {
   if (data && data.accessToken) {
     dispatch(userInfo(data.accessToken));
     dispatch(fetchMsisdns(data.accessToken));
+
+    SecureStore.setItemAsync('login', login);
+    SecureStore.setItemAsync('password', password);
   }
 };
 
