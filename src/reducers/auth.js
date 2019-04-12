@@ -16,10 +16,6 @@ export default (state = {}, action) => {
     console.log(`AUTH/${type}`, state);
     return {};
 
-  case T.CHECK_TOKEN_SUCCESS:
-    console.log('AUTH/CHECK_TOKEN_SUCCESS', payload);
-    return {...state, authorized: true};
-
   case T.CHECK_TOKEN_FAILURE:
     console.log('AUTH/CHECK_TOKEN_FAILURE');
     return {
@@ -33,20 +29,20 @@ export default (state = {}, action) => {
       ...state,
       accessToken: payload.accessToken,
       refreshToken: payload.refreshToken,
-      authorized: true,
     };
 
   case T.UPDATE_TOKEN_FAILURE:
+  case T.LOGIN_FAILURE:
     console.log('AUTH/UPDATE_TOKEN_FAILURE');
     return {
       ...state,
       accessToken: null,
       refreshToken: null,
-      authorized: false,
     };
 
   case T.SIGNUP_SUCCESS:
   case T.SIGNUP_FAILURE:
+  case T.CHECK_TOKEN_SUCCESS:
     console.log(`AUTH/${type}`, payload);
     return state;
 
@@ -57,14 +53,6 @@ export default (state = {}, action) => {
       ...state,
       accessToken: payload.accessToken,
       refreshToken: payload.refreshToken,
-      authorized: true,
-    };
-
-  case T.LOGIN_FAILURE:
-    console.log('AUTH/LOGIN_FAILURE');
-    return {
-      ...state,
-      authorized: false,
     };
 
   case T.DO_NOT_PERSIST_TOGGLE:

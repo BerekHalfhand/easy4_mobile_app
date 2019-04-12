@@ -40,7 +40,7 @@ const sendLeadSuccess = (data, actions) => dispatch => {
     const {auth, app} = store.getState();
     dispatch(apiErrorDismiss('sendLeadError'));
     actions.setSubmitting(false);
-    if (auth.authorized)
+    if (auth.accessToken)
       NavigationService.navigate('Main');
     else {
       if (app.bannersSeen)

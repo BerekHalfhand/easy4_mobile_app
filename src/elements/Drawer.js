@@ -109,7 +109,7 @@ class Drawer extends React.Component {
     } = this.props.user;
 
     const {
-      authorized,
+      accessToken,
     } = this.props.auth;
 
     const phoneText = (selectedPhone ? <Text style={styles.headerPhone}>{phoneFormat(selectedPhone)}</Text> : null);
@@ -123,7 +123,7 @@ class Drawer extends React.Component {
       </TouchableOpacity>
     );
 
-    const logout = (authorized ? (
+    const logout = (accessToken ? (
       <TouchableOpacity style={styles.itemStyle} onPress={this.onPressLogout}>
         <View style={styles.icon}>
           <MaterialCommunityIcons name='logout-variant' color={dP.color.primary} size={24} />
@@ -134,7 +134,7 @@ class Drawer extends React.Component {
 
     return (
       <Container>
-        <TouchableHighlight style={styles.headerContainer} onPress={() => (authorized ? this.navigateTo('Main') : null)}>
+        <TouchableHighlight style={styles.headerContainer} onPress={() => (accessToken ? this.navigateTo('Main') : null)}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <Text style={styles.headerName}>{fullName || ''}</Text>
             {phoneText}
@@ -181,7 +181,7 @@ Drawer.defaultProps = {
     phone: '',
   },
   auth: {
-    authorized: false,
+    accessToken: '',
   }
 };
 

@@ -24,7 +24,7 @@ class LogoTitle extends React.Component {
     Keyboard.dismiss();
     this.props.dispatch(readState());
 
-    if (this.props.authorized)
+    if (this.props.accessToken)
       this.props.navigation.openDrawer();
   }
 
@@ -58,11 +58,11 @@ class LogoTitle extends React.Component {
 }
 
 LogoTitle.propTypes = {
-  authorized: PropTypes.bool,
+  accessToken: PropTypes.string,
 };
 
 LogoTitle.defaultProps = {
-  authorized: false,
+  accessToken: '',
 };
 
 const mapStateToProps = state => state.auth;
