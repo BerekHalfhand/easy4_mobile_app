@@ -132,6 +132,8 @@ export default class TariffPane extends React.Component{
             renderItem={({item}) => <Text>{`\u2022 ${item.key}`}</Text>}
           />
 
+          <Text style={{fontSize: 14, color: '#333', marginTop: 10}}>* без НДС</Text>
+
           {button}
         </TouchableOpacity>
       </View>
