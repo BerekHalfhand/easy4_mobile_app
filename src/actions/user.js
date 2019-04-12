@@ -1,5 +1,6 @@
 import * as T from './types';
 import {apiAction, apiError, apiErrorDismiss} from './api';
+import { store } from 'app/src/reducers';
 
 // USER INFO
 
@@ -56,7 +57,8 @@ export function fetchMsisdns(accessToken) {
 const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
   // data = {
   //   items : [
-  //     {msisdn: '79198774513'}
+  //     {msisdn: '79198774513'},
+  //     {msisdn: '79135446211'},
   //   ]
   // };
   dispatch({
@@ -64,9 +66,13 @@ const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
     payload: data
   });
 
+  const {user} = store.getState();
+
   if (data && data.items && data.items.length && data.items[0].msisdn) {
-    dispatch(selectPhone(data.items[0].msisdn));
-    dispatch(fetchBalance(data.items[0].msisdn, accessToken));
+    if (!user.selectedPhone) {
+      dispatch(selectPhone(data.items[0].msisdn));
+      dispatch(fetchBalance(data.items[0].msisdn, accessToken));
+    } else dispatch(fetchBalance(user.selectedPhone, accessToken));
   }
 };
 

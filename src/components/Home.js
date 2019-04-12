@@ -38,7 +38,7 @@ class Home extends Screen {
 
   onPressLogin() {
     if (this.props.offerAccepted === true && this.props.policyAccepted === true) {
-      if (this.props.authorized && this.props.accessToken)
+      if (this.props.accessToken)
         NavigationService.navigate('Main');
       else
         NavigationService.navigate('Login');
