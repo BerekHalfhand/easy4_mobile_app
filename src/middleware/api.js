@@ -30,7 +30,8 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     'Content-Type': 'application/json',
     ...(accessToken && {'Authorization': `Bearer ${accessToken}`}),
   });
-  const baseUrl = baseUrlOverride || 'https://stage.mp.api.easy4.pro';
+  // const baseUrl = baseUrlOverride || 'https://stage.mp.api.easy4.pro';
+  const baseUrl = baseUrlOverride || 'https://mp.api.easy4.pro';
 
   NetInfo.getConnectionInfo().then((connectionInfo) => {
     // If the connection is gone, redirect to the Offline screen, and memorize the failed action
