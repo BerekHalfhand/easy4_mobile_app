@@ -121,7 +121,7 @@ export default class Tariff extends Screen {
           </View>
           <View style={{marginTop: 8}}>
             <FlatList
-              data={this.state.tariff.descriptionLong}
+              data={this.state.tariff.description}
               renderItem={({item}) => <Text style={{color: '#FFFFFF'}}>{`\u2022 ${item.key}`}</Text>}
             />
           </View>
@@ -162,10 +162,10 @@ export default class Tariff extends Screen {
           <View style={{marginTop: 8}}>
             <Text style={{color:'#FFFFFF'}}>{`Оформить заявку на приобретение SIM-карт с тарифным планом ${this.state.tariff.title} можно на сайте easy4.pro`}</Text>
             <Text style={{color:'#FFFFFF'}}>{`Для перехода на тарифный план ${this.state.tariff.title}:`}</Text>
-            <Text style={{color: '#FFFFFF'}}>{'- Наберите команду *100*1*1#'}</Text>
+            <Text style={{color: '#FFFFFF'}}>{`• Наберите команду ${this.state.tariff.number}`}</Text>
             <Autolink style={{color: '#FFFFFF'}}
               linkStyle={{textDecorationLine: 'underline'}}
-              text='- Воспользуйтесь Личным кабинетом my.easy4.pro' />
+              text='• Воспользуйтесь Личным кабинетом my.easy4.pro' />
           </View>
 
           <View style={{marginTop: 24}}>
