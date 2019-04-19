@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export const dP ={
   color: {
@@ -45,6 +47,8 @@ export const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+    width,
+    height,
     // borderColor: 'red', borderWidth: 1,
   },
   contentCentered: {
