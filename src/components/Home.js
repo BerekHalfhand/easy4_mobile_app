@@ -124,10 +124,10 @@ class Home extends Screen {
   render() {
     return (
       <Container style={styles.container}>
-        <Content padder>
-          <Body style={{ justifyContent: 'center', marginTop: 32}}>
+        <Content padder contentContainerStyle={{ justifyContent: 'center'}}>
+          <Body style={{ justifyContent: 'center', marginTop: 64}}>
             <Image
-              style={{width: 90, height: 120, resizeMode: 'contain', marginTop: 160}}
+              style={{width: 90, height: 120, resizeMode: 'contain'}}
               source={require('app/assets/image/logo3x.png')}
             />
           </Body>
