@@ -92,7 +92,7 @@ class Login extends Screen {
   }
 
   render() {
-      const {bioTouch, bioFace, bioSaved} = this.props;
+    const {bioTouch, bioFace, bioSaved} = this.props;
     const biometrics = (bioSaved && (bioTouch || bioFace) && this.state.savedLogin ? (
       <View style={{alignItems: 'center', marginBottom: 8 }}>
         <TouchableOpacity

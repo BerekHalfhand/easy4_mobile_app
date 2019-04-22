@@ -3,7 +3,6 @@ import {View, StatusBar, Text} from 'react-native';
 import {Root} from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import NavBack from 'app/src/elements/NavBack';
-import * as Dimensions from "react-native";
 
 export default class Screen extends Component {
   constructor(props){
