@@ -22,7 +22,7 @@ class LogoTitle extends React.Component {
     Keyboard.dismiss();
     this.props.dispatch(readState());
 
-    if (this.props.auth && this.props.auth.authorized)
+    if (this.props.auth && this.props.auth.accessToken)
       this.props.navigation.openDrawer();
   }
 
@@ -59,7 +59,7 @@ class LogoTitle extends React.Component {
 
 LogoTitle.propTypes = {
   auth: PropTypes.shape({
-    authorized: PropTypes.bool,
+    accessToken: PropTypes.string,
   }),
   user: PropTypes.shape({
     msisdns: PropTypes.arrayOf(PropTypes.string),

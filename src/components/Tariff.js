@@ -166,12 +166,9 @@ export default class Tariff extends Screen {
           <View style={{marginTop: 24}}>
             <Text style={{color:'#FFFFFF', fontSize: 20}}>Территория оказания услуг</Text>
           </View>
-          <View style={{marginTop: 8}}>
+          <View style={{marginTop: 8, marginBottom: 32}}>
             <Text style={{color:'#FFFFFF'}}>{this.state.tariff.territoryText}</Text>
             <Text style={{color:'#FFFFFF', marginTop:8}}>{this.state.tariff.territoryList}</Text>
-          </View>
-          <View style={{marginTop: 16, marginBottom: 32}}>
-            <Text style={{color:'#FFFFFF'}}>*Тариф указан без Ндс</Text>
           </View>
           {/*<View>
             {

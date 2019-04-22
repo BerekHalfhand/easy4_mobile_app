@@ -18,6 +18,7 @@ export default (state = {}, action) => {
 
   case T.LOGOUT_SUCCESS:
   case T.LOGOUT_FAILURE:
+  case T.UPDATE_TOKEN_FAILURE:
     console.log(`USER/${type}`, payload);
     return {};
 
