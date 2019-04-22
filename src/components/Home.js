@@ -7,11 +7,10 @@ import {
   Content,
   CheckBox,
   Text,
-  Body,
   Container,
   Button
 } from 'native-base';
-import {View, Image, Linking, Alert} from 'react-native';
+import {Image, Linking, Alert, View} from 'react-native';
 import Screen from './Screen';
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
@@ -93,7 +92,7 @@ class Home extends Screen {
 
   renderOfferCheckbox() {
     return (
-      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 24}}>
+      <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 24}}>
         <CheckBox checked={this.props.offerAccepted}
           onPress={this.onPressOffer}
           style={styles.checkbox}
@@ -102,42 +101,42 @@ class Home extends Screen {
           <Text style={styles.textLabel}
             onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf')}>Условия оказания услуг</Text>
         </View>
-      </Body>
+      </View>
     );
   }
 
   renderPolicyCheckbox() {
     return (
-      <Body style={{flexDirection: 'row', justifyContent: 'center', marginTop: 8}}>
+      <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 8}}>
         <CheckBox checked={this.props.policyAccepted}
           onPress={this.onPressPolicy}
           style={styles.checkbox}
         />
         <View style={{marginLeft: 12}}>
           <Text style={styles.textLabel}
-            onPress={() => Linking.openURL('https://easy4.pro/privacy.html')}>Политика конфиденциальности</Text>
+            onPress={() => NavigationService.navigate('DocPolicy')}>Политика конфиденциальности</Text>
         </View>
-      </Body>
+      </View>
     );
   }
 
   render() {
     return (
       <Container style={styles.container}>
-        <Content padder>
-          <Body style={{ justifyContent: 'center', marginTop: 32}}>
+        <Content padder style={styles.content} contentContainerStyle={styles.contentCentered}>
+          <View style={{ justifyContent: 'center', height: 120}}>
             <Image
-              style={{width: 90, height: 120, resizeMode: 'contain', marginTop: 160}}
+              style={{width: 90, height: 120, resizeMode: 'contain'}}
               source={require('app/assets/image/logo3x.png')}
             />
-          </Body>
-          <Body style={{marginTop: 24}}>
+          </View>
+          <View style={{marginTop: 24}}>
             <Text style={styles.textBlockH}>Добро пожаловать</Text>
-          </Body>
-          <Body style={{marginTop: 16}}>
+          </View>
+          <View style={{marginTop: 16}}>
             <Text style={styles.textSimple}>Безроуминговый мобильный оператор</Text>
-          </Body>
-          <Body style={{marginTop: 32}}>
+          </View>
+          <View style={{marginTop: 32}}>
             <Button full rounded
               style={styles.buttonPrimary}
               onPress={this.onPressLogin}
@@ -146,9 +145,9 @@ class Home extends Screen {
                 Войти
               </Text>
             </Button>
-          </Body>
+          </View>
 
-          <Body style={{marginTop: 12}}>
+          <View style={{marginTop: 12}}>
             <Button full transparent rounded
               style={styles.buttonPrimaryInverse}
               onPress={this.onPressSignUp}
@@ -158,7 +157,7 @@ class Home extends Screen {
               </Text>
 
             </Button>
-          </Body>
+          </View>
 
           {this.renderOfferCheckbox()}
 

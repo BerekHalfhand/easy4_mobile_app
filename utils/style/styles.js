@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export const dP ={
   color: {
@@ -7,9 +9,6 @@ export const dP ={
     accent: '#FED657',
     white: '#FFFFFF',
     error: 'red',
-    tariffs: {
-      travel: '#31BEEF',
-    }
   },
   size: {
     h: 24,
@@ -48,8 +47,9 @@ export const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-    // borderColor: 'red',
-    // borderWidth: 1,
+    width,
+    height,
+    // borderColor: 'red', borderWidth: 1,
   },
   contentCentered: {
     flex: 1,
@@ -218,10 +218,16 @@ export const styles = StyleSheet.create({
     borderRadius:8,
     padding:16,
     shadowColor:'#002B55',
-    shadowRadius:16,
-    shadowOffset:{width:0,height:16},
-    shadowOpacity:1
+    shadowRadius:8,
+    shadowOffset:{width:0,height:8},
+    shadowOpacity:.5
   },
+  horizontalLine: {
+    borderBottomColor: '#C4C4C4',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    alignSelf: 'stretch',
+    width: '100%',
+  }
 });
 export const stylesExtra = {
   input: {

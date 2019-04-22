@@ -1,3 +1,6 @@
+import {styles, dP} from 'app/utils/style/styles';
+import {Platform} from 'react-native';
+
 // titles: Array('Именительный един.', 'Винительный множ.', 'Родительный множ.')
 // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms
 export const declOfNumRus = (n, titles) => {
@@ -31,4 +34,39 @@ export const getQueryStringParams = query => {
       }, {}
       )
     : {};
+};
+
+export const padding = (a, b = null, c = null, d = null) => {
+  return {
+    paddingTop: a,
+    paddingRight: b !== null ? b : a,
+    paddingBottom: c !== null ? c : a,
+    paddingLeft: d !== null ? d : (b !== null ? b : a)
+  };
+};
+
+export const margin = (a, b = null, c = null, d = null) => {
+  return {
+    marginTop: a,
+    marginRight: b !== null ? b : a,
+    marginBottom: c !== null ? c : a,
+    marginLeft: d !== null ? d : (b !== null ? b : a)
+  };
+};
+
+export const font = (fontFamily = 'Roboto', fontSize = 16, color = '#000', letterSpacing = 0, rest) => {
+  return {
+    fontFamily,
+    fontSize,
+    // lineHeight: fontSize,
+    // height: fontSize,
+    color,
+    letterSpacing,
+    includeFontPadding: false,
+    // paddingBottom: Platform.OS === 'ios' ? 0 : fontSize/4,
+    // paddingTop: Platform.OS === 'ios' ? fontSize/4 : 0,
+    textAlignVertical: 'center',
+    // textAlign: 'center',
+    ...rest
+  };
 };

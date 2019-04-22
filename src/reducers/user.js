@@ -1,8 +1,11 @@
 import * as T from '../actions/types';
+import tariffs from 'app/utils/tariffData.json';
 
 export default (state = {}, action) => {
   let {type, payload} = action;
-  // console.log('USER action type => ', type);
+
+  // take the first available tariff as default
+  let activeTariff = Object.keys(tariffs)[0];
 
   switch (type) {
   case T.READ_STATE:
@@ -28,6 +31,12 @@ export default (state = {}, action) => {
 
   case T.USER_INFO_SUCCESS:
     console.log('USER/USER_INFO_SUCCESS', payload);
+
+    for (let tariff in tariffs) {
+      if (tariffs[tariff].id == payload.tariffId)
+        activeTariff = tariff;
+    }
+
     return {
       ...state,
       firstName: payload.firstName,
@@ -35,6 +44,7 @@ export default (state = {}, action) => {
       lastName: payload.lastName,
       phone: payload.phone,
       email: payload.email,
+      tariff: activeTariff,
       ...(payload.firstName && {fullName: `${payload.firstName} ${payload.lastName}`}),
       ...(state.doNotPersist && {doNotPersist: state.doNotPersist})
     };

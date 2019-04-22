@@ -14,8 +14,6 @@ class LogoTitle extends React.Component {
       subTitleColor: '#FFFFFF',
       titleSize: 20,
       subTitleSize: 13,
-      title: '',
-      subTitle: '',
       borderBottomColor: '#B22222',
     };
   }
@@ -24,13 +22,15 @@ class LogoTitle extends React.Component {
     Keyboard.dismiss();
     this.props.dispatch(readState());
 
-    if (this.props.accessToken)
+    if (this.props.auth && this.props.auth.authorized)
       this.props.navigation.openDrawer();
   }
 
   renderSubtitle(subTitle, subTitleSize, subTitleColor) {
     return (
-      <Text numberOfLines={1} style={{color: subTitleColor, textAlign:'center', fontSize: subTitleSize}}>{ subTitle }</Text>
+      <Text numberOfLines={1} style={{color: subTitleColor, textAlign:'center', fontSize: subTitleSize}}>
+        { subTitle }
+      </Text>
     );
   }
 
@@ -44,27 +44,28 @@ class LogoTitle extends React.Component {
       title,
       subTitle,
       borderBottomColor
-    } = Object.assign(this.state, this.props);
+    } = Object.assign({}, this.props, this.state);
 
     return (
       <View style={{ backgroundColor:background, borderBottomColor: borderBottomColor }}>
-        <TouchableOpacity onPress={this.toggleDrawer}>
+        <TouchableOpacity onPress={this.toggleDrawer} style={{flex: 1, justifyContent: 'center'}}>
           <Text numberOfLines={1} style={{color: titleColor, textAlign:'center', fontSize: titleSize}}>{ title }</Text>
-          {subTitle ? this.renderSubtitle(subTitle, subTitleSize, subTitleColor) : null}
         </TouchableOpacity>
+        {subTitle ? this.renderSubtitle(subTitle, subTitleSize, subTitleColor) : null}
       </View>
     );
   }
 }
 
 LogoTitle.propTypes = {
-  accessToken: PropTypes.string,
+  auth: PropTypes.shape({
+    authorized: PropTypes.bool,
+  }),
+  user: PropTypes.shape({
+    msisdns: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 
-LogoTitle.defaultProps = {
-  accessToken: '',
-};
-
-const mapStateToProps = state => state.auth;
+const mapStateToProps = state => ({ ...state });
 
 export default withNavigation(connect(mapStateToProps)(LogoTitle));

@@ -2,14 +2,13 @@ import React from 'react';
 import { View } from 'native-base';
 import { Text, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-import {styles} from 'app/utils/style/styles';
 
 export default class ClientMainBalance extends React.Component{
   constructor(props){
     super(props);
   }
   render(){
-    const { width, height } = Dimensions.get('window');
+    const { width } = Dimensions.get('window');
     const guidelineBaseWidth = 420;
     const scale =  width / guidelineBaseWidth;
 
@@ -18,7 +17,7 @@ export default class ClientMainBalance extends React.Component{
         <Text style={{fontFamily:'Roboto_light', fontSize:18, color:'#FFFFFF'}}>
           баланс
         </Text>
-        <Text style={{fontFamily:'Roboto_black', fontSize:(40*scale), marginRight:10, color:'#FFFFFF'}}>
+        <Text style={{fontFamily:'Roboto_black', fontSize:(32*scale), color:'#FFFFFF'}}>
           {this.props.balance} ₽
         </Text>
       </View>
