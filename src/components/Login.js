@@ -21,7 +21,6 @@ import {
 } from 'react-native-formik';
 import * as Yup from 'yup';
 
-
 const validationSchema = Yup.object().shape({
   login: Yup.string()
     .required('Необходимо указать email или телефон'),
@@ -93,7 +92,7 @@ class Login extends Screen {
   }
 
   render() {
-    const {bioTouch, bioFace, bioSaved} = this.props;
+      const {bioTouch, bioFace, bioSaved} = this.props;
     const biometrics = (bioSaved && (bioTouch || bioFace) && this.state.savedLogin ? (
       <View style={{alignItems: 'center', marginBottom: 8 }}>
         <TouchableOpacity

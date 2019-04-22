@@ -175,7 +175,6 @@ class Main extends Screen{
     const CANCEL_INDEX = 2;
 
     const width = Dimensions.get('window').width;
-
     const { fullName, tariff } = this.props.user;
 
     const balance = (this.hasBalance(this.props.user) ?
