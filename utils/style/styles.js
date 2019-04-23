@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
   content: {
     padding: 16,
     width,
-    height,
+    minHeight: height,
     // borderColor: 'red', borderWidth: 1,
   },
   contentCentered: {
