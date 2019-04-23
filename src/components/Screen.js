@@ -37,16 +37,16 @@ export default class Screen extends Component {
 
   render() {
     return(
-      <Root>
-        <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: '#f00'}}>
+        <Root style={{flex: 1}}>
           {/*<StatusBar barStyle="light-content" backgroundColor={dP.color.primary} borderBottomColor='#4064AD'/>*/}
           {/*<StyleProvider style={getTheme(material)}>*/}
           {/*<DataContext.Provider value={data}>*/}
           {this.renderContent()}
           {/*</DataContext.Provider>*/}
           {/*</StyleProvider>*/}
-        </SafeAreaView>
-      </Root>
+        </Root>
+      </SafeAreaView>
     );
   }
 }
