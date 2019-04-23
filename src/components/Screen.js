@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {View, StatusBar, Text} from 'react-native';
+import {View, SafeAreaView, Text} from 'react-native';
 import {Root} from 'native-base';
 import {styles, dP} from 'app/utils/style/styles';
 import NavBack from 'app/src/elements/NavBack';
+import { Content, Container } from 'native-base';
 
 export default class Screen extends Component {
   constructor(props){
@@ -25,17 +26,26 @@ export default class Screen extends Component {
       );
   }
 
+  renderContent() {
+    return (
+      <Container style={styles.container}>
+        <Content padder style={styles.content} contentContainerStyle={styles.contentCentered}>
+        </Content>
+      </Container>
+    );
+  }
+
   render() {
     return(
       <Root>
-        <View style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1}}>
           {/*<StatusBar barStyle="light-content" backgroundColor={dP.color.primary} borderBottomColor='#4064AD'/>*/}
           {/*<StyleProvider style={getTheme(material)}>*/}
           {/*<DataContext.Provider value={data}>*/}
-          {this.props.children}
+          {this.renderContent()}
           {/*</DataContext.Provider>*/}
           {/*</StyleProvider>*/}
-        </View>
+        </SafeAreaView>
       </Root>
     );
   }
