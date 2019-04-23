@@ -39,8 +39,8 @@ export default class Screen extends Component {
     return(
       <Root>
         <SafeAreaView style={{flex: 0, backgroundColor: dP.color.primary}} />
-        <SafeAreaView style={{flex: 1, backgroundColor: dP.color.accent, borderColor: 'red', borderWidth: 1}}>
-          <View style={{flex: 1, backgroundColor: '#0f0', borderColor: 'green', borderWidth: 1}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: dP.color.accent}}>
+          <View style={{flex: 1, backgroundColor: '#0f0'}}>
             <StatusBar barStyle='light-content' backgroundColor={dP.color.primary}/>
             {/*<StyleProvider style={getTheme(material)}>*/}
             {/*<DataContext.Provider value={data}>*/}

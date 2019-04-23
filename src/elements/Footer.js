@@ -39,8 +39,8 @@ class StandardFooter extends React.Component{
       ) : null );
 
     return(
-      <View>
-        <Footer>
+      <View style={{borderColor: 'red', borderWidth: 1}}>
+        <Footer style={{borderColor: 'green', borderWidth: 1}}>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
             <Button
               onPress={this.toggleDrawer}
