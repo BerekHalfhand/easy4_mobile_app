@@ -25,7 +25,10 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.intersat.easy",
-      "buildNumber": "0.0.17"
+      "buildNumber": "0.0.17",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses FaceID."
+      }
     },
     "android": {
       "package": "com.sonet.easy4",
@@ -33,9 +36,6 @@
     },
     "androidStatusBar": {
       "backgroundColor": "#004d99"
-    },
-    "infoPlist": {
-      "NSCameraUsageDescription": "This app uses FaceID."
     }
   }
 }
