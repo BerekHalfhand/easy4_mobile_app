@@ -96,7 +96,7 @@ export default class IncreaseBalance extends Screen {
       </View>
     );
   }
-  render() {
+  renderContent() {
     const PHONE_BUTTONS = ['+7(699)321 2222', '+7(699)321 1111', 'Отмена'];
     // const DESTRUCTIVE_INDEX = 3;
     const CANCEL_INDEX = 2;

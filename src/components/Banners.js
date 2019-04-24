@@ -62,7 +62,7 @@ class Banners extends Screen {
   itemWidth = (FIXED_BAR_WIDTH / this.numItems) - ((this.numItems - 1) * BAR_SPACE);
   animVal = new Animated.Value(0);
 
-  render() {
+  renderContent() {
     let imageArray = [];
     let barArray = [];
     for (let i = 0; i < this.numItems; i++) {

@@ -19,13 +19,13 @@ export default class Quotas extends React.Component{
     super(props);
     this.state = {};
   }
-  
+
   static navigationOptions = {
     ...Screen.navigationOptions,
     headerTitle: <LogoTitle title='Квоты' />,
   };
 
-  render(){
+  renderContent(){
 
     return(
       <Container style={{backgroundColor:'#004d99'}}>

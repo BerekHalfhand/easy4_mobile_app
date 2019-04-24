@@ -67,7 +67,7 @@ export default class Tariff extends Screen {
     });
   }
 
-  render(){
+  renderContent(){
     // console.log('tariffServicesList:', this.state.fake.tariffServicesList);
     const listItem = this.state.fake.tariffServicesList;
 

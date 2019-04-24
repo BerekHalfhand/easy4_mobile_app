@@ -38,7 +38,7 @@ class Esia extends Screen {
     }
   }
 
-  render() {
+  renderContent() {
     return (
       <Container style={styles.container}>
         <WebView

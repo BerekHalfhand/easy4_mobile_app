@@ -37,7 +37,7 @@ class Feedback extends Screen {
     this.props.dispatch(sendLead(values, actions));
   }
 
-  render() {
+  renderContent() {
     const {accessToken, fullName, phone} = this.props;
 
     return (

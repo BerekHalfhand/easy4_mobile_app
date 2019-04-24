@@ -42,7 +42,7 @@ class StandardFooter extends React.Component{
 
     return(
       <View>
-        <Footer style={{height: (size + padding * 3), borderColor: dP.color.accent, borderWidth: 1}}>
+        <Footer style={{height: (size * 2), borderColor: dP.color.accent, borderWidth: 1}}>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
             <Button
               onPress={this.toggleDrawer}
