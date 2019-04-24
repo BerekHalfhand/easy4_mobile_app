@@ -123,7 +123,7 @@ class Home extends Screen {
   renderContent() {
     return (
       <Container style={styles.container}>
-        <Content style={styles.content} contentContainerStyle={styles.contentCentered}>
+        <Content padder style={styles.content} contentContainerStyle={styles.contentCentered}>
           <View style={{ justifyContent: 'center', height: 120}}>
             <Image
               style={{width: 90, height: 120, resizeMode: 'contain'}}

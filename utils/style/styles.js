@@ -42,13 +42,9 @@ export const styles = StyleSheet.create({
   // COMMON
   container: {
     backgroundColor: dP.color.primary,
-    flex: 1,
-    borderColor: 'purple', borderWidth: 1,
   },
   content: {
     padding: 16,
-    flex: 1,
-    borderColor: 'orange', borderWidth: 1,
   },
   contentCentered: {
     flex: 1,

@@ -8,6 +8,7 @@ import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import {readState} from 'app/src/actions';
 import NavigationService from 'app/src/services/NavigationService';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 class StandardFooter extends React.Component{
   toggleDrawer = () => {
@@ -27,8 +28,9 @@ class StandardFooter extends React.Component{
                         navigation.state.routeName != 'Main' ? (
         <Button
           onPress={() => NavigationService.navigate('Main')}
+          style={ifIphoneX({alignSelf: 'flex-start'})}
         >
-          <View style={{padding: padding}}>
+          <View style={{padding}}>
             <MaterialIcons
               name='home'
               size={size}
@@ -39,13 +41,14 @@ class StandardFooter extends React.Component{
       ) : null );
 
     return(
-      <View style={{height: (size * 2), borderColor: 'red', borderWidth: 1}}>
-        <Footer style={{height: (size * 2), borderColor: 'green', borderWidth: 1}}>
+      <View>
+        <Footer style={{height: (size + padding * 3), borderColor: dP.color.accent, borderWidth: 1}}>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
             <Button
               onPress={this.toggleDrawer}
+              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
-              <View style={{padding: padding}}>
+              <View style={{padding}}>
                 <MaterialIcons
                   name='menu'
                   size={size}
@@ -56,8 +59,9 @@ class StandardFooter extends React.Component{
 
             <Button
               onPress={() => NavigationService.navigate('Callback')}
+              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
-              <View style={{padding: padding}}>
+              <View style={{padding}}>
                 <MaterialCommunityIcons
                   name='phone-incoming'
                   size={size}
@@ -67,8 +71,9 @@ class StandardFooter extends React.Component{
             </Button>
             <Button
               onPress={() => NavigationService.navigate('Feedback')}
+              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
-              <View style={{padding: padding}}>
+              <View style={{padding}}>
                 <MaterialIcons
                   name='live-help'
                   size={size}
