@@ -28,7 +28,6 @@ class StandardFooter extends React.Component{
                         navigation.state.routeName != 'Main' ? (
         <Button
           onPress={() => NavigationService.navigate('Main')}
-          style={ifIphoneX({alignSelf: 'flex-start'})}
         >
           <View style={{padding}}>
             <MaterialIcons
@@ -46,7 +45,6 @@ class StandardFooter extends React.Component{
           <FooterTab style={{backgroundColor: dP.color.accent}}>
             <Button
               onPress={this.toggleDrawer}
-              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
               <View style={{padding}}>
                 <MaterialIcons
@@ -59,7 +57,6 @@ class StandardFooter extends React.Component{
 
             <Button
               onPress={() => NavigationService.navigate('Callback')}
-              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
               <View style={{padding}}>
                 <MaterialCommunityIcons
@@ -71,7 +68,6 @@ class StandardFooter extends React.Component{
             </Button>
             <Button
               onPress={() => NavigationService.navigate('Feedback')}
-              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
               <View style={{padding}}>
                 <MaterialIcons
