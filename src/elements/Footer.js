@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import {readState} from 'app/src/actions';
 import NavigationService from 'app/src/services/NavigationService';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
+import { ifIphoneX, getBottomSpace } from 'react-native-iphone-x-helper';
 
 class StandardFooter extends React.Component{
   toggleDrawer = () => {
@@ -28,7 +28,6 @@ class StandardFooter extends React.Component{
                         navigation.state.routeName != 'Main' ? (
         <Button
           onPress={() => NavigationService.navigate('Main')}
-          style={ifIphoneX({alignSelf: 'flex-start'})}
         >
           <View style={{padding}}>
             <MaterialIcons
@@ -42,11 +41,10 @@ class StandardFooter extends React.Component{
 
     return(
       <View>
-        <Footer style={{height: (size * 2), borderColor: dP.color.accent, borderWidth: 1}}>
+        <Footer style={{marginBottom: -getBottomSpace()}}>
           <FooterTab style={{backgroundColor: dP.color.accent}}>
             <Button
               onPress={this.toggleDrawer}
-              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
               <View style={{padding}}>
                 <MaterialIcons
@@ -59,7 +57,6 @@ class StandardFooter extends React.Component{
 
             <Button
               onPress={() => NavigationService.navigate('Callback')}
-              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
               <View style={{padding}}>
                 <MaterialCommunityIcons
@@ -71,7 +68,6 @@ class StandardFooter extends React.Component{
             </Button>
             <Button
               onPress={() => NavigationService.navigate('Feedback')}
-              style={ifIphoneX({alignSelf: 'flex-start'})}
             >
               <View style={{padding}}>
                 <MaterialIcons
