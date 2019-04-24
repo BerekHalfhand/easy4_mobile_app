@@ -63,8 +63,8 @@ class Login extends Screen {
   }
 
   onPressTouchId = async () => {
-    const {dispatch, bioTouch, bioFace, bioSaved} = this.props;
-    if (bioSaved && (bioTouch || bioFace)) {
+    const {dispatch, bioTouch, bioSaved} = this.props;
+    if (bioSaved && bioTouch) {
       LocalAuthentication.authenticateAsync()
         .then(result => {
           console.log('authenticateAsync', result);
@@ -73,7 +73,7 @@ class Login extends Screen {
               SecureStore.getItemAsync('login'),
               SecureStore.getItemAsync('password')]
             )
-              .then(credentials => this.props.dispatch(login(credentials[0], credentials[1])));
+              .then(credentials => dispatch(login(credentials[0], credentials[1])));
           }
         });
     }
@@ -92,8 +92,8 @@ class Login extends Screen {
   }
 
   render() {
-    const {bioTouch, bioFace, bioSaved} = this.props;
-    const biometrics = (bioSaved && (bioTouch || bioFace) && this.state.savedLogin ? (
+    const {bioTouch, bioSaved} = this.props;
+    const biometrics = (bioSaved && bioTouch && this.state.savedLogin ? (
       <View style={{alignItems: 'center', marginBottom: 8 }}>
         <TouchableOpacity
           style={{padding: 8}}

@@ -15,9 +15,17 @@ import Screen from './Screen';
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import StandardFooter from 'app/src/elements/Footer';
-import {checkToken, toggleOffer, togglePolicy, setBiometryTypes, setBiometrySaved, readState, resetState} from 'app/src/actions';
-import { LocalAuthentication } from 'expo';
-
+import {
+  checkToken,
+  toggleOffer,
+  togglePolicy,
+  setBiometryTypes,
+  setBiometrySaved,
+  readState,
+  resetState,
+  login,
+} from 'app/src/actions';
+import { LocalAuthentication, SecureStore } from 'expo';
 
 class Home extends Screen {
   constructor(props) {
@@ -36,11 +44,27 @@ class Home extends Screen {
   };
 
   onPressLogin() {
+    const {dispatch, bioFace, bioSaved} = this.props;
+
     if (this.props.offerAccepted === true && this.props.policyAccepted === true) {
       if (this.props.accessToken)
         NavigationService.navigate('Main');
-      else
+      else {
+        if (bioSaved && bioFace) {
+          LocalAuthentication.authenticateAsync()
+            .then(result => {
+              console.log('authenticateAsync Home', result);
+              if (result.success) {
+                Promise.all([
+                  SecureStore.getItemAsync('login'),
+                  SecureStore.getItemAsync('password')]
+                )
+                  .then(credentials => dispatch(login(credentials[0], credentials[1])));
+              }
+            });
+        }
         NavigationService.navigate('Login');
+      }
     } else Alert.alert('Ошибка', 'Пожалуйста примите условия оказания услуг и политику конфиденциальности');
   }
 
@@ -77,16 +101,17 @@ class Home extends Screen {
   }
 
   determineBiometryStatus = () => {
+    const {dispatch} = this.props;
     LocalAuthentication.supportedAuthenticationTypesAsync()
       .then(e => {
         console.log('supportedAuthenticationTypesAsync', e);
-        this.props.dispatch(setBiometryTypes(e));
+        dispatch(setBiometryTypes(e));
       });
 
     LocalAuthentication.isEnrolledAsync()
       .then(e => {
         console.log('isEnrolledAsync', e);
-        this.props.dispatch(setBiometrySaved(e));
+        dispatch(setBiometrySaved(e));
       });
   }
 
