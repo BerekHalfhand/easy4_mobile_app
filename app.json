@@ -33,6 +33,9 @@
     },
     "androidStatusBar": {
       "backgroundColor": "#004d99"
+    },
+    "infoPlist": {
+      "NSCameraUsageDescription": "This app uses FaceID."
     }
   }
 }
