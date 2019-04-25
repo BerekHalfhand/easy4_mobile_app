@@ -25,7 +25,7 @@ import {
   resetState,
   login,
 } from 'app/src/actions';
-import { LocalAuthentication, SecureStore } from 'expo';
+import { LocalAuthentication, SecureStore, Permissions } from 'expo';
 
 class Home extends Screen {
   constructor(props) {
@@ -51,6 +51,8 @@ class Home extends Screen {
         NavigationService.navigate('Main');
       else {
         if (bioSaved && bioFace) {
+          this.checkPermissionsAsync();
+
           LocalAuthentication.authenticateAsync()
             .then(result => {
               console.log('authenticateAsync Home', result);
@@ -114,6 +116,13 @@ class Home extends Screen {
         dispatch(setBiometrySaved(e));
       });
   }
+
+  async checkPermissionsAsync() {
+    const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA);
+    // if (status === 'granted') {
+    console.log('Camera permissions:', status);
+  }
+
 
   renderOfferCheckbox() {
     return (
