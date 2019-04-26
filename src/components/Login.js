@@ -91,7 +91,7 @@ class Login extends Screen {
     this.props.dispatch(login(values.login, values.password));
   }
 
-  render() {
+  renderContent() {
     const {bioTouch, bioFace, bioSaved} = this.props;
     const biometrics = (bioSaved && (bioTouch || bioFace) && this.state.savedLogin ? (
       <View style={{alignItems: 'center', marginBottom: 8 }}>

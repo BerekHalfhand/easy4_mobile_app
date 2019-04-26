@@ -170,7 +170,7 @@ class Main extends Screen{
     );
   }
 
-  render() {
+  renderContent() {
     const BUTTONS = ['Банковская карта', 'Отмена'];
     const CANCEL_INDEX = 2;
 
@@ -280,7 +280,7 @@ class Main extends Screen{
           <Content>
 
             <View style={{
-              ...padding(Platform.OS === 'ios' ? 32 : 16, 32, 16, 32),
+              ...padding(16, 32),
               backgroundColor: dP.color.primary
             }}>
               <View>

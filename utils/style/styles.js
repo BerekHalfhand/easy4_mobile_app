@@ -45,7 +45,6 @@ export const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-    // borderColor: 'red', borderWidth: 1,
   },
   contentCentered: {
     flex: 1,

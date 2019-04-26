@@ -63,7 +63,7 @@ class SignUp extends Screen {
     this.props.dispatch(signup(values.email, values.password));
   }
 
-  render() {
+  renderContent() {
     return (
       <Container style={styles.container}>
         <Content padder style={styles.content}>

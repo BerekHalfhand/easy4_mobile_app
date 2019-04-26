@@ -19,7 +19,7 @@ export default class Contacts extends Screen {
     headerTitle: <LogoTitle title='Контакты' />,
   };
 
-  render() {
+  renderContent() {
     return (
       <Container style={styles.container}>
         <Content padder style={styles.content}>

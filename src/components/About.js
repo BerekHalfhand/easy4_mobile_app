@@ -20,7 +20,7 @@ export default class About extends Screen {
     headerTitle: <LogoTitle title='О приложении' />,
   };
 
-  render() {
+  renderContent() {
     const {version} = expo;
     return (
       <Container style={styles.container}>
