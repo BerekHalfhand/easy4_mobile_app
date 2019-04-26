@@ -9,6 +9,7 @@ import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
 import {signup} from 'app/src/actions';
+import {padding} from 'app/utils/helpers';
 import { Formik } from 'formik';
 // import { wrapScrollView } from 'react-native-scroll-into-view';
 import { connect } from 'react-redux';
@@ -63,7 +64,7 @@ class SignUp extends Screen {
     this.props.dispatch(signup(values.email, values.password));
   }
 
-  render() {
+  renderContent() {
     return (
       <Container style={styles.container}>
         <Content padder style={styles.content}>
@@ -100,7 +101,7 @@ class SignUp extends Screen {
                       <ActivityIndicator />
                     ) : (
                       <Button full rounded
-                        style={{...styles.buttonPrimary, width: '100%'}}
+                        style={{...styles.buttonPrimary, ...padding(10, 5)}}
                         onPress={formikProps.handleSubmit}
                       >
                         <Text style={styles.textButtonPrimary}>

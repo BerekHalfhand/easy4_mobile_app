@@ -154,7 +154,7 @@ class Home extends Screen {
     );
   }
 
-  render() {
+  renderContent() {
     return (
       <Container style={styles.container}>
         <Content padder style={styles.content} contentContainerStyle={styles.contentCentered}>
