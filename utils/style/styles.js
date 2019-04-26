@@ -153,19 +153,13 @@ export const styles = StyleSheet.create({
   },
   buttonPrimary: {
     width: dP.size.buttonWidth,
-    paddingLeft: 20,
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingBottom: 10,
+    padding: 10,
     backgroundColor: dP.color.accent,
     alignSelf: 'center',
   },
   buttonPrimaryCash: {
     // width: dP.size.buttonWidth,
-    paddingLeft: 20,
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingBottom: 10,
+    padding: 10,
     backgroundColor: dP.color.accent,
   },
   buttonPrimaryText: {
@@ -174,10 +168,7 @@ export const styles = StyleSheet.create({
   },
   buttonPrimaryInverse: {
     width: dP.size.buttonWidth,
-    paddingLeft: 20,
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingBottom: 10,
+    padding: 10,
     alignSelf: 'center',
   },
   buttonPrimaryInverseText: {
