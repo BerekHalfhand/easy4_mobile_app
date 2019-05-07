@@ -148,7 +148,7 @@ class Home extends Screen {
         />
         <View style={{marginLeft: 12}}>
           <Text style={styles.textLabel}
-            onPress={() => NavigationService.navigate('DocPolicy')}>Политика конфиденциальности</Text>
+            onPress={() => Linking.openURL('https://easy4.pro/privacy.html')}>Политика конфиденциальности</Text>
         </View>
       </View>
     );

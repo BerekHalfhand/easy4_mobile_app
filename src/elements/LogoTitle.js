@@ -44,12 +44,16 @@ class LogoTitle extends React.Component {
       title,
       subTitle,
       borderBottomColor
-    } = Object.assign({}, this.props, this.state);
+    } = Object.assign({}, this.state, this.props);
 
     return (
       <View style={{ backgroundColor:background, borderBottomColor: borderBottomColor }}>
         <TouchableOpacity onPress={this.toggleDrawer} style={{flex: 1, justifyContent: 'center'}}>
-          <Text numberOfLines={1} style={{color: titleColor, textAlign:'center', fontSize: titleSize}}>{ title }</Text>
+          <Text
+            numberOfLines={1}
+            adjustsFontSizeToFit={true}
+            style={{color: titleColor, textAlign:'center', fontSize: titleSize}}
+          >{ title }</Text>
         </TouchableOpacity>
         {subTitle ? this.renderSubtitle(subTitle, subTitleSize, subTitleColor) : null}
       </View>

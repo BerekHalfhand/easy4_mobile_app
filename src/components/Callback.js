@@ -28,7 +28,7 @@ class Feedback extends Screen {
 
   static navigationOptions = {
     ...Screen.navigationOptions,
-    headerTitle: <LogoTitle title='Перезвонить мне' />,
+    headerTitle: <LogoTitle title='Заказать обратный звонок' titleSize={16}/>,
   };
 
   formSubmit(values, actions) {
