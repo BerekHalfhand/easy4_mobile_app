@@ -1,8 +1,9 @@
 import React from 'react';
 import { View } from 'native-base';
-import { Text, Dimensions } from 'react-native';
+import { Text } from 'react-native';
 import PropTypes from 'prop-types';
-import {scale} from 'app/utils/scaling';
+import {scaleTextToFit} from 'app/utils/scaling';
+import {font} from 'app/utils/helpers';
 
 export default class ClientMainBalance extends React.Component{
   constructor(props){
@@ -17,7 +18,7 @@ export default class ClientMainBalance extends React.Component{
         <Text
           adjustsFontSizeToFit
           numberOfLines={1}
-          style={{fontFamily:'Roboto_black', fontSize: scale(26), color:'#FFFFFF'}}
+          style={font('Roboto_black', scaleTextToFit(26, 0.5, this.props.balance))}
         >
           {this.props.balance} ₽
         </Text>

@@ -54,7 +54,7 @@ export const margin = (a, b = null, c = null, d = null) => {
   };
 };
 
-export const font = (fontFamily = 'Roboto', fontSize = 16, color = '#000', letterSpacing = 0, rest) => {
+export const font = (fontFamily = 'Roboto', fontSize = 16, color = '#FFF', letterSpacing = 0, rest) => {
   return {
     fontFamily,
     fontSize,

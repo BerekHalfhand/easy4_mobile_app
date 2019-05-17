@@ -4,14 +4,15 @@ import Screen from './Screen';
 import {Button, Body, View, Container, Content} from 'native-base';
 import StandardFooter from 'app/src/elements/Footer';
 // import FingerPrint from './touchid';
-import {styles} from 'app/utils/style/styles';
+import {styles, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
 import autoBind from 'react-autobind';
 import {signup} from 'app/src/actions';
 import {padding} from 'app/utils/helpers';
 import { Formik } from 'formik';
-// import { wrapScrollView } from 'react-native-scroll-into-view';
+import {scaleTextToFit} from 'app/utils/scaling';
+import {font} from 'app/utils/helpers';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import {
@@ -104,7 +105,7 @@ class SignUp extends Screen {
                         style={{...styles.buttonPrimary, ...padding(10, 5)}}
                         onPress={formikProps.handleSubmit}
                       >
-                        <Text style={styles.textButtonPrimary}>
+                        <Text style={font('SFCT_Semibold', scaleTextToFit(16, 0.5, 'Зарегистрироваться'), dP.color.primary, 0.25)}>
                           Зарегистрироваться
                         </Text>
                       </Button>
