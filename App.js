@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry, NetInfo } from 'react-native';
+import { Text, NetInfo } from 'react-native';
 import { Asset, Font, AppLoading } from 'expo';
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
@@ -37,6 +37,10 @@ console.disableYellowBox = true;
 
 // fewer red screens of death
 console.reportErrorsAsExceptions = false;
+
+// Disable system font scaling
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
 
 // ROUTING
 
