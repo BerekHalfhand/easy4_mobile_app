@@ -69,10 +69,13 @@ const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
   const {user} = store.getState();
 
   if (data && data.items && data.items.length && data.items[0].msisdn) {
-    if (!user.selectedPhone) {
-      dispatch(selectPhone(data.items[0].msisdn));
-      dispatch(fetchBalance(data.items[0].msisdn, accessToken));
-    } else dispatch(fetchBalance(user.selectedPhone, accessToken));
+    let phone = user.selectedPhone || data.items[0].msisdn;
+    
+    if (!user.selectedPhone)
+      dispatch(selectPhone(phone));
+
+    dispatch(fetchBalance(phone, accessToken));
+    dispatch(fetchTariff(phone));
   }
 };
 
@@ -107,6 +110,30 @@ const fetchBalanceSuccess = data => {
 const fetchBalanceFailure = data => dispatch => {
   dispatch({
     type: T.BALANCE_FETCH_FAILURE,
+    payload: data
+  });
+};
+
+export function fetchTariff(phone) {
+  return apiAction({
+    url: `/msisdn/${phone}/tariff`,
+    onSuccess: fetchTariffSuccess,
+    onFailure: fetchTariffFailure,
+    errorLabel: 'fetchTariffError',
+    label: T.TARIFF_FETCH
+  });
+}
+
+const fetchTariffSuccess = data => {
+  return {
+    type: T.TARIFF_FETCH_SUCCESS,
+    payload: data
+  };
+};
+
+const fetchTariffFailure = data => dispatch => {
+  dispatch({
+    type: T.TARIFF_FETCH_FAILURE,
     payload: data
   });
 };

@@ -85,6 +85,20 @@ export default (state = {}, action) => {
       balance: null,
     };
 
+  case T.TARIFF_FETCH_SUCCESS:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      tariffId: payload.result.id,
+    };
+
+  case T.TARIFF_FETCH_FAILURE:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      tariffId: null,
+    };
+
   case T.DO_NOT_PERSIST_TOGGLE:
     return {
       ...state,
