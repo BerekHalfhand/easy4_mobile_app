@@ -30,7 +30,6 @@ export function sendLead(data, actions) {
     data,
     onSuccess: data => sendLeadSuccess(data, actions),
     onFailure: sendLeadFailure,
-    errorLabel: 'sendLeadError',
     label: T.SEND_LEAD
   });
 }

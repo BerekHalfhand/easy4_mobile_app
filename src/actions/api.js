@@ -12,7 +12,7 @@ export const apiAction = ({
   failureTransition = null,
   label = '',
   headersOverride = null,
-  errorLabel = 'error',
+  errorLabel = null,
   busyScreen = null,
 }) => {
   return {
