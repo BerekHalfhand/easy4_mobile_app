@@ -15,17 +15,9 @@ import Screen from './Screen';
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import StandardFooter from 'app/src/elements/Footer';
-import {
-  checkToken,
-  toggleOffer,
-  togglePolicy,
-  setBiometryTypes,
-  setBiometrySaved,
-  readState,
-  resetState,
-  login,
-} from 'app/src/actions';
-import { LocalAuthentication, SecureStore, Permissions } from 'expo';
+import {checkToken, setBiometryTypes, setBiometrySaved, readState, resetState} from 'app/src/actions';
+import { LocalAuthentication } from 'expo';
+import {font} from 'app/utils/helpers';
 
 class Home extends Screen {
   constructor(props) {
@@ -44,49 +36,18 @@ class Home extends Screen {
   };
 
   onPressLogin() {
-    const {dispatch, bioFace, bioSaved} = this.props;
-
-    if (this.props.offerAccepted === true && this.props.policyAccepted === true) {
-      if (this.props.accessToken)
-        NavigationService.navigate('Main');
-      else {
-        if (bioSaved && bioFace) {
-          this.checkPermissionsAsync();
-
-          LocalAuthentication.authenticateAsync()
-            .then(result => {
-              console.log('authenticateAsync Home', result);
-              if (result.success) {
-                Promise.all([
-                  SecureStore.getItemAsync('login'),
-                  SecureStore.getItemAsync('password')]
-                )
-                  .then(credentials => dispatch(login(credentials[0], credentials[1])));
-              }
-            });
-        }
-        NavigationService.navigate('Login');
-      }
-    } else Alert.alert('Ошибка', 'Пожалуйста примите условия оказания услуг и политику конфиденциальности');
+    if (this.props.accessToken)
+      NavigationService.navigate('Main');
+    else
+      NavigationService.navigate('Login');
   }
 
   onPressSignUp() {
-    if (this.props.offerAccepted === true && this.props.policyAccepted === true)
-      NavigationService.navigate('SignUp');
-    else
-      Alert.alert('Ошибка', 'Пожалуйста примите условия оказания услуг и политику конфиденциальности');
+    NavigationService.navigate('SignUp');
   }
 
   onReset = () => {
     this.props.dispatch(resetState());
-  }
-
-  onPressOffer = async () => {
-    this.props.dispatch(toggleOffer());
-  }
-
-  onPressPolicy = async () => {
-    this.props.dispatch(togglePolicy());
   }
 
   fetchAuthData = async () => {
@@ -117,43 +78,6 @@ class Home extends Screen {
       });
   }
 
-  async checkPermissionsAsync() {
-    const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA);
-    // if (status === 'granted') {
-    console.log('Camera permissions:', status);
-  }
-
-
-  renderOfferCheckbox() {
-    return (
-      <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 24}}>
-        <CheckBox checked={this.props.offerAccepted}
-          onPress={this.onPressOffer}
-          style={styles.checkbox}
-        />
-        <View style={{marginLeft: 12}}>
-          <Text style={styles.textLabel}
-            onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf')}>Условия оказания услуг</Text>
-        </View>
-      </View>
-    );
-  }
-
-  renderPolicyCheckbox() {
-    return (
-      <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 8}}>
-        <CheckBox checked={this.props.policyAccepted}
-          onPress={this.onPressPolicy}
-          style={styles.checkbox}
-        />
-        <View style={{marginLeft: 12}}>
-          <Text style={styles.textLabel}
-            onPress={() => Linking.openURL('https://easy4.pro/privacy.html')}>Политика конфиденциальности</Text>
-        </View>
-      </View>
-    );
-  }
-
   renderContent() {
     return (
       <Container style={styles.container}>
@@ -168,7 +92,7 @@ class Home extends Screen {
             <Text style={styles.textBlockH}>Добро пожаловать</Text>
           </View>
           <View style={{marginTop: 16}}>
-            <Text style={styles.textSimple}>Безроуминговый мобильный оператор</Text>
+            <Text style={styles.textSimple}>Безроуминговый оператор связи</Text>
           </View>
           <View style={{marginTop: 32}}>
             <Button full rounded
@@ -193,9 +117,29 @@ class Home extends Screen {
             </Button>
           </View>
 
-          {this.renderOfferCheckbox()}
+          <View style={{marginTop: 16}}>
+            <Text style={font('SFCT_Regular', 16, '#D4D4D4', -0.25, {textAlign: 'center'})}>Продолжая работу с приложением, вы соглашаетесь с{'\n'}
+              <Text style={{...styles.textSimple, textDecorationLine: 'underline'}}
+                onPress={() => Linking.openURL('https://easy4.pro/privacy.html') } >
+                Политикой конфиденциальности
+              </Text>
+              {' '}и{'\n'}
+              <Text style={{...styles.textSimple, textDecorationLine: 'underline'}}
+                onPress={() => Linking.openURL('https://easy4.pro/upload/bf/usloviya2.pdf') } >
+                Условиями оказания услуг
+              </Text>
+             .
+            </Text>
+          </View>
 
-          {this.renderPolicyCheckbox()}
+          <View style={{marginTop: 16}}>
+            <Text style={styles.textSimple}>Телефон поддержки:{' '}
+              <Text style={{...styles.textSimple, textDecorationLine: 'underline'}}
+                onPress={() => Linking.openURL('tel://+79587981111') } >
+                +7 (958) 798 1111
+              </Text>
+            </Text>
+          </View>
 
         </Content>
         <StandardFooter />
