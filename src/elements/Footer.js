@@ -1,6 +1,6 @@
 import React from 'react';
 import { Footer, FooterTab, Button } from 'native-base';
-import { View, Keyboard } from 'react-native';
+import { View, Keyboard, Linking } from 'react-native';
 import {dP} from 'app/utils/style/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -76,6 +76,19 @@ class StandardFooter extends React.Component{
               <View style={{padding}}>
                 <MaterialIcons
                   name='live-help'
+                  size={size}
+                  color={dP.color.primary}
+                />
+              </View>
+            </Button>
+
+            <Button
+              onPress={() => Linking.openURL('https://easy4.pro/shop/')}
+              style={ifIphoneX({alignSelf: 'flex-start'})}
+            >
+              <View style={{padding}}>
+                <MaterialIcons
+                  name='shopping-cart'
                   size={size}
                   color={dP.color.primary}
                 />
