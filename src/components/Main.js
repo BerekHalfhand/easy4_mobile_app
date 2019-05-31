@@ -23,8 +23,6 @@ import {phoneFormat, font, padding} from 'app/utils/helpers';
 import {readState, userInfo, fetchMsisdns, selectPhone, fetchBalance} from 'app/src/actions';
 import Modal from 'react-native-modal';
 
-import NavigationService from 'app/src/services/NavigationService';
-
 import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
@@ -208,19 +206,6 @@ class Main extends Screen{
     const conditions = (tariffs && tariff ? (
       <View>
         <TariffConditions tariff={tariffs[tariff]}/>
-
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <Text style={{fontFamily:'Roboto', fontSize:14, color:'#FFFFFF'}}
-            onPress={() => NavigationService.navigate('Tariff', {tariff: tariffs.travel})}
-          >
-            Условия тарифа
-          </Text>
-          <Text style={{fontFamily:'Roboto', fontSize:14, color:'#FFFFFF', marginLeft: 15}}
-            onPress={() => NavigationService.navigate('TariffList')}
-          >
-            Сменить тариф
-          </Text>
-        </View>
       </View>
     ) : null);
 

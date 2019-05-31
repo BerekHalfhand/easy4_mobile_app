@@ -4,6 +4,7 @@ import { Text } from 'react-native';
 import { styles, dP } from 'app/utils/style/styles';
 import PropTypes from 'prop-types';
 import {font, margin} from 'app/utils/helpers';
+import NavigationService from 'app/src/services/NavigationService';
 
 export default class TariffConditions extends React.Component{
   constructor(props){
@@ -53,9 +54,11 @@ export default class TariffConditions extends React.Component{
   }
 
   render(){
+    const {tariff} = this.props;
     return(
       <View style={{...styles.pane, padding: 16}}>
-        <Text style={font('Roboto_bold', 16, dP.color.primary, null, {marginTop: -4, marginBottom: 10})}>
+        <Text onPress={() => NavigationService.navigate('Tariff', {tariff})}
+          style={font('Roboto_bold', 16, dP.color.primary, null, {marginTop: -4, marginBottom: 10})}>
           Условия тарифа
         </Text>
         {this.renderConditions()}
