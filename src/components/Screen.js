@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, Text, StatusBar} from 'react-native';
-import {Root} from 'native-base';
+import {View, SafeAreaView, Text, StatusBar, Dimensions} from 'react-native';
 import {styles, dP} from 'app/utils/style/styles';
 import NavBack from 'app/src/elements/NavBack';
-import { Content, Container } from 'native-base';
+import { Root, Content, Container } from 'native-base';
 
 export default class Screen extends Component {
   constructor(props){
@@ -16,6 +15,8 @@ export default class Screen extends Component {
     headerBackTitle: null,
     headerTintColor: '#fff'
   };
+
+  dimensions = { ...Dimensions.get('window') };
 
   showError = label => {
     if (this.props.errors && this.props.errors[label])

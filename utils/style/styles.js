@@ -213,7 +213,16 @@ export const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     alignSelf: 'stretch',
     width: '100%',
-  }
+  },
+  modal: {
+    flex: 0,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 16,
+    margin: 8,
+    marginBottom: 32,
+  },
+
 });
 export const stylesExtra = {
   input: {

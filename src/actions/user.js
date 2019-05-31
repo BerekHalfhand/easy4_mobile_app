@@ -35,11 +35,17 @@ const userInfoFailure = data => dispatch => {
 
 // PHONES
 
-export const selectPhone = phone => {
-  return {
-    type: T.SELECT_PHONE,
-    payload: {phone}
-  };
+const selectPhoneAction = phone => ({ type: T.SELECT_PHONE, payload: {phone} });
+
+const gatherPhoneData = (phone, accessToken) => dispatch => {
+  dispatch(fetchBalance(phone, accessToken));
+  dispatch(fetchTariff(phone));
+  dispatch(fetchRemains(phone));
+};
+
+export const selectPhone = (phone, accessToken) => dispatch => {
+  dispatch(gatherPhoneData(phone, accessToken));
+  dispatch(selectPhoneAction(phone));
 };
 
 export function fetchMsisdns(accessToken) {
@@ -70,12 +76,11 @@ const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
 
   if (data && data.items && data.items.length && data.items[0].msisdn) {
     let phone = user.selectedPhone || data.items[0].msisdn;
-    
-    if (!user.selectedPhone)
-      dispatch(selectPhone(phone));
 
-    dispatch(fetchBalance(phone, accessToken));
-    dispatch(fetchTariff(phone));
+    if (!user.selectedPhone)
+      dispatch(selectPhoneAction(phone));
+
+    dispatch(gatherPhoneData(phone, accessToken));
   }
 };
 
@@ -134,6 +139,30 @@ const fetchTariffSuccess = data => {
 const fetchTariffFailure = data => dispatch => {
   dispatch({
     type: T.TARIFF_FETCH_FAILURE,
+    payload: data
+  });
+};
+
+export function fetchRemains(phone) {
+  return apiAction({
+    url: `/msisdn/${phone}/remains/products`,
+    onSuccess: fetchRemainsSuccess,
+    onFailure: fetchRemainsFailure,
+    errorLabel: 'fetchRemainsError',
+    label: T.REMAINS_FETCH
+  });
+}
+
+const fetchRemainsSuccess = data => dispatch => {
+  dispatch({
+    type: T.REMAINS_FETCH_SUCCESS,
+    payload: data
+  });
+};
+
+const fetchRemainsFailure = data => dispatch => {
+  dispatch({
+    type: T.REMAINS_FETCH_FAILURE,
     payload: data
   });
 };

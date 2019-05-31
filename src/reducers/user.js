@@ -1,11 +1,12 @@
 import * as T from '../actions/types';
-import tariffs from 'app/utils/tariffData.json';
+// import tariffs from 'app/utils/tariffData.json';
 
 export default (state = {}, action) => {
   let {type, payload} = action;
 
   // take the first available tariff as default
-  let activeTariff = Object.keys(tariffs)[0];
+  // let activeTariff = Object.keys(tariffs)[0];
+  let tariffRemains = null;
 
   switch (type) {
   case T.READ_STATE:
@@ -33,10 +34,10 @@ export default (state = {}, action) => {
   case T.USER_INFO_SUCCESS:
     console.log('USER/USER_INFO_SUCCESS', payload);
 
-    for (let tariff in tariffs) {
-      if (tariffs[tariff].id == payload.tariffId)
-        activeTariff = tariff;
-    }
+    // for (let tariff in tariffs) {
+    //   if (tariffs[tariff].id == payload.tariffId)
+    //     activeTariff = tariff;
+    // }
 
     return {
       ...state,
@@ -45,7 +46,7 @@ export default (state = {}, action) => {
       lastName: payload.lastName,
       phone: payload.phone,
       email: payload.email,
-      tariff: activeTariff,
+      // tariff: activeTariff,
       ...(payload.firstName && {fullName: `${payload.firstName} ${payload.lastName}`}),
       ...(state.doNotPersist && {doNotPersist: state.doNotPersist})
     };
@@ -97,6 +98,29 @@ export default (state = {}, action) => {
     return {
       ...state,
       tariffId: null,
+    };
+
+  case T.REMAINS_FETCH_SUCCESS:
+    // console.log(`USER/${type}`, payload);
+    if (!payload.result) return state;
+
+    payload.result.map(obj => {
+      if (obj.productId == 1021 && obj.packages && obj.packages.length) {
+        if (obj.packages[0].remainingVolume)
+          tariffRemains = obj.packages[0].remainingVolume;
+      }
+    });
+
+    return {
+      ...state,
+      tariffRemains,
+    };
+
+  case T.REMAINS_FETCH_FAILURE:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      tariffRemains: null,
     };
 
   case T.DO_NOT_PERSIST_TOGGLE:

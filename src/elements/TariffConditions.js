@@ -20,12 +20,12 @@ export default class TariffConditions extends React.Component{
     const conditions = tariff.conditions.map((item, index) => {
       return (
         <View key={index}>
-          <Text style={{...font('Roboto_light', 16), marginTop: 2}}>
+          <Text style={{...font('Roboto_light', 16, '#000'), marginTop: 2}}>
             {item.header}
           </Text>
           {
             item.highlight && (
-              <Text style={{...font('Roboto_black', 16), marginTop: 2}}>
+              <Text style={{...font('Roboto_black', 16, '#000'), marginTop: 2}}>
                 {item.highlight}
               </Text>
             )
@@ -33,7 +33,7 @@ export default class TariffConditions extends React.Component{
           {
             item.lines && item.lines.map((item, index) => {
               return (
-                <Text key={index} style={{...font('Roboto_light', 13), marginTop: 2}}>
+                <Text key={index} style={{...font('Roboto_light', 13, '#000'), marginTop: 2}}>
                   {item}
                 </Text>
               );
