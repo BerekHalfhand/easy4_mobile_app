@@ -18,7 +18,7 @@ export default class ClientMainInfo extends React.Component{
   }
 
   calculateRemaining(balance, rate) {
-    if (balance == 0) return 0;
+    if (balance <= 0) return 0;
     if (rate == 0) return '\u221E'; //infinity
 
     return Math.floor(balance / rate);
