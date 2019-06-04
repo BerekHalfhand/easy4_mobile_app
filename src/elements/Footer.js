@@ -70,7 +70,7 @@ class StandardFooter extends React.Component{
               </View>
             </Button>
             <Button
-              onPress={() => NavigationService.navigate('Feedback')}
+              onPress={() => NavigationService.navigate('Chatroom')}
               style={ifIphoneX({alignSelf: 'flex-start'})}
             >
               <View style={{padding}}>

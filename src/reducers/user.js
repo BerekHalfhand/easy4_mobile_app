@@ -41,6 +41,7 @@ export default (state = {}, action) => {
 
     return {
       ...state,
+      _id: payload._id,
       firstName: payload.firstName,
       secondName: payload.secondName,
       lastName: payload.lastName,

@@ -26,6 +26,7 @@ import Recovery from './src/components/Recovery';
 import Feedback from './src/components/Feedback';
 import Contacts from './src/components/Contacts';
 import Callback from './src/components/Callback';
+import Chatroom from './src/components/Chatroom';
 
 // OPTIONS
 
@@ -61,6 +62,7 @@ const Routes = createStackNavigator({
   Contacts: { screen: Contacts },
   Feedback: { screen: Feedback },
   Callback: { screen: Callback },
+  Chatroom: { screen: Chatroom },
 }, {
   initialRouteName: 'Home',
   headerLayoutPreset: 'center',

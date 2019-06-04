@@ -9,6 +9,7 @@ import api from './api';
 import app from './app';
 import auth from './auth';
 import user from './user';
+import chat from './chat';
 
 const DoNotPersistTransform = createTransform(
   // transform state on its way to being serialized and persisted.
@@ -47,7 +48,8 @@ const rootReducer = combineReducers({
   app: persistReducer(appPersistConfig, app),
   api,
   auth,
-  user
+  user,
+  chat
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

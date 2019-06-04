@@ -74,6 +74,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     .then(data => {
       console.log(`${baseUrl+url} => API response data:`, data);
       if (data.msg && data.msg !== 'OK') throw data.msg;
+      if (data.statusCode && data.statusCode !== 200) throw data.error;
 
       dispatch(onSuccess(data));
       if (successTransition)
@@ -84,7 +85,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
         console.warn(`${baseUrl+url} => API error:`, error);
         dispatch(apiError(errorLabel, error));
       } else console.error(`${baseUrl+url} => API error:`, error);
-      
+
       dispatch(onFailure(error));
 
       if (error.response && error.response.status === 403) {
