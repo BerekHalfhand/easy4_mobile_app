@@ -5,7 +5,7 @@ import {Button, Content, Container } from 'native-base';
 import {styles, stylesExtra} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import {font, margin, padding} from 'app/utils/helpers';
-import { fetchMessages, sendMessage } from 'app/src/actions';
+import { fetchMessages, sendMessage, createChatroom } from 'app/src/actions';
 import { connect } from 'react-redux';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { Constants } from 'expo';
@@ -26,7 +26,11 @@ class Chatroom extends Screen {
   };
 
   async componentDidMount() {
+    // const {chat} = this.props;
+
     await this.identifyUser();
+    this.getChatroom(this.state.userId);
+    // TODO: change this if userId and chatroom name diverge
     this.getMessages(this.state.userId);
   }
 
@@ -43,11 +47,20 @@ class Chatroom extends Screen {
     this.props.dispatch(fetchMessages(userId));
   }
 
+  getChatroom = (userId) => {
+    console.log('userId', userId);
+    this.props.dispatch(createChatroom({
+      name: userId,
+      author: userId,
+    }));
+  }
+
   send() {
     console.log(this.state);
     if (!this.state.userId) return false;
     this.props.dispatch(sendMessage({
       author: this.state.userId,
+      chatroom: this.state.userId,
       body: this.state.text
     }));
   }

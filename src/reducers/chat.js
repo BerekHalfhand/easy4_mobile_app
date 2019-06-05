@@ -18,6 +18,14 @@ export default (state = {}, action) => {
       ...state
     };
 
+  case T.CHATROOM_CREATE_SUCCESS:
+    console.log(`AUTH/${type}`, payload);
+    return {
+      chatroom: payload.result,
+      ...state
+    };
+
+  case T.CHATROOM_CREATE_FAILURE:
   case T.MESSAGES_SEND_FAILURE:
   case T.MESSAGES_FETCH_FAILURE:
     console.log(`AUTH/${type}`, payload);

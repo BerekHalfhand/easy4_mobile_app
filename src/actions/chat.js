@@ -1,11 +1,10 @@
 import * as T from './types';
-import {apiAction, apiError, apiErrorDismiss} from './api';
-import NavigationService from 'app/src/services/NavigationService';
+import {apiAction} from './api';
 
-export function fetchMessages(userId = '') {
+export function fetchMessages(chatroom = '') {
   return apiAction({
     baseUrlOverride: 'https://stage.mp.api.easy4.pro/mobile-chat',
-    url: `/messages/${userId}`,
+    url: `/messages/${chatroom}`,
     method: 'GET',
     onSuccess: fetchMessagesSuccess,
     onFailure: fetchMessagesFailure,
@@ -49,6 +48,32 @@ const sendMessageSuccess = data => dispatch => {
 const sendMessageFailure = data => dispatch => {
   dispatch({
     type: T.MESSAGES_SEND_FAILURE,
+    payload: data
+  });
+};
+
+export function createChatroom(data) {
+  return apiAction({
+    baseUrlOverride: 'https://stage.mp.api.easy4.pro/mobile-chat',
+    url: '/chatrooms',
+    method: 'POST',
+    data,
+    onSuccess: createChatroomSuccess,
+    onFailure: createChatroomFailure,
+    label: T.CHATROOM_CREATE
+  });
+}
+
+const createChatroomSuccess = data => dispatch => {
+  dispatch({
+    type: T.CHATROOM_CREATE_SUCCESS,
+    payload: data
+  });
+};
+
+const createChatroomFailure = data => dispatch => {
+  dispatch({
+    type: T.CHATROOM_CREATE_FAILURE,
     payload: data
   });
 };
