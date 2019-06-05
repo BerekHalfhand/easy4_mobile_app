@@ -1,7 +1,6 @@
 import React from 'react';
-import { AppRegistry, NetInfo } from 'react-native';
+import { Text, NetInfo } from 'react-native';
 import { Asset, Font, AppLoading } from 'expo';
-import { Root } from 'native-base';
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import Drawer from 'app/src/elements/Drawer';
@@ -38,6 +37,10 @@ console.disableYellowBox = true;
 
 // fewer red screens of death
 console.reportErrorsAsExceptions = false;
+
+// Disable system font scaling
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
 
 // ROUTING
 
@@ -164,9 +167,7 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <Root>
-            {this.state.isReady ? appReady : appLoading}
-          </Root>
+          {this.state.isReady ? appReady : appLoading}
         </PersistGate>
       </Provider>
     );

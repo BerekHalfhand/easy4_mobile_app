@@ -6,24 +6,22 @@ import {
   ScrollView,
   RefreshControl,
   Dimensions,
-  Platform,
   TouchableOpacity
 } from 'react-native';
 import Screen from './Screen';
 import {
   Button,
   Container,
-  ActionSheet,
   Content
 } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import moment from 'moment';
+// import moment from 'moment';
 import {phoneFormat, font, padding} from 'app/utils/helpers';
-import {userInfo, fetchMsisdns, selectPhone, fetchBalance} from 'app/src/actions';
-import NavigationService from 'app/src/services/NavigationService';
+import {readState, userInfo, fetchMsisdns, selectPhone, fetchBalance} from 'app/src/actions';
+import Modal from 'react-native-modal';
 
 import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
@@ -37,6 +35,7 @@ class Main extends Screen{
     autoBind(this);
     this.state = {
       refreshing: false,
+      isModalVisible: false,
     };
 
     if (props.user) {
@@ -85,9 +84,13 @@ class Main extends Screen{
   };
 
   selectPhone = msisdn => {
-    this.props.dispatch(selectPhone(msisdn));
-    this.setState({subTitle: phoneFormat(msisdn)});
-    this.getBalance(msisdn);
+    this.toggleModal();
+    const { auth, dispatch, navigation } = this.props;
+
+    setTimeout(() => { // let the animation play out smoothly before all the heavy lifting
+      dispatch(selectPhone(msisdn, auth.accessToken));
+      navigation.setParams({ phone: msisdn });
+    }, 250);
   }
 
   getBalance = async (phone) => {
@@ -95,28 +98,29 @@ class Main extends Screen{
     dispatch(fetchBalance(phone, auth.accessToken));
   }
 
-  onPressNumbers = () => {
-    console.log(this.props);
-    if (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length > 1) {
-      let phones = this.props.user.msisdns.map(v => phoneFormat(v));
+  getTariff() {
+    const {user} = this.props;
+    if (!user) return false;
 
-      ActionSheet.show(
-        {
-          options: phones.concat(['Отмена']),
-          cancelButtonIndex: this.props.user.msisdns.length,
-          title: 'Посмотреть баланс'
-        },
-        buttonIndex => {
-          if (buttonIndex == this.props.user.msisdns.length) //Отмена
-            return false;
-
-          let phone = this.props.user.msisdns[buttonIndex];
-
-          this.selectPhone(phone);
-        }
-      );
+    if (user.tariffId) {
+      if (user.tariffId == tariffs.connect.id) return 'connect';
+      if (user.tariffId == tariffs.travel.id) return 'travel';
     }
+    return null;
   }
+
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  };
+
+  onPressNumbers() {
+    const {user, dispatch} = this.props;
+    dispatch(readState());
+
+    if (user && user.msisdns && user.msisdns.length)
+      this.setState({isModalVisible: true});
+  }
+
 
   hasBalance = (user) => {
     return user &&
@@ -124,15 +128,10 @@ class Main extends Screen{
       typeof user.balance !== 'undefined';
   }
 
-  onPressIncrease(idx){
+  onPressIncrease(){
     let { selectedPhone } = this.props.user;
     if (selectedPhone){
-      switch (idx) {
-      case 0:
-        this.props.navigation.navigate('IncreaseBalance', {phone: phoneFormat(selectedPhone)});
-        break;
-
-      }
+      this.props.navigation.navigate('IncreaseBalance', {phone: phoneFormat(selectedPhone)});
     }
   }
 
@@ -170,18 +169,19 @@ class Main extends Screen{
     );
   }
 
-  render() {
-    const BUTTONS = ['Банковская карта', 'Отмена'];
-    const CANCEL_INDEX = 2;
+  renderContent() {
+    const {user} = this.props;
+    if (!user) return false;
 
     const width = Dimensions.get('window').width;
-    const { fullName, tariff } = this.props.user;
+    const { fullName } = user;
+    const tariff = this.getTariff();
 
-    const balance = (this.hasBalance(this.props.user) ?
-      <ClientMainBalance balance={this.props.user.balance}/>
+    const balance = (this.hasBalance(user) ?
+      <ClientMainBalance balance={user.balance}/>
       : null);
 
-    const mainInfo = (this.hasBalance(this.props.user) && tariff?
+    const mainInfo = (this.hasBalance(user) && tariff?
       (
         <View>
           <Text style={{fontFamily:'Roboto_light', fontSize:18, color:'#FFFFFF', marginTop: 5, marginBottom: -5}}>
@@ -197,7 +197,7 @@ class Main extends Screen{
             {tariffs[tariff].services}
           </Text>
 
-          <ClientMainInfo balance={this.props.user.balance} tariff={tariffs[tariff]} />
+          <ClientMainInfo user={user} tariff={tariffs[tariff]} />
 
         </View>
       )
@@ -206,23 +206,10 @@ class Main extends Screen{
     const conditions = (tariffs && tariff ? (
       <View>
         <TariffConditions tariff={tariffs[tariff]}/>
-
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <Text style={{fontFamily:'Roboto', fontSize:14, color:'#FFFFFF'}}
-            onPress={() => NavigationService.navigate('Tariff', {tariff: tariffs.travel})}
-          >
-            Условия тарифа
-          </Text>
-          <Text style={{fontFamily:'Roboto', fontSize:14, color:'#FFFFFF', marginLeft: 15}}
-            onPress={() => NavigationService.navigate('TariffList')}
-          >
-            Сменить тариф
-          </Text>
-        </View>
       </View>
     ) : null);
 
-    const topUpButton = (this.props.user && this.props.user.selectedPhone ? (
+    const topUpButton = (user.selectedPhone ? (
       <Button rounded
         style={{
           backgroundColor: dP.color.accent,
@@ -232,18 +219,7 @@ class Main extends Screen{
           alignItems: 'center',
           ...padding(10)
         }}
-        onPress={() =>
-          ActionSheet.show(
-            {
-              options: BUTTONS,
-              cancelButtonIndex: CANCEL_INDEX,
-            },
-            buttonIndex => {
-              this.setState({ clicked: BUTTONS[buttonIndex] });
-              if (this.props.user)
-                this.onPressIncrease(buttonIndex);
-            }
-          )}
+        onPress={() => this.onPressIncrease()}
       >
         <Text style={font('Roboto_black', 16, dP.color.primary, null, {textAlign: 'center'})}>
           Пополнить
@@ -251,7 +227,7 @@ class Main extends Screen{
       </Button>
     ) : null);
 
-    const balanceBlock = (this.props.user.selectedPhone ? (
+    const balanceBlock = (user.selectedPhone ? (
       <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
         <View style={{width:'55%'}}>
           {balance}
@@ -263,6 +239,57 @@ class Main extends Screen{
         </View>
       </View>
     ) : null);
+
+    const modal = (user.msisdns && user.msisdns.length ? (
+      <Modal
+        isVisible={this.state.isModalVisible}
+        onBackButtonPress={this.toggleModal}
+        onBackdropPress={this.toggleModal}
+        propagateSwipe
+        style={{flex: 1, justifyContent: 'flex-end'}}
+      >
+        <View style={styles.modal}>
+          <ScrollView>
+            <Text style={font('Roboto', 20, '#000', null, {marginBottom: 8})}>Основной номер</Text>
+            {user.msisdns.map(v => (
+              <TouchableOpacity key={v} style={{flexDirection: 'row', paddingTop: 8, paddingBottom: 8}} onPress={() => this.selectPhone(v)}>
+                <View style={{
+                  width: 20,
+                  height: 20,
+                  marginRight: 10,
+                  flex: 0,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <MaterialCommunityIcons
+                    name={v == user.selectedPhone ? 'checkbox-marked-circle-outline' : 'checkbox-blank-circle-outline'}
+                    color='#000'
+                    size={20} />
+                </View>
+                <Text style={
+                  font(
+                    (v == user.selectedPhone ? 'Roboto_bold' : 'Roboto'),
+                    16,
+                    (v == user.selectedPhone ? '#6a6a6a' : '#5a5a5a')
+                  )}>
+                  {phoneFormat(v)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+            <View style={{flexDirection: 'row', marginBottom: -12}}>
+              <Button transparent
+                onPress={this.toggleModal}
+              >
+                <Text style={font('Roboto_black', 16, dP.color.primary)}>
+                  ОТМЕНА
+                </Text>
+              </Button>
+            </View>
+          </ScrollView>
+        </View>
+      </Modal>
+    ) : null);
+
 
     return (
       <Container style={{backgroundColor: tariff ? tariffs[tariff].color : dP.color.primary}}>
@@ -280,7 +307,7 @@ class Main extends Screen{
           <Content>
 
             <View style={{
-              ...padding(Platform.OS === 'ios' ? 32 : 16, 32, 16, 32),
+              ...padding(16, 32),
               backgroundColor: dP.color.primary
             }}>
               <View>
@@ -312,6 +339,8 @@ class Main extends Screen{
                   source={this.requireImage(Object.keys(tariffs).indexOf(tariff))}
                 />
               </View>
+              {modal}
+
               {mainInfo}
 
               {conditions}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Screen from './Screen';
-import {Text, View} from 'react-native';
+import {Text, Linking} from 'react-native';
 import {
   Container,
   Content,
@@ -19,7 +19,7 @@ export default class Contacts extends Screen {
     headerTitle: <LogoTitle title='Контакты' />,
   };
 
-  render() {
+  renderContent() {
     return (
       <Container style={styles.container}>
         <Content padder style={styles.content}>
@@ -29,9 +29,10 @@ export default class Contacts extends Screen {
           <Text style={{...styles.textSimple, color: '#D4D4D4', marginBottom: 40, textAlign: 'center'}}>
               Бесплатный номер для звонков по России
           </Text>
-          <Autolink style={{...styles.textBlockH, marginBottom: 8, textAlign: 'center'}}
-            linkStyle={{color: dP.color.white}}
-            text='+7 (958) 798 1111' />
+          <Text style={{...styles.textBlockH, marginBottom: 8, textAlign: 'center'}}
+            onPress={() => Linking.openURL('tel://+79587981111') } >
+            +7 (958) 798 1111
+          </Text>
           <Text style={{...styles.textSimple, color: '#D4D4D4', textAlign: 'center'}}>
               Бесплатный номер для звонков
           </Text>

@@ -66,6 +66,10 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     //   }
     //   return response.json()
     // })
+    // .then(response => {
+    //   console.log('response: ', response);
+    //   return response;
+    // })
     .then(response => response.json())
     .then(data => {
       console.log(`${baseUrl+url} => API response data:`, data);
@@ -76,8 +80,11 @@ const apiMiddleware = ({ dispatch }) => next => action => {
         NavigationService.navigate(successTransition);
     })
     .catch(error => {
-      console.log(`${baseUrl+url} => API error:`, error);
-      dispatch(apiError(errorLabel, error));
+      if (errorLabel) {
+        console.warn(`${baseUrl+url} => API error:`, error);
+        dispatch(apiError(errorLabel, error));
+      } else console.error(`${baseUrl+url} => API error:`, error);
+      
       dispatch(onFailure(error));
 
       if (error.response && error.response.status === 403) {

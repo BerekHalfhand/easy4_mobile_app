@@ -4,6 +4,7 @@ import { Text } from 'react-native';
 import { styles, dP } from 'app/utils/style/styles';
 import PropTypes from 'prop-types';
 import {font, margin} from 'app/utils/helpers';
+import NavigationService from 'app/src/services/NavigationService';
 
 export default class TariffConditions extends React.Component{
   constructor(props){
@@ -20,12 +21,12 @@ export default class TariffConditions extends React.Component{
     const conditions = tariff.conditions.map((item, index) => {
       return (
         <View key={index}>
-          <Text style={{...font('Roboto_light', 16), marginTop: 2}}>
+          <Text style={{...font('Roboto_light', 16, '#000'), marginTop: 2}}>
             {item.header}
           </Text>
           {
             item.highlight && (
-              <Text style={{...font('Roboto_black', 16), marginTop: 2}}>
+              <Text style={{...font('Roboto_black', 16, '#000'), marginTop: 2}}>
                 {item.highlight}
               </Text>
             )
@@ -33,7 +34,7 @@ export default class TariffConditions extends React.Component{
           {
             item.lines && item.lines.map((item, index) => {
               return (
-                <Text key={index} style={{...font('Roboto_light', 13), marginTop: 2}}>
+                <Text key={index} style={{...font('Roboto_light', 13, '#000'), marginTop: 2}}>
                   {item}
                 </Text>
               );
@@ -53,9 +54,11 @@ export default class TariffConditions extends React.Component{
   }
 
   render(){
+    const {tariff} = this.props;
     return(
       <View style={{...styles.pane, padding: 16}}>
-        <Text style={font('Roboto_bold', 16, dP.color.primary, null, {marginTop: -4, marginBottom: 10})}>
+        <Text onPress={() => NavigationService.navigate('Tariff', {tariff})}
+          style={font('Roboto_bold', 16, dP.color.primary, null, {marginTop: -4, marginBottom: 10})}>
           Условия тарифа
         </Text>
         {this.renderConditions()}

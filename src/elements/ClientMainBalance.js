@@ -1,23 +1,25 @@
 import React from 'react';
 import { View } from 'native-base';
-import { Text, Dimensions } from 'react-native';
+import { Text } from 'react-native';
 import PropTypes from 'prop-types';
+import {scaleTextToFit} from 'app/utils/scaling';
+import {font} from 'app/utils/helpers';
 
 export default class ClientMainBalance extends React.Component{
   constructor(props){
     super(props);
   }
   render(){
-    const { width } = Dimensions.get('window');
-    const guidelineBaseWidth = 420;
-    const scale =  width / guidelineBaseWidth;
-
     return(
       <View style={{justifyContent: 'flex-end'}}>
         <Text style={{fontFamily:'Roboto_light', fontSize:18, color:'#FFFFFF'}}>
           баланс
         </Text>
-        <Text style={{fontFamily:'Roboto_black', fontSize:(32*scale), color:'#FFFFFF'}}>
+        <Text
+          adjustsFontSizeToFit
+          numberOfLines={1}
+          style={font('Roboto_black', scaleTextToFit(26, 0.5, this.props.balance))}
+        >
           {this.props.balance} ₽
         </Text>
       </View>

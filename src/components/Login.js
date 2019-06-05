@@ -3,7 +3,9 @@ import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import Screen from './Screen';
 import {Button, Body, View, Container, Content, CheckBox } from 'native-base';
 import StandardFooter from 'app/src/elements/Footer';
-import {styles} from 'app/utils/style/styles';
+import {styles, dP} from 'app/utils/style/styles';
+import {scaleTextToFit} from 'app/utils/scaling';
+import {font} from 'app/utils/helpers';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import NavigationService from 'app/src/services/NavigationService';
 import InputWithIcon from 'app/src/elements/InputWithIcon';
@@ -63,8 +65,8 @@ class Login extends Screen {
   }
 
   onPressTouchId = async () => {
-    const {dispatch, bioTouch, bioFace, bioSaved} = this.props;
-    if (bioSaved && (bioTouch || bioFace)) {
+    const {dispatch, bioTouch, bioSaved} = this.props;
+    if (bioSaved && bioTouch) {
       LocalAuthentication.authenticateAsync()
         .then(result => {
           console.log('authenticateAsync', result);
@@ -73,7 +75,7 @@ class Login extends Screen {
               SecureStore.getItemAsync('login'),
               SecureStore.getItemAsync('password')]
             )
-              .then(credentials => this.props.dispatch(login(credentials[0], credentials[1])));
+              .then(credentials => dispatch(login(credentials[0], credentials[1])));
           }
         });
     }
@@ -91,9 +93,9 @@ class Login extends Screen {
     this.props.dispatch(login(values.login, values.password));
   }
 
-  render() {
-      const {bioTouch, bioFace, bioSaved} = this.props;
-    const biometrics = (bioSaved && (bioTouch || bioFace) && this.state.savedLogin ? (
+  renderContent() {
+    const {bioTouch, bioSaved} = this.props;
+    const biometrics = (bioSaved && bioTouch && this.state.savedLogin ? (
       <View style={{alignItems: 'center', marginBottom: 8 }}>
         <TouchableOpacity
           style={{padding: 8}}
@@ -159,7 +161,7 @@ class Login extends Screen {
                           style={{...styles.buttonPrimaryInverse, marginBottom: 8}}
                           onPress={this.onPressEsia}
                         >
-                          <Text style={styles.textButtonSecondary}>
+                          <Text style={font('SFCT_Semibold', scaleTextToFit(13, 0.5, 'Вход через Госуслуги'), dP.color.accent, 0.25)}>
                               Вход через Госуслуги
                           </Text>
                         </Button>

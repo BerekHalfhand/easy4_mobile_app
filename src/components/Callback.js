@@ -28,7 +28,7 @@ class Feedback extends Screen {
 
   static navigationOptions = {
     ...Screen.navigationOptions,
-    headerTitle: <LogoTitle title='Перезвонить мне' />,
+    headerTitle: <LogoTitle title='Заказать обратный звонок' titleSize={16}/>,
   };
 
   formSubmit(values, actions) {
@@ -37,7 +37,7 @@ class Feedback extends Screen {
     this.props.dispatch(sendLead(values, actions));
   }
 
-  render() {
+  renderContent() {
     const {accessToken, fullName, phone} = this.props;
 
     return (

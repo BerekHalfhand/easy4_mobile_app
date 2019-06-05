@@ -39,7 +39,7 @@ class Recovery extends Screen {
     dispatch(restorePassword(values.email));
   }
 
-  render() {
+  renderContent() {
     return (
       <Container style={styles.container}>
         <Content style={styles.content}>

@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
-
 export const dP ={
   color: {
     primary: '#004d99',
@@ -47,9 +45,6 @@ export const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-    width,
-    height,
-    // borderColor: 'red', borderWidth: 1,
   },
   contentCentered: {
     flex: 1,
@@ -158,19 +153,13 @@ export const styles = StyleSheet.create({
   },
   buttonPrimary: {
     width: dP.size.buttonWidth,
-    paddingLeft: 20,
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingBottom: 10,
+    padding: 10,
     backgroundColor: dP.color.accent,
     alignSelf: 'center',
   },
   buttonPrimaryCash: {
     // width: dP.size.buttonWidth,
-    paddingLeft: 20,
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingBottom: 10,
+    padding: 10,
     backgroundColor: dP.color.accent,
   },
   buttonPrimaryText: {
@@ -179,10 +168,7 @@ export const styles = StyleSheet.create({
   },
   buttonPrimaryInverse: {
     width: dP.size.buttonWidth,
-    paddingLeft: 20,
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingBottom: 10,
+    padding: 10,
     alignSelf: 'center',
   },
   buttonPrimaryInverseText: {
@@ -227,7 +213,16 @@ export const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     alignSelf: 'stretch',
     width: '100%',
-  }
+  },
+  modal: {
+    flex: 0,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 16,
+    margin: 8,
+    marginBottom: 32,
+  },
+
 });
 export const stylesExtra = {
   input: {
