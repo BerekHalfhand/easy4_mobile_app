@@ -141,7 +141,7 @@ class Main extends Screen{
       require('app/assets/image/tariffs/connect.png'),
     ];
 
-    if (index < 0 || index >= images.length) return false;
+    if (index < 0 || index >= images.length) return '';
 
     return images[index];
   }

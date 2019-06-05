@@ -1,6 +1,5 @@
 import React from 'react';
-import { View } from 'native-base';
-import { Text } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { styles, dP } from 'app/utils/style/styles';
 import PropTypes from 'prop-types';
 import {font, margin} from 'app/utils/helpers';
@@ -56,13 +55,14 @@ export default class TariffConditions extends React.Component{
   render(){
     const {tariff} = this.props;
     return(
-      <View style={{...styles.pane, padding: 16}}>
-        <Text onPress={() => NavigationService.navigate('Tariff', {tariff})}
-          style={font('Roboto_bold', 16, dP.color.primary, null, {marginTop: -4, marginBottom: 10})}>
+      <TouchableOpacity style={{...styles.pane, padding: 16}}
+        onPress={() => NavigationService.navigate('Tariff', {tariff})}
+      >
+        <Text style={font('Roboto_bold', 16, dP.color.primary, null, {marginTop: -4, marginBottom: 10})}>
           Условия тарифа
         </Text>
         {this.renderConditions()}
-      </View>
+      </TouchableOpacity>
 
     );
   }
