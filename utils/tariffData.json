@@ -6,14 +6,13 @@
     "title": "Тревел 2",
     "subTitle": "Easy4 Travel",
     "tagline": "Просто, как дома!",
-    "services": "пакеты не подключены",
     "infoCaption": "Баланса хватит на",
     "conditions": [
       {
         "header": "Голосовая связь",
         "lines": [
           "Исходящие вызовы, за минуту — 2.4 ₽",
-          "Входящие вызовы — 0 ₽"
+          "Абонентская плата - 0 ₽"
         ]
       },
       {
@@ -75,8 +74,7 @@
     "color": "#69B650",
     "title": "Коннект 999",
     "subTitle": "Easy4 Connect",
-    "tagline": "",
-    "services": "Только Интернет",
+    "tagline": "Только Интернет",
     "infoCaption": "В пакете осталось",
     "conditions": [
       {
