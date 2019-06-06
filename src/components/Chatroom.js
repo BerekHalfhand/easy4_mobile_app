@@ -9,6 +9,7 @@ import { fetchMessages, sendMessage, createChatroom } from 'app/src/actions';
 import { connect } from 'react-redux';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { Constants } from 'expo';
+import socketIO from 'socket.io-client';
 
 class Chatroom extends Screen {
   constructor(props) {
@@ -27,11 +28,23 @@ class Chatroom extends Screen {
 
   async componentDidMount() {
     // const {chat} = this.props;
+    this.socketConnect('ws://stage.mp.api.easy4.pro:3000/mobile-chat');
 
     await this.identifyUser();
     this.getChatroom(this.state.userId);
     // TODO: change this if userId and chatroom name diverge
     this.getMessages(this.state.userId);
+  }
+
+  socketConnect = server => {
+    console.log('connecting to socket server', server);
+    this.socket = socketIO(server, {
+      transports: ['websocket'], jsonp: false
+    });
+    this.socket.connect();
+    this.socket.on('connect', () => {
+      console.warn('connected to socket server');
+    });
   }
 
   identifyUser = () => {
@@ -43,12 +56,12 @@ class Chatroom extends Screen {
   }
 
   getMessages = (userId) => {
-    console.log('userId', userId);
+    // console.log('userId', userId);
     this.props.dispatch(fetchMessages(userId));
   }
 
   getChatroom = (userId) => {
-    console.log('userId', userId);
+    // console.log('userId', userId);
     this.props.dispatch(createChatroom({
       name: userId,
       author: userId,
