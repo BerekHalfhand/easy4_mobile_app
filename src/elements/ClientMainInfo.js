@@ -74,7 +74,7 @@ export default class ClientMainInfo extends React.Component{
               {data}
             </Text>
             <Text style={font('Roboto_light', 13, dP.color.white, -.5, {textAlign:'center'})}>
-              Мб
+              МБ
             </Text>
           </View>
           <View style={{width: width/5, flex: 1, justifyContent: 'center'}}>
@@ -116,11 +116,11 @@ export default class ClientMainInfo extends React.Component{
           </View>
           <View style={{alignItems: 'center', justifyContent: 'center', width: gaugeSize * 2, height: gaugeSize * 2}}>
             <Text style={font('Roboto_black', 30, '#000')}>{remainingData}</Text>
-            <Text style={font('Roboto', 20, '#000')}>Мб</Text>
+            <Text style={font('Roboto', 20, '#000')}>МБ</Text>
           </View>
         </View>
         <View style={{width:'50%', justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={font('Roboto_light', 18, '#000')}>из 3 Гб</Text>
+          <Text style={font('Roboto_light', 18, '#000')}>из 3 ГБ</Text>
         </View>
       </View>
     );

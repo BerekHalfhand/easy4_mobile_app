@@ -141,7 +141,7 @@ class Main extends Screen{
       require('app/assets/image/tariffs/connect.png'),
     ];
 
-    if (index < 0 || index >= images.length) return false;
+    if (index < 0 || index >= images.length) return '';
 
     return images[index];
   }
@@ -192,9 +192,6 @@ class Main extends Screen{
           </Text>
           <Text style={{fontFamily:'Roboto_light', fontSize:18, color:'#FFFFFF'}}>
             {tariffs[tariff].tagline}
-          </Text>
-          <Text style={{fontFamily:'Roboto_light', fontSize:13, color:'#FFFFFF'}}>
-            {tariffs[tariff].services}
           </Text>
 
           <ClientMainInfo user={user} tariff={tariffs[tariff]} />
