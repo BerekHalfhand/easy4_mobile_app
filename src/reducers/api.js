@@ -6,15 +6,15 @@ export default (state = {}, action) => {
 
   switch (type) {
   case T.READ_STATE:
-    console.log('API/READ_STATE', state);
+    console.log('\n-> API/READ_STATE', state);
     return state;
 
   case T.RESET_STATE:
-    console.log('API/RESET_STATE', state);
+    console.log('\n-> API/RESET_STATE', state);
     return {};
 
   case T.API_START:
-    console.log('API/API_START', payload);
+    console.log('\n-> API/API_START', payload);
     return {
       ...state,
       isLoadingData: true,
@@ -24,14 +24,14 @@ export default (state = {}, action) => {
     };
 
   case T.API_ERROR:
-    console.log('API/API_ERROR', payload);
+    console.log('\n-> API/API_ERROR', payload);
     return {
       ...state,
       errors: payload.errors
     };
 
   case T.API_END:
-    console.log('API/API_END', payload);
+    console.log('\n-> API/API_END', payload);
     return {
       ...state,
       isLoadingData: false,
@@ -41,7 +41,7 @@ export default (state = {}, action) => {
     };
 
   case T.ERROR_DISMISS:
-    console.log('API/ERROR_DISMISS', payload);
+    console.log('\n-> API/ERROR_DISMISS', payload);
     return {
       ...state,
       ...(payload.errorLabel && {

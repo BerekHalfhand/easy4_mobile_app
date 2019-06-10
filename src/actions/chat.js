@@ -1,9 +1,12 @@
 import * as T from './types';
 import {apiAction} from './api';
 
+const chatUrl = 'https://stage.mp.api.easy4.pro/mobile-chat';
+// const chatUrl = 'http://192.168.1.55:3000/mobile-chat';
+
 export function fetchMessages(chatroom = '') {
   return apiAction({
-    baseUrlOverride: 'https://stage.mp.api.easy4.pro/mobile-chat',
+    baseUrlOverride: chatUrl,
     url: `/messages/${chatroom}`,
     method: 'GET',
     onSuccess: fetchMessagesSuccess,
@@ -28,7 +31,7 @@ const fetchMessagesFailure = data => dispatch => {
 
 export function sendMessage(data) {
   return apiAction({
-    baseUrlOverride: 'https://stage.mp.api.easy4.pro/mobile-chat',
+    baseUrlOverride: chatUrl,
     url: '/messages',
     method: 'POST',
     data,
@@ -53,8 +56,9 @@ const sendMessageFailure = data => dispatch => {
 };
 
 export function createChatroom(data) {
+  console.log('createChatroom', data);
   return apiAction({
-    baseUrlOverride: 'https://stage.mp.api.easy4.pro/mobile-chat',
+    baseUrlOverride: chatUrl,
     url: '/chatrooms',
     method: 'POST',
     data,
@@ -74,6 +78,14 @@ const createChatroomSuccess = data => dispatch => {
 const createChatroomFailure = data => dispatch => {
   dispatch({
     type: T.CHATROOM_CREATE_FAILURE,
+    payload: data
+  });
+};
+
+export const receiveMessage = data => dispatch => {
+  console.log('receiveMessage');
+  dispatch({
+    type: T.MESSAGES_RECEIVE,
     payload: data
   });
 };

@@ -5,7 +5,7 @@ import {Button, Content, Container } from 'native-base';
 import {styles, stylesExtra} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import {font, margin, padding} from 'app/utils/helpers';
-import { fetchMessages, sendMessage, createChatroom } from 'app/src/actions';
+import { fetchMessages, sendMessage, createChatroom, receiveMessage } from 'app/src/actions';
 import { connect } from 'react-redux';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { Constants } from 'expo';
@@ -28,7 +28,8 @@ class Chatroom extends Screen {
 
   async componentDidMount() {
     // const {chat} = this.props;
-    this.socketConnect('ws://stage.mp.api.easy4.pro:3000/mobile-chat');
+    this.socketConnect('wss://stage.mp.api.easy4.pro');
+    // this.socketConnect('ws://192.168.1.55:3000');
 
     await this.identifyUser();
     this.getChatroom(this.state.userId);
@@ -39,11 +40,19 @@ class Chatroom extends Screen {
   socketConnect = server => {
     console.log('connecting to socket server', server);
     this.socket = socketIO(server, {
-      transports: ['websocket'], jsonp: false
+      transports: ['websocket'],
+      path: '/mobile-chat/ws'
     });
+
     this.socket.connect();
-    this.socket.on('connect', () => {
-      console.warn('connected to socket server');
+
+    this.socket.on('ready', () => {
+      console.warn('connected to socket server', server);
+    });
+
+    this.socket.on('message', data => {
+      console.warn('message received', data);
+      this.props.dispatch(receiveMessage(data));
     });
   }
 
@@ -61,7 +70,7 @@ class Chatroom extends Screen {
   }
 
   getChatroom = (userId) => {
-    // console.log('userId', userId);
+    console.log('getChatroom', userId);
     this.props.dispatch(createChatroom({
       name: userId,
       author: userId,
@@ -82,16 +91,30 @@ class Chatroom extends Screen {
     const {chat} = this.props;
     if (!chat) return false;
 
-    const messages = (chat.messages && chat.messages.length ? (
-      chat.messages.map((item, index) => {
-        if (!item.author) return null;
+    const messages = (chat.messages && Object.keys(chat.messages).length ? (
+      Object.keys(chat.messages).map(id => {
+        if (!chat.messages[id].author) return null;
+        chat.messages[id]._meta = {};
+
+        chat.messages[id]._meta.ownMessage = false;
+        if (chat.messages[id].author === this.state.userId) {
+          chat.messages[id]._meta.ownMessage = true;
+          chat.messages[id]._meta.author = 'Вы';
+        }
+
+        let msgMargin = chat.messages[id]._meta.ownMessage ? margin(10, 5, 10, 30) : margin(10, 30, 10, 5);
         return (
-          <View key={index} style={{backgroundColor: '#FFF', borderRadius: 5, ...margin(10, 5), ...padding(5)}}>
+          <View key={id} style={{
+            backgroundColor: '#FFF',
+            borderRadius: 5,
+            ...msgMargin,
+            ...padding(5)
+          }}>
             <Text style={font('Roboto_black', 16, '#000')}>
-              {item.author}{"\n"}
+              {chat.messages[id]._meta.author || chat.messages[id].author}{'\n'}
             </Text>
             <Text style={font('Roboto_light', 13, '#000')}>
-              {item.body}
+              {chat.messages[id].body}
             </Text>
           </View>
         );
