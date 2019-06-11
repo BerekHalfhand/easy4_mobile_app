@@ -75,9 +75,11 @@ export const BANNERS_SEEN = 'BANNERS_SEEN';
 export const BIOMETRY_SET_TYPES = 'BIOMETRY_SET_TYPES';
 export const BIOMETRY_SET_SAVED = 'BIOMETRY_SET_SAVED';
 
-export const SEND_LEAD = 'SEND_LEAD';
-export const SEND_LEAD_SUCCESS = 'SEND_LEAD_SUCCESS';
-export const SEND_LEAD_FAILURE = 'SEND_LEAD_FAILURE';
+export const ID_SET = 'ID_SET';
+
+export const LEAD_SEND = 'LEAD_SEND';
+export const LEAD_SEND_SUCCESS = 'LEAD_SEND_SUCCESS';
+export const LEAD_SEND_FAILURE = 'LEAD_SEND_FAILURE';
 
 // CHAT
 

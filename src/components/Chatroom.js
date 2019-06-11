@@ -16,8 +16,7 @@ class Chatroom extends Screen {
     super(props);
     autoBind(this);
     this.state = {
-      text: '',
-      userId: ''
+      text: ''
     };
   }
 
@@ -27,14 +26,13 @@ class Chatroom extends Screen {
   };
 
   async componentDidMount() {
-    // const {chat} = this.props;
+    const {app} = this.props;
     this.socketConnect('wss://stage.mp.api.easy4.pro');
     // this.socketConnect('ws://192.168.1.55:3000');
 
-    await this.identifyUser();
-    this.getChatroom(this.state.userId);
+    this.getChatroom(app.userId);
     // TODO: change this if userId and chatroom name diverge
-    this.getMessages(this.state.userId);
+    this.getMessages(app.userId);
   }
 
   socketConnect = server => {
@@ -54,14 +52,6 @@ class Chatroom extends Screen {
       console.warn('message received', data);
       this.props.dispatch(receiveMessage(data));
     });
-  }
-
-  identifyUser = () => {
-    let userId = Constants.deviceId || Constants.installationId;
-    if (this.props.user && this.props.user._id)
-      userId = this.props.user._id;
-
-    this.setState({userId});
   }
 
   getMessages = (userId) => {
@@ -88,7 +78,7 @@ class Chatroom extends Screen {
   }
 
   render() {
-    const {chat} = this.props;
+    const {chat, app} = this.props;
     if (!chat) return false;
 
     const messages = (chat.messages && Object.keys(chat.messages).length ? (
@@ -97,7 +87,7 @@ class Chatroom extends Screen {
         chat.messages[id]._meta = {};
 
         chat.messages[id]._meta.ownMessage = false;
-        if (chat.messages[id].author === this.state.userId) {
+        if (chat.messages[id].author === app.userId) {
           chat.messages[id]._meta.ownMessage = true;
           chat.messages[id]._meta.author = 'Вы';
         }
@@ -125,7 +115,7 @@ class Chatroom extends Screen {
       </Text>
     ));
 
-    const inputBlock = (this.state.userId ? (
+    const inputBlock = (app.userId ? (
       <View style={{
         position: 'absolute',
         flexDirection: 'row',

@@ -1,22 +1,27 @@
 import React from 'react';
-import {Font, AppLoading} from 'expo';
 import NavigationService from 'app/src/services/NavigationService';
 import { connect } from 'react-redux';
 
 import {
   Content,
-  CheckBox,
   Text,
   Container,
   Button
 } from 'native-base';
-import {Image, Linking, Alert, View} from 'react-native';
+import {Image, Linking, View} from 'react-native';
 import Screen from './Screen';
 import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import StandardFooter from 'app/src/elements/Footer';
-import {checkToken, setBiometryTypes, setBiometrySaved, readState, resetState} from 'app/src/actions';
-import { LocalAuthentication } from 'expo';
+import {
+  checkToken,
+  setBiometryTypes,
+  setBiometrySaved,
+  readState,
+  resetState,
+  setId,
+} from 'app/src/actions';
+import { LocalAuthentication, Constants } from 'expo';
 import {font} from 'app/utils/helpers';
 
 class Home extends Screen {
@@ -25,8 +30,9 @@ class Home extends Screen {
     autoBind(this);
 
     props.dispatch(readState());
-    this.fetchAuthData();
-    this.determineBiometryStatus();
+    props.fetchAuthData(props.accessToken, props.refreshToken);
+    props.determineBiometryStatus();
+    props.identifyUser(props.user);
   }
 
   static navigationOptions = {
@@ -48,34 +54,6 @@ class Home extends Screen {
 
   onReset = () => {
     this.props.dispatch(resetState());
-  }
-
-  fetchAuthData = async () => {
-    try {
-      if (this.props.accessToken && this.props.refreshToken) {
-        console.log('Found accessToken: ',this.props.accessToken);
-        this.props.dispatch(checkToken(this.props.accessToken, this.props.refreshToken));
-      } else {
-        console.log('Couldn\'t find accessToken!');
-      }
-    } catch (e) {
-      console.log('Token check error', e);
-    }
-  }
-
-  determineBiometryStatus = () => {
-    const {dispatch} = this.props;
-    LocalAuthentication.supportedAuthenticationTypesAsync()
-      .then(e => {
-        console.log('supportedAuthenticationTypesAsync', e);
-        dispatch(setBiometryTypes(e));
-      });
-
-    LocalAuthentication.isEnrolledAsync()
-      .then(e => {
-        console.log('isEnrolledAsync', e);
-        dispatch(setBiometrySaved(e));
-      });
   }
 
   renderContent() {
@@ -151,4 +129,44 @@ class Home extends Screen {
 
 const mapStateToProps = state => ({...state.auth, ...state.app});
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+    determineBiometryStatus: () => {
+      LocalAuthentication.supportedAuthenticationTypesAsync()
+        .then(e => {
+          console.log('supportedAuthenticationTypesAsync', e);
+          dispatch(setBiometryTypes(e));
+        });
+
+      LocalAuthentication.isEnrolledAsync()
+        .then(e => {
+          console.log('isEnrolledAsync', e);
+          dispatch(setBiometrySaved(e));
+        });
+    },
+    fetchAuthData: async (accessToken, refreshToken) => {
+      try {
+        if (accessToken && refreshToken) {
+          console.log('Found accessToken: ', accessToken);
+          dispatch(checkToken(accessToken, refreshToken));
+        } else {
+          console.log('Couldn\'t find accessToken!');
+        }
+      } catch (e) {
+        console.log('Token check error', e);
+      }
+    },
+    identifyUser: (user) => {
+      let userId = Constants.deviceId || Constants.installationId;
+      if (user && user._id)
+        userId = user._id;
+
+      dispatch(setId(userId));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+// export default connect(mapStateToProps)(Home);
