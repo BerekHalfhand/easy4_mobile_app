@@ -143,6 +143,30 @@ const fetchTariffFailure = data => dispatch => {
   });
 };
 
+export function changeTariff(phone, newTariffId) {
+  return apiAction({
+    url: `/msisdn/${phone}/tariff/set/${newTariffId}`,
+    onSuccess: changeTariffSuccess,
+    onFailure: changeTariffFailure,
+    errorLabel: 'changeTariffError',
+    label: T.TARIFF_CHANGE
+  });
+}
+
+const changeTariffSuccess = data => {
+  return {
+    type: T.TARIFF_CHANGE_SUCCESS,
+    payload: data
+  };
+};
+
+const changeTariffFailure = data => dispatch => {
+  dispatch({
+    type: T.TARIFF_CHANGE_FAILURE,
+    payload: data
+  });
+};
+
 export function fetchRemains(phone) {
   return apiAction({
     url: `/msisdn/${phone}/remains/products`,
