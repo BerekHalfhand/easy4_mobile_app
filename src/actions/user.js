@@ -41,6 +41,7 @@ const gatherPhoneData = (phone, accessToken) => dispatch => {
   dispatch(fetchBalance(phone, accessToken));
   dispatch(fetchTariff(phone));
   dispatch(fetchRemains(phone));
+  dispatch(fetchProducts(phone));
 };
 
 export const selectPhone = (phone, accessToken) => dispatch => {
@@ -163,6 +164,30 @@ const fetchRemainsSuccess = data => dispatch => {
 const fetchRemainsFailure = data => dispatch => {
   dispatch({
     type: T.REMAINS_FETCH_FAILURE,
+    payload: data
+  });
+};
+
+export function fetchProducts(phone) {
+  return apiAction({
+    url: `/msisdn/${phone}/products`,
+    onSuccess: fetchProductsSuccess,
+    onFailure: fetchProductsFailure,
+    errorLabel: 'fetchProductsError',
+    label: T.PRODUCTS_FETCH
+  });
+}
+
+const fetchProductsSuccess = data => dispatch => {
+  dispatch({
+    type: T.PRODUCTS_FETCH_SUCCESS,
+    payload: data
+  });
+};
+
+const fetchProductsFailure = data => dispatch => {
+  dispatch({
+    type: T.PRODUCTS_FETCH_FAILURE,
     payload: data
   });
 };
