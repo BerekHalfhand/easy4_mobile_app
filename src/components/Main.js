@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import {phoneFormat, font, padding} from 'app/utils/helpers';
 import {readState, userInfo, fetchMsisdns, selectPhone, fetchBalance} from 'app/src/actions';
 import Modal from 'react-native-modal';
+import NavigationService from 'app/src/services/NavigationService';
 
 import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
@@ -341,6 +342,8 @@ class Main extends Screen{
               {mainInfo}
 
               {conditions}
+
+              <Text style={font('Roboto', 20)} onPress={() => NavigationService.navigate('Products')}>Услуги</Text>
             </View>
 
 

@@ -123,6 +123,20 @@ export default (state = {}, action) => {
       tariffRemains: null,
     };
 
+  case T.PRODUCTS_FETCH_SUCCESS:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      products: payload.result,
+    };
+
+  case T.PRODUCTS_FETCH_FAILURE:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      products: null,
+    };
+
   case T.DO_NOT_PERSIST_TOGGLE:
     return {
       ...state,
