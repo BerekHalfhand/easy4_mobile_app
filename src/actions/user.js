@@ -143,21 +143,24 @@ const fetchTariffFailure = data => dispatch => {
   });
 };
 
-export function changeTariff(phone, newTariffId) {
+export function changeTariff(phone, newTariffId, accessToken) {
   return apiAction({
     url: `/msisdn/${phone}/tariff/set/${newTariffId}`,
-    onSuccess: changeTariffSuccess,
+    method: 'POST',
+    onSuccess: (data) => changeTariffSuccess(data, phone, accessToken),
+    successTransition: 'Main',
     onFailure: changeTariffFailure,
     errorLabel: 'changeTariffError',
     label: T.TARIFF_CHANGE
   });
 }
 
-const changeTariffSuccess = data => {
-  return {
+const changeTariffSuccess = (data, phone, accessToken) => dispatch => {
+  dispatch({
     type: T.TARIFF_CHANGE_SUCCESS,
     payload: data
-  };
+  });
+  dispatch(gatherPhoneData(phone, accessToken));
 };
 
 const changeTariffFailure = data => dispatch => {

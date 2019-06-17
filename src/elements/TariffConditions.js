@@ -53,10 +53,10 @@ export default class TariffConditions extends React.Component{
   }
 
   render(){
-    const {tariff} = this.props;
+    const {tariff, phone} = this.props;
     return(
       <TouchableOpacity style={{...styles.pane, padding: 16}}
-        onPress={() => NavigationService.navigate('Tariff', {tariff})}
+        onPress={() => NavigationService.navigate('TariffSelect', {tariff, phone})}
       >
         <Text style={font('Roboto_bold', 16, dP.color.primary, null, {marginTop: -4, marginBottom: 10})}>
           Условия тарифа
@@ -72,4 +72,5 @@ TariffConditions.propTypes = {
   tariff: PropTypes.shape({
     conditions: PropTypes.arrayOf(PropTypes.object),
   }),
+  phone: PropTypes.string,
 };
