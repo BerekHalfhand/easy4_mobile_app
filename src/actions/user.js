@@ -50,7 +50,7 @@ export const selectPhone = (phone, accessToken) => dispatch => {
 
 export function fetchMsisdns(accessToken) {
   return apiAction({
-    url: '/external/msisdns',
+    url: '/external/iccids',
     accessToken: accessToken,
     onSuccess: (data) => fetchMsisdnsSuccess(data, accessToken),
     onFailure: fetchMsisdnsFailure,
@@ -74,8 +74,9 @@ const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
 
   const {user} = store.getState();
 
-  if (data && data.items && data.items.length && data.items[0].msisdn) {
-    let phone = user.selectedPhone || data.items[0].msisdn;
+  if (data && data.items && data.items.length
+      && data.items[0].msisdns[0] && data.items[0].msisdns[0].msisdn) {
+    let phone = user.selectedPhone || data.items[0].msisdns[0].msisdn;
 
     if (!user.selectedPhone)
       dispatch(selectPhoneAction(phone));
