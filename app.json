@@ -25,14 +25,14 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.intersat.easy",
-      "buildNumber": "0.0.27",
+      "buildNumber": "0.0.28",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses FaceID."
       }
     },
     "android": {
       "package": "com.sonet.easy4",
-      "versionCode": 27
+      "versionCode": 28
     },
     "androidStatusBar": {
       "backgroundColor": "#004d99"
