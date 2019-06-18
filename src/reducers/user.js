@@ -62,7 +62,7 @@ export default (state = {}, action) => {
     console.log('USER/MSISDNS_FETCH_SUCCESS', payload);
     return {
       ...state,
-      msisdns: payload.items.map(v => v.msisdn),
+      msisdns: payload.items.map(v => v.msisdns[0].msisdn),
     };
 
   case T.MSISDNS_FETCH_FAILURE:
