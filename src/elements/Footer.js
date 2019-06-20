@@ -74,8 +74,8 @@ class StandardFooter extends React.Component{
               style={ifIphoneX({alignSelf: 'flex-start'})}
             >
               <View style={{padding}}>
-                <MaterialIcons
-                  name='live-help'
+                <MaterialCommunityIcons
+                  name='message-text'
                   size={size}
                   color={dP.color.primary}
                 />

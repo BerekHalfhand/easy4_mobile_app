@@ -1,8 +1,9 @@
 import React from 'react';
 import Screen from './Screen';
-import {Text, View, ScrollView, TextInput} from 'react-native';
+import {Text, View, ScrollView, TextInput, FlatList} from 'react-native';
 import {Button, Content, Container } from 'native-base';
-import {styles, stylesExtra} from 'app/utils/style/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import {font, margin, padding} from 'app/utils/helpers';
 import { fetchMessages, sendMessage, createChatroom, receiveMessage } from 'app/src/actions';
@@ -18,6 +19,8 @@ class Chatroom extends Screen {
     this.state = {
       text: ''
     };
+    this.contentHeight = 0;
+    this.scrollViewHeight = 0;
   }
 
   static navigationOptions = {
@@ -51,6 +54,7 @@ class Chatroom extends Screen {
     this.socket.on('message', data => {
       console.warn('message received', data);
       this.props.dispatch(receiveMessage(data));
+      setTimeout(() => this.scrollToBottom(80, true), 50);
     });
   }
 
@@ -69,46 +73,58 @@ class Chatroom extends Screen {
 
   send() {
     console.log(this.state);
-    if (!this.state.userId) return false;
+    const {app} = this.props;
+    if (!app.userId || !this.state.text) return false;
+
+    // send message
     this.props.dispatch(sendMessage({
-      author: this.state.userId,
-      chatroom: this.state.userId,
+      author: app.userId,
+      chatroom: app.userId,
       body: this.state.text
     }));
+
+    // clear the input field
+    this.textInput.clear();
+    this.setState({text: ''});
+  }
+
+  scrollToBottom(offset, animated = true) {
+    const scrollHeight = this.contentHeight - this.scrollViewHeight + offset;
+    if (scrollHeight > 0) {
+      const scrollResponder = this.scrollView.getScrollResponder();
+      scrollResponder.scrollResponderScrollTo({x: 0, y: scrollHeight, animated});
+    }
   }
 
   render() {
     const {chat, app} = this.props;
     if (!chat) return false;
 
-    const messages = (chat.messages && Object.keys(chat.messages).length ? (
-      Object.keys(chat.messages).map(id => {
-        if (!chat.messages[id].author) return null;
-        chat.messages[id]._meta = {};
+    const messages = (chat.messages && chat.messages.length ? (
+      <FlatList
+        keyExtractor={(item, index) => item._id}
+        style={{ flex:1}}
+        data={chat.messages}
 
-        chat.messages[id]._meta.ownMessage = false;
-        if (chat.messages[id].author === app.userId) {
-          chat.messages[id]._meta.ownMessage = true;
-          chat.messages[id]._meta.author = 'Вы';
-        }
-
-        let msgMargin = chat.messages[id]._meta.ownMessage ? margin(10, 5, 10, 30) : margin(10, 30, 10, 5);
-        return (
-          <View key={id} style={{
-            backgroundColor: '#FFF',
-            borderRadius: 5,
-            ...msgMargin,
-            ...padding(5)
-          }}>
-            <Text style={font('Roboto_black', 16, '#000')}>
-              {chat.messages[id]._meta.author || chat.messages[id].author}{'\n'}
-            </Text>
-            <Text style={font('Roboto_light', 13, '#000')}>
-              {chat.messages[id].body}
-            </Text>
-          </View>
-        );
-      })
+        renderItem={({ item }) => {
+          let msgMargin = item._meta.ownMessage ? margin(10, 5, 10, 30) : margin(10, 30, 10, 5);
+          return (
+            <View style={{
+              backgroundColor: '#FFF',
+              borderRadius: 5,
+              ...msgMargin,
+              ...padding(5)
+            }}>
+              <Text style={font('Roboto_black', 16, '#000')}>
+                {item._meta.author || item.author}{'\n'}
+              </Text>
+              <Text style={font('Roboto_light', 13, '#000')}>
+                {item.body}
+              </Text>
+            </View>
+          );
+        }}
+      />
     ) : (
       <Text style={styles.textSimple}>
         Сообщений нет
@@ -117,35 +133,40 @@ class Chatroom extends Screen {
 
     const inputBlock = (app.userId ? (
       <View style={{
-        position: 'absolute',
         flexDirection: 'row',
-        bottom: 0,
-        left: 0,
-        right: 0,
+        flex: 0,
+        flexShrink: 1,
         minHeight: 40,
-        backgroundColor: 'red',
-        borderWidth: 1,
-        borderColor: 'green'
+        padding: 5,
+        backgroundColor: dP.color.accent,
+        borderTopWidth: 1,
+        borderColor: 'grey'
       }}>
         <TextInput style={{flex: 1}}
           onChangeText={(text) => this.setState({text})}
           multiline = {true}
           placeholder='Сообщение'
+          ref={input => { this.textInput = input; }}
         />
-        <Button rounded
+        <MaterialCommunityIcons
+          name='send'
           onPress={this.send}
-        >
-          <Text style={styles.textButtonPrimary}>
-            Ok
-          </Text>
-        </Button>
+          size={30}
+          style={{ alignSelf: 'center' }}
+          color={dP.color.primary}
+        />
       </View>
     ) : null);
 
     return (
-      <Container style={styles.container}>
-        <ScrollView>
-          <Content style={{...styles.content, paddingBottom: 40}}>
+      <Container style={{...styles.container, flex: 1}}>
+        <ScrollView
+
+          ref={scrollView => { this.scrollView = scrollView; }}
+          onContentSizeChange={(w, h) => this.contentHeight = h}
+          onLayout={ev => this.scrollViewHeight = ev.nativeEvent.layout.height}
+        >
+          <Content style={styles.content}>
             {messages}
           </Content>
         </ScrollView>

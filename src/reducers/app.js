@@ -63,13 +63,6 @@ export default (state = initialState, action) => {
       bioSaved: payload.saved,
     };
 
-  case T.ID_SET:
-    console.log(`APP/${type}`, payload);
-    return {
-      ...state,
-      userId: payload.id,
-    };
-
   case T.LOGOUT_SUCCESS:
   case T.LOGOUT_FAILURE:
     console.log(`APP/${type}`, payload);

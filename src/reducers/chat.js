@@ -1,23 +1,33 @@
 import * as T from '../actions/types';
+import {addMeta} from 'app/utils/helpers';
 
 export default (state = {}, action) => {
   let {type, payload} = action;
-  let messages = {};//new Map();
+  let messages = [];//new Map();
 
   switch (type) {
   case T.READ_STATE:
     console.log('CHAT/READ_STATE', state);
     return state;
 
+
+  case T.ID_SET:
+    console.log(`CHAT/${type}`, payload);
+    return {
+      ...state,
+      userId: payload.id,
+    };
+
   case T.MESSAGES_FETCH_SUCCESS:
     console.log(`CHAT/${type}`, payload);
     payload.result.map(item => {
-      messages[item._id] = item;
+      item = addMeta(state, item);
+      messages.push(item);
       // messages.set(item._id, item);
     });
 
     return {
-      messages: messages,
+      messages: messages,//.reverse(),
       ...state
     };
 
@@ -27,8 +37,8 @@ export default (state = {}, action) => {
 
   case T.MESSAGES_RECEIVE:
     console.log(`CHAT/${type}`, payload);
-    messages = state.messages || {};
-    messages[payload._id] = payload;
+    messages = state.messages || [];
+    messages.push(addMeta(state, payload));
     return {
       messages,
       ...state

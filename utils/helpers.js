@@ -70,3 +70,14 @@ export const font = (fontFamily = 'Roboto', fontSize = 16, color = '#FFF', lette
     ...rest
   };
 };
+
+export const addMeta = (state, message) => {
+  message._meta = {};
+
+  message._meta.ownMessage = false;
+  if (message.author === state.userId) {
+    message._meta.ownMessage = true;
+    message._meta.author = 'Вы';
+  }
+  return message;
+};

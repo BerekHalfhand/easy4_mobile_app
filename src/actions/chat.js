@@ -4,6 +4,9 @@ import {apiAction} from './api';
 const chatUrl = 'https://stage.mp.api.easy4.pro/mobile-chat';
 // const chatUrl = 'http://192.168.1.55:3000/mobile-chat';
 
+const setIdAction = (id) => ({ type: T.ID_SET, payload: {id} });
+export const setId = (id) => dispatch => dispatch(setIdAction(id));
+
 export function fetchMessages(chatroom = '') {
   return apiAction({
     baseUrlOverride: chatUrl,
