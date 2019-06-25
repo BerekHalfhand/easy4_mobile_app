@@ -132,6 +132,16 @@ class Drawer extends React.Component {
       </TouchableOpacity>
     ) : null );
 
+
+    const qr = (accessToken ? (
+      <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('QRcode')}>
+        <View style={styles.icon}>
+          <MaterialCommunityIcons name='qrcode' color={dP.color.primary} size={24} />
+        </View>
+        <Text style={styles.itemText}>QR код</Text>
+      </TouchableOpacity>
+    ) : null );
+
     return (
       <Container>
         <TouchableHighlight style={styles.headerContainer} onPress={() => (accessToken ? this.navigateTo('Main') : null)}>
@@ -154,6 +164,7 @@ class Drawer extends React.Component {
             </View>
             <Text style={styles.itemText}>Наши тарифы</Text>
           </TouchableOpacity>
+          {qr}
           <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('About')}>
             <View style={styles.icon}>
               <MaterialCommunityIcons name='information' color={dP.color.primary} size={24} />
