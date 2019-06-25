@@ -22,7 +22,8 @@ class StandardFooter extends React.Component{
     const padding = 10;
     const { navigation, accessToken } = this.props;
 
-    const homeButton = (accessToken &&
+    const homeButton = (accessToken !== null &&
+                        typeof accessToken !== 'undefined' &&
                         navigation &&
                         navigation.state &&
                         navigation.state.routeName != 'Main' ? (
