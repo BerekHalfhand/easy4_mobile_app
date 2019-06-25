@@ -20,11 +20,12 @@ export function logout(accessToken) {
   });
 }
 
-const logoutSuccess = data => {
-  return {
+const logoutSuccess = data => dispatch => {
+  dispatch(apiErrorDismiss('loginError'));
+  dispatch({
     type: T.LOGOUT_SUCCESS,
     payload: data
-  };
+  });
 };
 
 const logoutFailure = data => {
@@ -54,6 +55,7 @@ export function login(login, password) {
 }
 
 const loginSuccess = (data, login, password) => dispatch => {
+  dispatch(apiErrorDismiss('loginError'));
   dispatch({
     type: T.LOGIN_SUCCESS,
     payload: data
