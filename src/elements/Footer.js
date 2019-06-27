@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import {readState} from 'app/src/actions';
 import NavigationService from 'app/src/services/NavigationService';
 import { ifIphoneX, getBottomSpace } from 'react-native-iphone-x-helper';
+import {checkNested} from 'app/utils/helpers';
 
 class StandardFooter extends React.Component{
   toggleDrawer = () => {
@@ -22,9 +23,9 @@ class StandardFooter extends React.Component{
     const padding = 10;
     const { navigation, accessToken } = this.props;
 
-    const homeButton = (accessToken &&
-                        navigation &&
-                        navigation.state &&
+    const homeButton = (accessToken !== null &&
+                        typeof accessToken !== 'undefined' &&
+                        checkNested(navigation, 'state', 'routeName') &&
                         navigation.state.routeName != 'Main' ? (
         <Button
           onPress={() => NavigationService.navigate('Main')}

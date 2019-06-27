@@ -19,7 +19,7 @@ import {styles, dP} from 'app/utils/style/styles';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 // import moment from 'moment';
-import {phoneFormat, font, padding} from 'app/utils/helpers';
+import {phoneFormat, font, padding, checkNested} from 'app/utils/helpers';
 import {readState, userInfo, fetchMsisdns, selectPhone, fetchBalance} from 'app/src/actions';
 import Modal from 'react-native-modal';
 
@@ -147,10 +147,10 @@ class Main extends Screen{
   }
 
   renderPhone() {
-    if (!this.props.user || !this.props.user.selectedPhone) return null;
+    if (!checkNested(this.props, 'user', 'selectedPhone')) return null;
 
     const { selectedPhone } = this.props.user;
-    const chevron = (this.props.user && this.props.user.msisdns && this.props.user.msisdns.length ? (
+    const chevron = (checkNested(this.props.user, 'msisdns') && this.props.user.msisdns.length ? (
       <MaterialCommunityIcons
         name='chevron-down'
         size={18}

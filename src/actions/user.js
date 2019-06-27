@@ -61,28 +61,28 @@ export function fetchMsisdns(accessToken) {
 }
 
 const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
-  // data = {
-  //   items : [
-  //     {msisdn: '79198774513'},
-  //     {msisdn: '79135446211'},
-  //   ]
-  // };
   dispatch({
     type: T.MSISDNS_FETCH_SUCCESS,
     payload: data
   });
 
   const {user} = store.getState();
+  let firstItem = null;
+  let altPhone = null;
 
-  if (data && data.items && data.items.length
-      && data.items[0].msisdns[0] && data.items[0].msisdns[0].msisdn) {
-    let phone = user.selectedPhone || data.items[0].msisdns[0].msisdn;
-
-    if (!user.selectedPhone)
-      dispatch(selectPhoneAction(phone));
-
-    dispatch(gatherPhoneData(phone, accessToken));
+  if (data && data.items && data.items[0]) {
+    firstItem = data.items[0];
+    if (firstItem.msisdns && firstItem.msisdns[0] && firstItem.msisdns[0].msisdn) {
+      altPhone = firstItem.msisdns[0].msisdn;
+    }
   }
+
+  let phone = user.selectedPhone || altPhone;
+
+  if (!user.selectedPhone)
+    dispatch(selectPhoneAction(phone));
+
+  dispatch(gatherPhoneData(phone, accessToken));
 };
 
 const fetchMsisdnsFailure = data => dispatch => {
