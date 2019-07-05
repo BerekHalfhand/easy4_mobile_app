@@ -1,6 +1,6 @@
 import React from 'react';
 import Screen from './Screen';
-import {Platform, WebView} from 'react-native';
+import {View} from 'react-native';
 import {
   Container,
   Content
@@ -28,11 +28,19 @@ class QRcode extends Screen {
     return (
       <Container style={styles.container}>
         <Content style={styles.content}>
-          <QRCode
-            value={this.state.text}
-            size={this.dimensions.width - 32}
-            bgColor='black'
-            fgColor='white'/>
+          <View style={{
+            backgroundColor: 'white',
+            height: this.dimensions.width - 32,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <QRCode
+              value={this.state.text}
+              size={this.dimensions.width - 64}
+              bgColor='black'
+              fgColor='white'/>
+          </View>
         </Content>
       </Container>
     );
