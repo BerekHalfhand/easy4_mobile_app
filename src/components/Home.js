@@ -159,8 +159,8 @@ const mapDispatchToProps = (dispatch) => {
     },
     identifyUser: (user) => {
       let userId = Constants.deviceId || Constants.installationId;
-      if (user && user._id)
-        userId = user._id;
+      if (user && user.userId)
+        userId = user.userId;
 
       dispatch(setId(userId));
     }

@@ -102,7 +102,7 @@ class Chatroom extends Screen {
 
     const messages = (chat.messages && chat.messages.length ? (
       <FlatList
-        keyExtractor={(item, index) => item._id}
+        keyExtractor={(item, index) => item.userId}
         style={{ flex:1}}
         data={chat.messages}
 

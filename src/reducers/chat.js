@@ -23,7 +23,6 @@ export default (state = {}, action) => {
     payload.result.map(item => {
       item = addMeta(state, item);
       messages.push(item);
-      // messages.set(item._id, item);
     });
 
     return {
