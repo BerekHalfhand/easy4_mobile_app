@@ -41,7 +41,7 @@ export default (state = {}, action) => {
 
     return {
       ...state,
-      _id: payload._id,
+      userId: payload._id,
       firstName: payload.firstName,
       secondName: payload.secondName,
       lastName: payload.lastName,
@@ -122,6 +122,20 @@ export default (state = {}, action) => {
     return {
       ...state,
       tariffRemains: null,
+    };
+
+  case T.ORDERS_FETCH_SUCCESS:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      orders: payload.items,
+    };
+
+  case T.ORDERS_FETCH_FAILURE:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      orders: null,
     };
 
   case T.DO_NOT_PERSIST_TOGGLE:

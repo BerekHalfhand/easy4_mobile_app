@@ -11,11 +11,19 @@ import { connect } from 'react-redux';
 import {styles} from 'app/utils/style/styles';
 import QRCode from 'react-native-qrcode';
 
-class QRcode extends Screen {
+class QR extends Screen {
   constructor(props) {
     super(props);
+    let orderId = '';
+    try {
+      orderId = props.navigation.state.params.orderId;
+    }
+    catch {
+      orderId = 'Error! Wrong order ID';
+    }
+    console.log('orderId', orderId);
     this.state = {
-      text: 'http://facebook.github.io/react-native/',
+      orderId: orderId,
     };
   }
 
@@ -36,7 +44,7 @@ class QRcode extends Screen {
             alignItems: 'center'
           }}>
             <QRCode
-              value={this.state.text}
+              value={this.state.orderId}
               size={this.dimensions.width - 64}
               bgColor='black'
               fgColor='white'/>
@@ -49,4 +57,4 @@ class QRcode extends Screen {
 
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps)(QRcode);
+export default connect(mapStateToProps)(QR);

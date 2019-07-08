@@ -167,3 +167,29 @@ const fetchRemainsFailure = data => dispatch => {
     payload: data
   });
 };
+
+export function fetchOrders(userId, limit = 100, offset = 0) {
+  return apiAction({
+    // url: `/sales/orders?userId=${userId}&limit=${limit}&offset=${offset}`,
+    url: `/sales/orders?limit=10`,
+    baseUrlOverride: 'https://stage.mp.api.easy4.pro',
+    onSuccess: fetchOrdersSuccess,
+    onFailure: fetchOrdersFailure,
+    errorLabel: 'fetchOrdersError',
+    label: T.ORDERS_FETCH
+  });
+}
+
+const fetchOrdersSuccess = data => dispatch => {
+  dispatch({
+    type: T.ORDERS_FETCH_SUCCESS,
+    payload: data
+  });
+};
+
+const fetchOrdersFailure = data => dispatch => {
+  dispatch({
+    type: T.ORDERS_FETCH_FAILURE,
+    payload: data
+  });
+};

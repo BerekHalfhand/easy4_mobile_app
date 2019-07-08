@@ -134,11 +134,11 @@ class Drawer extends React.Component {
 
 
     const qr = (accessToken ? (
-      <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('QRcode')}>
+      <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('Orders')}>
         <View style={styles.icon}>
           <MaterialCommunityIcons name='qrcode' color={dP.color.primary} size={24} />
         </View>
-        <Text style={styles.itemText}>QR код</Text>
+        <Text style={styles.itemText}>Заказы</Text>
       </TouchableOpacity>
     ) : null );
 

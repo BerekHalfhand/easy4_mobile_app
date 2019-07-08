@@ -27,6 +27,7 @@ import Feedback from './src/components/Feedback';
 import Contacts from './src/components/Contacts';
 import Callback from './src/components/Callback';
 import QRcode from './src/components/QRcode';
+import Orders from './src/components/Orders';
 
 // OPTIONS
 
@@ -52,6 +53,7 @@ const Routes = createStackNavigator({
   Esia: { screen: Esia },
   Offline: { screen: Offline },
   QRcode: { screen: QRcode },
+  Orders: { screen: Orders },
   Home: { screen: Home },
   Login: { screen: Login },
   Main: { screen: Main },
