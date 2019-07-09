@@ -174,7 +174,7 @@ class Main extends Screen{
     if (!user) return false;
 
     const width = Dimensions.get('window').width;
-    const { fullName } = user;
+    const { fullName, selectedPhone } = user;
     const tariff = this.getTariff();
 
     const balance = (this.hasBalance(user) ?
@@ -202,7 +202,7 @@ class Main extends Screen{
 
     const conditions = (tariffs && tariff ? (
       <View>
-        <TariffConditions tariff={tariffs[tariff]}/>
+        <TariffConditions tariff={tariffs[tariff]} phone={selectedPhone}/>
       </View>
     ) : null);
 
