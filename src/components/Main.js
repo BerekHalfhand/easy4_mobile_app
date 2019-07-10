@@ -105,6 +105,7 @@ class Main extends Screen{
     if (user.tariffId) {
       if (user.tariffId == tariffs.connect.id) return 'connect';
       if (user.tariffId == tariffs.travel.id) return 'travel';
+      if (user.tariffId == tariffs.vip.id) return 'vip';
     }
     return null;
   }
@@ -139,6 +140,7 @@ class Main extends Screen{
     let images = [
       require('app/assets/image/tariffs/travel.png'),
       require('app/assets/image/tariffs/connect.png'),
+      require('app/assets/image/tariffs/travel.png'),
     ];
 
     if (index < 0 || index >= images.length) return '';
