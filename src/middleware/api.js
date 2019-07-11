@@ -2,6 +2,8 @@ import { API } from 'app/src/actions/types';
 import { accessDenied, apiError, apiStart, apiEnd } from 'app/src/actions/api';
 import NavigationService from 'app/src/services/NavigationService';
 import {NetInfo} from 'react-native';
+import getEnvVars from 'app/environment';
+const { apiUrl } = getEnvVars();
 
 const apiMiddleware = ({ dispatch }) => next => action => {
   next(action);
@@ -31,7 +33,8 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     ...(accessToken && {'Authorization': `Bearer ${accessToken}`}),
   });
   // const baseUrl = baseUrlOverride || 'https://stage.mp.api.easy4.pro';
-  const baseUrl = baseUrlOverride || 'https://mp.api.easy4.pro';
+  // const baseUrl = baseUrlOverride || 'https://mp.api.easy4.pro';
+  const baseUrl = baseUrlOverride || apiUrl;
 
   NetInfo.getConnectionInfo().then((connectionInfo) => {
     // If the connection is gone, redirect to the Offline screen, and memorize the failed action
@@ -84,7 +87,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
         console.warn(`${baseUrl+url} => API error:`, error);
         dispatch(apiError(errorLabel, error));
       } else console.error(`${baseUrl+url} => API error:`, error);
-      
+
       dispatch(onFailure(error));
 
       if (error.response && error.response.status === 403) {
