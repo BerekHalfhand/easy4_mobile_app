@@ -129,6 +129,22 @@ export default (state = {}, action) => {
       doNotPersist: !state.doNotPersist,
     };
 
+  case T.BIND_ICCID_SUCCESS:
+    console.log(`USER/${type}`, payload);
+    return state;
+    // return {
+    //   ...state,
+    //   msisdns: payload.items.map(v => v.msisdns[0].msisdn),
+    // };
+
+  case T.BIND_ICCID_FAILURE:
+    console.log(`USER/${type}`, payload);
+    return state;
+    // return {
+    //   ...state,
+    //   msisdns: [],
+    // };
+
   default:
     return state;
   }

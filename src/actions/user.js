@@ -167,3 +167,29 @@ const fetchRemainsFailure = data => dispatch => {
     payload: data
   });
 };
+
+export function bindIccid(iccid, id) {
+  return apiAction({
+    url: `/iccids/${iccid}/bind/user/${id}`,
+    method: 'POST',
+    onSuccess: bindIccidSuccess,
+    onFailure: bindIccidFailure,
+    errorLabel: 'bindIccidError',
+    busyScreen: 'bindIccid',
+    label: T.BIND_ICCID
+  });
+}
+
+const bindIccidSuccess = data => {
+  return {
+    type: T.BIND_ICCID_SUCCESS,
+    payload: data
+  };
+};
+
+const bindIccidFailure = data => dispatch => {
+  dispatch({
+    type: T.BIND_ICCID_FAILURE,
+    payload: data
+  });
+};
