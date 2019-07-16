@@ -37,7 +37,7 @@ const logoutFailure = data => {
 
 // LOGIN
 
-export function login(login, password) {
+export function login(login, password, noTransition = false) {
   return apiAction({
     url: '/auth/login',
     method: 'POST',
@@ -46,7 +46,7 @@ export function login(login, password) {
       password
     },
     onSuccess: data => loginSuccess(data, login, password),
-    successTransition: 'Main',
+    successTransition: noTransition ? null : 'Main',
     onFailure: loginFailure,
     label: T.LOGIN,
     errorLabel: 'loginError',
@@ -99,6 +99,7 @@ export function signup(email, password) {
       password
     },
     onSuccess: (data) => signupSuccess(data, email, password),
+    successTransition: 'Newbie',
     onFailure: signupFailure,
     label: T.SIGNUP,
     errorLabel: 'signupError',
@@ -108,7 +109,7 @@ export function signup(email, password) {
 
 const signupSuccess = (data, email, password) => {
   return function(dispatch) {
-    dispatch(login(email, password));
+    dispatch(login(email, password, true));
     return {
       type: T.SIGNUP_SUCCESS,
       payload: data
