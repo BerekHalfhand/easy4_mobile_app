@@ -15,11 +15,15 @@ export default (state = {}, action) => {
 
   case T.API_START:
     console.log('API/API_START', payload);
+
     return {
       ...state,
       isLoadingData: true,
       ...(payload.busyScreen && {
-        busy: { [payload.busyScreen]: true }
+        busy: {
+          ...state.busy,
+          [payload.busyScreen]: true
+        }
       })
     };
 
@@ -32,11 +36,15 @@ export default (state = {}, action) => {
 
   case T.API_END:
     console.log('API/API_END', payload);
+
     return {
       ...state,
       isLoadingData: false,
       ...(payload.busyScreen && {
-        busy: { [payload.busyScreen]: false }
+        busy: {
+          ...state.busy,
+          [payload.busyScreen]: false
+        }
       })
     };
 
