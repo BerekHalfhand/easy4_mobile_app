@@ -10,11 +10,6 @@ export default class TariffConditions extends React.Component{
     super(props);
   }
 
-  showConditions = (tariff) => {
-    if (!tariff.hidden)
-      NavigationService.navigate('Tariff', {tariff});
-  }
-
   renderConditions() {
     const {tariff} = this.props;
 
@@ -61,7 +56,7 @@ export default class TariffConditions extends React.Component{
     const {tariff} = this.props;
     return(
       <TouchableOpacity style={{...styles.pane, padding: 16}}
-        onPress={() => this.showConditions(tariff)}
+        onPress={() => NavigationService.navigate('Tariff', {tariff})}
       >
         <Text style={font('Roboto_bold', 16, dP.color.primary, null, {marginTop: -4, marginBottom: 10})}>
           Условия тарифа

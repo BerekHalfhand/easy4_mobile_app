@@ -22,14 +22,12 @@ import { connect } from 'react-redux';
 import {phoneFormat, font, padding, checkNested} from 'app/utils/helpers';
 import {readState, userInfo, fetchMsisdns, selectPhone, fetchBalance} from 'app/src/actions';
 import Modal from 'react-native-modal';
-import NavigationService from 'app/src/services/NavigationService';
 
 import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import TariffConditions from 'app/src/elements/TariffConditions';
 import tariffs from 'app/utils/tariffData.json';
-import NavigationService from 'app/src/services/NavigationService';
 
 class Main extends Screen{
   constructor(props){
@@ -45,8 +43,6 @@ class Main extends Screen{
         name: props.user.fullName,
         phone: props.user.selectedPhone
       });
-      if (!props.user.msisdns || !props.user.msisdns.length)
-        NavigationService.navigate('Newbie'); // if the user has no SIMs, redirect them
     }
   }
 
@@ -97,13 +93,6 @@ class Main extends Screen{
     }, 250);
   }
 
-  navigateToBindIccid = () => {
-    this.toggleModal();
-    setTimeout(() => { // let the animation play out smoothly before all the heavy lifting
-      NavigationService.navigate('BindIccid');
-    }, 250);
-  }
-
   getBalance = async (phone) => {
     const { auth, dispatch } = this.props;
     dispatch(fetchBalance(phone, auth.accessToken));
@@ -116,7 +105,6 @@ class Main extends Screen{
     if (user.tariffId) {
       if (user.tariffId == tariffs.connect.id) return 'connect';
       if (user.tariffId == tariffs.travel.id) return 'travel';
-      if (user.tariffId == tariffs.vip.id) return 'vip';
     }
     return null;
   }
@@ -151,10 +139,9 @@ class Main extends Screen{
     let images = [
       require('app/assets/image/tariffs/travel.png'),
       require('app/assets/image/tariffs/connect.png'),
-      require('app/assets/image/tariffs/travel.png'),
     ];
 
-    if (index < 0 || index >= images.length) return false;
+    if (index < 0 || index >= images.length) return '';
 
     return images[index];
   }
@@ -163,6 +150,13 @@ class Main extends Screen{
     if (!checkNested(this.props, 'user', 'selectedPhone')) return null;
 
     const { selectedPhone } = this.props.user;
+    const chevron = (checkNested(this.props.user, 'msisdns') && this.props.user.msisdns.length ? (
+      <MaterialCommunityIcons
+        name='chevron-down'
+        size={18}
+        color={dP.color.white}
+      />
+    ) : null );
 
     return (
       <TouchableOpacity onPress={this.onPressNumbers}
@@ -170,11 +164,7 @@ class Main extends Screen{
         <Text numberOfLines={1} style={{color: dP.color.white, fontSize: 16}}>
           { phoneFormat(selectedPhone) }
         </Text>
-        <MaterialCommunityIcons
-          name='chevron-down'
-          size={18}
-          color={dP.color.white}
-        />
+        { chevron }
       </TouchableOpacity>
     );
   }
@@ -259,8 +249,15 @@ class Main extends Screen{
           <ScrollView>
             <Text style={font('Roboto', 20, '#000', null, {marginBottom: 8})}>Основной номер</Text>
             {user.msisdns.map(v => (
-              <TouchableOpacity key={v} style={styles.modalItemContainer} onPress={() => this.selectPhone(v)}>
-                <View style={styles.modalItem}>
+              <TouchableOpacity key={v} style={{flexDirection: 'row', paddingTop: 8, paddingBottom: 8}} onPress={() => this.selectPhone(v)}>
+                <View style={{
+                  width: 20,
+                  height: 20,
+                  marginRight: 10,
+                  flex: 0,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
                   <MaterialCommunityIcons
                     name={v == user.selectedPhone ? 'checkbox-marked-circle-outline' : 'checkbox-blank-circle-outline'}
                     color='#000'
@@ -276,19 +273,6 @@ class Main extends Screen{
                 </Text>
               </TouchableOpacity>
             ))}
-            <TouchableOpacity style={styles.modalItemContainer} onPress={() => this.navigateToBindIccid()}>
-              <View style={styles.modalItem}>
-                <MaterialCommunityIcons
-                  name='plus'
-                  color='#000'
-                  size={20} />
-              </View>
-              <Text style={
-                font('Roboto', 16, '#5a5a5a')
-              }>
-                Добавить
-              </Text>
-            </TouchableOpacity>
             <View style={{flexDirection: 'row', marginBottom: -12}}>
               <Button transparent
                 onPress={this.toggleModal}
@@ -303,8 +287,7 @@ class Main extends Screen{
       </Modal>
     ) : null);
 
-    let requireImg = this.requireImage(Object.keys(tariffs).indexOf(tariff));
-    let imgUrl = requireImg ? { uri: requireImg } : require('app/assets/image/empty.png');
+
     return (
       <Container style={{backgroundColor: tariff ? tariffs[tariff].color : dP.color.primary}}>
         <ScrollView
@@ -350,7 +333,7 @@ class Main extends Screen{
                 <Image
                   style={{ height: 180, width: '100%' }}
                   resizeMode='cover'
-                  source={imgUrl}
+                  source={this.requireImage(Object.keys(tariffs).indexOf(tariff))}
                 />
               </View>
               {modal}

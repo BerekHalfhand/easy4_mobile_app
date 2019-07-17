@@ -18,26 +18,17 @@ class StandardFooter extends React.Component{
     this.props.navigation.openDrawer();
   }
 
-  goToMain = () => {
-    const { user } = this.props;
-    if (user.msisdns && user.msisdns.length)
-      NavigationService.navigate('Main');
-    else
-      NavigationService.navigate('Newbie');
-  }
-
   render(){
     const size = 24;
     const padding = 10;
-    const { navigation, auth } = this.props;
-    const { accessToken } = auth;
+    const { navigation, accessToken } = this.props;
 
     const homeButton = (accessToken !== null &&
                         typeof accessToken !== 'undefined' &&
                         checkNested(navigation, 'state', 'routeName') &&
                         navigation.state.routeName != 'Main' ? (
         <Button
-          onPress={() => this.goToMain()}
+          onPress={() => NavigationService.navigate('Main')}
           style={ifIphoneX({alignSelf: 'flex-start'})}
         >
           <View style={{padding}}>
@@ -114,6 +105,6 @@ class StandardFooter extends React.Component{
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => state.auth;
 
 export default withNavigation(connect(mapStateToProps)(StandardFooter));

@@ -36,12 +36,8 @@ class Home extends Screen {
   };
 
   onPressLogin() {
-    if (this.props.accessToken) {
-      if (this.props.msisdns && this.props.msisdns.length)
-        NavigationService.navigate('Main');
-      else
-        NavigationService.navigate('Newbie');
-    }
+    if (this.props.accessToken)
+      NavigationService.navigate('Main');
     else
       NavigationService.navigate('Login');
   }
@@ -153,6 +149,6 @@ class Home extends Screen {
   }
 }
 
-const mapStateToProps = state => ({...state.auth, ...state.app, ...state.user});
+const mapStateToProps = state => ({...state.auth, ...state.app});
 
 export default connect(mapStateToProps)(Home);

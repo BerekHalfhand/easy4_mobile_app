@@ -135,7 +135,7 @@ class Login extends Screen {
 
                   <Body style={{margin: 24}}>
                     {this.showError('loginError')}
-                    {this.props.busy && (this.props.busy.login || this.props.busy.msisdns) ? (
+                    {this.props.busy && this.props.busy.login ? (
                       <ActivityIndicator />
                     ) : (
                       <View>

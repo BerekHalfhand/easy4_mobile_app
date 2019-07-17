@@ -46,6 +46,7 @@ export function login(login, password) {
       password
     },
     onSuccess: data => loginSuccess(data, login, password),
+    successTransition: 'Main',
     onFailure: loginFailure,
     label: T.LOGIN,
     errorLabel: 'loginError',
@@ -98,7 +99,6 @@ export function signup(email, password) {
       password
     },
     onSuccess: (data) => signupSuccess(data, email, password),
-    successTransition: 'Newbie',
     onFailure: signupFailure,
     label: T.SIGNUP,
     errorLabel: 'signupError',
