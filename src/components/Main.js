@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import {phoneFormat, font, padding, checkNested} from 'app/utils/helpers';
 import {readState, userInfo, fetchMsisdns, selectPhone, fetchBalance} from 'app/src/actions';
 import Modal from 'react-native-modal';
+import NavigationService from 'app/src/services/NavigationService';
 
 import StandardFooter from 'app/src/elements/Footer';
 import ClientMainBalance from 'app/src/elements/ClientMainBalance';
@@ -43,6 +44,8 @@ class Main extends Screen{
         name: props.user.fullName,
         phone: props.user.selectedPhone
       });
+      if (!props.user.msisdns || !props.user.msisdns.length)
+        NavigationService.navigate('Newbie'); // if the user has no SIMs, redirect them
     }
   }
 
@@ -143,7 +146,7 @@ class Main extends Screen{
       require('app/assets/image/tariffs/travel.png'),
     ];
 
-    if (index < 0 || index >= images.length) return '';
+    if (index < 0 || index >= images.length) return false;
 
     return images[index];
   }
@@ -289,7 +292,8 @@ class Main extends Screen{
       </Modal>
     ) : null);
 
-
+    let requireImg = this.requireImage(Object.keys(tariffs).indexOf(tariff));
+    let imgUrl = requireImg ? { uri: requireImg } : require('app/assets/image/empty.png');
     return (
       <Container style={{backgroundColor: tariff ? tariffs[tariff].color : dP.color.primary}}>
         <ScrollView
@@ -335,7 +339,7 @@ class Main extends Screen{
                 <Image
                   style={{ height: 180, width: '100%' }}
                   resizeMode='cover'
-                  source={this.requireImage(Object.keys(tariffs).indexOf(tariff))}
+                  source={imgUrl}
                 />
               </View>
               {modal}
