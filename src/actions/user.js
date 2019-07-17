@@ -1,6 +1,7 @@
 import * as T from './types';
 import {apiAction, apiError, apiErrorDismiss} from './api';
 import { store } from 'app/src/reducers';
+import { Alert } from 'react-native';
 import NavigationService from 'app/src/services/NavigationService';
 
 // USER INFO
@@ -173,6 +174,83 @@ const fetchRemainsSuccess = data => dispatch => {
 const fetchRemainsFailure = data => dispatch => {
   dispatch({
     type: T.REMAINS_FETCH_FAILURE,
+    payload: data
+  });
+};
+
+export function iccidInfo(iccid, msisdn, userId) {
+  return apiAction({
+    url: `/iccids/info/${iccid}`,
+    onSuccess: data => iccidInfoSuccess(data, iccid, msisdn, userId),
+    onFailure: iccidInfoFailure,
+    errorLabel: 'iccidInfoError',
+    busyScreen: 'iccidInfo',
+    label: T.ICCID_INFO
+  });
+}
+
+const iccidInfoSuccess = (data, iccid, msisdn, userId) => dispatch => {
+  dispatch({
+    type: T.ICCID_INFO_SUCCESS,
+    payload: data
+  });
+
+  if (data.msisdns &&
+      data.msisdns[0] &&
+      data.msisdns[0].msisdn &&
+      data.msisdns[0].msisdn == msisdn
+  )
+    dispatch(iccidBind(iccid, userId));
+};
+
+const iccidInfoFailure = data => dispatch => {
+  dispatch({
+    type: T.ICCID_INFO_FAILURE,
+    payload: data
+  });
+};
+
+export function iccidBind(iccid, userId) {
+  return apiAction({
+    url: `/iccids/${iccid}/bind/user/${userId}`,
+    method: 'POST',
+    onSuccess: iccidBindSuccess,
+    onFailure: iccidBindFailure,
+    errorLabel: 'iccidBindError',
+    busyScreen: 'iccidBind',
+    label: T.ICCID_BIND
+  });
+}
+
+const iccidBindSuccess = data => dispatch => {
+  const onDismiss = () => {
+    const {auth} = store.getState();
+    dispatch(apiErrorDismiss('iccidBindError'));
+
+    if (auth && auth.accessToken) {
+      dispatch(fetchMsisdns(auth.accessToken));
+      NavigationService.navigate('Main');
+    } else {
+      NavigationService.navigate('Login');
+    }
+  };
+
+  Alert.alert(
+    '',
+    'SIM-карта привязана ка вашему аккаунту',
+    [{text: 'OK', onPress: onDismiss}],
+    { onDismiss: onDismiss }
+  );
+
+  dispatch({
+    type: T.ICCID_BIND_SUCCESS,
+    payload: data
+  });
+};
+
+const iccidBindFailure = data => dispatch => {
+  dispatch({
+    type: T.ICCID_BIND_FAILURE,
     payload: data
   });
 };

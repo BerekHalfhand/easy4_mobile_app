@@ -25,6 +25,7 @@ import IncreaseBalance from './src/components/IncreaseBalance';
 import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
 import Feedback from './src/components/Feedback';
+import BindIccid from './src/components/BindIccid';
 import Contacts from './src/components/Contacts';
 import Callback from './src/components/Callback';
 
@@ -62,6 +63,7 @@ const Routes = createStackNavigator({
   Recovery: { screen: Recovery },
   Contacts: { screen: Contacts },
   Feedback: { screen: Feedback },
+  BindIccid: { screen: BindIccid },
   Callback: { screen: Callback },
 }, {
   initialRouteName: 'Home',

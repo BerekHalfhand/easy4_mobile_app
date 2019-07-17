@@ -29,6 +29,7 @@ import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import TariffConditions from 'app/src/elements/TariffConditions';
 import tariffs from 'app/utils/tariffData.json';
+import NavigationService from 'app/src/services/NavigationService';
 
 class Main extends Screen{
   constructor(props){
@@ -96,6 +97,13 @@ class Main extends Screen{
     }, 250);
   }
 
+  navigateToBindIccid = () => {
+    this.toggleModal();
+    setTimeout(() => { // let the animation play out smoothly before all the heavy lifting
+      NavigationService.navigate('BindIccid');
+    }, 250);
+  }
+
   getBalance = async (phone) => {
     const { auth, dispatch } = this.props;
     dispatch(fetchBalance(phone, auth.accessToken));
@@ -155,13 +163,6 @@ class Main extends Screen{
     if (!checkNested(this.props, 'user', 'selectedPhone')) return null;
 
     const { selectedPhone } = this.props.user;
-    const chevron = (checkNested(this.props.user, 'msisdns') && this.props.user.msisdns.length ? (
-      <MaterialCommunityIcons
-        name='chevron-down'
-        size={18}
-        color={dP.color.white}
-      />
-    ) : null );
 
     return (
       <TouchableOpacity onPress={this.onPressNumbers}
@@ -169,7 +170,11 @@ class Main extends Screen{
         <Text numberOfLines={1} style={{color: dP.color.white, fontSize: 16}}>
           { phoneFormat(selectedPhone) }
         </Text>
-        { chevron }
+        <MaterialCommunityIcons
+          name='chevron-down'
+          size={18}
+          color={dP.color.white}
+        />
       </TouchableOpacity>
     );
   }
@@ -254,15 +259,8 @@ class Main extends Screen{
           <ScrollView>
             <Text style={font('Roboto', 20, '#000', null, {marginBottom: 8})}>Основной номер</Text>
             {user.msisdns.map(v => (
-              <TouchableOpacity key={v} style={{flexDirection: 'row', paddingTop: 8, paddingBottom: 8}} onPress={() => this.selectPhone(v)}>
-                <View style={{
-                  width: 20,
-                  height: 20,
-                  marginRight: 10,
-                  flex: 0,
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}>
+              <TouchableOpacity key={v} style={styles.modalItemContainer} onPress={() => this.selectPhone(v)}>
+                <View style={styles.modalItem}>
                   <MaterialCommunityIcons
                     name={v == user.selectedPhone ? 'checkbox-marked-circle-outline' : 'checkbox-blank-circle-outline'}
                     color='#000'
@@ -278,6 +276,19 @@ class Main extends Screen{
                 </Text>
               </TouchableOpacity>
             ))}
+            <TouchableOpacity style={styles.modalItemContainer} onPress={() => this.navigateToBindIccid()}>
+              <View style={styles.modalItem}>
+                <MaterialCommunityIcons
+                  name='plus'
+                  color='#000'
+                  size={20} />
+              </View>
+              <Text style={
+                font('Roboto', 16, '#5a5a5a')
+              }>
+                Добавить
+              </Text>
+            </TouchableOpacity>
             <View style={{flexDirection: 'row', marginBottom: -12}}>
               <Button transparent
                 onPress={this.toggleModal}
