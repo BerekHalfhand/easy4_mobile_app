@@ -58,6 +58,7 @@ export function fetchMsisdns(accessToken) {
     onFailure: fetchMsisdnsFailure,
     failureTransition: 'Login',
     errorLabel: 'fetchMsisdnsError',
+    busyScreen: 'msisdns',
     label: T.MSISDNS_FETCH
   });
 }
@@ -72,19 +73,26 @@ const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
   let firstItem = null;
   let altPhone = null;
 
-  if (data && data.items && data.items[0]) {
-    firstItem = data.items[0];
-    if (firstItem.msisdns && firstItem.msisdns[0] && firstItem.msisdns[0].msisdn) {
-      altPhone = firstItem.msisdns[0].msisdn;
+  if (data && data.items) {
+    if (data.items[0]) { // if the user got at least one SIM, show them Main
+      firstItem = data.items[0];
+      if (firstItem.msisdns && firstItem.msisdns[0] && firstItem.msisdns[0].msisdn) {
+        altPhone = firstItem.msisdns[0].msisdn;
+        let phone = user.selectedPhone || altPhone;
+
+        if (!user.selectedPhone)
+          dispatch(selectPhoneAction(phone));
+
+        dispatch(gatherPhoneData(phone, accessToken));
+
+        NavigationService.navigate('Main');
+      }
+    } else { // otherwise consider them a newbie
+      NavigationService.navigate('Newbie');
     }
   }
 
-  let phone = user.selectedPhone || altPhone;
 
-  if (!user.selectedPhone)
-    dispatch(selectPhoneAction(phone));
-
-  dispatch(gatherPhoneData(phone, accessToken));
 };
 
 const fetchMsisdnsFailure = data => dispatch => {

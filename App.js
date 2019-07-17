@@ -18,6 +18,7 @@ import Offline from './src/components/Offline';
 import Home from './src/components/Home';
 import Login from './src/components/Login';
 import Main from './src/components/Main';
+import Newbie from './src/components/Newbie';
 import Tariff from './src/components/Tariff';
 import TariffList from './src/components/TariffList';
 import IncreaseBalance from './src/components/IncreaseBalance';
@@ -54,6 +55,7 @@ const Routes = createStackNavigator({
   Home: { screen: Home },
   Login: { screen: Login },
   Main: { screen: Main },
+  Newbie: { screen: Newbie },
   Tariff: { screen: Tariff },
   TariffList: { screen: TariffList },
   IncreaseBalance: { screen: IncreaseBalance },

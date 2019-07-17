@@ -32,16 +32,19 @@ export function sendLead(data, actions) {
 
 const sendLeadSuccess = (data, actions) => dispatch => {
   const onDismiss = () => {
-    const {auth, app} = store.getState();
+    const {auth, app, user} = store.getState();
     dispatch(apiErrorDismiss('sendLeadError'));
     actions.setSubmitting(false);
-    if (auth.accessToken)
-      NavigationService.navigate('Main');
-    else {
-      if (app.bannersSeen)
-        NavigationService.navigate('Home');
+    if (auth.accessToken) {
+      if (user.msisdns && user.msisdns.length)
+        NavigationService.navigate('Main');
       else
-        NavigationService.navigate('Banners');
+        NavigationService.navigate('Newbie');
+    } else {
+      // if (app.bannersSeen)
+      NavigationService.navigate('Home');
+      // else
+      // NavigationService.navigate('Banners');
     }
 
   };
