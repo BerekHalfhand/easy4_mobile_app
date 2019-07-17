@@ -6,12 +6,13 @@ import StandardFooter from 'app/src/elements/Footer';
 import {styles, stylesExtra, dP} from 'app/utils/style/styles';
 import LogoTitle from 'app/src/elements/LogoTitle';
 import { TextField } from 'react-native-material-textfield';
+import { TextInputMask } from 'react-native-masked-text';
 import autoBind from 'react-autobind';
-import {bindIccid} from 'app/src/actions';
+import {iccidInfo} from 'app/src/actions';
 import {padding} from 'app/utils/helpers';
 import { Formik } from 'formik';
 import {scaleTextToFit} from 'app/utils/scaling';
-import {font} from 'app/utils/helpers';
+import {font, checkNested} from 'app/utils/helpers';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import {handleTextInput} from 'react-native-formik';
@@ -22,13 +23,14 @@ const validationSchema = Yup.object().shape({
     .number('Необходимо указать номер')
     .required('Необходимо указать номер')
     .positive('Номер должен быть положителен')
-    .test('len', 'Номер должен быть ровно 19 символов в длину', val => val.toString().length === 2)
+    .test('len', 'Номер должен быть ровно 19 символов в длину', val => val.toString().length === 19)
     .label('Iccid'),
+
+  phone: Yup.string()
+    .required('Необходимо указать телефон')
 });
 
-const MyInput = compose(
-  handleTextInput
-)(TextField);
+const MyInput = handleTextInput(TextField);
 
 class BindIccid extends Screen {
   constructor(props) {
@@ -43,7 +45,11 @@ class BindIccid extends Screen {
 
   formSubmit(values) {
     console.log('form submit', values);
-    this.props.dispatch(bindIccid(values.iccid));
+    if (!checkNested(this.props, 'user', 'userId'))
+      return false;
+
+    let msisdn = values.phone.replace(/\D/g,'');
+    this.props.dispatch(iccidInfo(values.iccid, msisdn, this.props.user.userId));
   }
 
   renderContent() {
@@ -53,6 +59,7 @@ class BindIccid extends Screen {
           <Formik
             initialValues={{
               iccid: '',
+              phone: ''
             }}
             onSubmit={(values, actions) => this.formSubmit(values, actions)}
             validationSchema={validationSchema}
@@ -66,20 +73,44 @@ class BindIccid extends Screen {
                     {...stylesExtra.input}
                   />
 
+                  <TextInputMask
+                    customTextInput={TextField}
+                    customTextInputProps={stylesExtra.input}
+                    placeholder='+'
+                    label='Телефон'
+                    style={{color: 'white'}}
+                    type='cel-phone'
+                    options={{
+                      /**
+                       * mask: (String | required | default '')
+                       * the mask pattern
+                       * 9 - accept digit.
+                       * A - accept alpha.
+                       * S - accept alphanumeric.
+                       * * - accept all, EXCEPT white space.
+                      */
+                      withDDD: true,
+                      dddMask: '+9 (999) 999-99-99'
+                    }}
+                    value={formikProps.values.phone}
+                    onChangeText={text => formikProps.setFieldValue('phone', text)}
+                  />
+
                   <Body style={{margin: 24}}>
-                    {this.showError('bindIccidError')}
-                    {this.props.busy && this.props.busy.bindIccid ? (
-                      <ActivityIndicator />
-                    ) : (
-                      <Button full rounded
-                        style={{...styles.buttonPrimary, ...padding(10, 5)}}
-                        onPress={formikProps.handleSubmit}
-                      >
-                        <Text style={font('SFCT_Semibold', scaleTextToFit(16, 0.5, 'Привязать'), dP.color.primary, 0.25)}>
-                          Привязать
-                        </Text>
-                      </Button>
-                    )}
+                    {this.showError('iccidBindError')}
+                    {checkNested(this.props, 'api', 'busy') &&
+                      (this.props.api.busy.iccidInfo || this.props.api.busy.iccidBind) ? (
+                        <ActivityIndicator />
+                      ) : (
+                        <Button full rounded
+                          style={{...styles.buttonPrimary, ...padding(10, 5)}}
+                          onPress={formikProps.handleSubmit}
+                        >
+                          <Text style={font('SFCT_Semibold', scaleTextToFit(16, 0.5, 'Привязать'), dP.color.primary, 0.25)}>
+                            Привязать
+                          </Text>
+                        </Button>
+                      )}
                   </Body>
 
                 </View>
@@ -93,6 +124,6 @@ class BindIccid extends Screen {
   }
 }
 
-const mapStateToProps = state => state.api;
+const mapStateToProps = state => state;
 
 export default connect(mapStateToProps)(BindIccid);
