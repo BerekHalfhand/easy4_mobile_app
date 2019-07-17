@@ -8,5 +8,3 @@ npm-debug.*
 
 .idea/
 .DS_Store
-
-.env.json
