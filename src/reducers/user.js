@@ -10,7 +10,11 @@ export default (state = {}, action) => {
 
   switch (type) {
   case T.READ_STATE:
-    console.log('USER/READ_STATE', state);
+  case T.ICCID_INFO_SUCCESS:
+  case T.ICCID_INFO_FAILURE:
+  case T.ICCID_BIND_SUCCESS:
+  case T.ICCID_BIND_FAILURE:
+    console.log(`USER/${type}`, payload);
     return state;
 
   case T.RESET_STATE:
@@ -41,6 +45,7 @@ export default (state = {}, action) => {
 
     return {
       ...state,
+      userId: payload._id,
       firstName: payload.firstName,
       secondName: payload.secondName,
       lastName: payload.lastName,
@@ -128,22 +133,6 @@ export default (state = {}, action) => {
       ...state,
       doNotPersist: !state.doNotPersist,
     };
-
-  case T.BIND_ICCID_SUCCESS:
-    console.log(`USER/${type}`, payload);
-    return state;
-    // return {
-    //   ...state,
-    //   msisdns: payload.items.map(v => v.msisdns[0].msisdn),
-    // };
-
-  case T.BIND_ICCID_FAILURE:
-    console.log(`USER/${type}`, payload);
-    return state;
-    // return {
-    //   ...state,
-    //   msisdns: [],
-    // };
 
   default:
     return state;
