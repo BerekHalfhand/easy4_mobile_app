@@ -19,12 +19,14 @@ export default class Screen extends Component {
   dimensions = { ...Dimensions.get('window') };
 
   showError = label => {
-    if (this.props.errors && this.props.errors[label])
+    if (this.props.errors && this.props.errors[label]) {
+      console.log('showError', label);
       return (
         <Text style={{ color: dP.color.error, marginBottom: 10 }}>
           {this.props.errors[label]}
         </Text>
       );
+    }
   }
 
   renderContent() {

@@ -14,6 +14,7 @@ import autoBind from 'react-autobind';
 import {padding, font, margin} from 'app/utils/helpers';
 import { connect } from 'react-redux';
 import StandardFooter from 'app/src/elements/Footer';
+import NavigationService from 'app/src/services/NavigationService';
 
 class Newbie extends Screen{
   constructor(props){
@@ -52,7 +53,7 @@ class Newbie extends Screen{
 
           <Button full rounded
             style={{...styles.buttonPrimary, ...padding(10, 5)}}
-            onPress={() => Linking.openURL('https://my.easy4.pro/#')}
+            onPress={() => NavigationService.navigate('BindIccid')}
           >
             <Text style={styles.textButtonPrimary}>
               Привязать SIM-карту

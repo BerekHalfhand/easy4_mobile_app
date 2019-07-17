@@ -86,8 +86,10 @@ const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
         dispatch(gatherPhoneData(phone, accessToken));
 
         NavigationService.navigate('Main');
+      } else { // otherwise consider them a newbie
+        NavigationService.navigate('Newbie');
       }
-    } else { // otherwise consider them a newbie
+    } else {
       NavigationService.navigate('Newbie');
     }
   }
@@ -237,7 +239,7 @@ const iccidBindSuccess = data => dispatch => {
 
   Alert.alert(
     '',
-    'SIM-карта привязана ка вашему аккаунту',
+    'SIM-карта привязана к вашему аккаунту',
     [{text: 'OK', onPress: onDismiss}],
     { onDismiss: onDismiss }
   );

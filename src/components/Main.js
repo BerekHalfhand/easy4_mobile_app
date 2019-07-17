@@ -29,7 +29,6 @@ import ClientMainBalance from 'app/src/elements/ClientMainBalance';
 import ClientMainInfo from 'app/src/elements/ClientMainInfo';
 import TariffConditions from 'app/src/elements/TariffConditions';
 import tariffs from 'app/utils/tariffData.json';
-import NavigationService from 'app/src/services/NavigationService';
 
 class Main extends Screen{
   constructor(props){
@@ -304,7 +303,7 @@ class Main extends Screen{
     ) : null);
 
     let requireImg = this.requireImage(Object.keys(tariffs).indexOf(tariff));
-    let imgUrl = requireImg ? { uri: requireImg } : require('app/assets/image/empty.png');
+    let imgUrl = requireImg ? requireImg : require('app/assets/image/empty.png');
     return (
       <Container style={{backgroundColor: tariff ? tariffs[tariff].color : dP.color.primary}}>
         <ScrollView

@@ -20,7 +20,8 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
   iccid: Yup
-    .number('Необходимо указать номер')
+    .number()
+    .typeError('Укажите номер')
     .required('Необходимо указать номер')
     .positive('Номер должен быть положителен')
     .test('len', 'Номер должен быть ровно 19 символов в длину', val => val.toString().length === 19)
@@ -45,11 +46,11 @@ class BindIccid extends Screen {
 
   formSubmit(values) {
     console.log('form submit', values);
-    if (!checkNested(this.props, 'user', 'userId'))
+    if (!checkNested(this.props, 'userId'))
       return false;
 
     let msisdn = values.phone.replace(/\D/g,'');
-    this.props.dispatch(iccidInfo(values.iccid, msisdn, this.props.user.userId));
+    this.props.dispatch(iccidInfo(values.iccid, msisdn, this.props.userId));
   }
 
   renderContent() {
@@ -97,9 +98,9 @@ class BindIccid extends Screen {
                   />
 
                   <Body style={{margin: 24}}>
-                    {this.showError('iccidBindError')}
-                    {checkNested(this.props, 'api', 'busy') &&
-                      (this.props.api.busy.iccidInfo || this.props.api.busy.iccidBind) ? (
+                    {this.showError('iccidInfoError')}
+                    {checkNested(this.props, 'busy') &&
+                      (this.props.busy.iccidInfo || this.props.busy.iccidBind) ? (
                         <ActivityIndicator />
                       ) : (
                         <Button full rounded
@@ -124,6 +125,6 @@ class BindIccid extends Screen {
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({...state.api, ...state.user});
 
 export default connect(mapStateToProps)(BindIccid);

@@ -7,9 +7,13 @@ export default (state = {}, action) => {
   // take the first available tariff as default
   // let activeTariff = Object.keys(tariffs)[0];
   let tariffRemains = null;
+  let msisdns = [];
 
   switch (type) {
   case T.READ_STATE:
+    console.log(`USER/${type}`, state);
+    return state;
+
   case T.ICCID_INFO_SUCCESS:
   case T.ICCID_INFO_FAILURE:
   case T.ICCID_BIND_SUCCESS:
@@ -18,7 +22,7 @@ export default (state = {}, action) => {
     return state;
 
   case T.RESET_STATE:
-    console.log('USER/RESET_STATE', state);
+    console.log(`USER/${type}`, state);
     return {};
 
   case T.LOGOUT_SUCCESS:
@@ -36,12 +40,7 @@ export default (state = {}, action) => {
     };
 
   case T.USER_INFO_SUCCESS:
-    console.log('USER/USER_INFO_SUCCESS', payload);
-
-    // for (let tariff in tariffs) {
-    //   if (tariffs[tariff].id == payload.tariffId)
-    //     activeTariff = tariff;
-    // }
+    console.log(`USER/${type}`, payload);
 
     return {
       ...state,
@@ -51,41 +50,47 @@ export default (state = {}, action) => {
       lastName: payload.lastName,
       phone: payload.phone,
       email: payload.email,
-      // tariff: activeTariff,
       ...(payload.firstName && {fullName: `${payload.firstName} ${payload.lastName}`}),
       ...(state.doNotPersist && {doNotPersist: state.doNotPersist})
     };
 
   case T.SELECT_PHONE:
-    console.log('USER/SELECT_PHONE', payload);
+    console.log(`USER/${type}`, payload);
     return {
       ...state,
       selectedPhone: payload.phone,
     };
 
   case T.MSISDNS_FETCH_SUCCESS:
-    console.log('USER/MSISDNS_FETCH_SUCCESS', payload);
+    console.log(`USER/${type}`, payload);
+
+    if (payload.items && payload.items.length) {
+      for (const item of payload.items){
+        if (item && item.msisdns && item.msisdns[0] && item.msisdns[0].msisdn)
+          msisdns.push(item.msisdns[0].msisdn);
+      }
+    }
     return {
       ...state,
-      msisdns: payload.items.map(v => v.msisdns[0].msisdn),
+      msisdns
     };
 
   case T.MSISDNS_FETCH_FAILURE:
-    console.log('USER/MSISDNS_FETCH_FAILURE', payload);
+    console.log(`USER/${type}`, payload);
     return {
       ...state,
       msisdns: [],
     };
 
   case T.BALANCE_FETCH_SUCCESS:
-    console.log('USER/BALANCE_FETCH_SUCCESS', payload);
+    console.log(`USER/${type}`, payload);
     return {
       ...state,
       balance: payload.balance,
     };
 
   case T.BALANCE_FETCH_FAILURE:
-    console.log('USER/BALANCE_FETCH_FAILURE');
+    console.log(`USER/${type}`);
     return {
       ...state,
       balance: null,
