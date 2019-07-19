@@ -107,9 +107,9 @@ const fetchMsisdnsFailure = data => dispatch => {
   dispatch(apiError('loginError', 'Сессия истекла или была прервана, пожалуйста войдите заново'));
 };
 
-export function fetchBalance(phone, accessToken) {
+export function fetchBalance(msisdn, accessToken) {
   return apiAction({
-    url: '/test/balance/' + phone,
+    url: `/msisdn/${msisdn}/balance`,
     accessToken: accessToken,
     onSuccess: fetchBalanceSuccess,
     onFailure: fetchBalanceFailure,

@@ -84,9 +84,11 @@ export default (state = {}, action) => {
 
   case T.BALANCE_FETCH_SUCCESS:
     console.log(`USER/${type}`, payload);
+    if (!payload.result) return state;
+
     return {
       ...state,
-      balance: payload.balance,
+      balance: payload.result.balance,
     };
 
   case T.BALANCE_FETCH_FAILURE:
