@@ -1,6 +1,3 @@
-import {styles, dP} from 'app/utils/style/styles';
-import {Platform} from 'react-native';
-
 // titles: Array('Именительный един.', 'Винительный множ.', 'Родительный множ.')
 // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms
 export const declOfNumRus = (n, titles) => {
@@ -69,4 +66,10 @@ export const font = (fontFamily = 'Roboto', fontSize = 16, color = '#FFF', lette
     // textAlign: 'center',
     ...rest
   };
+};
+
+export const checkNested = (obj, level,  ...rest) => {
+  if (obj === undefined) return false;
+  if (rest.length == 0 && obj.hasOwnProperty(level)) return true;
+  return checkNested(obj[level], ...rest);
 };

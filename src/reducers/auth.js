@@ -20,7 +20,7 @@ export default (state = {}, action) => {
     console.log('AUTH/CHECK_TOKEN_FAILURE');
     return {
       ...state,
-      accessToken: null,
+      accessToken: false,
     };
 
   case T.UPDATE_TOKEN_SUCCESS:

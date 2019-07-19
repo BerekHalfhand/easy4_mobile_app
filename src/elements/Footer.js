@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import {readState} from 'app/src/actions';
 import NavigationService from 'app/src/services/NavigationService';
 import { ifIphoneX, getBottomSpace } from 'react-native-iphone-x-helper';
+import {checkNested} from 'app/utils/helpers';
 
 class StandardFooter extends React.Component{
   toggleDrawer = () => {
@@ -17,17 +18,26 @@ class StandardFooter extends React.Component{
     this.props.navigation.openDrawer();
   }
 
+  goToMain = () => {
+    const { user } = this.props;
+    if (user.msisdns && user.msisdns.length)
+      NavigationService.navigate('Main');
+    else
+      NavigationService.navigate('Newbie');
+  }
+
   render(){
     const size = 24;
     const padding = 10;
-    const { navigation, accessToken } = this.props;
+    const { navigation, auth } = this.props;
+    const { accessToken } = auth;
 
-    const homeButton = (accessToken &&
-                        navigation &&
-                        navigation.state &&
+    const homeButton = (accessToken !== null &&
+                        typeof accessToken !== 'undefined' &&
+                        checkNested(navigation, 'state', 'routeName') &&
                         navigation.state.routeName != 'Main' ? (
         <Button
-          onPress={() => NavigationService.navigate('Main')}
+          onPress={() => this.goToMain()}
           style={ifIphoneX({alignSelf: 'flex-start'})}
         >
           <View style={{padding}}>
@@ -104,6 +114,6 @@ class StandardFooter extends React.Component{
   }
 }
 
-const mapStateToProps = state => state.auth;
+const mapStateToProps = state => state;
 
 export default withNavigation(connect(mapStateToProps)(StandardFooter));

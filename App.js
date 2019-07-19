@@ -18,12 +18,14 @@ import Offline from './src/components/Offline';
 import Home from './src/components/Home';
 import Login from './src/components/Login';
 import Main from './src/components/Main';
+import Newbie from './src/components/Newbie';
 import Tariff from './src/components/Tariff';
 import TariffList from './src/components/TariffList';
 import IncreaseBalance from './src/components/IncreaseBalance';
 import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
 import Feedback from './src/components/Feedback';
+import BindIccid from './src/components/BindIccid';
 import Contacts from './src/components/Contacts';
 import Callback from './src/components/Callback';
 
@@ -53,6 +55,7 @@ const Routes = createStackNavigator({
   Home: { screen: Home },
   Login: { screen: Login },
   Main: { screen: Main },
+  Newbie: { screen: Newbie },
   Tariff: { screen: Tariff },
   TariffList: { screen: TariffList },
   IncreaseBalance: { screen: IncreaseBalance },
@@ -60,6 +63,7 @@ const Routes = createStackNavigator({
   Recovery: { screen: Recovery },
   Contacts: { screen: Contacts },
   Feedback: { screen: Feedback },
+  BindIccid: { screen: BindIccid },
   Callback: { screen: Callback },
 }, {
   initialRouteName: 'Home',
