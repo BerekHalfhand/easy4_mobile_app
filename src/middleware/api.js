@@ -3,6 +3,7 @@ import { accessDenied, apiError, apiStart, apiEnd } from 'app/src/actions/api';
 import NavigationService from 'app/src/services/NavigationService';
 import {NetInfo} from 'react-native';
 import {apiUrl} from 'app/.env.json';
+import { store } from 'app/src/reducers';
 
 const apiMiddleware = ({ dispatch }) => next => action => {
   next(action);
@@ -14,7 +15,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     baseUrlOverride,
     method,
     data,
-    accessToken,
+    // accessToken,
     onSuccess,
     successTransition,
     onFailure,
@@ -26,10 +27,12 @@ const apiMiddleware = ({ dispatch }) => next => action => {
   } = action.payload;
   const useBody = !['GET', 'HEAD'].includes(method);
 
+  const {auth} = store.getState();
+
   const baseHeaders = new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    ...(accessToken && {'Authorization': `Bearer ${accessToken}`}),
+    ...(auth.accessToken && {'Authorization': `Bearer ${auth.accessToken}`}),
   });
   // const baseUrl = baseUrlOverride || 'https://stage.mp.api.easy4.pro';
   // const baseUrl = baseUrlOverride || 'https://mp.api.easy4.pro';
@@ -51,7 +54,11 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     ...data
   });
 
-  // console.log(`${baseUrl+url} => API`);
+  console.log(`${baseUrl+url} => API`, {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    ...(auth.accessToken && {'Authorization': `Bearer ${auth.accessToken}`}),
+  });
 
   fetch(baseUrl+url, {
     method,
@@ -68,10 +75,10 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     //   }
     //   return response.json()
     // })
-    // .then(response => {
-    //   console.log('response: ', response);
-    //   return response;
-    // })
+    .then(response => {
+      console.log('response: ', response);
+      return response;
+    })
     .then(response => response.json())
     .then(data => {
       console.log(`${baseUrl+url} => API response data:`, data);
