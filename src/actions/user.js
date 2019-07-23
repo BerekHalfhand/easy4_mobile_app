@@ -202,7 +202,7 @@ const iccidInfoSuccess = (data, iccid, msisdn, userId) => dispatch => {
       data.msisdns[0].msisdn &&
       data.msisdns[0].msisdn == msisdn
   )
-    dispatch(iccidBind(iccid, userId));
+    dispatch(iccidUnbind(iccid, userId));
 };
 
 const iccidInfoFailure = data => dispatch => {
@@ -253,6 +253,34 @@ const iccidBindSuccess = data => dispatch => {
 const iccidBindFailure = data => dispatch => {
   dispatch({
     type: T.ICCID_BIND_FAILURE,
+    payload: data
+  });
+};
+
+export function iccidUnbind(iccid, userId) {
+  return apiAction({
+    url: `/iccids/${iccid}/unbind/user`,
+    method: 'POST',
+    onSuccess: data => iccidUnbindSuccess(data, iccid, userId),
+    onFailure: iccidUnbindFailure,
+    errorLabel: 'iccidUnbindError',
+    busyScreen: 'iccidUnbind',
+    label: T.ICCID_UNBIND
+  });
+}
+
+const iccidUnbindSuccess = (data, iccid, userId) => dispatch => {
+  dispatch({
+    type: T.ICCID_UNBIND_SUCCESS,
+    payload: data
+  });
+  dispatch(apiErrorDismiss('iccidUnbindError'));
+  dispatch(iccidBind(iccid, userId));
+};
+
+const iccidUnbindFailure = data => dispatch => {
+  dispatch({
+    type: T.ICCID_UNBIND_FAILURE,
     payload: data
   });
 };

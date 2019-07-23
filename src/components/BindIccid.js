@@ -100,7 +100,10 @@ class BindIccid extends Screen {
                   <Body style={{margin: 24}}>
                     {this.showError('iccidInfoError')}
                     {checkNested(this.props, 'busy') &&
-                      (this.props.busy.iccidInfo || this.props.busy.iccidBind) ? (
+                      ( this.props.busy.iccidInfo ||
+                        this.props.busy.iccidBind ||
+                        this.props.busy.iccidUnbind
+                      ) ? (
                         <ActivityIndicator />
                       ) : (
                         <Button full rounded

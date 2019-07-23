@@ -18,6 +18,8 @@ export default (state = {}, action) => {
   case T.ICCID_INFO_FAILURE:
   case T.ICCID_BIND_SUCCESS:
   case T.ICCID_BIND_FAILURE:
+  case T.ICCID_UNBIND_SUCCESS:
+  case T.ICCID_UNBIND_FAILURE:
     console.log(`USER/${type}`, payload);
     return state;
 
