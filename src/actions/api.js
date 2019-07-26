@@ -1,11 +1,11 @@
 import { API, API_START, API_END, ACCESS_DENIED, API_ERROR } from './types';
+import { store } from 'app/src/reducers';
 
 export const apiAction = ({
   url = '',
   baseUrlOverride = null,
   method = 'GET',
   data = null,
-  accessToken = null,
   onSuccess = () => {},
   successTransition = null,
   onFailure = () => {},
@@ -15,6 +15,8 @@ export const apiAction = ({
   errorLabel = null,
   busyScreen = null,
 }) => {
+  const {auth} = store.getState();
+  const {accessToken} = auth;
   return {
     type: API,
     payload: {

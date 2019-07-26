@@ -61,8 +61,8 @@ const loginSuccess = (data, login, password) => dispatch => {
   });
 
   if (data && data.accessToken) {
-    dispatch(userInfo(data.accessToken));
-    dispatch(fetchMsisdns(data.accessToken));
+    dispatch(userInfo());
+    dispatch(fetchMsisdns());
 
     SecureStore.setItemAsync('login', login);
     SecureStore.setItemAsync('password', password);
@@ -128,19 +128,21 @@ const signupFailure = data => {
 export function checkToken(accessToken, refreshToken) {
   return apiAction({
     url: `/auth/tokens/check/${accessToken}`,
-    accessToken: accessToken,
-    onSuccess: checkTokenSuccess,
+    onSuccess: data => checkTokenSuccess(data, refreshToken),
     onFailure: () => checkTokenFailure(refreshToken),
     label: T.CHECK_TOKEN,
     errorLabel: 'checkTokenError',
   });
 }
 
-const checkTokenSuccess = data => {
-  return {
-    type: T.CHECK_TOKEN_SUCCESS,
-    payload: data
-  };
+const checkTokenSuccess = (data, refreshToken) => dispatch => {
+  if (!data.errors) {
+    dispatch({
+      type: T.CHECK_TOKEN_SUCCESS,
+      payload: data
+    });
+  }
+  else dispatch(checkTokenFailure(refreshToken));
 };
 
 const checkTokenFailure = refreshToken => dispatch => {
@@ -159,7 +161,6 @@ function updateToken(token) {
     url: '/auth/tokens/refresh',
     method: 'POST',
     data: {token},
-    accessToken: token,
     onSuccess: updateTokenSuccess,
     onFailure: updateTokenFailure,
     label: T.UPDATE_TOKEN,
@@ -271,8 +272,8 @@ const esiaAuthSuccess = data => dispatch => {
   });
 
   if (data && data.accessToken) {
-    dispatch(userInfo(data.accessToken));
-    dispatch(fetchMsisdns(data.accessToken));
+    dispatch(userInfo());
+    dispatch(fetchMsisdns());
   }
 };
 
