@@ -222,6 +222,19 @@ export const styles = StyleSheet.create({
     margin: 8,
     marginBottom: 32,
   },
+  modalItemContainer: {
+    flexDirection: 'row',
+    paddingTop: 8,
+    paddingBottom: 8
+  },
+  modalItem: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+    flex: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 
 });
 export const stylesExtra = {
