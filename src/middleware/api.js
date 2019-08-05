@@ -2,6 +2,8 @@ import { API } from 'app/src/actions/types';
 import { accessDenied, apiError, apiStart, apiEnd } from 'app/src/actions/api';
 import NavigationService from 'app/src/services/NavigationService';
 import {NetInfo} from 'react-native';
+import {apiUrl} from 'app/.env.json';
+// import { store } from 'app/src/reducers';
 
 const apiMiddleware = ({ dispatch }) => next => action => {
   next(action);
@@ -25,13 +27,18 @@ const apiMiddleware = ({ dispatch }) => next => action => {
   } = action.payload;
   const useBody = !['GET', 'HEAD'].includes(method);
 
+  // const {auth} = store.getState();
+  // console.log('accessToken', accessToken);
+
   const baseHeaders = new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     ...(accessToken && {'Authorization': `Bearer ${accessToken}`}),
   });
+
   // const baseUrl = baseUrlOverride || 'https://stage.mp.api.easy4.pro';
-  const baseUrl = baseUrlOverride || 'https://mp.api.easy4.pro';
+  // const baseUrl = baseUrlOverride || 'https://mp.api.easy4.pro';
+  const baseUrl = baseUrlOverride || apiUrl;
 
   NetInfo.getConnectionInfo().then((connectionInfo) => {
     // If the connection is gone, redirect to the Offline screen, and memorize the failed action
@@ -49,7 +56,11 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     ...data
   });
 
-  // console.log(`${baseUrl+url} => API`);
+  // console.log(`${baseUrl+url} => API`, {
+  //   'Accept': 'application/json',
+  //   'Content-Type': 'application/json',
+  //   ...(auth.accessToken && {'Authorization': `Bearer ${auth.accessToken}`}),
+  // });
 
   fetch(baseUrl+url, {
     method,
@@ -67,13 +78,14 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     //   return response.json()
     // })
     // .then(response => {
-    //   console.log('response: ', response);
+    //   console.log(`${baseUrl+url} response: `, response);
     //   return response;
     // })
     .then(response => response.json())
     .then(data => {
       console.log(`${baseUrl+url} => API response data:`, data);
       if (data.msg && data.msg !== 'OK') throw data.msg;
+      if (data.errors && data.errors[0] && data.errors[0].error) throw data.errors[0].error;
 
       dispatch(onSuccess(data));
       if (successTransition)
@@ -84,7 +96,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
         console.warn(`${baseUrl+url} => API error:`, error);
         dispatch(apiError(errorLabel, error));
       } else console.error(`${baseUrl+url} => API error:`, error);
-      
+
       dispatch(onFailure(error));
 
       if (error.response && error.response.status === 403) {

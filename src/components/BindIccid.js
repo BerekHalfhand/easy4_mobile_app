@@ -70,7 +70,7 @@ class BindIccid extends Screen {
                   <MyInput
                     label='Iccid'
                     name='iccid'
-                    type='number'
+                    keyboardType='numeric'
                     {...stylesExtra.input}
                   />
 
@@ -98,6 +98,7 @@ class BindIccid extends Screen {
                   />
 
                   <Body style={{margin: 24}}>
+                    {this.showError('iccidBindError')}
                     {this.showError('iccidInfoError')}
                     {checkNested(this.props, 'busy') &&
                       ( this.props.busy.iccidInfo ||

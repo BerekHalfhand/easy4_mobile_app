@@ -82,16 +82,16 @@ class Main extends Screen{
   loadData = () => {
     const { auth, dispatch } = this.props;
 
-    dispatch(userInfo(auth.accessToken));
-    dispatch(fetchMsisdns(auth.accessToken));
+    dispatch(userInfo());
+    dispatch(fetchMsisdns());
   };
 
   selectPhone = msisdn => {
     this.toggleModal();
-    const { auth, dispatch, navigation } = this.props;
+    const { dispatch, navigation } = this.props;
 
     setTimeout(() => { // let the animation play out smoothly before all the heavy lifting
-      dispatch(selectPhone(msisdn, auth.accessToken));
+      dispatch(selectPhone(msisdn));
       navigation.setParams({ phone: msisdn });
     }, 250);
   }
@@ -105,7 +105,7 @@ class Main extends Screen{
 
   getBalance = async (phone) => {
     const { auth, dispatch } = this.props;
-    dispatch(fetchBalance(phone, auth.accessToken));
+    dispatch(fetchBalance(phone));
   }
 
   getTariff() {
