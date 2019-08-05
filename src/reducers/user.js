@@ -113,10 +113,10 @@ export default (state = {}, action) => {
     };
 
   case T.REMAINS_FETCH_SUCCESS:
-    // console.log(`USER/${type}`, payload);
-    if (!payload.result) return state;
+    console.log(`USER/${type}`, payload);
+    if (!payload.body) return state;
 
-    payload.result.map(obj => {
+    payload.body.map(obj => {
       if (obj.productId == 1021 && obj.packages && obj.packages.length) {
         if (obj.packages[0].remainingVolume)
           tariffRemains = obj.packages[0].remainingVolume;

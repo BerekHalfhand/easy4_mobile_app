@@ -33,7 +33,9 @@ export default (state = {}, action) => {
 
   case T.UPDATE_TOKEN_FAILURE:
   case T.LOGIN_FAILURE:
-    console.log('AUTH/UPDATE_TOKEN_FAILURE');
+  case T.MSISDNS_FETCH_FAILURE:
+  case T.USER_INFO_FAILURE:
+    console.log(`AUTH/${type}`, payload);
     return {
       ...state,
       accessToken: null,

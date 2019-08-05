@@ -17,11 +17,12 @@ export function userInfo() {
   });
 }
 
-const userInfoSuccess = data => {
-  return {
+const userInfoSuccess = data => dispatch => {
+  dispatch({
     type: T.USER_INFO_SUCCESS,
     payload: data
-  };
+  });
+  dispatch(apiErrorDismiss('userInfoError'));
 };
 
 const userInfoFailure = data => dispatch => {
@@ -30,7 +31,6 @@ const userInfoFailure = data => dispatch => {
     payload: data
   });
 
-  dispatch(apiErrorDismiss('userInfoError'));
   dispatch(apiError('loginError', 'Сессия истекла или была прервана, пожалуйста войдите заново'));
 };
 
@@ -66,6 +66,7 @@ const fetchMsisdnsSuccess = data => dispatch => {
     type: T.MSISDNS_FETCH_SUCCESS,
     payload: data
   });
+  dispatch(apiErrorDismiss('fetchMsisdnsError'));
 
   const {user} = store.getState();
   let firstItem = null;
@@ -101,7 +102,6 @@ const fetchMsisdnsFailure = data => dispatch => {
     payload: data
   });
 
-  dispatch(apiErrorDismiss('fetchMsisdnsError'));
   dispatch(apiError('loginError', 'Сессия истекла или была прервана, пожалуйста войдите заново'));
 };
 
@@ -192,17 +192,22 @@ export function iccidInfo(iccid, msisdn, userId) {
 }
 
 const iccidInfoSuccess = (data, iccid, msisdn, userId) => dispatch => {
-  dispatch({
-    type: T.ICCID_INFO_SUCCESS,
-    payload: data
-  });
-
-  if (data.msisdns &&
-      data.msisdns[0] &&
-      data.msisdns[0].msisdn &&
-      data.msisdns[0].msisdn == msisdn
-  )
-    dispatch(iccidBind(iccid, userId));
+  if (data.msisdns) {
+    if (data.msisdns[0] &&
+        data.msisdns[0].msisdn &&
+        data.msisdns[0].msisdn == msisdn
+    ) {
+      dispatch({
+        type: T.ICCID_INFO_SUCCESS,
+        payload: data
+      });
+      dispatch(iccidBind(iccid, userId));
+    } else { // No errors per se, but msisdns do not match
+      dispatch(apiError('iccidInfoError', 'Ошибка: телефонный номер не верен'));
+    }
+  } else { // Errors came in, iccid doen't match
+    dispatch(iccidInfoFailure(data));
+  }
 };
 
 const iccidInfoFailure = data => dispatch => {

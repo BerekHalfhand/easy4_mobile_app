@@ -85,6 +85,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
     .then(data => {
       console.log(`${baseUrl+url} => API response data:`, data);
       if (data.msg && data.msg !== 'OK') throw data.msg;
+      if (data.errors && data.errors[0] && data.errors[0].error) throw data.errors[0].error;
 
       dispatch(onSuccess(data));
       if (successTransition)
