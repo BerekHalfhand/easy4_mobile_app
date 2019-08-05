@@ -24,6 +24,7 @@ import TariffList from './src/components/TariffList';
 import IncreaseBalance from './src/components/IncreaseBalance';
 import SignUp from './src/components/SignUp';
 import Recovery from './src/components/Recovery';
+import Products from './src/components/Products';
 import Feedback from './src/components/Feedback';
 import BindIccid from './src/components/BindIccid';
 import Contacts from './src/components/Contacts';
@@ -61,6 +62,7 @@ const Routes = createStackNavigator({
   IncreaseBalance: { screen: IncreaseBalance },
   SignUp: { screen: SignUp },
   Recovery: { screen: Recovery },
+  Products: { screen: Products },
   Contacts: { screen: Contacts },
   Feedback: { screen: Feedback },
   BindIccid: { screen: BindIccid },

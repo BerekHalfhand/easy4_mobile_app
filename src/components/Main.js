@@ -183,7 +183,7 @@ class Main extends Screen{
     if (!user) return false;
 
     const width = Dimensions.get('window').width;
-    const { fullName } = user;
+    const { fullName, products } = user;
     const tariff = this.getTariff();
 
     const balance = (this.hasBalance(user) ?
@@ -209,9 +209,14 @@ class Main extends Screen{
       )
       : null);
 
+    const productsLink = (products ? (
+      <Text style={font('Roboto', 20)} onPress={() => NavigationService.navigate('Products')}>Услуги</Text>
+    ) : null);
+
     const conditions = (tariffs && tariff ? (
       <View>
         <TariffConditions tariff={tariffs[tariff]}/>
+        {productsLink}
       </View>
     ) : null);
 
@@ -357,6 +362,7 @@ class Main extends Screen{
               {mainInfo}
 
               {conditions}
+
             </View>
 
 
