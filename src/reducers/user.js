@@ -86,11 +86,11 @@ export default (state = {}, action) => {
 
   case T.BALANCE_FETCH_SUCCESS:
     console.log(`USER/${type}`, payload);
-    if (!payload.result) return state;
+    if (!payload.body) return state;
 
     return {
       ...state,
-      balance: payload.result.balance,
+      balance: payload.body.balance,
     };
 
   case T.BALANCE_FETCH_FAILURE:
@@ -115,10 +115,10 @@ export default (state = {}, action) => {
     };
 
   case T.REMAINS_FETCH_SUCCESS:
-    // console.log(`USER/${type}`, payload);
-    if (!payload.result) return state;
+    console.log(`USER/${type}`, payload);
+    if (!payload.body) return state;
 
-    payload.result.map(obj => {
+    payload.body.map(obj => {
       if (obj.productId == 1021 && obj.packages && obj.packages.length) {
         if (obj.packages[0].remainingVolume)
           tariffRemains = obj.packages[0].remainingVolume;
@@ -135,6 +135,20 @@ export default (state = {}, action) => {
     return {
       ...state,
       tariffRemains: null,
+    };
+
+  case T.PRODUCTS_FETCH_SUCCESS:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      products: payload.result,
+    };
+
+  case T.PRODUCTS_FETCH_FAILURE:
+    console.log(`USER/${type}`, payload);
+    return {
+      ...state,
+      products: null,
     };
 
   case T.DO_NOT_PERSIST_TOGGLE:

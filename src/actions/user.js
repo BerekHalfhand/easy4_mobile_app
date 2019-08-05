@@ -6,10 +6,9 @@ import NavigationService from 'app/src/services/NavigationService';
 
 // USER INFO
 
-export function userInfo(accessToken) {
+export function userInfo() {
   return apiAction({
     url: '/user/info',
-    accessToken: accessToken,
     onSuccess: userInfoSuccess,
     onFailure: userInfoFailure,
     failureTransition: 'Login',
@@ -18,11 +17,12 @@ export function userInfo(accessToken) {
   });
 }
 
-const userInfoSuccess = data => {
-  return {
+const userInfoSuccess = data => dispatch => {
+  dispatch({
     type: T.USER_INFO_SUCCESS,
     payload: data
-  };
+  });
+  dispatch(apiErrorDismiss('userInfoError'));
 };
 
 const userInfoFailure = data => dispatch => {
@@ -31,7 +31,6 @@ const userInfoFailure = data => dispatch => {
     payload: data
   });
 
-  dispatch(apiErrorDismiss('userInfoError'));
   dispatch(apiError('loginError', 'Сессия истекла или была прервана, пожалуйста войдите заново'));
 };
 
@@ -39,22 +38,22 @@ const userInfoFailure = data => dispatch => {
 
 const selectPhoneAction = phone => ({ type: T.SELECT_PHONE, payload: {phone} });
 
-const gatherPhoneData = (phone, accessToken) => dispatch => {
-  dispatch(fetchBalance(phone, accessToken));
+const gatherPhoneData = (phone) => dispatch => {
+  dispatch(fetchBalance(phone));
   dispatch(fetchTariff(phone));
   dispatch(fetchRemains(phone));
+  dispatch(fetchProducts(phone));
 };
 
-export const selectPhone = (phone, accessToken) => dispatch => {
-  dispatch(gatherPhoneData(phone, accessToken));
+export const selectPhone = (phone) => dispatch => {
+  dispatch(gatherPhoneData(phone));
   dispatch(selectPhoneAction(phone));
 };
 
-export function fetchMsisdns(accessToken) {
+export function fetchMsisdns() {
   return apiAction({
     url: '/external/iccids',
-    accessToken: accessToken,
-    onSuccess: (data) => fetchMsisdnsSuccess(data, accessToken),
+    onSuccess: fetchMsisdnsSuccess,
     onFailure: fetchMsisdnsFailure,
     failureTransition: 'Login',
     errorLabel: 'fetchMsisdnsError',
@@ -63,11 +62,12 @@ export function fetchMsisdns(accessToken) {
   });
 }
 
-const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
+const fetchMsisdnsSuccess = data => dispatch => {
   dispatch({
     type: T.MSISDNS_FETCH_SUCCESS,
     payload: data
   });
+  dispatch(apiErrorDismiss('fetchMsisdnsError'));
 
   const {user} = store.getState();
   let firstItem = null;
@@ -83,7 +83,7 @@ const fetchMsisdnsSuccess = (data, accessToken) => dispatch => {
         if (!user.selectedPhone)
           dispatch(selectPhoneAction(phone));
 
-        dispatch(gatherPhoneData(phone, accessToken));
+        dispatch(gatherPhoneData(phone));
 
         NavigationService.navigate('Main');
       } else { // otherwise consider them a newbie
@@ -103,14 +103,13 @@ const fetchMsisdnsFailure = data => dispatch => {
     payload: data
   });
 
-  dispatch(apiErrorDismiss('fetchMsisdnsError'));
   dispatch(apiError('loginError', 'Сессия истекла или была прервана, пожалуйста войдите заново'));
 };
 
-export function fetchBalance(msisdn, accessToken) {
+export function fetchBalance(msisdn) {
   return apiAction({
-    url: `/msisdn/${msisdn}/balance`,
-    accessToken: accessToken,
+    // url: `/msisdn/${msisdn}/balance`,
+    url: `/protei/msisdn/${msisdn}/balance`,
     onSuccess: fetchBalanceSuccess,
     onFailure: fetchBalanceFailure,
     errorLabel: 'fetchBalanceError',
@@ -134,7 +133,8 @@ const fetchBalanceFailure = data => dispatch => {
 
 export function fetchTariff(phone) {
   return apiAction({
-    url: `/msisdn/${phone}/tariff`,
+    // url: `/msisdn/${phone}/tariff`,
+    url: `/protei/msisdn/${phone}/tariff`,
     onSuccess: fetchTariffSuccess,
     onFailure: fetchTariffFailure,
     errorLabel: 'fetchTariffError',
@@ -158,7 +158,8 @@ const fetchTariffFailure = data => dispatch => {
 
 export function fetchRemains(phone) {
   return apiAction({
-    url: `/msisdn/${phone}/remains/products`,
+    // url: `/msisdn/${phone}/remains/products`,
+    url: `/protei/msisdn/${phone}/remains/products`,
     onSuccess: fetchRemainsSuccess,
     onFailure: fetchRemainsFailure,
     errorLabel: 'fetchRemainsError',
@@ -192,17 +193,22 @@ export function iccidInfo(iccid, msisdn, userId) {
 }
 
 const iccidInfoSuccess = (data, iccid, msisdn, userId) => dispatch => {
-  dispatch({
-    type: T.ICCID_INFO_SUCCESS,
-    payload: data
-  });
-
-  if (data.msisdns &&
-      data.msisdns[0] &&
-      data.msisdns[0].msisdn &&
-      data.msisdns[0].msisdn == msisdn
-  )
-    dispatch(iccidUnbind(iccid, userId));
+  if (data.msisdns) {
+    if (data.msisdns[0] &&
+        data.msisdns[0].msisdn &&
+        data.msisdns[0].msisdn == msisdn
+    ) {
+      dispatch({
+        type: T.ICCID_INFO_SUCCESS,
+        payload: data
+      });
+      dispatch(iccidUnbind(iccid, userId));
+    } else { // No errors per se, but msisdns do not match
+      dispatch(apiError('iccidInfoError', 'Ошибка: телефонный номер не верен'));
+    }
+  } else { // Errors came in, iccid doen't match
+    dispatch(iccidInfoFailure(data));
+  }
 };
 
 const iccidInfoFailure = data => dispatch => {
@@ -230,7 +236,7 @@ const iccidBindSuccess = data => dispatch => {
     dispatch(apiErrorDismiss('iccidBindError'));
 
     if (auth && auth.accessToken) {
-      dispatch(fetchMsisdns(auth.accessToken));
+      dispatch(fetchMsisdns());
       NavigationService.navigate('Main');
     } else {
       NavigationService.navigate('Login');
@@ -281,6 +287,30 @@ const iccidUnbindSuccess = (data, iccid, userId) => dispatch => {
 const iccidUnbindFailure = data => dispatch => {
   dispatch({
     type: T.ICCID_UNBIND_FAILURE,
+    payload: data
+  });
+};
+
+export function fetchProducts(phone) {
+  return apiAction({
+    url: `/msisdn/${phone}/products`,
+    onSuccess: fetchProductsSuccess,
+    onFailure: fetchProductsFailure,
+    errorLabel: 'fetchProductsError',
+    label: T.PRODUCTS_FETCH
+  });
+}
+
+const fetchProductsSuccess = data => dispatch => {
+  dispatch({
+    type: T.PRODUCTS_FETCH_SUCCESS,
+    payload: data
+  });
+};
+
+const fetchProductsFailure = data => dispatch => {
+  dispatch({
+    type: T.PRODUCTS_FETCH_FAILURE,
     payload: data
   });
 };
