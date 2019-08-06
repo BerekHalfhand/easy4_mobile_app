@@ -51,6 +51,7 @@ export const selectPhone = (phone) => dispatch => {
 };
 
 export function fetchMsisdns() {
+  console.log("");
   return apiAction({
     url: '/external/iccids',
     onSuccess: fetchMsisdnsSuccess,

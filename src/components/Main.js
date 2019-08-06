@@ -116,6 +116,7 @@ class Main extends Screen{
       if (user.tariffId == tariffs.connect.id) return 'connect';
       if (user.tariffId == tariffs.travel.id) return 'travel';
       if (user.tariffId == tariffs.vip.id) return 'vip';
+      if (user.tariffId == tariffs.corporate.id) return 'corporate';
     }
     return null;
   }
