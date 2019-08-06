@@ -132,6 +132,15 @@ class Drawer extends React.Component {
       </TouchableOpacity>
     ) : null );
 
+    const changePassword = (accessToken ? (
+        <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('Profile')}>
+          <View style={styles.icon}>
+            <MaterialCommunityIcons name='information' color={dP.color.primary} size={24} />
+          </View>
+          <Text style={styles.itemText}>Смена пароля</Text>
+        </TouchableOpacity>
+    ) : null );
+
     return (
       <Container>
         <TouchableHighlight style={styles.headerContainer} onPress={() => (accessToken ? this.navigateTo('Main') : null)}>
@@ -142,12 +151,7 @@ class Drawer extends React.Component {
         </TouchableHighlight>
         <View style={styles.itemsContainer}>
           {selectedPhone ? increaseBalance : null}
-          <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('Profile')}>
-            <View style={styles.icon}>
-              <MaterialCommunityIcons name='account-circle' color={dP.color.primary} size={24} />
-            </View>
-            <Text style={styles.itemText}>Смена пароля</Text>
-          </TouchableOpacity>
+          {changePassword}
           <TouchableOpacity style={styles.itemStyle} onPress={() => this.navigateTo('Contacts')}>
             <View style={styles.icon}>
               <MaterialCommunityIcons name='account-circle' color={dP.color.primary} size={24} />
