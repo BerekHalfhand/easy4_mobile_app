@@ -29,6 +29,7 @@ import Feedback from './src/components/Feedback';
 import BindIccid from './src/components/BindIccid';
 import Contacts from './src/components/Contacts';
 import Callback from './src/components/Callback';
+import Profile from './src/components/Profile';
 
 // OPTIONS
 
@@ -67,6 +68,7 @@ const Routes = createStackNavigator({
   Feedback: { screen: Feedback },
   BindIccid: { screen: BindIccid },
   Callback: { screen: Callback },
+  Profile: { screen: Profile }
 }, {
   initialRouteName: 'Home',
   headerLayoutPreset: 'center',

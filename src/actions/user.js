@@ -315,3 +315,38 @@ const fetchProductsFailure = data => dispatch => {
     payload: data
   });
 };
+
+// CHANGE PASSWORD
+export function changePassword(oldPassword, password) {
+  return apiAction({
+    url: `/user/password/change`,
+    method: 'POST',
+    data: {oldPassword,password},
+    onSuccess: changePasswordSuccess,
+    onFailure: changePasswordFailure,
+    errorLabel: 'changePasswordError',
+    label: T.PASSWORD_CHANGE
+  });
+}
+
+const changePasswordSuccess = data => dispatch => {
+  const onDismiss = () => {
+  };
+  Alert.alert(
+      '',
+      'Пароль успешно изменен',
+      [{text: 'OK', onPress: onDismiss}],
+      { onDismiss: onDismiss }
+  );
+  dispatch({
+    type: T.PASSWORD_CHANGE_SUCCESS,
+    payload: data
+  });
+};
+
+const changePasswordFailure = data => dispatch => {
+  dispatch({
+    type: T.PASSWORD_CHANGE_FAILURE,
+    payload: data
+  });
+};

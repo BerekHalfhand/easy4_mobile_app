@@ -94,6 +94,7 @@ class Login extends Screen {
   }
 
   renderContent() {
+      console.log("!!!!!!!!!!!!!!!!!!!!!! SecureStore: ", SecureStore);
     const {bioTouch, bioSaved} = this.props;
     const biometrics = (bioSaved && bioTouch && this.state.savedLogin ? (
       <View style={{alignItems: 'center', marginBottom: 8 }}>
